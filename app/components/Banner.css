@@ -1,0 +1,154 @@
+/* /app/components/Banner.css */
+.banner-container {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.slideshow {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.slide {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  opacity: 0;
+  transition: opacity 1.5s ease-in-out;
+}
+
+.slide.active {
+  opacity: 1;
+}
+
+.banner-content {
+  position: absolute;
+  top: 50%;
+  /* left: 50%; */
+  transform: translate(10%, -50%);
+  text-align: center;
+  color: white;
+  width: 100%;
+  max-width: 800px;
+  /* padding: 0 20px; */
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  /* margin-left: 5rem; */
+}
+
+.banner-heading {
+    text-align: left;
+  font-size: 4rem;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+}
+
+.first-line {
+  font-size: 5rem;
+  margin-bottom: 0.5rem;
+  font-weight: 700;
+  color: #109C5D;
+}
+
+.second-line {
+  font-size: 3.5rem;
+}
+
+.rotating-word {
+  position: relative;
+  display: inline-block;
+  padding: 0 10px;
+}
+
+.word-bg {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to top, #109C5D, #0d8a4f);
+  z-index: -1;
+  transform: scaleY(0);
+  transform-origin: bottom;
+  transition: transform 0.5s ease-out;
+}
+
+.rotating-word.filling .word-bg {
+  transform: scaleY(1);
+}
+
+.rotating-word.changing {
+  animation: wordChange 0.5s ease-out;
+}
+
+@keyframes wordChange {
+  0% { opacity: 0; transform: translateY(20px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+.flip-container {
+  display: inline-flex;
+  /* perspective: 1000px; */
+  height: 1.2em;
+  vertical-align: bottom;
+}
+
+.flip-letter {
+  position: relative;
+  display: inline-block;
+  width: 0.8em;
+  height: 1.2em;
+  /* margin: 0 1px; */
+  transform-style: preserve-3d;
+  transition: transform .2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.flip-letter.flip {
+  transform: rotateX(180deg);
+    /* transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1); */
+    
+}
+
+.flip-letter-front,
+.flip-letter-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* background: linear-gradient(to top, #109C5D, #0d8a4f); */
+  color: white;
+  /* border-radius: 4px; */
+  padding: 0 2px;
+  /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); */
+}
+
+.flip-letter-back {
+  transform: rotateX(90deg);
+  
+  /* background: linear-gradient(to top, #0d8a4f, #109C5D); */
+}
+
+/* Stagger the letter animations */
+.flip-letter:nth-child(1) { transition-delay: 0ms; }
+.flip-letter:nth-child(2) { transition-delay: 50ms; }
+.flip-letter:nth-child(3) { transition-delay: 100ms; }
+.flip-letter:nth-child(4) { transition-delay: 150ms; }
+.flip-letter:nth-child(5) { transition-delay: 200ms; }
+.flip-letter:nth-child(6) { transition-delay: 250ms; }
+.flip-letter:nth-child(7) { transition-delay: 300ms; }
+.flip-letter:nth-child(8) { transition-delay: 350ms; }
+.flip-letter:nth-child(9) { transition-delay: 400ms; }
+.flip-letter:nth-child(10) { transition-delay: 450ms; }
+.flip-letter:nth-child(11) { transition-delay: 500ms; }
+.flip-letter:nth-child(12) { transition-delay: 550ms; } 
+.flip-letter:nth-child(13) { transition-delay: 600ms; }
