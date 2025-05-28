@@ -4,6 +4,9 @@ export const GET_LANDING_PAGE = gql`
  query GetLandingPageBySlug {
     page(id: "landingpage", idType: URI) {
       landingPageFields {
+       logo {
+        sourceUrl
+      }
         bannerHeading
         bannerImage1 {
           sourceUrl

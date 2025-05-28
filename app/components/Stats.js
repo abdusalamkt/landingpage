@@ -41,10 +41,10 @@ export default function Stats({ experience, clients, totalworkforce, totalprojec
       <h1 className="products-heading">GIBCA BY THE<span className="Highlight_Header"> NUMBERS</span></h1>
       <div className="stats-container">
         {[
-          { label: 'Projects', value: totalprojects, icon: '/icons/projects.png' },
-          { label: 'Years of Experience', value: experience, icon: '/icons/experience.png' },
-          { label: 'Happy Clients', value: clients, icon: '/icons/clients.png' },
-          { label: 'Workforce', value: totalworkforce, icon: '/icons/workforce.png' },
+          { label: 'Projects', value: totalprojects, icon: '/ribbon.png' },
+          { label: 'Years of Experience', value: experience, icon: '/ribbon.png' },
+          { label: 'Happy Clients', value: clients, icon: '/ribbon.png' },
+          { label: 'Workforce', value: totalworkforce, icon: '/ribbon.png' },
         ].map((item, index) => (
           <div className="stat-item" key={index}>
             <div className="stat-image">
