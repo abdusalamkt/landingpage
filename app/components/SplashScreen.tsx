@@ -45,7 +45,7 @@ export default function SplashScreen({ onFinish }: { onFinish: () => void }) {
         opacity: 0
       }
     ], {
-      duration: 1000,
+      duration: 800,
       easing: 'ease-in-out',
       fill: 'forwards'
     });

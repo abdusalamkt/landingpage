@@ -11,38 +11,49 @@ const ROTATING_WORDS = [
 
 export default function Banner({ heading, images }) {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [currentWordIndex, setCurrentWordIndex] = useState(0);
-  const [isAnimating, setIsAnimating] = useState(false);
+  const [displayedText, setDisplayedText] = useState('');
+  const [wordIndex, setWordIndex] = useState(0);
+  const [typing, setTyping] = useState(true);
 
-  // Split heading into parts
   const headingParts = heading.split(' ');
   const firstTwoWords = headingParts.slice(0, 2).join(' ');
   const remainingWords = headingParts.slice(2).join(' ');
 
-  // Auto-rotate images
+  // Slideshow logic
   useEffect(() => {
     const imageInterval = setInterval(() => {
       setCurrentIndex(prev => (prev + 1) % images.length);
-    }, 2000);
+    }, 3000);
     return () => clearInterval(imageInterval);
   }, [images.length]);
 
-  // Word change animation cycle
+  // Typewriter logic
   useEffect(() => {
-    const animationInterval = setInterval(() => {
-      setIsAnimating(true);
-      setTimeout(() => {
-        setCurrentWordIndex(prev => (prev + 1) % ROTATING_WORDS.length);
-        setIsAnimating(false);
-      }, 500); // Half of the flip animation duration
-    }, 2000);
-    return () => clearInterval(animationInterval);
-  }, []);
+    let timeout;
 
-  // Get current and next words
-  const currentWord = ROTATING_WORDS[currentWordIndex];
-  const nextWordIndex = (currentWordIndex + 1) % ROTATING_WORDS.length;
-  const nextWord = ROTATING_WORDS[nextWordIndex];
+    const currentWord = ROTATING_WORDS[wordIndex];
+
+    if (typing) {
+      if (displayedText.length < currentWord.length) {
+        timeout = setTimeout(() => {
+          setDisplayedText(currentWord.slice(0, displayedText.length + 1));
+        }, 100);
+      } else {
+        timeout = setTimeout(() => setTyping(false), 2100); // hold word for a while
+      }
+    } else {
+      if (displayedText.length > 0) {
+        timeout = setTimeout(() => {
+          setDisplayedText(displayedText.slice(0, -1));
+        }, 50);
+      } else {
+        setTyping(true);
+        setWordIndex((wordIndex + 1) % ROTATING_WORDS.length);
+      }
+    }
+
+    return () => clearTimeout(timeout);
+  }, [displayedText, typing, wordIndex]);
 
   return (
     <section className="banner-container">
@@ -55,20 +66,15 @@ export default function Banner({ heading, images }) {
           />
         ))}
       </div>
+
       <div className="banner-content">
         <h1 className="banner-heading">
-          <span className="first-line">
-            {firstTwoWords}
-          </span>
+          <span className="first-line">{firstTwoWords}</span>
           <span className="second-line">
             {remainingWords}{' '}
-            <span className="flip-container">
-              {Array.from(currentWord).map((letter, i) => (
-                <span key={i} className={`flip-letter ${isAnimating ? 'flip' : ''}`}>
-                  <span className="flip-letter-front">{letter}</span>
-                  <span className="flip-letter-back">{nextWord[i] || ''}</span>
-                </span>
-              ))}
+            <span className="typewriter-bg">
+              {displayedText}
+              <span className="cursor" />
             </span>
           </span>
         </h1>

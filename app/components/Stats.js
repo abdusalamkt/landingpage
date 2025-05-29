@@ -12,7 +12,10 @@ export default function Stats({ experience, clients, totalworkforce, totalprojec
 
   useEffect(() => {
     statsRef.current.forEach((el, index) => {
-      const finalValue = parseInt(el.dataset.value, 10);
+      if (!el) return;
+
+      const finalValue = parseInt(el.dataset.value || '0', 10);
+
       gsap.fromTo(
         el,
         { innerText: 0 },
@@ -26,10 +29,12 @@ export default function Stats({ experience, clients, totalworkforce, totalprojec
             start: 'top 98%',
           },
           onUpdate: function () {
-            el.innerText = Math.floor(el.innerText);
+            el.innerText = Math.floor(Number(el.innerText)).toString();
           },
           onComplete: function () {
-            plusRef.current[index].style.display = 'inline';
+            if (plusRef.current[index]) {
+              plusRef.current[index].style.display = 'inline';
+            }
           },
         }
       );
@@ -38,7 +43,9 @@ export default function Stats({ experience, clients, totalworkforce, totalprojec
 
   return (
     <section className="stats-section">
-      <h1 className="products-heading">GIBCA BY THE<span className="Highlight_Header"> NUMBERS</span></h1>
+      <h1 className="products-heading">
+        GIBCA BY THE<span className="Highlight_Header"> NUMBERS</span>
+      </h1>
       <div className="stats-container">
         {[
           { label: 'Projects', value: totalprojects, icon: '/ribbon.png' },
@@ -59,6 +66,7 @@ export default function Stats({ experience, clients, totalworkforce, totalprojec
               <span
                 className="plus-sign"
                 ref={(el) => (plusRef.current[index] = el)}
+                style={{ display: 'none' }}
               >
                 +
               </span>

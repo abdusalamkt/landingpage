@@ -7,6 +7,7 @@ import Stats from './components/Stats';
 import Products from './components/Products';
 import AnimatedSection from './components/AnimatedSection';
 import ContactUs from './components/ContactUs';
+import FloatingSidebar from './components/FloatingSidebar';
 
 export default function HomePageContent({ fields }: { fields: any }) {
   const [showSplash, setShowSplash] = useState(true);
@@ -74,6 +75,7 @@ export default function HomePageContent({ fields }: { fields: any }) {
 
       <main style={{ visibility: showSplash ? 'hidden' : 'visible' }}>
         <Header />
+        <FloatingSidebar />
 
         <Banner
           heading={fields.bannerHeading}

@@ -7,5 +7,9 @@ const nextConfig = {
     WORDPRESS_GRAPHQL_ENDPOINT: process.env.WORDPRESS_GRAPHQL_ENDPOINT,
   },
 };
-
-module.exports = nextConfig;
+// next.config.js
+module.exports = {
+  images: {
+    domains: ['gfi.local'], // Replace with actual domain
+  },
+};
