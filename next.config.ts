@@ -6,13 +6,12 @@ const nextConfig = {
   env: {
     WORDPRESS_GRAPHQL_ENDPOINT: process.env.WORDPRESS_GRAPHQL_ENDPOINT,
   },
-};
-// next.config.js
-module.exports = {
   images: {
-    domains: ['gfi.local'], // Replace with actual domain
+    domains: ['gfi.local'], // Replace with your real domain or CDN hostname
   },
   eslint: {
     ignoreDuringBuilds: true,
   },
 };
+
+module.exports = nextConfig;
