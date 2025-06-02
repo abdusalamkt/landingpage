@@ -1,13 +1,27 @@
 'use client';
-import { motion, useAnimation } from 'framer-motion';
-import { useRef, useState } from 'react';
+import { motion } from 'framer-motion';
+import { useState, useRef } from 'react';
 import './Products.css';
 
-export default function Products({ description, products = [] }) {
-  const controls = useAnimation();
+export type ProductImage = {
+  sourceUrl: string;
+  altText: string;
+};
+
+export type Product = {
+  title: string;
+  image: ProductImage;
+  link: string;
+};
+
+type ProductsProps = {
+  description?: string;
+  products: Product[];
+};
+
+export default function Products({ description, products = [] }: ProductsProps) {
   const ref = useRef(null);
 
-  // 3D animation variants for product cards
   const cardVariants = {
     offscreen: {
       y: 300,
@@ -21,11 +35,11 @@ export default function Products({ description, products = [] }) {
       scale: 1,
       opacity: 1,
       transition: {
-        type: "spring",
+        type: 'spring',
         bounce: 0.4,
-        duration: 1.2
-      }
-    }
+        duration: 1.2,
+      },
+    },
   };
 
   const container = {
@@ -34,21 +48,21 @@ export default function Products({ description, products = [] }) {
       opacity: 1,
       transition: {
         staggerChildren: 0.1,
-        delayChildren: 0.3
-      }
-    }
+        delayChildren: 0.3,
+      },
+    },
   };
 
   return (
-    <motion.section 
+    <motion.section
       className="products-section"
       initial="hidden"
       whileInView="show"
-      viewport={{ once: true, margin: "-100px" }}
+      viewport={{ once: true, margin: '-100px' }}
       variants={container}
       ref={ref}
     >
-      <motion.h1 
+      <motion.h1
         className="products-heading"
         initial={{ opacity: 0, y: 50 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -74,7 +88,7 @@ export default function Products({ description, products = [] }) {
           const [pos, setPos] = useState({ x: 50, y: 50 });
           const [hovered, setHovered] = useState(false);
 
-          const handleMouseMove = (e) => {
+          const handleMouseMove = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
             const rect = e.currentTarget.getBoundingClientRect();
             const x = ((e.clientX - rect.left) / rect.width) * 100;
             const y = ((e.clientY - rect.top) / rect.height) * 100;
@@ -82,8 +96,8 @@ export default function Products({ description, products = [] }) {
           };
 
           return (
-            <motion.div 
-              key={i} 
+            <motion.div
+              key={i}
               className="product-card"
               initial="offscreen"
               whileInView="onscreen"
@@ -103,18 +117,18 @@ export default function Products({ description, products = [] }) {
                     transformOrigin: `${pos.x}% ${pos.y}%`,
                     transform: hovered ? `scale(1.2)` : `scale(1)`,
                     transition: 'transform 0.4s ease-out, filter 0.8s ease',
-                    filter: hovered ? 'grayscale(0%)' : 'grayscale(100%)'
+                    filter: hovered ? 'grayscale(0%)' : 'grayscale(100%)',
                   }}
                 />
                 <div className="product-overlay">
                   <div className="product-title-container">
                     <h3 className="product-title">{product.title}</h3>
                   </div>
-                  <motion.span 
+                  <motion.span
                     className="product-arrow"
-                    whileHover={{ scale: 1.1, color: "#109C5D" }}
+                    whileHover={{ scale: 1.1, color: '#109C5D' }}
                     transition={{ duration: 0.3 }}
-                    onClick={() => window.location.href = product.link} 
+                    onClick={() => window.location.href = product.link}
                   >
                     →
                   </motion.span>
