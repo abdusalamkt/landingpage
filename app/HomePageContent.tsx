@@ -9,31 +9,32 @@ import AnimatedSection from './components/AnimatedSection';
 import ContactUs from './components/ContactUs';
 import FloatingSidebar from './components/FloatingSidebar';
 
+type ProductImage = {
+  sourceUrl: string;
+  altText: string;
+};
+
 type Product = {
   title: string;
-  image: string;
+  image: ProductImage;
+  link: string;
 };
 
 export default function HomePageContent({ fields }: { fields: any }) {
   const [showSplash, setShowSplash] = useState(true);
   const [pageLoaded, setPageLoaded] = useState(false);
 
-  // Helper: determine if splash should be shown based on page navigation type
   useEffect(() => {
     function handlePageShow(event: PageTransitionEvent) {
       if (event.persisted) {
-        // Page loaded from bfcache (back/forward), skip splash immediately
         setShowSplash(false);
       } else {
-        // Normal fresh load or reload, show splash
         setShowSplash(true);
       }
     }
 
-    // Add pageshow listener for bfcache detection
     window.addEventListener('pageshow', handlePageShow);
 
-    // Check on initial mount using PerformanceNavigationTiming
     const navEntry = performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming | undefined;
     if (navEntry?.type === 'back_forward') {
       setShowSplash(false);
@@ -44,13 +45,11 @@ export default function HomePageContent({ fields }: { fields: any }) {
     return () => window.removeEventListener('pageshow', handlePageShow);
   }, []);
 
-  // When splash finishes, mark page loaded to show main content
   const onSplashFinish = () => {
     setShowSplash(false);
     setPageLoaded(true);
   };
 
-  // Scroll reset on mount and before unload
   useEffect(() => {
     if (typeof window !== 'undefined') {
       window.history.scrollRestoration = 'manual';
@@ -67,11 +66,24 @@ export default function HomePageContent({ fields }: { fields: any }) {
     return () => window.removeEventListener('beforeunload', handleBeforeUnload);
   }, []);
 
-  // Prepare products list from fields, filtering out nulls with type guard
+  // Normalize image data: handle if image is string or object
+  const normalizeImage = (img: any): ProductImage => {
+    if (!img) return { sourceUrl: '', altText: '' };
+    if (typeof img === 'string') return { sourceUrl: img, altText: '' };
+    return {
+      sourceUrl: img.sourceUrl || img.url || '',
+      altText: img.altText || img.alt || '',
+    };
+  };
+
   const products: Product[] = Array.from({ length: 7 }, (_, i) => {
     const title = fields[`product${i + 1}Title`];
-    const image = fields[`product${i + 1}Image`];
-    return title && image ? { title, image } : null;
+    const rawImage = fields[`product${i + 1}Image`];
+    const link = fields[`product${i + 1}Link`] || '#'; // fallback to '#'
+
+    const image = normalizeImage(rawImage);
+
+    return title && image.sourceUrl && link ? { title, image, link } : null;
   }).filter((p): p is Product => p !== null);
 
   return (
