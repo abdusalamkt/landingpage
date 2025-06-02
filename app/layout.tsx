@@ -3,6 +3,7 @@ import './globals.css'
 import { ReactNode } from 'react'
 import { Bebas_Neue, Poppins } from 'next/font/google'
 import Header from './components/Header';
+import PageTransition from './components/PageTransition'
 
 const bebasNeue = Bebas_Neue({
   weight: '400',
@@ -26,7 +27,9 @@ export const metadata = {
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en" className={`${bebasNeue.variable} ${poppins.variable}`}>
-      <body><Header />{children}</body>
+      <body><Header />
+          {children}
+        </body>
     </html>
   )
 }

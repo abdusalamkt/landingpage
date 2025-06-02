@@ -1,9 +1,9 @@
 'use client';
 import { useState } from 'react';
+import './GatedFormModal.css';
 
-const GatedFormModal = ({ onClose, item }) => {
+const GatedFormModal = ({ onClose, onSuccess, item }) => {
   const [form, setForm] = useState({ name: '', email: '', phone: '' });
-  const [submitted, setSubmitted] = useState(false);
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -11,11 +11,11 @@ const GatedFormModal = ({ onClose, item }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Optionally send to API or save
-    // await fetch('/api/submit-gated-form', { ... })
-    setSubmitted(true);
-    window.open(item.link, '_blank'); // or set a state to show button instead
-    onClose();
+
+    // Optional: Send to backend here
+    // await fetch('/api/save-lead', { method: 'POST', body: JSON.stringify(form) })
+
+    if (onSuccess) onSuccess();
   };
 
   return (

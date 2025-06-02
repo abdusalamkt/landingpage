@@ -9,8 +9,32 @@ gsap.registerPlugin(ScrollTrigger);
 export default function Stats({ experience, clients, totalworkforce, totalprojects }) {
   const statsRef = useRef([]);
   const plusRef = useRef([]);
+  const itemRefs = useRef([]);
 
   useEffect(() => {
+    // Animate each stat-item on scroll
+    itemRefs.current.forEach((el) => {
+      if (!el) return;
+
+      gsap.fromTo(
+        el,
+        { opacity: 0, scale: 0.8, rotation: -15 },
+        {
+          opacity: 1,
+          scale: 1,
+          rotation: 0,
+          duration: 1,
+          ease: 'elastic.out(1, 0.5)',
+          scrollTrigger: {
+            trigger: el,
+            start: 'top 90%',
+            toggleActions: 'play none none none',
+          },
+        }
+      );
+    });
+
+    // Animate numbers counting
     statsRef.current.forEach((el, index) => {
       if (!el) return;
 
@@ -21,7 +45,7 @@ export default function Stats({ experience, clients, totalworkforce, totalprojec
         { innerText: 0 },
         {
           innerText: finalValue,
-          duration: 2,
+          duration: 1.5,
           ease: 'power1.out',
           snap: { innerText: 1 },
           scrollTrigger: {
@@ -33,7 +57,19 @@ export default function Stats({ experience, clients, totalworkforce, totalprojec
           },
           onComplete: function () {
             if (plusRef.current[index]) {
-              plusRef.current[index].style.display = 'inline';
+              // Fade in plus sign
+              gsap.to(plusRef.current[index], {
+                opacity: 1,
+                display: 'inline',
+                duration: 0.5,
+                ease: 'power1.out',
+              });
+              // Bounce effect on number
+              gsap.fromTo(
+                el,
+                { scale: 1 },
+                { scale: 1.2, yoyo: true, repeat: 1, duration: 0.3, ease: 'power1.inOut' }
+              );
             }
           },
         }
@@ -48,12 +84,16 @@ export default function Stats({ experience, clients, totalworkforce, totalprojec
       </h1>
       <div className="stats-container">
         {[
-          { label: 'Projects', value: totalprojects, icon: '/ribbon.png' },
-          { label: 'Years of Experience', value: experience, icon: '/ribbon.png' },
-          { label: 'Happy Clients', value: clients, icon: '/ribbon.png' },
-          { label: 'Workforce', value: totalworkforce, icon: '/ribbon.png' },
+          { label: 'Projects', value: totalprojects, icon: '/projects1.png' },
+          { label: 'Years of Experience', value: experience, icon: '/Exp1.png' },
+          { label: 'Happy Clients', value: clients, icon: '/clients1.png' },
+          { label: 'Workforce', value: totalworkforce, icon: '/workforce1.png' },
         ].map((item, index) => (
-          <div className="stat-item" key={index}>
+          <div
+            className="stat-item"
+            key={index}
+            ref={(el) => (itemRefs.current[index] = el)}
+          >
             <div className="stat-image">
               <img src={item.icon} alt={item.label} />
             </div>
@@ -66,7 +106,7 @@ export default function Stats({ experience, clients, totalworkforce, totalprojec
               <span
                 className="plus-sign"
                 ref={(el) => (plusRef.current[index] = el)}
-                style={{ display: 'none' }}
+                style={{ opacity: 0, display: 'inline' }} // start hidden but take space for smooth fade in
               >
                 +
               </span>

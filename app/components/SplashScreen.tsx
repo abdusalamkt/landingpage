@@ -1,59 +1,57 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
 export default function SplashScreen({ onFinish }: { onFinish: () => void }) {
-//   const [text, setText] = useState('');
   const fullText = 'GIBCA FURNITURE INDUSTRY';
 
   useEffect(() => {
-  const logo = document.getElementById("logo");
-  const wrapper = document.getElementById("logoWrapper");
-  const companyNameEl = document.getElementById("companyName");
-  const typeEl = document.getElementById("typewriter");
-  const headerLogo = document.getElementById("headerLogo");
+    const logo = document.getElementById("logo");
+    const wrapper = document.getElementById("logoWrapper");
+    const companyNameEl = document.getElementById("companyName");
+    const typeEl = document.getElementById("typewriter");
+    const headerLogo = document.getElementById("headerLogo");
 
-  setTimeout(() => logo?.classList.add("animate"), 1250);
+    setTimeout(() => logo?.classList.add("animate"), 1250);
 
-  setTimeout(() => {
-    if (companyNameEl) companyNameEl.classList.add("visible");
+    setTimeout(() => {
+      if (companyNameEl) companyNameEl.classList.add("visible");
 
-    let i = 0;
-    const typing = setInterval(() => {
-      if (typeEl) typeEl.textContent += fullText[i];
-      i++;
-      if (i === fullText.length) clearInterval(typing);
-    }, 20);
-  }, 1300);
+      let i = 0;
+      const typing = setInterval(() => {
+        if (typeEl) typeEl.textContent += fullText[i];
+        i++;
+        if (i === fullText.length) clearInterval(typing);
+      }, 20);
+    }, 1300);
 
-  setTimeout(() => {
-    if (!wrapper || !headerLogo) return;
+    setTimeout(() => {
+      if (!wrapper || !headerLogo) return;
 
-    const splashRect = wrapper.getBoundingClientRect();
-    const headerRect = headerLogo.getBoundingClientRect();
+      const splashRect = wrapper.getBoundingClientRect();
+      const headerRect = headerLogo.getBoundingClientRect();
 
-    const deltaX = headerRect.left - splashRect.left;
-    const deltaY = headerRect.top - splashRect.top;
-    const scale = headerRect.width / splashRect.width;
+      const deltaX = headerRect.left - splashRect.left;
+      const deltaY = headerRect.top - splashRect.top;
+      const scale = headerRect.width / splashRect.width;
 
-    wrapper.animate([
-      {
-        transform: 'translate(0px, 0px) scale(1)',
-        opacity: 1
-      },
-      {
-        transform: `translate(${deltaX}px, ${deltaY}px) scale(${scale})`,
-        opacity: 0
-      }
-    ], {
-      duration: 800,
-      easing: 'ease-in-out',
-      fill: 'forwards'
-    });
-  }, 2100);
+      wrapper.animate([
+        {
+          transform: 'translate(0px, 0px) scale(1)',
+          opacity: 1
+        },
+        {
+          transform: `translate(${deltaX}px, ${deltaY}px) scale(${scale})`,
+          opacity: 0
+        }
+      ], {
+        duration: 800,
+        easing: 'ease-in-out',
+        fill: 'forwards'
+      });
+    }, 2100);
 
-  setTimeout(onFinish, 3000); 
-}, []);
-
+    setTimeout(onFinish, 3000);
+  }, []);
 
   return (
     <div className="splash-screen">
@@ -70,7 +68,8 @@ export default function SplashScreen({ onFinish }: { onFinish: () => void }) {
           position: fixed;
           z-index: 9999;
           background: #fff;
-          top: 0; left: 0;
+          top: 0;
+          left: 0;
           width: 100vw;
           height: 100vh;
           display: flex;
@@ -100,23 +99,34 @@ export default function SplashScreen({ onFinish }: { onFinish: () => void }) {
           background-color: black;
           clip-path: polygon(30% 28%, 100% 28%, 100% 0%, 0% 0%, 0% 100%, 100% 100%, 100% 38%, 40% 38%, 40% 62%, 72% 62%, 72% 72%, 30% 72%);
           overflow: hidden;
+
+          /* Fix Chrome rendering glitches */
+          transform: translateZ(0);
+          will-change: transform;
+          backface-visibility: hidden;
+          transform-style: preserve-3d;
+          -webkit-font-smoothing: antialiased;
+          -moz-osx-font-smoothing: grayscale;
         }
 
         .fill-up {
           position: absolute;
           bottom: 0;
           left: 0;
-          width: 102%;
+          width: 100%;
           height: 0%;
           background-color: #109C5D;
-          transition: height .6s ease-in-out;
-          transform: translateX(-1%);
+          transition: height 0.6s ease-in-out;
+
+          /* Additional fixes */
+          backface-visibility: hidden;
+          will-change: height;
         }
 
         .outer {
           top: 0;
           left: -1000px;
-          animation: slideInLeft 1.1s cubic-bezier(0.68, -0.55, 0.5, 1) forwards;
+          animation: slideInLeft 1.1s cubic-bezier(0.68, -0.55, .5, 1) forwards;
         }
 
         .inner {
@@ -128,11 +138,15 @@ export default function SplashScreen({ onFinish }: { onFinish: () => void }) {
         }
 
         @keyframes slideInLeft {
-          100% { left: 0; }
+          100% {
+            left: 0;
+          }
         }
 
         @keyframes slideInRight {
-          100% { right: 0; }
+          100% {
+            right: 0;
+          }
         }
 
         .logo-container.animate .fill-up {
@@ -157,21 +171,20 @@ export default function SplashScreen({ onFinish }: { onFinish: () => void }) {
           visibility: visible;
         }
 
-       .logo-wrapper.dissolve {
-  animation: slideToHeader 1s ease forwards;
-}
+        .logo-wrapper.dissolve {
+          animation: slideToHeader 1s ease forwards;
+        }
 
-@keyframes slideToHeader {
-  0% {
-    transform: translate(0, 0) scale(1);
-    opacity: 1;
-  }
-  100% {
-    transform: translate(calc(-50vw + 40px), calc(-50vh + 30px)) scale(0.43); /* adjust scale for match */
-    opacity: 0;
-  }
-}
-
+        @keyframes slideToHeader {
+          0% {
+            transform: translate(0, 0) scale(1);
+            opacity: 1;
+          }
+          100% {
+            transform: translate(calc(-50vw + 40px), calc(-50vh + 30px)) scale(0.43);
+            opacity: 0;
+          }
+        }
       `}</style>
     </div>
   );

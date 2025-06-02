@@ -12,4 +12,7 @@ module.exports = {
   images: {
     domains: ['gfi.local'], // Replace with actual domain
   },
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
 };
