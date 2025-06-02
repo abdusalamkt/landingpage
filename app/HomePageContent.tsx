@@ -9,6 +9,11 @@ import AnimatedSection from './components/AnimatedSection';
 import ContactUs from './components/ContactUs';
 import FloatingSidebar from './components/FloatingSidebar';
 
+type Product = {
+  title: string;
+  image: string;
+};
+
 export default function HomePageContent({ fields }: { fields: any }) {
   const [showSplash, setShowSplash] = useState(true);
   const [pageLoaded, setPageLoaded] = useState(false);
@@ -62,12 +67,12 @@ export default function HomePageContent({ fields }: { fields: any }) {
     return () => window.removeEventListener('beforeunload', handleBeforeUnload);
   }, []);
 
-  // Prepare products list from fields
-  const products = Array.from({ length: 7 }, (_, i) => {
+  // Prepare products list from fields, filtering out nulls with type guard
+  const products: Product[] = Array.from({ length: 7 }, (_, i) => {
     const title = fields[`product${i + 1}Title`];
     const image = fields[`product${i + 1}Image`];
     return title && image ? { title, image } : null;
-  }).filter(Boolean);
+  }).filter((p): p is Product => p !== null);
 
   return (
     <>
