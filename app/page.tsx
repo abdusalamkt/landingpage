@@ -8,4 +8,4 @@ export default async function HomePage() {
 
   return <HomePageContent fields={fields} />;
 }
-export const revalidate = 60; // revalidate every 60 seconds
+export const revalidate = 60; // revalidate every 60 secs
