@@ -42,7 +42,7 @@
   position: relative;
 }
 
-.sidebar li:hover {
+.sidebar a:hover {
   background: #333;
   color: white;
     /* box-shadow: 0 4px 8px rgba(255, 0, 0, 0.2); */

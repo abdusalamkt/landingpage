@@ -1,12 +1,12 @@
 import { gql } from '@apollo/client';
 
 export const GET_LANDING_PAGE = gql`
- query GetLandingPageBySlug {
+  query GetLandingPageBySlug {
     page(id: "landingpage", idType: URI) {
       landingPageFields {
-       logo {
-        sourceUrl
-      }
+        logo {
+          sourceUrl
+        }
         bannerHeading
         bannerImage1 {
           sourceUrl
@@ -85,7 +85,7 @@ export const GET_LANDING_PAGE = gql`
           }
         }
         product3Title
-        product3Image{
+        product3Image {
           sourceUrl
           altText
           mediaDetails {
@@ -112,7 +112,7 @@ export const GET_LANDING_PAGE = gql`
           }
         }
         product6Title
-        product6Image{
+        product6Image {
           sourceUrl
           altText
           mediaDetails {
@@ -121,13 +121,45 @@ export const GET_LANDING_PAGE = gql`
           }
         }
         product7Title
-        product7Image{
+        product7Image {
           sourceUrl
           altText
           mediaDetails {
             width
             height
           }
+        }
+        section1Bg {
+          sourceUrl
+        }
+        section1Title
+        section1Description
+        section1ButtonLabel
+        section1ButtonLink
+        section1ImageMain {
+          sourceUrl
+        }
+        section1ImageTopRight {
+          sourceUrl
+        }
+        section1ImageBottomLeft {
+          sourceUrl
+        }
+        section2Bg {
+          sourceUrl
+        }
+        section2Title
+        section2Description
+        section2ButtonLabel
+        section2ButtonLink
+        section2ImageMain {
+          sourceUrl
+        }
+        section2ImageTopRight {
+          sourceUrl
+        }
+        section2ImageBottomLeft {
+          sourceUrl
         }
       }
       id

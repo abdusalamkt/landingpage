@@ -57,18 +57,21 @@ export default function Header() {
     <>
       <header className={`site-header ${isHeaderHidden ? 'hide' : ''}`}>
         <div className="logo" id="headerLogo">
-          <img src="./Logo.png" alt="Logo" />
+          <a href="./#"
+    >
+          <img src="./Logo.png" alt="Logo" /></a>
         </div>
         <nav className="nav-menu">
           <ul>
-            <li><a href="#">ABOUT US</a></li>
+            <li><a href="/about-gibca"
+    className={pathname === '/about-gibca' ? 'active' : ''}>ABOUT US</a></li>
             <li
               className="dropdown-parent"
               onMouseEnter={() => toggleDropdown('products')}
               onMouseLeave={() => toggleDropdown(null)}
             >
               <div className="dropdown-trigger">
-                <a href="#">PRODUCTS</a>
+                <a href="/our-products" className={pathname === '/our-products' ? 'active' : ''}>PRODUCTS</a>
                 <span className={`dropdown-arrow ${activeDropdown === 'products' ? 'active' : ''}`}>
                   <svg width="12" height="8" viewBox="0 0 12 8" fill="none">
                     <path d="M1 1L6 6L11 1" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
@@ -117,7 +120,7 @@ export default function Header() {
                 ))}
               </div>
             </li>
-            <li><a href="#">CONTACT US</a></li>
+            <li><a href="/contact-us" className={pathname === '/contact-us' ? 'active' : ''}>CONTACT US</a></li>
             <li>
               <button className="flashing-arrow-btn" onClick={() => setShowQuoteModal(true)}>
                 <span className="flashing-arrow-btn__img">

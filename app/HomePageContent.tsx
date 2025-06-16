@@ -8,6 +8,13 @@ import Products from './components/Products';
 import AnimatedSection from './components/AnimatedSection';
 import ContactUs from './components/ContactUs';
 import FloatingSidebar from './components/FloatingSidebar';
+import NewsBanner from './components/NewsBanner';
+import ImageLayout from './components/ImageLayout';
+import ResourcesSection from './components/ResourcesSection';
+import OurClientsSection from './components/OurClientsSection';
+import TestimonialSlider from './components/TestimonialSlider';
+import GetInTouchSection from './components/GetInTouchSection';
+// import './globals.css';
 
 type ProductImage = {
   sourceUrl: string;
@@ -99,6 +106,17 @@ export default function HomePageContent({ fields }: { fields: any }) {
           images={[fields.bannerImage1, fields.bannerImage2, fields.bannerImage3]}
         />
 
+        <AnimatedSection animation="fadeUp" delay={0.4}>
+          <NewsBanner
+            heading={fields.newsHeading}
+            image={{
+              sourceUrl: fields.newsBannerImage?.sourceUrl || '',
+              altText: fields.newsBannerImage?.altText || '',
+            }}
+            slug={fields.newsPost?.slug}
+          />
+        </AnimatedSection>
+
         <AnimatedSection animation="fadeUp" delay={0.6}>
           <Stats
             experience={fields.yearsOfExperience}
@@ -112,6 +130,12 @@ export default function HomePageContent({ fields }: { fields: any }) {
         <AnimatedSection animation="slideRight" delay={0.1}>
           <Products description={fields.productsDescription} products={products} />
         </AnimatedSection>
+            
+              <ImageLayout data={{ page: { landingPageFields: fields } }} />
+              <ResourcesSection/>
+              <OurClientsSection/>
+              <TestimonialSlider/>
+              <GetInTouchSection/>
 
         <ContactUs />
       </main>

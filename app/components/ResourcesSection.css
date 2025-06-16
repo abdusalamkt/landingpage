@@ -1,0 +1,101 @@
+
+.resources-wrapper {
+  text-align: center;
+  padding: 80px 0px;
+  position: relative;
+  z-index: 1;
+  
+}
+
+.resources-heading {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 3rem;
+  margin-bottom: 2rem;
+  color: #3d3d3d;
+  z-index: 2;
+  position: relative;
+}
+
+.resources-description {
+  font-family: 'Poppins', sans-serif;
+  font-size: 18px;
+  color: #3d3d3d;
+  margin-bottom: 40px;
+  max-width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+  z-index: 2;
+  position: relative;
+}
+
+.resources-section {
+  background-image: url('/BG/Asset 1.png'); /* Replace with your image path */
+  background-attachment: fixed;
+  background-size: contain;
+  background-position: center;
+  padding: 100px 20px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 0px;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  position: relative;
+}
+
+.resources-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.88); /* black opacity overlay */
+  z-index: 0;
+}
+
+.resource-item {
+  width: 100%;
+  font-family: 'Bebas Neue', sans-serif;
+  max-width: 80%;
+  /* padding: 5px 0; */
+  padding-top: 30px;
+  font-size: 2.5rem;
+  /* font-weight: 600; */
+  position: relative;
+  z-index: 1;
+  cursor: pointer;
+  overflow: hidden;
+  color: white;
+  transition: color .7s ease-out;
+text-align: left;  /* transition: color .1s ease-in; */
+text-transform: uppercase;
+
+}
+
+.resource-item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0%;
+  height: 100%;
+  background-color: white;
+  z-index: -1;
+  transition: width .6s ease-in-out;
+    
+}
+
+.resource-item:hover::before {
+  width: 100%;
+}
+
+.resource-item:hover {
+  color: black;
+}
+
+.divider {
+  height: 1px;
+  width: 100%;
+  max-width: 80%;
+  background-color: rgb(255, 255, 255);
+  z-index: 1;
+}

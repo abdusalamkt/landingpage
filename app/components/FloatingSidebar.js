@@ -3,6 +3,7 @@ import { FaLinkedinIn, FaPhoneAlt, FaEnvelope, FaWhatsapp } from 'react-icons/fa
 
 const FloatingSidebar = () => {
   return (
+    
     <div className={styles.sidebar}>
       <ul>
         <li>

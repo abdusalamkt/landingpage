@@ -1,0 +1,187 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+
+.news-banner {
+  position: relative;
+  height: 25vh;
+  min-height: 120px;
+  width: 80vw;
+  /* max-width: 900px; */
+  margin: 5vh auto 0;
+  background-size: cover;
+  background-position: center;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  padding: 0 24px;
+  box-shadow: 0 4px 12px rgb(0 0 0 / 0.3);
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.45);
+  z-index: 0;
+}
+
+.content-wrapper {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+
+.news-heading {
+  color: white;
+  font-size: 2.4rem;
+  font-weight: 400;
+  font-family: 'Bebas Neue', cursive, sans-serif;
+  text-align: left;
+  flex: 1 1 auto;
+  user-select: none;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.know-more-button {
+  position: relative;
+  background: radial-gradient(circle, #fc8a8a -70%, #9e1e22 45%);
+  color: black;
+  width: 88px;
+  height: 88px;
+  border-radius: 50%;
+  box-shadow: 0 4px 10px rgb(0 0 0 / 0.15);
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  margin-right: 2rem;
+}
+
+.know-label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  line-height: 1;
+}
+.news-heading{
+    font-size: 70px;
+    font-weight: 400;
+    font-family: 'Bebas Neue', cursive, sans-serif; 
+    text-align: left;
+    user-select: none;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: white;   
+    margin: 0 50;
+    padding: 0;
+
+ 
+}
+
+.know-small {
+  font-size: 18px;
+  font-family: 'Bebas Neue', sans-serif;
+  letter-spacing: 1px;
+  color: #ffffff;
+  font-weight: 400;
+}
+
+.know-large {
+  font-size: 24px;
+  font-family: 'Bebas Neue', sans-serif;
+  font-weight: 400;
+  color: rgb(255, 255, 255);
+  letter-spacing: 1.2px;
+}
+
+.wave-button::before,
+.wave-button::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 50%;
+  background: rgba(255, 0, 0, 0.295);
+  z-index: -1;
+  transform: scale(0);
+  opacity: 0;
+}
+
+.wave-button::before {
+  animation: wave 2s infinite linear;
+}
+
+.wave-button::after {
+  animation: wave 2s infinite linear 0.5s;
+}
+
+@keyframes wave {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  70% {
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(3.5);
+    opacity: 0;
+  }
+}
+
+.know-more-button:hover,
+.know-more-button:focus {
+  transform: scale(1.08);
+  box-shadow: 0 6px 20px rgba(255, 3, 3, 0.4);
+  outline: none;
+}
+
+.know-more-button:hover::before,
+.know-more-button:hover::after {
+  animation-play-state: running;
+}
+/* Visually hidden text for accessibility */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
+@media (max-width: 640px) {
+  .news-banner {
+    width: 90vw;
+    height: 25vh;
+    padding: 0 16px;
+  }
+
+  .news-heading {
+    font-size: 1.4rem;
+  }
+
+  .know-more-button {
+    width: 64px;
+    height: 64px;
+  }
+
+  .know-small {
+    font-size: 0.6rem;
+  }
+
+  .know-large {
+    font-size: 1rem;
+  }
+}

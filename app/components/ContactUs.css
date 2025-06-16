@@ -1,15 +1,27 @@
 .contact-section {
   padding: 4rem 2rem;
-  background: #f6f6f6;
-  border-radius: 12px;
-  max-width: 700px;
+  background: #343434;
   margin: auto;
 }
 
+
+
 .contact-heading {
-  font-size: 2rem;
+  font-size: 48px;
   text-align: center;
   margin-bottom: 2rem;
+  color: white;
+}
+
+.contact-description{
+  font-size: 16px;
+  text-align: center;
+  color: white;
+  margin-bottom: 6rem;
+  max-width: 600px;
+  /* margin: 4rem auto; */
+  justify-self: center;
+
 }
 
 .highlight {
@@ -20,6 +32,14 @@
   display: flex;
   flex-direction: column;
   gap: 1.2rem;
+  max-width: 700px;
+  margin: 0 auto;
+  margin-bottom: 100px;
+}
+
+.form-row {
+  display: flex;
+  gap: 1rem;
 }
 
 .input-group {
@@ -27,21 +47,34 @@
   flex-direction: column;
 }
 
-input, textarea {
-  padding: 0.8rem;
-  border-radius: 8px;
-  border: 1px solid #ccc;
+.input-group.half {
+  flex: 1;
+}
+
+input,
+textarea {
+  border: none;
+  border-bottom: 2px solid #ccc;
+  background: transparent;
+  color: white;
+  padding: 0.6rem 0;
   font-size: 1rem;
   transition: border-color 0.3s ease;
 }
 
-input:focus, textarea:focus {
-  border-color: #109C5D;
+input:focus,
+textarea:focus {
+  border-bottom-color: #109C5D;
   outline: none;
 }
 
+input::placeholder,
+textarea::placeholder {
+  color: #ddd;
+}
+
 .error {
-  border-color: red !important;
+  border-bottom-color: red !important;
 }
 
 .error-message {
@@ -51,7 +84,8 @@ input:focus, textarea:focus {
 }
 
 .success-message {
-  color: green;
+  color: #109C5D;
+  font-weight: bold;
   text-align: center;
   margin-top: 1rem;
 }
@@ -70,6 +104,7 @@ input:focus, textarea:focus {
 .submit-button:hover {
   background: #0c7f4d;
 }
+
 .success-container {
   display: flex;
   flex-direction: column;
@@ -78,10 +113,112 @@ input:focus, textarea:focus {
 }
 
 .success-animation {
-  margin-bottom: 0.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+}
+
+
+@media (max-width: 768px) {
+  .form-row {
+    flex-direction: column;
+  }
+}
+
+.success-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.75);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.success-popup {
+  position: relative;
+  background: #fff;
+  padding: 2rem 3rem;
+  border-radius: 12px;
+  text-align: center;
+  max-width: 400px;
+  box-shadow: 0 0 20px rgba(0,0,0,0.2);
+  animation: popIn 0.3s ease;
 }
 
 .success-message {
-  color: #109C5D;
+  font-size: 1.2rem;
   font-weight: bold;
+  margin-top: 1rem;
+  color: #28a745;
 }
+
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 1.5rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #333;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; } 
+  to { opacity: 1; }
+}
+
+@keyframes popIn {
+  from {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.contact-button {
+  margin-top: 2rem;
+            background: linear-gradient(90deg, #109c5d, #00572b,#003514);
+            color: white;
+            font-size: 1.5rem;
+            border: solid 1px white;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            text-transform: uppercase;
+            font-family: 'Bebas Neue', sans-serif;
+            align-self: center;
+            padding: 5px 50px;
+            font-weight: 300;
+            overflow: hidden;
+        }
+
+        .contact-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(28, 101, 68, 0.4);
+            background: linear-gradient(90deg,#003514, #00572b,#109c5d );
+        }
+
+        .contact-button::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transition: 0.5s;
+        }
+
+        .contact-button:hover::after {
+            left: 100%;
+        }

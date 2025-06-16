@@ -79,8 +79,9 @@
   background: #109C5D;
   /* border-radius: 4px; */
   color: white;
-  font-weight: bold;
+  /* font-weight: bold; */
   position: relative;
+  text-shadow: none
   /* min-height: 20px; */
   ;
 }

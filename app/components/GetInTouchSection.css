@@ -1,0 +1,104 @@
+.get-in-touch-section {
+  position: relative;
+  width: 100%;
+  height: 344px;
+  background-image: url("/gallery/2 (2).png");
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center;
+}
+
+.get-in-touch-section .overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.8)); 
+  z-index: 1;
+}
+
+.get-in-touch-section .content-wrapper {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  /* max-width: 1200px; */
+  width: 100%;
+  padding: 0 50px;
+  margin: 0 auto;
+}
+
+.left-title h2 {
+  font-size: 3.5rem;
+  color: white;
+  /* font-weight: bold; */
+}
+.highlight {
+  color: #109C5D;
+
+}
+
+.right-form {
+  /* max-width: 500px; */
+  width: 50%;
+}
+
+.right-form form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.email-input {
+  padding: 16px 20px;
+  /* min-width: 50%; */
+  width: 100%;
+  border: 1px solid #ccc;
+
+  font-size: 16px;
+}
+
+
+
+@media (max-width: 768px) {
+  .get-in-touch-section .content-wrapper {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .left-title {
+    margin-bottom: 20px;
+  }
+}
+
+.cta-button {
+            background: linear-gradient(90deg, #109c5d, #00572b,#003514);
+            color: white;
+            font-size: 1.5rem;
+            border: solid 1px white;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            text-transform: uppercase;
+            font-family: 'Bebas Neue', sans-serif;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(28, 101, 68, 0.4);
+            background: linear-gradient(90deg,#003514, #00572b,#109c5d );
+        }
+
+        .cta-button::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transition: 0.5s;
+        }
+
+        .cta-button:hover::after {
+            left: 100%;
+        }

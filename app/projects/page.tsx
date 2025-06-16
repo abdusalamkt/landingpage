@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from 'react';
 import Image from 'next/image';
 import './projects.css';
 import Header from '../components/Header';
+import FloatingSidebar from '../components/FloatingSidebar';
 
 type Project = {
   title: string;
@@ -46,6 +47,7 @@ export default function ProjectsPage() {
   return (
     <>
       <Header />
+      <FloatingSidebar />
       <div className="container">
         <h1 className="page-title">Projects</h1>
 

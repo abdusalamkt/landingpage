@@ -7,7 +7,7 @@ const nextConfig = {
     WORDPRESS_GRAPHQL_ENDPOINT: process.env.WORDPRESS_GRAPHQL_ENDPOINT,
   },
   images: {
-    domains: ['gfi.local'], // Replace with your real domain or CDN hostname
+    domains: ['test.shopgfiuae.com'], // Replace with your real domain or CDN hostname
   },
   eslint: {
     ignoreDuringBuilds: true,

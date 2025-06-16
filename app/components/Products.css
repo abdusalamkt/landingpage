@@ -2,12 +2,14 @@
   padding: 4rem 0rem;
   max-width: 1200px;
   margin: 0 auto;
+  padding-bottom: 82px;
 }
 
 .products-heading {
   font-size: 3rem;
   text-align: center;
   margin-bottom: 2rem;
+  color: #3d3d3d;
 }
 
 .Highlight_Header {

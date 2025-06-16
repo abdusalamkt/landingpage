@@ -1,0 +1,119 @@
+/* Base styles */
+.clients-wrapper {
+  overflow: hidden;
+  padding: 2rem 0;
+  position: relative;
+  height: 40vh; 
+  min-height: 350px; /* Minimum height */
+  max-height: 400px; /* Maximum height */
+  display: flex;
+  flex-direction: column;
+  max-width: 1200px;
+  margin: 0 auto; 
+}
+
+.clients-heading {
+  text-align: center;
+  margin-bottom: 2rem;
+  font-size: clamp(1.5rem, 48px, 48px); /* Responsive font size */
+}
+
+.highlight {
+  color: #077caa;
+}
+
+/* Carousel container */
+.clients-carousel-container {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+  flex-grow: 1;
+  padding: 1rem 0; /* Add vertical spacing */
+}
+
+/* Carousel track */
+.clients-carousel-track {
+  display: flex;
+  height: 100%;
+  align-items: center;
+  animation: scroll 4s linear infinite; /* Adjust speed to be smooth */
+  will-change: transform;
+  gap: 2rem; /* Adds horizontal space between logos */
+}
+
+/* Animation */
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+/* Logo container for consistent sizing */
+.logo-container {
+  /* height: 90%; */
+  min-height: 8rem;
+  max-height: 11rem;
+  aspect-ratio: 16/9; 
+  padding: 0 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Logo styles */
+.client-logo {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  /* filter: grayscale(100%); */
+  /* transition: all 0.3s ease; */
+  /* opacity: 0.8; */
+  padding: .5rem; /* Spacing around logos */
+}
+
+.client-logo:hover {
+  filter: grayscale(0%);
+  opacity: 1;
+  transform: scale(1.2);
+  transition: all .6s ease; 
+}
+
+/* Pause animation on hover */
+.clients-carousel-container:hover .clients-carousel-track {
+  animation-play-state: paused;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+  .logo-container {
+    padding: 0 1.5rem;
+    height: 65%;
+  }
+}
+
+@media (max-width: 768px) {
+  .logo-container {
+    padding: 0 1rem;
+    height: 60%;
+  }
+  
+  .clients-wrapper {
+    min-height: 200px;
+  }
+}
+
+@media (max-width: 480px) {
+  .logo-container {
+    padding: 0 0.75rem;
+    height: 55%;
+  }
+  
+  .clients-heading {
+    margin-bottom: 1rem;
+  }
+}

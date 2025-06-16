@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@apollo/client": "^3.13.8",
+    "@studio-freight/lenis": "^1.0.42",
     "framer-motion": "^12.14.0",
     "graphql": "^16.11.0",
     "gsap": "^3.13.0",
@@ -17,6 +18,8 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-icons": "^5.5.0",
+    "react-slick": "^0.30.3",
+    "slick-carousel": "^1.8.1",
     "splitting": "^1.1.0"
   },
   "devDependencies": {

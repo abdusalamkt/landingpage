@@ -1,0 +1,275 @@
+.service-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 100px 20px;
+  /* min-height: 100vh; */
+  /* background-color: #f5f5f5; */
+  position: relative;
+  overflow: hidden;
+  height: 100%;
+}
+
+.service-center {
+  position: relative;
+  width: 1200px;
+  height: 800px;
+  max-width: 100%;
+}
+
+.service-image {
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+  border-radius: 10px;
+  /* box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); */
+}
+
+/* Connection Lines SVG */
+.connection-lines {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.connection-lines circle {
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+}
+
+.connection-lines line {
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1));
+}
+
+/* Service Items */
+.service-item {
+  position: absolute;
+  width: 300px;
+  text-align: left;
+  /* font-family: 'bebas-neue', sans-serif; */
+  font-weight: 400;
+  z-index: 15;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-radius: 12px;
+  padding: 20px;
+  /* box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1); */
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: all 0.3s ease;
+}
+
+/* .service-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+} */
+
+.service-number {
+  font-size: 10rem;
+  font-weight: 900;
+  position: absolute;
+  top: -30px;
+  left: 10px;
+  z-index: 0;
+  opacity: 0.1;
+  user-select: none;
+  color: #000;
+  font-family: Bebas Neue;
+  line-height: 140%;
+  text-align: center;
+vertical-align: middle;
+/* letter-spacing: 10%; */
+}
+
+
+/* font-weight: 400;
+font-size: 221px;
+line-height: 100%;
+letter-spacing: 0%;
+text-align: center;
+vertical-align: middle; */
+
+.service-content {
+  position: relative;
+  z-index: 2;
+}
+
+.service-title {
+  font-family: Bebas Neue;
+font-weight: 400;
+font-size: 39.78px;
+line-height: 100%;
+letter-spacing: 0%;
+text-align: center;
+vertical-align: middle;
+margin-bottom: 10px;
+
+}
+
+.service-description {
+  font-size: 0.9rem;
+  color: #5a6c7d;
+  line-height: 1.5;
+  margin: 0;
+}
+
+
+
+/* Specific positions around the image */
+.top-center {
+  top: -120px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.left-top {
+  top: 120px;
+  left: 50px;
+}
+
+.right-top {
+  top: 120px;
+  right: 50px;
+}
+
+.left-center {
+  top: 50%;
+  left: 50px;
+  transform: translateY(-50%);
+}
+
+.right-center {
+  top: 50%;
+  right: 50px;
+  transform: translateY(-50%);
+}
+
+.left-bottom {
+  bottom: 120px;
+  left: 50px;
+}
+
+.right-bottom {
+  bottom: 120px;
+  right: 50px;
+}
+
+.bottom-center {
+  bottom: -160px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/* Responsive Design */
+@media (max-width: 1400px) {
+  .service-center {
+    width: 1000px;
+  }
+  
+  .service-item {
+    width: 240px;
+    padding: 15px;
+  }
+  
+  .left-top, .left-center, .left-bottom {
+    left: 30px;
+  }
+  
+  .right-top, .right-center, .right-bottom {
+    right: 30px;
+  }
+}
+
+@media (max-width: 1200px) {
+  .service-center {
+    width: 800px;
+    height: 600px;
+  }
+  
+  .service-item {
+    width: 200px;
+    padding: 12px;
+  }
+  
+  .service-title {
+    font-size: 0.95rem;
+  }
+  
+  .service-description {
+    font-size: 0.8rem;
+  }
+  
+  .service-image {
+    width: 250px;
+    height: 500px;
+  }
+}
+
+@media (max-width: 900px) {
+  .service-center {
+    width: 600px;
+    height: 500px;
+  }
+  
+  .service-item {
+    width: 160px;
+    padding: 10px;
+  }
+  
+  .left-top, .left-center, .left-bottom {
+    left: 10px;
+  }
+  
+  .right-top, .right-center, .right-bottom {
+    right: 10px;
+  }
+  
+  .service-image {
+    width: 200px;
+    height: 400px;
+  }
+}
+
+@media (max-width: 768px) {
+  .service-container {
+    padding: 50px 10px;
+  }
+  
+  .service-center {
+    width: 100%;
+    height: 400px;
+  }
+  
+  .service-item {
+    width: 140px;
+    padding: 8px;
+    font-size: 0.8rem;
+  }
+  
+  .service-title {
+    font-size: 0.8rem;
+    margin-bottom: 5px;
+  }
+  
+  .service-description {
+    font-size: 0.7rem;
+  }
+  
+  .service-number {
+    font-size: 2.5rem;
+  }
+  
+  .service-image {
+    width: 150px;
+    height: 300px;
+  }
+  
+  .connection-lines {
+    display: none; /* Hide lines on mobile for clarity */
+  }
+}
