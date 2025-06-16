@@ -3,20 +3,6 @@ import { useState, useEffect, useRef } from 'react';
 import './Header.css';
 import ContactUsModal from './ContactUsModal';
 import { usePathname } from 'next/navigation';
-import { gql, useQuery } from '@apollo/client';
-import client from '../../lib/apolloClient';
-
-const GET_LOGO = gql`
-  query GetLogo {
-    page(id: "landingpage", idType: URI) {
-      landingPageFields {
-        logo {
-          sourceUrl
-        }
-      }
-    }
-  }
-`;
 
 export default function Header() {
   const [activeDropdown, setActiveDropdown] = useState(null);
@@ -25,8 +11,8 @@ export default function Header() {
   const pathname = usePathname();
   const lastScrollY = useRef(0);
 
-  const { data } = useQuery(GET_LOGO, { client });
-  const logoUrl = data?.page?.landingPageFields?.logo?.sourceUrl || '';
+  // Hardcoded static logo URL - replace with your actual logo path
+  const logoUrl = '/logo.png';  // or '/images/logo.png' or an absolute URL
 
   const toggleDropdown = (dropdown) => {
     setActiveDropdown(activeDropdown === dropdown ? null : dropdown);
@@ -62,24 +48,25 @@ export default function Header() {
       <header className={`site-header ${isHeaderHidden ? 'hide' : ''}`}>
         <div className="logo" id="headerLogo">
           <a href="./#">
-            {logoUrl ? (
-              <img src={logoUrl} alt="Logo" />
-            ) : (
-              <span>Loading Logo...</span>
-            )}
+            <img src={logoUrl} alt="Logo" />
           </a>
         </div>
         <nav className="nav-menu">
           <ul>
-            <li><a href="/about-gibca"
-    className={pathname === '/about-gibca' ? 'active' : ''}>ABOUT US</a></li>
+            <li>
+              <a href="/about-gibca" className={pathname === '/about-gibca' ? 'active' : ''}>
+                ABOUT US
+              </a>
+            </li>
             <li
               className="dropdown-parent"
               onMouseEnter={() => toggleDropdown('products')}
               onMouseLeave={() => toggleDropdown(null)}
             >
               <div className="dropdown-trigger">
-                <a href="/our-products" className={pathname === '/our-products' ? 'active' : ''}>PRODUCTS</a>
+                <a href="/our-products" className={pathname === '/our-products' ? 'active' : ''}>
+                  PRODUCTS
+                </a>
                 <span className={`dropdown-arrow ${activeDropdown === 'products' ? 'active' : ''}`}>
                   <svg width="12" height="8" viewBox="0 0 12 8" fill="none">
                     <path d="M1 1L6 6L11 1" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
@@ -88,21 +75,18 @@ export default function Header() {
               </div>
               <div className={`dropdown-menu ${activeDropdown === 'products' ? 'active' : ''}`}>
                 {dropdownItems.products.map((item, index) => (
-                  <a
-                    href={item.link}
-                    key={index}
-                    style={{ transitionDelay: `${index * 0.1}s` }}
-                  >
+                  <a href={item.link} key={index} style={{ transitionDelay: `${index * 0.1}s` }}>
                     {item.name}
                   </a>
                 ))}
               </div>
             </li>
             <li><a href="#">SERVICE & MAINTENANCE</a></li>
-            <li><a
-    href="/projects"
-    className={pathname === '/projects' ? 'active' : ''}
-  >PROJECTS</a></li>
+            <li>
+              <a href="/projects" className={pathname === '/projects' ? 'active' : ''}>
+                PROJECTS
+              </a>
+            </li>
             <li
               className="dropdown-parent"
               onMouseEnter={() => toggleDropdown('resources')}
@@ -118,17 +102,17 @@ export default function Header() {
               </div>
               <div className={`dropdown-menu ${activeDropdown === 'resources' ? 'active' : ''}`}>
                 {dropdownItems.resources.map((item, index) => (
-                  <a
-                    href={item.link}
-                    key={index}
-                    style={{ transitionDelay: `${index * 0.1}s` }}
-                  >
+                  <a href={item.link} key={index} style={{ transitionDelay: `${index * 0.1}s` }}>
                     {item.name}
                   </a>
                 ))}
               </div>
             </li>
-            <li><a href="/contact-us" className={pathname === '/contact-us' ? 'active' : ''}>CONTACT US</a></li>
+            <li>
+              <a href="/contact-us" className={pathname === '/contact-us' ? 'active' : ''}>
+                CONTACT US
+              </a>
+            </li>
             <li>
               <button className="flashing-arrow-btn" onClick={() => setShowQuoteModal(true)}>
                 <span className="flashing-arrow-btn__img">
