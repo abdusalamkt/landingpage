@@ -12,7 +12,7 @@ export default function Header() {
   const lastScrollY = useRef(0);
 
   // Hardcoded static logo URL - replace with your actual logo path
-  const logoUrl = '/Logo.png';  // or '/images/logo.png' or an absolute URL
+  const logoUrl = '/Logo.PNG';  // or '/images/logo.png' or an absolute URL
 
   const toggleDropdown = (dropdown) => {
     setActiveDropdown(activeDropdown === dropdown ? null : dropdown);
