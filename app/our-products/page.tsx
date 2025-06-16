@@ -8,7 +8,7 @@ const sections = [
   {
     title: 'hufcor',
     description: 'Operable Walls and Moving Glasswalls',
-    defaultBg: '/hufcor/hufcor.png',
+    defaultBg: '/hufcor/hufcor.PNG',
     items: [
       { name: 'Series 600™ Operable Walls', hoverBg: '/hufcor/7000.jpg' },
       { name: 'Series 7000™ Operable Walls', hoverBg: '/hufcor/600.jpg' },
