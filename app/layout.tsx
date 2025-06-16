@@ -21,8 +21,9 @@ const poppins = Poppins({
 });
 
 export const metadata = {
-  title: 'Landing Page',
-  description: 'Built with Next.js and WordPress',
+  title: 'GFI UAE',
+  description: 'Leaders in Space Management Solutions',
+  viewport: 'width=device-width, initial-scale=1', // ✅ VERY IMPORTANT
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
