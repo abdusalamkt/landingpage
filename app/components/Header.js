@@ -3,15 +3,30 @@ import { useState, useEffect, useRef } from 'react';
 import './Header.css';
 import ContactUsModal from './ContactUsModal';
 import { usePathname } from 'next/navigation';
+import { gql, useQuery } from '@apollo/client';
+import client from '../../lib/apolloClient';
 
+const GET_LOGO = gql`
+  query GetLogo {
+    page(id: "landingpage", idType: URI) {
+      landingPageFields {
+        logo {
+          sourceUrl
+        }
+      }
+    }
+  }
+`;
 
 export default function Header() {
   const [activeDropdown, setActiveDropdown] = useState(null);
   const [showQuoteModal, setShowQuoteModal] = useState(false);
   const [isHeaderHidden, setIsHeaderHidden] = useState(false);
   const pathname = usePathname();
-
   const lastScrollY = useRef(0);
+
+  const { data } = useQuery(GET_LOGO, { client });
+  const logoUrl = data?.page?.landingPageFields?.logo?.sourceUrl || '';
 
   const toggleDropdown = (dropdown) => {
     setActiveDropdown(activeDropdown === dropdown ? null : dropdown);
@@ -20,46 +35,39 @@ export default function Header() {
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
-
-      if (currentScrollY > lastScrollY.current && currentScrollY > 100) {
-        // Scrolling down
-        setIsHeaderHidden(true);
-      } else {
-        // Scrolling up
-        setIsHeaderHidden(false);
-      }
-
+      setIsHeaderHidden(currentScrollY > lastScrollY.current && currentScrollY > 100);
       lastScrollY.current = currentScrollY;
     };
 
     window.addEventListener('scroll', handleScroll);
-
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   const dropdownItems = {
     products: [
-      { name: "CROWN", link: "#" },
-      { name: "HUFCOR", link: "#" },
-      { name: "HPL", link: "#" },
-      { name: "OPS", link: "#" }
+      { name: 'CROWN', link: '#' },
+      { name: 'HUFCOR', link: '#' },
+      { name: 'HPL', link: '#' },
+      { name: 'OPS', link: '#' },
     ],
     resources: [
-      { name: "Blogs", link: "#" },
-      { name: "Case Studies", link: "#" },
-      { name: "Downloads", link: "/downloads" }
-    ]
+      { name: 'Blogs', link: '#' },
+      { name: 'Case Studies', link: '#' },
+      { name: 'Downloads', link: '/downloads' },
+    ],
   };
 
   return (
     <>
       <header className={`site-header ${isHeaderHidden ? 'hide' : ''}`}>
         <div className="logo" id="headerLogo">
-          <a href="./#"
-    >
-          <img src="./Logo.png" alt="Logo" /></a>
+          <a href="./#">
+            {logoUrl ? (
+              <img src={logoUrl} alt="Logo" />
+            ) : (
+              <span>Loading Logo...</span>
+            )}
+          </a>
         </div>
         <nav className="nav-menu">
           <ul>
