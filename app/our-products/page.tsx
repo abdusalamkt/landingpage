@@ -30,7 +30,7 @@ const sections = [
   {
     title: 'hufcor',
     description: 'Reinforced Acoustic and Glass Walls',
-    defaultBg: '/hufcor/hufcor.png',
+    defaultBg: '/hufcor/hufcor.PNG',  
     items: [
       { name: 'Series 600™ Operable Walls', hoverBg: '/hufcor/7000.jpg' },
       { name: 'Series 7000™ Operable Walls', hoverBg: '/hufcor/600.jpg' },
@@ -126,7 +126,7 @@ export default function OurProductsPage() {
   return (
     <>
       <Header />
-      <div className="snap-container">
+      <div>
         {sections.map((section, i) => (
           <section
             key={i}
@@ -137,7 +137,7 @@ export default function OurProductsPage() {
             id={`section-${i}`}
             style={{
               backgroundImage: `url(${currentBgImages[i]})`,
-              backgroundSize: isZoomed[i] ? 'cover' : 'cover',
+              backgroundSize: isZoomed[i] ? '100%' : '105%',
               backgroundPosition: 'center'
             }}
           >

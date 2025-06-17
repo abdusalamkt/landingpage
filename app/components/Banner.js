@@ -23,7 +23,7 @@
     useEffect(() => {
       const imageInterval = setInterval(() => {
         setCurrentIndex(prev => (prev + 1) % images.length);
-      }, 2100);
+      }, 2000);
       return () => clearInterval(imageInterval);
     }, [images.length]);
 
@@ -37,7 +37,7 @@
         if (displayedText.length < currentWord.length) {
           timeout = setTimeout(() => {
             setDisplayedText(currentWord.slice(0, displayedText.length + 1));
-          }, 100);
+          }, 50);
         } else {
           timeout = setTimeout(() => setTyping(false), 1500); // hold word for a while
         }

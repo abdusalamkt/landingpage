@@ -8,14 +8,19 @@ export default function Header() {
   const [activeDropdown, setActiveDropdown] = useState(null);
   const [showQuoteModal, setShowQuoteModal] = useState(false);
   const [isHeaderHidden, setIsHeaderHidden] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const pathname = usePathname();
   const lastScrollY = useRef(0);
 
-  // Hardcoded static logo URL - replace with your actual logo path
-  const logoUrl = '/Logo.PNG';  // or '/images/logo.png' or an absolute URL
+  const logoUrl = '/Logo.PNG';
 
   const toggleDropdown = (dropdown) => {
     setActiveDropdown(activeDropdown === dropdown ? null : dropdown);
+  };
+
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen((prev) => !prev);
+    setActiveDropdown(null); // close dropdowns on toggle
   };
 
   useEffect(() => {
@@ -47,23 +52,30 @@ export default function Header() {
     <>
       <header className={`site-header ${isHeaderHidden ? 'hide' : ''}`}>
         <div className="logo" id="headerLogo">
-          <a href="./#">
+          <a href="/">
             <img src={logoUrl} alt="Logo" />
           </a>
         </div>
-        <nav className="nav-menu">
+
+        <button className="mobile-menu-toggle" onClick={toggleMobileMenu} aria-label="Toggle menu">
+          <span className="bar"></span>
+          <span className="bar"></span>
+          <span className="bar"></span>
+        </button>
+
+        <nav className={`nav-menu ${isMobileMenuOpen ? 'mobile-open' : ''}`}>
           <ul>
             <li>
-              <a href="/about-gibca" className={pathname === '/about-gibca' ? 'active' : ''}>
+              <a href="/about-gibca" className={pathname === '/about-gibca' ? 'active' : ''} onClick={() => setIsMobileMenuOpen(false)}>
                 ABOUT US
               </a>
             </li>
             <li
               className="dropdown-parent"
-              onMouseEnter={() => toggleDropdown('products')}
-              onMouseLeave={() => toggleDropdown(null)}
+              onMouseEnter={() => !isMobileMenuOpen && toggleDropdown('products')}
+              onMouseLeave={() => !isMobileMenuOpen && toggleDropdown(null)}
             >
-              <div className="dropdown-trigger">
+              <div className="dropdown-trigger" onClick={() => isMobileMenuOpen && toggleDropdown('products')}>
                 <a href="/our-products" className={pathname === '/our-products' ? 'active' : ''}>
                   PRODUCTS
                 </a>
@@ -75,24 +87,24 @@ export default function Header() {
               </div>
               <div className={`dropdown-menu ${activeDropdown === 'products' ? 'active' : ''}`}>
                 {dropdownItems.products.map((item, index) => (
-                  <a href={item.link} key={index} style={{ transitionDelay: `${index * 0.1}s` }}>
+                  <a href={item.link} key={index} onClick={() => setIsMobileMenuOpen(false)} style={{ transitionDelay: `${index * 0.1}s` }}>
                     {item.name}
                   </a>
                 ))}
               </div>
             </li>
-            <li><a href="#">SERVICE & MAINTENANCE</a></li>
+            <li><a href="#" onClick={() => setIsMobileMenuOpen(false)}>SERVICE & MAINTENANCE</a></li>
             <li>
-              <a href="/projects" className={pathname === '/projects' ? 'active' : ''}>
+              <a href="/projects" className={pathname === '/projects' ? 'active' : ''} onClick={() => setIsMobileMenuOpen(false)}>
                 PROJECTS
               </a>
             </li>
             <li
               className="dropdown-parent"
-              onMouseEnter={() => toggleDropdown('resources')}
-              onMouseLeave={() => toggleDropdown(null)}
+              onMouseEnter={() => !isMobileMenuOpen && toggleDropdown('resources')}
+              onMouseLeave={() => !isMobileMenuOpen && toggleDropdown(null)}
             >
-              <div className="dropdown-trigger">
+              <div className="dropdown-trigger" onClick={() => isMobileMenuOpen && toggleDropdown('resources')}>
                 <a href="#">RESOURCES</a>
                 <span className={`dropdown-arrow ${activeDropdown === 'resources' ? 'active' : ''}`}>
                   <svg width="12" height="8" viewBox="0 0 12 8" fill="none">
@@ -102,19 +114,19 @@ export default function Header() {
               </div>
               <div className={`dropdown-menu ${activeDropdown === 'resources' ? 'active' : ''}`}>
                 {dropdownItems.resources.map((item, index) => (
-                  <a href={item.link} key={index} style={{ transitionDelay: `${index * 0.1}s` }}>
+                  <a href={item.link} key={index} onClick={() => setIsMobileMenuOpen(false)} style={{ transitionDelay: `${index * 0.1}s` }}>
                     {item.name}
                   </a>
                 ))}
               </div>
             </li>
             <li>
-              <a href="/contact-us" className={pathname === '/contact-us' ? 'active' : ''}>
+              <a href="/contact-us" className={pathname === '/contact-us' ? 'active' : ''} onClick={() => setIsMobileMenuOpen(false)}>
                 CONTACT US
               </a>
             </li>
             <li>
-              <button className="flashing-arrow-btn" onClick={() => setShowQuoteModal(true)}>
+              <button className="flashing-arrow-btn" onClick={() => { setShowQuoteModal(true); setIsMobileMenuOpen(false); }}>
                 <span className="flashing-arrow-btn__img">
                   <svg width="34" height="24" viewBox="0 0 24 24" fill="none">
                     <defs>

@@ -61,8 +61,7 @@
 .image:hover {
   filter: grayscale(0);
   transition: filter 0.7s ease;
-  
-   
+
 }
 
 /* Reusable CTA Button */
