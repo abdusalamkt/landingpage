@@ -42,6 +42,7 @@
   width: 360px;
   height: 15rem;
   overflow: visible;
+  
 }
 
 .program-number {
@@ -155,4 +156,24 @@ clip-path:polygon(60% 0, 100% 0, 0 100%, 0 60%);  display: flex;
 .cta-button{
   padding-left: 100px;
   padding-right: 100px;
+}
+
+.service-card:hover {
+  transform: scale(1.05) translateY(-10px);
+  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.15);
+}
+
+.service-card:hover .program-number {
+  transform: scale(1.08) translateY(-10px) translateX(-35px) rotateZ(-5deg);
+  text-shadow: 0 0 10px rgba(18, 138, 96, 0.3), 0 0 20px rgba(18, 138, 96, 0.15);
+    transition: transform .5s ease;
+
+}
+
+.service-card-content {
+  transition: transform 0.4s ease;
+}
+
+.service-card:hover .service-card-content {
+  transform: translateY(-5px);
 }
