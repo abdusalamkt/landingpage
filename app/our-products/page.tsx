@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import Head from 'next/head';
 import Header from '@/app/components/Header';
 import './our-products.css';
 
@@ -30,7 +31,7 @@ const sections = [
   {
     title: 'hufcor',
     description: 'Reinforced Acoustic and Glass Walls',
-    defaultBg: '/hufcor/hufcor.PNG',  
+    defaultBg: '/hufcor/hufcor.PNG',
     items: [
       { name: 'Series 600™ Operable Walls', hoverBg: '/hufcor/7000.jpg' },
       { name: 'Series 7000™ Operable Walls', hoverBg: '/hufcor/600.jpg' },
@@ -65,6 +66,7 @@ export default function OurProductsPage() {
     sectionRefs.current[index]?.scrollIntoView({ behavior: 'smooth' });
   };
 
+  // Smooth transition loop for background changes
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentBgImages((prev) =>
@@ -93,11 +95,12 @@ export default function OurProductsPage() {
   };
 
   const handleKnowMoreClick = (sectionTitle: string) => {
-    // You can customize this function to handle the "Know More" button click
     console.log(`Know more about ${sectionTitle}`);
-    // For example: router.push(`/products/${sectionTitle}`);
+    // You can also redirect if needed
+    // router.push(`/products/${sectionTitle}`);
   };
 
+  // Intersection observer to detect active section
   useEffect(() => {
     if (observerRef.current) observerRef.current.disconnect();
 
@@ -109,9 +112,7 @@ export default function OurProductsPage() {
           if (idx !== -1) setActiveIndex(idx);
         }
       },
-      {
-        threshold: 0.6,
-      }
+      { threshold: 0.6 }
     );
 
     sectionRefs.current.forEach((ref) => {
@@ -123,22 +124,51 @@ export default function OurProductsPage() {
     };
   }, []);
 
+  // 🚀 PRELOAD all images (default + hover)
+  useEffect(() => {
+    const allImages = new Set(
+      sections.flatMap(section => [
+        section.defaultBg,
+        ...section.items.map(item => item.hoverBg),
+      ])
+    );
+
+    allImages.forEach((src) => {
+      const img = new Image();
+      img.src = src;
+    });
+  }, []);
+
+  // 🚀 Also generate preload <link> tags
+  const allUniqueImages = Array.from(new Set(
+    sections.flatMap(section => [
+      section.defaultBg,
+      ...section.items.map(item => item.hoverBg)
+    ])
+  ));
+
   return (
     <>
+      <Head>
+        {allUniqueImages.map((src, i) => (
+          <link key={i} rel="preload" as="image" href={src} />
+        ))}
+      </Head>
+
       <Header />
       <div>
         {sections.map((section, i) => (
           <section
             key={i}
-            ref={(el) => {
-              sectionRefs.current[i] = el;
-            }}
+            ref={(el) => { sectionRefs.current[i] = el; }}
             className="products-wrapper"
             id={`section-${i}`}
             style={{
               backgroundImage: `url(${currentBgImages[i]})`,
               backgroundSize: isZoomed[i] ? '100%' : '105%',
-              backgroundPosition: 'center'
+              backgroundPosition: 'center',
+              backgroundRepeat: 'no-repeat',
+              transition: 'background-size 0.3s ease',
             }}
           >
             <div className="section-content">
@@ -165,7 +195,7 @@ export default function OurProductsPage() {
                 ) : (
                   <div className="divider full-width" />
                 )}
-                
+
                 <button
                   className="cta-button"
                   onClick={() => handleKnowMoreClick(section.title)}
