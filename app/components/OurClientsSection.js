@@ -9,6 +9,7 @@ const clientLogos = [
   'logo/Schneider-Electric-logo-jpg-.png',
   'logo/snapchat-logo-svgrepo-com.png',
   'logo/Standard Jotun.png',
+  
 
 ];
 

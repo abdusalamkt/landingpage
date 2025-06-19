@@ -29,17 +29,18 @@
   position: relative;
   flex-grow: 1;
   padding: 1rem 0; /* Add vertical spacing */
+
+  
 }
 
-/* Carousel track */
 .clients-carousel-track {
   display: flex;
-  height: 100%;
   align-items: center;
-  animation: scroll 4s linear infinite; /* Adjust speed to be smooth */
-  will-change: transform;
-  gap: 2rem; /* Adds horizontal space between logos */
+  gap: 5rem;
+  width: max-content;
+  animation: scroll 25s linear infinite;
 }
+
 
 /* Animation */
 @keyframes scroll {
@@ -53,16 +54,15 @@
 
 /* Logo container for consistent sizing */
 .logo-container {
-  /* height: 90%; */
+  flex: 0 0 auto; /* Prevent shrinking */
   min-height: 8rem;
   max-height: 11rem;
-  aspect-ratio: 16/9; 
+  aspect-ratio: 16/9;
   padding: 0 2rem;
   display: flex;
   align-items: center;
   justify-content: center;
 }
-
 /* Logo styles */
 .client-logo {
   max-width: 100%;
@@ -79,13 +79,13 @@
 .client-logo:hover {
   filter: grayscale(0%);
   opacity: 1;
-  transform: scale(1.2);
+  transform: scale(1.15);
   transition: all .6s ease; 
 }
 
 /* Pause animation on hover */
 .clients-carousel-container:hover .clients-carousel-track {
-  animation-play-state: paused;
+  /* animation-play-state: paused; */
 }
 
 /* Responsive adjustments */
