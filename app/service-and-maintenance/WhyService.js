@@ -79,20 +79,20 @@ export default function ServicePage() {
         <svg className="connection-lines" viewBox="0 0 1200 1000">
           {/* Level 1 */}
           <line x1="600" y1="240" x2="600" y2="-0" stroke="#000" strokeWidth="2" />
-          <line x1="600" y1="240" x2="200" y2="240" stroke="#000" strokeWidth="2" />
-          <line x1="200" y1="240" x2="200" y2="100" stroke="#000" strokeWidth="2" />
-          <line x1="600" y1="240" x2="1000" y2="240" stroke="#000" strokeWidth="2" />
-          <line x1="1000" y1="240" x2="1000" y2="100" stroke="#000" strokeWidth="2" />
+          <line x1="600" y1="240" x2="100" y2="240" stroke="#000" strokeWidth="2" />
+          <line x1="100" y1="240" x2="100" y2="100" stroke="#000" strokeWidth="2" />
+          <line x1="600" y1="240" x2="1100" y2="240" stroke="#000" strokeWidth="2" />
+          <line x1="1100" y1="240" x2="1100" y2="100" stroke="#000" strokeWidth="2" />
 
           {/* Level 2 */}
           <line x1="600" y1="400" x2="200" y2="400" stroke="#000" strokeWidth="2" />
           <line x1="600" y1="400" x2="1000" y2="400" stroke="#000" strokeWidth="2" />
 
           {/* Level 3 */}
-          <line x1="600" y1="640" x2="200" y2="640" stroke="#000" strokeWidth="2" />
-          <line x1="200" y1="640" x2="200" y2="720" stroke="#000" strokeWidth="2" />
-          <line x1="600" y1="640" x2="1000" y2="640" stroke="#000" strokeWidth="2" />
-          <line x1="1000" y1="640" x2="1000" y2="720" stroke="#000" strokeWidth="2" />
+          <line x1="600" y1="640" x2="100" y2="640" stroke="#000" strokeWidth="2" />
+          <line x1="100" y1="640" x2="100" y2="720" stroke="#000" strokeWidth="2" />
+          <line x1="600" y1="640" x2="1100" y2="640" stroke="#000" strokeWidth="2" />
+          <line x1="1100" y1="640" x2="1100" y2="720" stroke="#000" strokeWidth="2" />
           <line x1="600" y1="640" x2="600" y2="1000" stroke="#000" strokeWidth="2" />
         </svg>
 

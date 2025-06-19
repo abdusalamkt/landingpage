@@ -52,7 +52,7 @@
 /* Service Items */
 .service-item {
   position: absolute;
-  width: 300px;
+  width: 350px;
   text-align: left;
   /* font-family: 'bebas-neue', sans-serif; */
   font-weight: 400;
@@ -76,7 +76,7 @@
   font-weight: 900;
   position: absolute;
   top: -30px;
-  left: 10px;
+  left: 20px;
   z-index: 0;
   opacity: 0.1;
   user-select: none;
@@ -131,34 +131,34 @@ margin-bottom: 10px;
 
 .left-top {
   top: 0px;
-  left: 50px;
+  right: 75%;
 }
 
 .right-top {
   top: 0px;
-  right: 50px;
+  left: 75%;
 }
 
 .left-center {
   top: 35%;
-  right: 70%;
+  right: 75%;
   transform: translateY(-50%);
 }
 
 .right-center {
   top: 35%;
-  left: 70%;
+  left: 75%;
   transform: translateY(-50%);
 }
 
 .left-bottom {
   top: 72%;
-  left: 50px;
+  right: 75%;
 }
 
 .right-bottom {
   top: 72%;
-  right: 50px;
+  left: 75%;
 }
 
 .bottom-center {
@@ -174,7 +174,7 @@ margin-bottom: 10px;
   }
   
   .service-item {
-    width: 240px;
+    /* width: 240px; */
     padding: 15px;
   }
   
