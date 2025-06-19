@@ -93,7 +93,7 @@ export default function Header() {
                 ))}
               </div>
             </li>
-            <li><a href="#" onClick={() => setIsMobileMenuOpen(false)}>SERVICE & MAINTENANCE</a></li>
+            <li><a href="/service-and-maintenance" className={pathname === '/service-and-maintenance' ? 'active' : ''} onClick={() => setIsMobileMenuOpen(false)}>SERVICE & MAINTENANCE</a></li>
             <li>
               <a href="/projects" className={pathname === '/projects' ? 'active' : ''} onClick={() => setIsMobileMenuOpen(false)}>
                 PROJECTS
