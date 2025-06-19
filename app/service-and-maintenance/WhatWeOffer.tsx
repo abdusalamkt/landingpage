@@ -68,8 +68,8 @@ export default function WhatWeOffer() {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease: 'easeOut' }}
           viewport={{ once: true }}
-        >
-          What We Offer
+        >What We
+         <span className='highlight'> Offer!</span>  
         </motion.h2>
 
         <div className="offer-grid">
