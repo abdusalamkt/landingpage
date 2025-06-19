@@ -2,7 +2,8 @@
   display: flex;
   justify-content: center;
   align-items: flex-start; 
-  padding: 400px 50px; 
+  padding: 300px 50px 200px 50px; 
+  
   min-height: 100vh;
   position: relative;
   /* overflow: visible;  */
@@ -123,46 +124,46 @@ margin-bottom: 10px;
 
 /* Specific positions around the image */
 .top-center {
-  top: -120px;
-  left: 50%;
+  top: -180px;
+  left: 40%;
   transform: translateX(-50%);
 }
 
 .left-top {
-  top: 20px;
+  top: 0px;
   left: 50px;
 }
 
 .right-top {
-  top: 120px;
+  top: 0px;
   right: 50px;
 }
 
 .left-center {
-  top: 50%;
-  left: 50px;
+  top: 35%;
+  right: 70%;
   transform: translateY(-50%);
 }
 
 .right-center {
-  top: 50%;
-  right: 50px;
+  top: 35%;
+  left: 70%;
   transform: translateY(-50%);
 }
 
 .left-bottom {
-  bottom: -30px;
+  top: 72%;
   left: 50px;
 }
 
 .right-bottom {
-  bottom: 0px;
+  top: 72%;
   right: 50px;
 }
 
 .bottom-center {
   bottom: -180px;
-  left: 50%;
+  left: 40%;
   transform: translateX(-50%);
 }
 
@@ -273,4 +274,9 @@ margin-bottom: 10px;
   .connection-lines {
     display: none; /* Hide lines on mobile for clarity */
   }
+}
+.service-item {
+  cursor: pointer;
+  transform-origin: center;
+  transition: transform 0.3s ease;
 }
