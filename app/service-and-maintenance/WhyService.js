@@ -74,66 +74,91 @@ const items = [
 
 export default function ServicePage() {
   return (
-    <div className="service-container">
-      <div className="service-center">
-        <svg className="connection-lines" viewBox="0 0 1200 1000">
-          {/* Level 1 */}
-          <line x1="600" y1="240" x2="600" y2="-0" stroke="#000" strokeWidth="2" />
-          <line x1="600" y1="240" x2="100" y2="240" stroke="#000" strokeWidth="2" />
-          <line x1="100" y1="240" x2="100" y2="100" stroke="#000" strokeWidth="2" />
-          <line x1="600" y1="240" x2="1100" y2="240" stroke="#000" strokeWidth="2" />
-          <line x1="1100" y1="240" x2="1100" y2="100" stroke="#000" strokeWidth="2" />
+    <div className="service-page">
+      {/* Header Section */}
+      <div className="service-header">
+        <motion.div 
+          className="service-heading-wrapper"
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease: 'easeOut' }}
+        >
+          <h1 className="service-heading">
+            WHY SERVICE YOUR  <span className="highlight-green">PARTITIONS?</span>
+          </h1>
+          <p className="service-subheading">
+            Gibca Furniture Industry Co. Ltd. (L.L.C) offers operable partitions including walls and doors, upholding global standards. Regular maintenance ensures optimal performance and safety, keeping your partitions functional and secure.
+          </p>
+        </motion.div>
+      </div>
 
-          {/* Level 2 */}
-          <line x1="600" y1="400" x2="200" y2="400" stroke="#000" strokeWidth="2" />
-          <line x1="600" y1="400" x2="1000" y2="400" stroke="#000" strokeWidth="2" />
+      {/* Service Diagram Section */}
+      <div className="service-container">
+        <div className="service-center">
+          <svg className="connection-lines" viewBox="0 0 1200 1000">
+            {/* Level 1 */}
+            <line x1="600" y1="240" x2="600" y2="-0" stroke="#000" strokeWidth="2" />
+            <line x1="600" y1="240" x2="100" y2="240" stroke="#000" strokeWidth="2" />
+            <line x1="100" y1="240" x2="100" y2="160" stroke="#000" strokeWidth="2" />
+            <line x1="600" y1="240" x2="1100" y2="240" stroke="#000" strokeWidth="2" />
+            <line x1="1100" y1="240" x2="1100" y2="160" stroke="#000" strokeWidth="2" />
 
-          {/* Level 3 */}
-          <line x1="600" y1="640" x2="100" y2="640" stroke="#000" strokeWidth="2" />
-          <line x1="100" y1="640" x2="100" y2="720" stroke="#000" strokeWidth="2" />
-          <line x1="600" y1="640" x2="1100" y2="640" stroke="#000" strokeWidth="2" />
-          <line x1="1100" y1="640" x2="1100" y2="720" stroke="#000" strokeWidth="2" />
-          <line x1="600" y1="640" x2="600" y2="1000" stroke="#000" strokeWidth="2" />
-        </svg>
+            {/* Level 2 */}
+            <line x1="600" y1="400" x2="300" y2="400" stroke="#000" strokeWidth="2" />
+            <line x1="600" y1="400" x2="900" y2="400" stroke="#000" strokeWidth="2" />
 
-        <Image
-          src="/service.PNG"
-          alt="Partition Image"
-          width={300}
-          height={600}
-          className="service-image"
-        />
+            {/* Level 3 */}
+            <line x1="600" y1="640" x2="100" y2="640" stroke="#000" strokeWidth="2" />
+            <line x1="100" y1="640" x2="100" y2="720" stroke="#000" strokeWidth="2" />
+            <line x1="600" y1="640" x2="1100" y2="640" stroke="#000" strokeWidth="2" />
+            <line x1="1100" y1="640" x2="1100" y2="720" stroke="#000" strokeWidth="2" />
+            <line x1="600" y1="640" x2="600" y2="1000" stroke="#000" strokeWidth="2" />
+          </svg>
 
-        {items.map((item, index) => (
-          <AnimatedServiceItem key={index} item={item} index={index} />
-        ))}
+          <Image
+            src="/service.PNG"
+            alt="Partition Image"
+            width={300}
+            height={600}
+            className="service-image"
+          />
+
+          {items.map((item, index) => (
+            <AnimatedServiceItem key={index} item={item} index={index} />
+          ))}
+        </div>
       </div>
     </div>
   );
 }
 
 function AnimatedServiceItem({ item, index }) {
-  const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.15 });
+  const { ref, inView } = useInView({ 
+    triggerOnce: true, 
+    threshold: 0.1,
+    rootMargin: '-50px 0px'
+  });
 
   return (
     <motion.div
       ref={ref}
       className={`service-item ${item.position} level-${item.level}`}
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
+      initial={{ opacity: 0, y: 20, scale: 0.9 }}
+      animate={inView ? { opacity: 1, y: 0, scale: 1 } : { opacity: 0, y: 20, scale: 0.9 }}
       transition={{
-        duration: 0.1,
-        ease: 'easeOut',
-        delay: index * 0.2, 
+        duration: 0.6,
+        ease: [0.25, 0.46, 0.45, 0.94],
+        delay: index * 0.1,
       }}
-      viewport={{ once: true, amount: 0.1 }}
       whileHover={{
-        scale: 1.08,
-        transition: { duration: .1 }, 
-        color:'#109c5d',
+        scale: 1.05,
+        y: -5,
+        transition: { 
+          duration: 0.3,
+          ease: [0.25, 0.46, 0.45, 0.94]
+        }
       }}
     >
-
       <div className="service-number">{item.number}</div>
       <div className="service-content">
         <div className="service-title">{item.title}</div>
