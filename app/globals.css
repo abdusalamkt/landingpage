@@ -40,7 +40,7 @@ html{
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-bebas-neue); /* Bebas Neue for headings */
   font-weight: 550;
-  letter-spacing: 1px;
+  /* letter-spacing: 1px; */
   line-height: 1.2;
   margin-bottom: 1rem;
 }

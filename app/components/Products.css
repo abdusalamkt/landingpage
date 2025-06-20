@@ -75,7 +75,7 @@
   bottom: 0;
   left: 0;
   right: 0;
-  background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+  /* background: linear-gradient(to top, rgba(0,0,0,0.8), transparent); */
   padding: 1.5rem;
   color: white;
   transition: all 0.3s ease;

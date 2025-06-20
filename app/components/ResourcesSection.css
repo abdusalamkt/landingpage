@@ -58,7 +58,7 @@
   max-width: 80%;
   /* padding: 5px 0; */
   padding-top: 30px;
-  font-size: 2.5rem;
+  font-size: 3.2rem;
   /* font-weight: 600; */
   position: relative;
   z-index: 1;
@@ -68,6 +68,7 @@
   transition: color .7s ease-out;
 text-align: left;  /* transition: color .1s ease-in; */
 text-transform: uppercase;
+padding-left: 2rem;
 
 }
 

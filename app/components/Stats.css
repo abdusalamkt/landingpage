@@ -61,7 +61,7 @@
 
 .stat-number {
   font-size: 2.5rem;
-  font-weight: bold;
+  /* font-weight: bold; */
   color: #109C5D;
   position: relative;
   /* margin-bottom: 0.75rem; */
