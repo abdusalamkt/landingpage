@@ -238,6 +238,7 @@
 @media (hover: hover) and (pointer: fine) {
   .flashing-arrow-btn:hover .flashing-arrow-btn__img {
     translate: 0 0;
+    
   }
   .flashing-arrow-btn:hover svg {
     animation: bounce .8s ease infinite;
@@ -376,7 +377,7 @@
     padding-left: 1rem;
     margin-top: 0.5rem;
     border-left: 2px solid #eee;
-    z-index: 9999999;
+    z-index: 99999;
   }
 
   .dropdown-menu.active {

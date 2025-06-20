@@ -8,7 +8,7 @@
 .service-program-title {
   font-family: 'Bebas Neue', sans-serif;
   font-size: 3.5rem;
-  margin-bottom: 20px;
+  margin-bottom: 2.5rem;
   color: #3d3d3d;
 }
 
@@ -21,6 +21,7 @@
   margin: 20px auto 60px;
   color: #333;
   line-height: 1.6;
+  /* margin-bottom: 100px; */
 }
 
 .service-card-container {
