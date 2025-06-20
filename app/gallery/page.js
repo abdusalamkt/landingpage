@@ -101,7 +101,7 @@ export default function GalleryPage() {
       <Header />
       <Head>
         <title>Photo³ Gallery</title>
-        <link href="https://fonts.googleapis.com/css2?family=Mona+Sans:wght@400;600&display=swap" rel="stylesheet" />
+        <link  rel="stylesheet" />
       </Head>
 
       <div id="back-btn" className="back-button">← Back to Gallery</div>
