@@ -175,8 +175,8 @@
 }
 /* Tag-style filter */
 .sector-tags {
-  /* display: flex; */
-  display: none;
+  display: flex;
+  /* display: none; */
   flex-wrap: wrap;
   justify-content: center;
   gap: 0.8rem;
