@@ -1,0 +1,60 @@
+.modal-backdrop {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.modal-box {
+  background: white;
+  padding: 30px;
+  border-radius: 10px;
+  max-width: 500px;
+  width: 90%;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+  position: relative;
+}
+
+.modal-box h2 {
+  font-size: 1.8rem;
+  margin-bottom: 20px;
+}
+
+.modal-box input,
+.modal-box select,
+.modal-box textarea {
+  width: 100%;
+  margin-bottom: 15px;
+  padding: 10px;
+  font-size: 1rem;
+  color: #109C5D;
+}
+
+.modal-box button {
+  padding: 10px 20px;
+  font-size: 1rem;
+  background: black;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 1.5rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.success-msg {
+  color: green;
+  font-weight: bold;
+  margin-top: 10px;
+}

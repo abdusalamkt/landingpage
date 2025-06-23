@@ -3,6 +3,7 @@ import { useState, useEffect, useRef } from 'react';
 import './Header.css';
 import ContactUsModal from './ContactUsModal';
 import { usePathname } from 'next/navigation';
+import AppointmentModal from './AppointmentModal';
 
 export default function Header() {
   const [activeDropdown, setActiveDropdown] = useState(null);
@@ -144,14 +145,16 @@ export default function Header() {
                     />
                   </svg>
                 </span>
-                GET A FREE QUOTE
+                BOOK AN APPOINTMENT
               </button>
             </li>
           </ul>
         </nav>
       </header>
 
-      {showQuoteModal && <ContactUsModal onClose={() => setShowQuoteModal(false)} />}
+      {showQuoteModal && (
+  <AppointmentModal isOpen={true} onClose={() => setShowQuoteModal(false)} />
+)}
     </>
   );
 }

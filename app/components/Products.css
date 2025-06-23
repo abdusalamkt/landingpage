@@ -137,3 +137,70 @@
   grid-column: 2 / 3;
 }
 
+.filter-toggle {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.filter-button {
+  background-color: #109C5D;
+  color: white;
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background 0.3s;
+}
+
+.filter-button:hover {
+  background-color: #0d7f4b;
+}
+
+.filter-options {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 2rem;
+  gap: 1rem;
+}
+
+.filter-label {
+  font-family: 'Poppins', sans-serif;
+  color: #333;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+/* Tag-style filter */
+.sector-tags {
+  /* display: flex; */
+  display: none;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.8rem;
+  margin: 2rem 0;
+}
+
+.sector-tag {
+  padding: 0.4rem 1rem;
+  border: 1px solid #109C5D;
+  background: white;
+  color: #109C5D;
+  font-size: 0.95rem;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: 'Poppins', sans-serif;
+}
+
+.sector-tag:hover {
+  background-color: #109C5D;
+  color: white;
+}
+
+.sector-tag.active {
+  background-color: #109C5D;
+  color: white;
+}
