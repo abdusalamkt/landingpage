@@ -19,8 +19,8 @@ const allCaseStudies = [
   { title: "Business Bay", image: "http://test.shopgfiuae.com/wp-content/uploads/2025/06/2-2.jpg", product: "Crown", sector: "Mall" },
   { title: "Innovation Lab", image: "http://test.shopgfiuae.com/wp-content/uploads/2018/10/port-3109757_1920-1.webp", product: "Pivot Doors", sector: "Airport" },
   { title: "Exhibition Hall", image: "http://test.shopgfiuae.com/wp-content/uploads/2018/10/hallway-1245845_1920-1.webp", product: "Hufcor", sector: "Convention Center" },
-  { title: "Library Project", image: "/case-studies/11.jpg", product: "Office Partitions", sector: "Education" },
-  { title: "VIP Lounge", image: "/case-studies/12.jpg", product: "Acristalia", sector: "Airport" },
+  { title: "Library Project", image: "http://test.shopgfiuae.com/wp-content/uploads/2025/06/OPERABLE-WALLS-1-scaled.webp", product: "Office Partitions", sector: "Education" },
+  { title: "VIP Lounge", image: "http://test.shopgfiuae.com/wp-content/uploads/2025/06/bifold-5050-crown.webp", product: "Acristalia", sector: "Airport" },
 ];
 
 export default function CaseStudies() {

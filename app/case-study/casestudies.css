@@ -160,6 +160,17 @@
   /* border-radius: 4px; */
   cursor: pointer;
 }
+.filter-heading-box:hover h4{
+    color: #109c5d;
+  transform: translate(3px);
+ 
+}
+.filter-heading-box:hover span{
+    color: #109c5d;
+
+  transform: scale(1.5);
+}
+
 
 .filter-heading-box h4 {
  font-family: Bebas Neue;
