@@ -1,0 +1,467 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+
+.case-study-container {
+  display: flex;
+  padding: 40px;
+  gap: 40px;
+  /* background: #fff; */
+  margin-top: calc(var(--header-height, 108px));
+
+}
+
+.filter-panel {
+  width: 25%;
+  /* background: white; */
+  padding: 20px;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.2rem;
+  color: #3d3d3d;
+}
+
+.filter-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+ 
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #109c5d;
+  font-size: 1.5rem;
+}
+
+.reset-btn {
+  background: none;
+  border: none;
+  color: #888;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.reset-btn:hover {
+  color: red;
+}
+
+
+.toggle-icon {
+  font-size: 20px;
+  /* font-weight: bold; */
+}
+
+.collapsible {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+}
+
+.collapsible.open {
+  max-height: 1000px;
+  margin-top: 10px;
+}
+
+
+.apply-btn {
+  background: #109c5d;
+  color: white;
+  border: none;
+  padding: 8px;
+  font-size: 15px;
+  width: 100%;
+  /* border-radius: 4px; */
+  cursor: pointer;
+  margin-top: 10px;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #333;
+}
+
+.card-grid {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 30px;
+  /* max-height: 600vh; */
+  /* overflow-y: auto; */
+  padding-right: 10px;
+}
+.case-card {
+  background-size: cover;
+  background-position: center;
+  height: 380px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border-radius: 10px;
+  box-shadow: 4px 6px 6px rgba(0, 0, 0, 0.644);
+  overflow: hidden;
+  animation: fadeIn 0.6s ease forwards;
+  position: relative;
+  color: white;
+  
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
+}
+
+.case-img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.case-card:hover .case-img {
+  transform: scale(1.03);
+}
+
+.case-title {
+  padding: 10px;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.8rem;
+  /* color: #000; */
+  /* background: #fff; */
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  /* margin-top: 15px; */
+  background: linear-gradient(to bottom, rgb(0, 0, 0), rgba(0, 0, 0, 0) );
+}
+
+.case-title hr {
+  border: 0;
+  border-bottom: 2px solid #ddd;
+  margin-top: 6px;
+  width: 70%;
+  margin: 0 auto;
+}
+
+.loading-placeholder {
+  font-size: 18px;
+  text-align: center;
+  color: #aaa;
+  padding: 40px;
+}
+
+
+.filter-heading-box {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid #ccc;
+  padding: 8px 12px;
+  /* background: #f9f9f9; */
+  /* border-radius: 4px; */
+  cursor: pointer;
+}
+
+.filter-heading-box h4 {
+ font-family: Bebas Neue;
+font-weight: 400;
+font-size: 23.78px;
+line-height: 100%;
+letter-spacing: 0%;
+text-align: center;
+margin: 0;
+padding-left: 8%;
+}
+
+@media (max-width: 1024px) {
+  .case-study-container {
+    flex-direction: column;
+    padding: 20px;
+  }
+
+  .filter-panel {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+
+  .card-grid {
+    padding: 0;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  }
+
+  .case-card {
+    height: 300px;
+  }
+
+  .case-title {
+    font-size: 1.4rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .header-left span {
+    font-size: 1.1rem;
+  }
+
+  .reset-btn {
+    font-size: 0.9rem;
+  }
+
+  .filter-heading-box {
+    padding: 6px 10px;
+  }
+
+  .apply-btn {
+    font-size: 14px;
+    padding: 10px;
+  }
+
+  .card-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .case-card {
+    height: 260px;
+  }
+
+  .case-title {
+    font-size: 1.2rem;
+  }
+}
+/* Add this to your existing CSS */
+
+
+.case-card {
+  transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transform-origin: center;
+cursor: pointer;}
+
+.case-card:hover {
+  transform: translateY(-10px) scale(1.02);
+  box-shadow: 8px 12px 20px rgba(0, 0, 0, 0.8);
+  /* filter: invert(10%); */
+}
+
+.case-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0) 50%);
+  opacity: 0.7;
+  transition: opacity 0.5s ease;
+  z-index: 0;
+}
+
+.case-card:hover::before {
+  opacity: 0.9;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0) 60%);
+}
+
+.case-title {
+  transition: all 0.5s ease;
+  transform: translateY(0);
+  opacity: 1;
+  z-index: 1;
+}
+
+.case-card:hover .case-title {
+  transform: translateY(-5px);
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
+}
+
+.case-title span {
+  display: inline-block;
+  transition: all 0.4s ease;
+}
+
+.case-card:hover .case-title span {
+  transform: scale(1.05);
+  letter-spacing: 1px;
+}
+
+.case-title hr {
+  transition: all 0.5s ease;
+  width: 70%;
+  border-color: #ddd;
+}
+
+.case-card:hover .case-title hr {
+  width: 50%;
+  border-color: #109c5d;
+  border-width: 2px;
+}
+
+/* For the filter checkboxes */
+.filter-panel label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 0;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: 'poppins', sans-serif;
+  font-family: Poppins;
+font-weight: 500;
+font-size: 15.85px;
+line-height: 100%;
+letter-spacing: 0%;
+    color: #3d3d3d;
+    margin-bottom: 5px;
+    padding-left: 10%;
+    position: relative;
+}
+
+.filter-panel label:hover {
+  color: #109c5d;
+  transform: translateX(3px);
+}
+
+.filter-panel input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+  accent-color: #109c5d;
+}
+
+/* Apply button hover effect */
+.apply-btn {
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.apply-btn:hover {
+  background: #0d8a50;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.apply-btn::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 5px;
+  height: 5px;
+  background: rgba(255, 255, 255, 0.5);
+  opacity: 0;
+  border-radius: 100%;
+  transform: scale(1, 1) translate(-50%, -50%);
+  transform-origin: 50% 50%;
+}
+
+.apply-btn:hover::after {
+  animation: ripple 1s ease-out;
+}
+
+@keyframes ripple {
+  0% {
+    transform: scale(0, 0);
+    opacity: 0.5;
+  }
+  100% {
+    transform: scale(20, 20);
+    opacity: 0;
+  }
+}
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 60vh;
+  grid-column: 1 / -1;
+}
+
+.loading-animation {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+
+.loading-spinner {
+  width: 80px;
+  height: 80px;
+  border: 8px solid rgba(16, 156, 93, 0.2);
+  border-radius: 50%;
+  border-top-color: #109c5d;
+  animation: spin 1.2s cubic-bezier(0.5, 0.1, 0.4, 0.9) infinite;
+  position: relative;
+}
+
+.loading-spinner::after {
+  content: '';
+  position: absolute;
+  top: -8px;
+  left: -8px;
+  right: -8px;
+  bottom: -8px;
+  border: 8px solid transparent;
+  border-radius: 50%;
+  border-top-color: rgba(16, 156, 93, 0.6);
+  animation: spin 1.6s cubic-bezier(0.5, 0.1, 0.4, 0.9) infinite;
+}
+
+.loading-spinner::before {
+  content: '';
+  position: absolute;
+  top: -16px;
+  left: -16px;
+  right: -16px;
+  bottom: -16px;
+  border: 8px solid transparent;
+  border-radius: 50%;
+  border-top-color: rgba(16, 156, 93, 0.3);
+  animation: spin 2s cubic-bezier(0.5, 0.1, 0.4, 0.9) infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.loading-text {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 2rem;
+  color: #109c5d;
+  letter-spacing: 2px;
+  text-align: center;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+.loading-dots {
+  display: flex;
+  gap: 5px;
+}
+
+.loading-dots .dot {
+  font-size: 2.5rem;
+  color: #109c5d;
+  animation: bounce 1.2s infinite ease-in-out;
+}
+
+.loading-dots .dot:nth-child(1) {
+  animation-delay: 0.1s;
+}
+
+.loading-dots .dot:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.loading-dots .dot:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-15px); }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.8; transform: scale(0.98); }
+  50% { opacity: 1; transform: scale(1.02); }
+}

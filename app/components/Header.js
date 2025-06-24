@@ -44,7 +44,7 @@ export default function Header() {
     ],
     resources: [
       { name: 'Blogs', link: '#' },
-      { name: 'Case Studies', link: '#' },
+      { name: 'Case Studies', link: '/case-study' },
       { name: 'Downloads', link: '/downloads' },
     ],
   };
