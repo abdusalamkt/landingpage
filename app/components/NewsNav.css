@@ -28,8 +28,8 @@
 
 /* Expand with image on hover */
 .news-nav.hovered .nav-trigger {
-  height: 150px;
-  background-image: url('/896.jpg'); /* Your background image */
+  height: 90px;
+  background-image: url('/hufcor/600.jpg'); /* Your background image */
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
