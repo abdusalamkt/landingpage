@@ -23,7 +23,7 @@
     useEffect(() => {
       const imageInterval = setInterval(() => {
         setCurrentIndex(prev => (prev + 1) % images.length);
-      }, 2000);
+      }, 10000);
       return () => clearInterval(imageInterval);
     }, [images.length]);
 
@@ -78,6 +78,7 @@
               </span>
             </span>
           </h1>
+          
         </div>
       </section>
     );

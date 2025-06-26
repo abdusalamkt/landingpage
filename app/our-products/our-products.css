@@ -103,9 +103,8 @@
 
 .products-item:hover .toggle-icon {
   color: #109c5d;
-  
-  
 }
+
 .products-item:hover .arrow {
   color: #109c5d;
   scale: 1.4;
@@ -115,7 +114,6 @@
 .products-item.hovered {
   color: #3d3d3d;
   transform: translateX(10px);
-  
 }
 
 .arrow {
@@ -181,24 +179,16 @@
 
 /* CATEGORY heading (same style, but bold) */
 .category-name.products-item {
-  /* font-weight: bold; */
   font-size: 1.6rem;
-  /* color: red; */
-  /* margin-top: 10px; */
 }
 
-
-.category-name.products-item:active{
- 
+.category-name.products-item:active {
   transform: translateY(5px);
-  
 }
-
 
 /* SUB-ITEM style (smaller + indent) */
 .category-items .products-item {
   font-size: 1.1rem;
-  /* padding-left: 30px; */
   max-width: 75%;
   color: rgb(255, 255, 255);
 }
@@ -207,17 +197,16 @@
   width: 100%;
   display: flex;
   flex-direction: column;
-  /* gap: 5px; */
-  /* margin-bottom: 20px; */
 }
+
 @keyframes fadein {
   from { opacity: 0.9; }
   to { opacity: 1; }
 }
+
 .products-wrapper.fade-bg {
   animation: fadein .1s ease-in-out;
 }
-
 
 /* Slide animation for expandable category */
 .category-items {
@@ -227,7 +216,6 @@
   transform: translateY(-10px);
   transition: max-height .3s ease, opacity .3s ease, transform .6s ease;
   pointer-events: none;
-
 }
 
 .category-items.open {
@@ -248,36 +236,43 @@
   transform: rotate(360deg);
 }
 
-.products-item{
+.products-item {
   cursor: pointer;
   transition: color 0.3s ease, transform 0.3s ease;
   color: #ffffff;
-  /* background-color: #00000042; */
 }
 
 .products-item:hover {
   color: #3d3d3d;
-  /* transform: translateX(-5px); */
 }
 
-.category-items .products-item:hover {
-  
-  /* color: #109c5d; */
-  /* transform: translateX(-5px); */
-}
+/* SCROLL NAVIGATION STYLES */
 .scroll-navigation {
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 12px;
-  padding: 16px 24px;
-  background-color: #3d3d3de1;
-backdrop-filter: blur(100px);
-  border-bottom: 1px solid #ccc;
-  position: sticky;
-  top: 108px; /* adjust if header height changes */
-  z-index: 999;
+  padding: 10px 24px;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.8) 1%, rgba(0, 0, 0, 0.253));
+  /* backdrop-filter: blur(100px); */
+  /* border-bottom: 1px solid #ffffff; */
+  position: fixed;
+  top: 100px; /* Start below header by default */
+  left: 0;
+  right: 0;
+  z-index: 1000;
   color: white;
+  transition: top 0.3s ease; /* Match header transition speed */
+}
+
+/* When header is visible, position below header */
+.scroll-navigation.with-header {
+  top: 107px; /* Adjust this to match your header height */
+}
+
+/* When header is hidden, stick to top */
+.scroll-navigation.without-header {
+  top: 0;
 }
 
 .scroll-nav-item {
@@ -289,16 +284,24 @@ backdrop-filter: blur(100px);
 .scroll-nav-item button {
   background: none;
   border: none;
-  font-weight: bold;
-  font-size: 12px;
+  /* font-weight: bold; */
+  font-size: .8rem;
   color: #ffffff;
   cursor: pointer;
   padding: 6px 10px;
   transition: color 0.3s ease;
+  text-transform: uppercase;
 }
 
 .scroll-nav-item button:hover {
   color: #109c5d; /* Highlight color on hover */
+}
+
+/* Active/selected item styling */
+.scroll-nav-item button.active {
+  color: #109c5d !important; /* Red color for selected item */
+  font-weight: 900;
+  text-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
 }
 
 .vertical-divider {
@@ -306,4 +309,14 @@ backdrop-filter: blur(100px);
   height: 20px;
   background-color: #ccc;
   margin: 0 8px;
+}
+
+/* Ensure proper spacing for content when navigation is fixed */
+body {
+  padding-top: 0; /* Remove any existing padding */
+}
+
+/* Add some margin to the first section to account for fixed navigation */
+.products-wrapper:first-of-type {
+  margin-top: 60px; /* Adjust based on navigation height */
 }

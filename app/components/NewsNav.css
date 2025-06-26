@@ -1,0 +1,147 @@
+.news-nav {
+  position: fixed;
+  right: 0;
+  top: 70%;
+  transform: translateY(-50%);
+  z-index: 1000;
+  transition: all 0.4s ease;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+/* Trigger block */
+.nav-trigger {
+  display: flex;
+  align-items: center;
+  background: white;
+  border-radius: 25px 0 0 25px;
+  padding: 10px 15px 10px 20px;
+  box-shadow: -5px 5px 15px rgba(0, 0, 0, 0.5);
+  transition: all 0.4s ease;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid #ffffff;
+  height: 60px;
+}
+
+/* Expand with image on hover */
+.news-nav.hovered .nav-trigger {
+  height: 150px;
+  background-image: url('/896.jpg'); /* Your background image */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  box-shadow: -5px 5px 20px rgba(0, 0, 0, 0.7);
+  transition: height .9s ease;
+}
+
+.news-nav.hovered .nav-trigger::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 0;
+  border-radius: 25px 0 0 25px;
+}
+
+.news-nav .trigger-icon,
+.news-nav .trigger-text {
+  position: relative;
+  z-index: 1;
+}
+
+/* Pulse effect */
+.trigger-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #4CAF50;
+  font-weight: bold;
+  font-size: 12px;
+  position: relative;
+  z-index: 2;
+  box-shadow: 0 0 15px rgba(76, 175, 80, 0.5);
+  border: 1px solid #4CAF50;
+  transition: all 0.3s ease;
+}
+
+/* .nav-trigger:hover .trigger-icon {
+  background: #4CAF50;
+  color: white;
+  transform: scale(1.1);
+} */
+.pulse-circle {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: rgba(76, 175, 80, 0.4);
+  z-index: 1;
+  animation: pulse 1.5s infinite ease-out;
+}
+.pulse-circle.delay {
+  animation-delay: 0.5s;
+}
+.pulse-circle.delay-2 {
+  animation-delay: 1s;
+}
+
+/* Text reveal */
+.trigger-text {
+  max-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  transition: all 0.4s ease;
+  margin-left: 0;
+  color: white;
+  font-weight: 500;
+  text-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
+}
+.news-nav.hovered .trigger-text {
+  max-width: 250px;
+  margin-left: 15px;
+}
+
+/* Pulse animation */
+@keyframes pulse {
+  0% {
+    transform: scale(0.8);
+    opacity: 0.8;
+  }
+  70% {
+    transform: scale(2.5);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(2.6);
+    opacity: 0;
+  }
+}
+
+/* Text switching animation */
+.news-nav.animating .trigger-text span {
+  animation: textFadeOut 0.3s forwards;
+}
+@keyframes textFadeOut {
+  to {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .news-nav {
+    top: auto;
+    bottom: 20px;
+    transform: none;
+  }
+}

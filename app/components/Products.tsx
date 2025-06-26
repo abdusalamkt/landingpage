@@ -90,8 +90,8 @@ export default function Products({ description, products = [] }: ProductsProps) 
 
           const handleMouseMove = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
             const rect = e.currentTarget.getBoundingClientRect();
-            const x = ((e.clientX - rect.left) / rect.width) * 100;
-            const y = ((e.clientY - rect.top) / rect.height) * 100;
+            const x = ((e.clientX - rect.left) / rect.width) * 50;
+            const y = ((e.clientY - rect.top) / rect.height) * 50;
             setPos({ x, y });
           };
 
@@ -124,14 +124,14 @@ export default function Products({ description, products = [] }: ProductsProps) 
                   <div className="product-title-container">
                     <h3 className="product-title">{product.title}</h3>
                   </div>
-                  <motion.span
+                  {/* <motion.span
                     className="product-arrow"
                     whileHover={{ scale: 1.1, color: '#109C5D' }}
                     transition={{ duration: 0.3 }}
                     onClick={() => window.location.href = product.link}
                   >
                     →
-                  </motion.span>
+                  </motion.span> */}
                 </div>
               </div>
             </motion.div>

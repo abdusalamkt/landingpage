@@ -62,6 +62,15 @@ const sections = [
   },
 ];
 
+const navigationItems = [
+  { label: "Hufcor", index: 0 },
+  { label: "HPL Solutions", index: 1 },
+  { label: "Pivot Doors" },
+  { label: "GIBCA Glazed & Solid Partitions" },
+  { label: "Crown Hydraulic Doors & Windows" },
+  { label: "Acristalia Terrace Solutions" },
+];
+
 export default function OurProductsPage() {
   const sectionRefs = useRef<(HTMLElement | null)[]>([]);
   const observerRef = useRef<IntersectionObserver | null>(null);
@@ -75,6 +84,7 @@ export default function OurProductsPage() {
   const [isZoomed, setIsZoomed] = useState<boolean[]>(
     sections.map(() => false)
   );
+  const [isHeaderVisible, setIsHeaderVisible] = useState(true);
 
   const [expandedCategories, setExpandedCategories] = useState<
     (number | null)[]
@@ -83,6 +93,26 @@ export default function OurProductsPage() {
   const scrollToSection = (index: number) => {
     sectionRefs.current[index]?.scrollIntoView({ behavior: "smooth" });
   };
+
+  useEffect(() => {
+    let lastScrollY = window.scrollY;
+    const handleScroll = () => {
+      const header = document.querySelector('header');
+      if (!header) return;
+
+      if (window.scrollY > lastScrollY && window.scrollY > 100) {
+        header.classList.add('header-hidden');
+        setIsHeaderVisible(false); // Move navbar immediately when header starts hiding
+      } else {
+        header.classList.remove('header-hidden');
+        setIsHeaderVisible(true); // Move navbar immediately when header starts showing
+      }
+      
+      lastScrollY = window.scrollY;
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -132,17 +162,17 @@ export default function OurProductsPage() {
     if (observerRef.current) observerRef.current.disconnect();
 
     observerRef.current = new IntersectionObserver(
-  (entries) => {
-    const visibleSection = entries.find((entry) => entry.isIntersecting);
-    if (visibleSection?.target) {
-      const idx = sectionRefs.current.findIndex(
-        (el) => el === visibleSection.target
-      );
-      if (idx !== -1) setActiveIndex(idx);
-    }
-  },
-  { threshold: 0.4 } // Try 0.3 to 0.5 depending on layout
-);
+      (entries) => {
+        const visibleSection = entries.find((entry) => entry.isIntersecting);
+        if (visibleSection?.target) {
+          const idx = sectionRefs.current.findIndex(
+            (el) => el === visibleSection.target
+          );
+          if (idx !== -1) setActiveIndex(idx);
+        }
+      },
+      { threshold: 0.4 }
+    );
 
     sectionRefs.current.forEach((ref) => {
       if (ref) observerRef.current?.observe(ref);
@@ -203,33 +233,26 @@ export default function OurProductsPage() {
       </Head>
 
       <Header />
-      <div className="scroll-navigation">
-  {[
-    { label: "Hufcor", index: 0 },
-    { label: "HPL Solutions", index: 1 },
-    { label: "Pivot Doors" },
-    { label: "Nown Ceiling & Wall Design" },
-    { label: "GIBCA Glazed & Solid Partitions" },
-    { label: "Crown Hydraulic Doors & Windows" },
-    { label: "Acristalia Terrace Solutions" },
-  ].map((item, idx, arr) => (
-    <div key={idx} className="scroll-nav-item">
-      <button
-        onClick={() => {
-          if (typeof item.index === "number") {
-            scrollToSection(item.index);
-          } else {
-            console.log(`${item.label} clicked`);
-            // Optionally scroll to a placeholder or do nothing
-          }
-        }}
-      >
-        {item.label}
-      </button>
-      {idx < arr.length - 1 && <div className="vertical-divider" />}
-    </div>
-  ))}
-</div>
+      
+      <div className={`scroll-navigation ${isHeaderVisible ? 'with-header' : 'without-header'}`}>
+        {navigationItems.map((item, idx, arr) => (
+          <div key={idx} className="scroll-nav-item">
+            <button
+              className={typeof item.index === "number" && activeIndex === item.index ? 'active' : ''}
+              onClick={() => {
+                if (typeof item.index === "number") {
+                  scrollToSection(item.index);
+                } else {
+                  console.log(`${item.label} clicked`);
+                }
+              }}
+            >
+              {item.label}
+            </button>
+            {idx < arr.length - 1 && <div className="vertical-divider" />}
+          </div>
+        ))}
+      </div>
 
       <div>
         {sections.map((section, i) => (
@@ -257,74 +280,70 @@ export default function OurProductsPage() {
                 onMouseLeave={() => handleSectionLeave(i)}
               >
                 {"categories" in section && section.categories ? (
-  <>
-    {section.categories.map((cat, catIdx) => (
-      <div key={catIdx} className="category-container">
-        <div
-          className="category-name products-item"
-          onClick={() => toggleCategory(i, catIdx, cat.hoverBg)}
-          onMouseEnter={() => handleHover(i, cat.hoverBg)}
-        >
-          {cat.name}
-          <span
-            style={{
-              marginLeft: "8px",
-              display: "flex",
-              alignItems: "center",
-            }}
-          >
-            <span
-              className={`toggle-icon ${
-                expandedCategories[i] === catIdx ? "expanded" : ""
-              }`}
-            >
-              {expandedCategories[i] === catIdx ? "–" : "+"}
-            </span>
-          </span>
-        </div>
+                  <>
+                    {section.categories.map((cat, catIdx) => (
+                      <div key={catIdx} className="category-container">
+                        <div
+                          className="category-name products-item"
+                          onClick={() => toggleCategory(i, catIdx, cat.hoverBg)}
+                          onMouseEnter={() => handleHover(i, cat.hoverBg)}
+                        >
+                          {cat.name}
+                          <span
+                            style={{
+                              marginLeft: "8px",
+                              display: "flex",
+                              alignItems: "center",
+                            }}
+                          >
+                            <span
+                              className={`toggle-icon ${
+                                expandedCategories[i] === catIdx ? "expanded" : ""
+                              }`}
+                            >
+                              {expandedCategories[i] === catIdx ? "–" : "+"}
+                            </span>
+                          </span>
+                        </div>
 
-        <div
-          className={`category-items ${
-            expandedCategories[i] === catIdx ? "open" : ""
-          }`}
-        >
-          {cat.items.map((item, itemIdx) => (
-  <div key={itemIdx} className="item-container">
-    <div
-      className="products-item"
-      onMouseEnter={() => handleHover(i, item.hoverBg)}
-    >
-      {item.name}
-      <span className="arrow">→</span>
-    </div>
-    <div className="divider" />
-  </div>
-))}
-
-        </div>
-        <div className="divider" />
-      </div>
-    ))}
-    {/* Divider shown after all categories */}
-    
-  </>
-) : section.items && section.items.length > 0 ? (
-  section.items.map((item, j) => (
-    <div key={j} className="item-container">
-      <div
-        className="products-item"
-        onMouseEnter={() => handleHover(i, item.hoverBg)}
-      >
-        {item.name}
-        <span className="arrow">→</span>
-      </div>
-      <div className="divider" />
-    </div>
-  ))
-) : (
-  <div className="divider full-width" />
-)}
-
+                        <div
+                          className={`category-items ${
+                            expandedCategories[i] === catIdx ? "open" : ""
+                          }`}
+                        >
+                          {cat.items.map((item, itemIdx) => (
+                            <div key={itemIdx} className="item-container">
+                              <div
+                                className="products-item"
+                                onMouseEnter={() => handleHover(i, item.hoverBg)}
+                              >
+                                {item.name}
+                                <span className="arrow">→</span>
+                              </div>
+                              <div className="divider" />
+                            </div>
+                          ))}
+                        </div>
+                        <div className="divider" />
+                      </div>
+                    ))}
+                  </>
+                ) : section.items && section.items.length > 0 ? (
+                  section.items.map((item, j) => (
+                    <div key={j} className="item-container">
+                      <div
+                        className="products-item"
+                        onMouseEnter={() => handleHover(i, item.hoverBg)}
+                      >
+                        {item.name}
+                        <span className="arrow">→</span>
+                      </div>
+                      <div className="divider" />
+                    </div>
+                  ))
+                ) : (
+                  <div className="divider full-width" />
+                )}
 
                 <button
                   className="cta-button"

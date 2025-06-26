@@ -17,7 +17,7 @@ YOU’RE LOOKING FOR?</h2>
               placeholder="Enter your email"
               className="email-input"
             />
-            <button type="submit" className="cta-button">
+            <button type="submit" className="cta-button" >
               Get in Touch
             </button>
           </form>
