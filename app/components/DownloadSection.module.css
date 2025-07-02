@@ -1,0 +1,134 @@
+.downloadSection {
+  padding: 40px;
+  max-width: 1200px;
+  margin: 0 auto;
+  margin-bottom: 80px;
+}
+
+.heading {
+  font-size: 3.5rem;
+  font-weight: 300;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.red {
+  color: #D72027;
+}
+
+.tabs {
+  display: flex;
+  /* gap: 10px; */
+  /* justify-content: center; */
+  /* margin-bottom: 50px; */
+  flex-wrap: wrap;
+}
+
+.tabButton {
+    font-size: 1.5rem;
+  padding: 4px 40px;
+  font-weight: 400;
+  border: 1px solid #000000;
+  background-color: #fff;
+  color: #000;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border-right: none;
+  border-left: none;
+  font-family: Bebas Neue;
+font-weight: 400;
+/* font-size: 29.89px; */
+/* line-height: 100%; */
+/* letter-spacing: 0%; */
+text-align: center;
+vertical-align: middle;
+
+}
+.tabButton:first-child{
+  border-left: 1px solid #000000;
+  border-radius: 5px 0 0 5px;
+}
+.tabButton:last-child{
+  border-right: 1px solid #000000;
+    border-radius: 0 5px 5px 0;
+}
+
+.tabButton:hover {
+  background-color: #e53030;
+  color: #fff;
+}
+
+.active {
+  background-color: #e53030;
+  color: #fff;
+  /* border: none; */
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  
+}
+
+.downloadItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 10px;
+  padding-bottom: 10px;
+  
+  
+}
+
+.downloadItem:first-child {
+  border-top: 1px solid #ddd;
+  padding-top: 30px;
+  
+}
+
+.title {
+  font-size: 16px;
+  font-weight: 500;
+  font-family: Poppins;
+font-weight: 300;
+font-size: 1.3rem;
+text-align: center;
+vertical-align: middle;
+text-transform: capitalize;
+color: #3d3d3d;
+
+}
+
+.downloadBtn {
+  padding: 10px 40px;
+  background-color: #D72027;
+  color: #fff;
+  /* font-weight: 400; */
+  border: none;
+  text-decoration: none;
+  transition: background 0.3s ease;
+  border-radius: 5px;
+  font-family: Bebas Neue;
+/* font-weight: 300; */
+font-size: 1.5rem;
+line-height: 100%;
+
+
+}
+
+.downloadBtn:hover {
+  background-color: #3d3d3d;
+  transform:translateX(-2px); 
+  transition: transform 0.6s ease;
+  box-shadow: -4px 4px 0px rgba(0, 0, 0, 0.418);
+  /* color: #e53030; */
+  /* border : 1px solid #e53030; */
+}
+
+.empty {
+  text-align: center;
+  color: #888;
+  font-style: italic;
+}

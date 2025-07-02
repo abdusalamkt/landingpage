@@ -4,6 +4,8 @@ import styles from "./hufcor7000.module.css";
 import Header from "@/app/components/Header";
 import { useRef } from "react";
 import { useInView, motion } from "framer-motion";
+import DownloadSection from "@/app/components/DownloadSection";
+import ContactUs from "@/app/components/ContactUs";
 
 const featureList = [
   {
@@ -276,7 +278,8 @@ export default function Hufcor7000Page() {
 
 </section>
 
-
+<DownloadSection />
+<ContactUs/>
 
     </div>
   );

@@ -15,7 +15,7 @@ async function getServicePageFields() {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ query: GET_SERVICE_PAGE_FIELDS }),
-    next: { revalidate: 60 },
+    next: { revalidate: 3600 },
   });
 
   const json = await res.json();
