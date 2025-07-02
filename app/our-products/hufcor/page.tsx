@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import Header from "@/app/components/Header";
 import styles from "./hufcor.module.css";
+import Link from "next/link";
 
 const slides1 = [
   { src: "/hufcor/hufcor.PNG", title: "Operable Wall 1" },
@@ -49,7 +50,9 @@ export default function HufcorPage() {
           </div>
           <div className={styles.buttons}>
             <button>Series 600™</button>
-            <button>SERIES 7000™</button>
+            <Link href="/our-products/hufcor/hufcor7000">
+      <button>SERIES 7000™</button>
+    </Link>
           </div>
         </div>
       </div>
