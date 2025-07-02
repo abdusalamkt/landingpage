@@ -8,30 +8,18 @@ export const GET_LANDING_PAGE = gql`
           sourceUrl
         }
         bannerHeading
-        bannerImage1 {
-          sourceUrl
-          altText
-          mediaDetails {
-            width
-            height
+
+        bannerImages {
+          image {
+            sourceUrl
+            altText
+            mediaDetails {
+              width
+              height
+            }
           }
         }
-        bannerImage2 {
-          sourceUrl
-          altText
-          mediaDetails {
-            width
-            height
-          }
-        }
-        bannerImage3 {
-          sourceUrl
-          altText
-          mediaDetails {
-            width
-            height
-          }
-        }
+
         newsHeading
         newsBannerImage {
           sourceUrl
@@ -61,74 +49,32 @@ export const GET_LANDING_PAGE = gql`
             }
           }
         }
+
         numberOfClients
         projectsCompleted
         workforce
         yearsOfExperience
         productsDescription
-        product1Title
-        product1Image {
-          sourceUrl
-          altText
-          mediaDetails {
-            width
-            height
+        clientLogos {
+  logoImage {
+    sourceUrl
+    altText
+  }
+}
+
+        products {
+          title
+          image {
+            sourceUrl
+            altText
+            mediaDetails {
+              width
+              height
+            }
           }
+          link
         }
-        product2Title
-        product2Image {
-          sourceUrl
-          altText
-          mediaDetails {
-            width
-            height
-          }
-        }
-        product3Title
-        product3Image {
-          sourceUrl
-          altText
-          mediaDetails {
-            width
-            height
-          }
-        }
-        product4Title
-        product4Image {
-          sourceUrl
-          altText
-          mediaDetails {
-            width
-            height
-          }
-        }
-        product5Title
-        product5Image {
-          sourceUrl
-          altText
-          mediaDetails {
-            width
-            height
-          }
-        }
-        product6Title
-        product6Image {
-          sourceUrl
-          altText
-          mediaDetails {
-            width
-            height
-          }
-        }
-        product7Title
-        product7Image {
-          sourceUrl
-          altText
-          mediaDetails {
-            width
-            height
-          }
-        }
+
         section1Bg {
           sourceUrl
         }
@@ -145,6 +91,7 @@ export const GET_LANDING_PAGE = gql`
         section1ImageBottomLeft {
           sourceUrl
         }
+
         section2Bg {
           sourceUrl
         }
@@ -161,6 +108,20 @@ export const GET_LANDING_PAGE = gql`
         section2ImageBottomLeft {
           sourceUrl
         }
+        testimonials {
+          image {
+            sourceUrl
+            altText
+            mediaDetails {
+              width
+              height
+            }
+          }
+          name
+          designation
+          quote
+          starRating
+        }  
       }
       id
       databaseId
@@ -169,3 +130,37 @@ export const GET_LANDING_PAGE = gql`
     }
   }
 `;
+
+export const OUR_PRODUCTS_PAGE_QUERY = gql`
+ query GetOurProducts {
+  page(id: "472", idType: DATABASE_ID) {
+    title
+    ourProducts {
+      productSections {
+        sectionTitle
+        sectionDescription
+        sectionDefaultBg {
+          sourceUrl
+        }
+        knowMoreUrl
+        sectionCategories {
+          categoryName
+          categoriesUrl
+          categoryHoverImage {
+            sourceUrl
+          }
+          categoryProducts {
+            productName
+            productsUrl
+            productHoverBg {
+              sourceUrl
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+`;
+

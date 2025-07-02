@@ -7,10 +7,10 @@
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+  background-attachment: scroll;
   color: white;
   margin-bottom: 1rem;
   transition: background-size .6s ease-in-out;
-  background-attachment: fixed;
   line-height: normal;
 }
 
@@ -60,7 +60,6 @@
   align-items: center;
 }
 
-/* Shared style for both category and items */
 .products-item {
   width: 80%;
   font-family: 'Bebas Neue', sans-serif;
@@ -177,7 +176,6 @@
   margin: 20px auto;
 }
 
-/* CATEGORY heading (same style, but bold) */
 .category-name.products-item {
   font-size: 1.6rem;
 }
@@ -186,11 +184,10 @@
   transform: translateY(5px);
 }
 
-/* SUB-ITEM style (smaller + indent) */
 .category-items .products-item {
   font-size: 1.1rem;
   max-width: 75%;
-  color: rgb(255, 255, 255);
+  /* color: rgb(255, 255, 255); */
 }
 
 .category-container {
@@ -199,16 +196,15 @@
   flex-direction: column;
 }
 
+.products-wrapper.fade-bg {
+  animation: fadein .1s ease-in-out;
+}
+
 @keyframes fadein {
   from { opacity: 0.9; }
   to { opacity: 1; }
 }
 
-.products-wrapper.fade-bg {
-  animation: fadein .1s ease-in-out;
-}
-
-/* Slide animation for expandable category */
 .category-items {
   overflow: hidden;
   max-height: 0;
@@ -225,7 +221,6 @@
   pointer-events: auto;
 }
 
-/* Toggle +/– icon style */
 .toggle-icon {
   font-size: 2rem;
   display: inline-block;
@@ -236,43 +231,38 @@
   transform: rotate(360deg);
 }
 
-.products-item {
-  cursor: pointer;
-  transition: color 0.3s ease, transform 0.3s ease;
-  color: #ffffff;
-}
-
-.products-item:hover {
-  color: #3d3d3d;
-}
-
-/* SCROLL NAVIGATION STYLES */
 .scroll-navigation {
   display: flex;
-  justify-content: center;
   align-items: center;
   gap: 12px;
+  overflow-x: auto;
+  white-space: nowrap;
   padding: 10px 24px;
   background: linear-gradient(to bottom, rgba(0, 0, 0, 0.8) 1%, rgba(0, 0, 0, 0.253));
-  /* backdrop-filter: blur(100px); */
-  /* border-bottom: 1px solid #ffffff; */
   position: fixed;
-  top: 100px; /* Start below header by default */
+  top: 100px;
   left: 0;
   right: 0;
   z-index: 999;
   color: white;
-  transition: top 0.3s ease; /* Match header transition speed */
+  transition: top 0.3s ease;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
-/* When header is visible, position below header */
+.scroll-navigation::-webkit-scrollbar {
+  display: none;
+}
+
 .scroll-navigation.with-header {
-  top: 107px; /* Adjust this to match your header height */
+  top: 107px;
+  justify-content: center;
 }
 
-/* When header is hidden, stick to top */
 .scroll-navigation.without-header {
   top: 0;
+    justify-content: center;
+
 }
 
 .scroll-nav-item {
@@ -284,22 +274,21 @@
 .scroll-nav-item button {
   background: none;
   border: none;
-  /* font-weight: bold; */
   font-size: .8rem;
   color: #ffffff;
   cursor: pointer;
   padding: 6px 10px;
   transition: color 0.3s ease;
   text-transform: uppercase;
+  white-space: nowrap;
 }
 
 .scroll-nav-item button:hover {
-  color: #109c5d; /* Highlight color on hover */
+  color: #109c5d;
 }
 
-/* Active/selected item styling */
 .scroll-nav-item button.active {
-  color: #109c5d !important; /* Red color for selected item */
+  color: #109c5d !important;
   font-weight: 900;
   text-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
 }
@@ -311,12 +300,132 @@
   margin: 0 8px;
 }
 
-/* Ensure proper spacing for content when navigation is fixed */
 body {
-  padding-top: 0; /* Remove any existing padding */
+  padding-top: 0;
 }
 
-/* Add some margin to the first section to account for fixed navigation */
 .products-wrapper:first-of-type {
-  margin-top: 60px; /* Adjust based on navigation height */
+  margin-top: 60px;
+}
+
+/* ====================
+   RESPONSIVE QUERIES
+==================== */
+
+@media screen and (max-width: 1024px) {
+  .products-heading {
+    font-size: 2.2rem;
+  }
+
+  .products-description {
+    font-size: 3rem;
+    max-width: 90%;
+  }
+
+  .products-item,
+  .category-items .products-item {
+    width: 90%;
+    font-size: 1.2rem;
+  }
+
+  .category-name.products-item {
+    font-size: 1.4rem;
+  }
+
+  .cta-button {
+    font-size: 1.2rem;
+    padding: 6px 20px;
+  }
+
+  .scroll-nav-item button {
+    font-size: 0.75rem;
+    padding: 4px 8px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .products-wrapper {
+    background-attachment: scroll;
+    background-size: cover;
+    background-position: center center;
+  }
+
+  .products-heading {
+    font-size: 1.8rem;
+  }
+
+  .products-description {
+    font-size: 2.2rem;
+    max-width: 95%;
+  }
+
+  .products-item,
+  .category-items .products-item {
+    width: 95%;
+    font-size: 1.1rem;
+  }
+
+  .category-name.products-item {
+    font-size: 1.3rem;
+  }
+
+  .cta-button {
+    font-size: 1rem;
+    padding: 5px 16px;
+  }
+
+  .arrow {
+    margin-left: 5px;
+    scale: 1.2;
+  }
+
+  .divider {
+    width: 95%;
+  }
+
+  .scroll-nav-item button {
+    padding: 4px 6px;
+    font-size: 0.65rem;
+  }
+
+  .vertical-divider {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .products-heading {
+    font-size: 1.5rem;
+  }
+
+  .products-description {
+    font-size: 1.8rem;
+  }
+
+  .products-item,
+  .category-items .products-item {
+    font-size: 1rem;
+  }
+
+  .category-name.products-item {
+    font-size: 1.2rem;
+  }
+
+  .cta-button {
+    font-size: 0.9rem;
+    padding: 4px 12px;
+  }
+
+  .scroll-nav-item button {
+    font-size: 0.6rem;
+    padding: 2px 4px;
+  }
+}
+@media screen and (max-width: 768px) {
+  .products-wrapper {
+    background-attachment: scroll;
+    background-size: 100%; /* Ensure image fully covers */
+    background-position: center center;
+    background-repeat: no-repeat;
+  }
 }

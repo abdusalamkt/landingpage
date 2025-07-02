@@ -5,74 +5,41 @@ import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import './service.css';
 
-const items = [
-  {
-    number: '1',
-    title: 'EXTEND LIFESPAN',
-    description:
-      'Routine servicing preserves the integrity and performance of your partitions, adding years to their usability.',
-    position: 'top-center',
-    level: 1
-  },
-  {
-    number: '2',
-    title: 'ENSURE SAFETY',
-    description:
-      'Well-maintained systems protect your staff, clients, and visitors from mechanical failure or injury.',
-    position: 'left-top',
-    level: 1
-  },
-  {
-    number: '3',
-    title: 'BOOST EFFICIENCY',
-    description:
-      'Regular maintenance ensures smooth, hassle-free operation for daily use and quick transitions.',
-    position: 'right-top',
-    level: 1
-  },
-  {
-    number: '4',
-    title: 'CATCH ISSUES EARLY',
-    description:
-      'Identifying minor damages early prevents costly repairs and unexpected downtime later on.',
-    position: 'left-center',
-    level: 2
-  },
-  {
-    number: '5',
-    title: 'MONITOR CONDITION',
-    description:
-      "Scheduled checks track wear and usage, giving insight into your partition's long-term health.",
-    position: 'right-center',
-    level: 2
-  },
-  {
-    number: '6',
-    title: 'PREVENT EMERGENCIES',
-    description:
-      'Proactive care drastically reduces the chance of sudden malfunctions or disruptions.',
-    position: 'left-bottom',
-    level: 3
-  },
-  {
-    number: '7',
-    title: 'MAINTAIN ACOUSTICS',
-    description:
-      'Proper servicing safeguards sound insulation levels, keeping spaces quiet and productive.',
-    position: 'right-bottom',
-    level: 3
-  },
-  {
-    number: '8',
-    title: 'PROTECT YOUR INVESTMENT',
-    description:
-      'Regular servicing maximizes the return on your partition systems by maintaining quality and performance over time.',
-    position: 'bottom-center',
-    level: 3
-  }
-];
+type ServiceItem = {
+  title: string;
+  description: string;
+  position: string;
+  level: number;
+};
 
-export default function ServicePage() {
+type ServicePageProps = {
+  fields: {
+    heroTitle: string;
+    heroHighlight: string;
+    heroDescription: string;
+    heroBgImage: {
+      sourceUrl: string;
+      altText: string;
+    };
+    whyServiceTitle: string;
+    whyServiceDescription: string;
+    whyServiceImage: {
+      sourceUrl: string;
+      altText: string;
+    };
+    whyServiceItems: ServiceItem[];
+  };
+};
+
+export default function ServicePage({ fields }: ServicePageProps) {
+  const items = fields.whyServiceItems.map((item, index) => ({
+    number: `${index + 1}`,
+    title: item.title,
+    description: item.description,
+    position: item.position,
+    level: item.level,
+  }));
+
   return (
     <div className="service-page">
       {/* Header Section */}
@@ -84,10 +51,11 @@ export default function ServicePage() {
           transition={{ duration: 0.8, ease: 'easeOut' }}
         >
           <h1 className="service-heading">
-            WHY SERVICE YOUR  <span className="highlight-green">PARTITIONS?</span>
+            {fields.whyServiceTitle}{' '}
+            <span className="highlight-green">{fields.heroHighlight}</span>
           </h1>
           <p className="service-subheading">
-            Gibca Furniture Industry Co. Ltd. (L.L.C) offers operable partitions including walls and doors, upholding global standards. Regular maintenance ensures optimal performance and safety, keeping your partitions functional and secure.
+            {fields.whyServiceDescription}
           </p>
         </motion.div>
       </div>
@@ -96,18 +64,14 @@ export default function ServicePage() {
       <div className="service-container">
         <div className="service-center">
           <svg className="connection-lines" viewBox="0 0 1200 1000">
-            {/* Level 1 */}
+            {/* SVG lines unchanged */}
             <line x1="600" y1="240" x2="600" y2="-0" stroke="#000" strokeWidth="2" />
             <line x1="600" y1="240" x2="100" y2="240" stroke="#000" strokeWidth="2" />
             <line x1="100" y1="240" x2="100" y2="160" stroke="#000" strokeWidth="2" />
             <line x1="600" y1="240" x2="1100" y2="240" stroke="#000" strokeWidth="2" />
             <line x1="1100" y1="240" x2="1100" y2="160" stroke="#000" strokeWidth="2" />
-
-            {/* Level 2 */}
             <line x1="600" y1="400" x2="300" y2="400" stroke="#000" strokeWidth="2" />
             <line x1="600" y1="400" x2="900" y2="400" stroke="#000" strokeWidth="2" />
-
-            {/* Level 3 */}
             <line x1="600" y1="640" x2="100" y2="640" stroke="#000" strokeWidth="2" />
             <line x1="100" y1="640" x2="100" y2="720" stroke="#000" strokeWidth="2" />
             <line x1="600" y1="640" x2="1100" y2="640" stroke="#000" strokeWidth="2" />
@@ -116,8 +80,8 @@ export default function ServicePage() {
           </svg>
 
           <Image
-            src="/service.PNG"
-            alt="Partition Image"
+            src={fields.whyServiceImage?.sourceUrl || "/fallback.jpg"}
+            alt={fields.whyServiceImage?.altText || "Service Image"}
             width={300}
             height={600}
             className="service-image"
@@ -132,7 +96,7 @@ export default function ServicePage() {
   );
 }
 
-function AnimatedServiceItem({ item, index }) {
+function AnimatedServiceItem({ item, index }: { item: any; index: number }) {
   const { ref, inView } = useInView({ 
     triggerOnce: true, 
     threshold: 0.1,

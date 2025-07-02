@@ -1,39 +1,23 @@
-"use client";
+'use client';
 
 import React, { useEffect, useRef } from "react";
 import Image from "next/image";
 import styles from "./Timeline.module.css";
 
-const events = [
-  {
-    year: "1998",
-    title: "Foundation of GIBCA Furniture",
-    desc: "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration...",
-    image: "/gallery/img1.jpg",
-  },
-  {
-    year: "2002",
-    title: "Development of New Product",
-    desc: "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration...",
-    image: "/gallery/img2.jpg",
-  },
-  {
-    year: "2005",
-    title: "Introduction to Operable Walls",
-    desc: "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration...",
-    image: "/gallery/img4.png",
-  },
-  {
-    year: "2006",
-    title: "Introduction to Operable Walls",
-    desc: "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration...",
-    image: "/gallery/img3.jpg",
-  },
-];
+type TimelineEvent = {
+  year?: string;
+  title?: string;
+  description?: string;
+  image?: { sourceUrl?: string };
+};
 
-export default function Timeline() {
-  const timelineRef = useRef(null);
-  const fillLineRef = useRef(null);
+type TimelineProps = {
+  events?: TimelineEvent[];
+};
+
+export default function Timeline({ events }: TimelineProps) {
+  const timelineRef = useRef<HTMLDivElement>(null);
+  const fillLineRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -53,14 +37,15 @@ export default function Timeline() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  if (!events || events.length === 0) return null;
+
   return (
     <section className={styles.timelineSection}>
       <h2 className={styles.title}>
         Take a look at GIBCA’s <span>History!</span>
       </h2>
       <p className={styles.intro}>
-        There are many variations of passages of Lorem Ipsum available, but the
-        majority have suffered alteration...
+        There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration...
       </p>
 
       <div className={styles.timelineContainer} ref={timelineRef}>
@@ -69,23 +54,25 @@ export default function Timeline() {
         </div>
 
         {events.map((event, idx) => (
-          <div className={styles.timelineItem} key={event.year}>
+          <div className={styles.timelineItem} key={`${event.year}-${idx}`}>
             <div className={styles.timelineDot}></div>
 
             {idx % 2 === 0 ? (
               <>
                 <div className={styles.timelineContent}>
-                  <Image
-                    src={event.image}
-                    alt={event.year}
-                    width={500}
-                    height={300}
-                  />
+                  {event.image?.sourceUrl && (
+                    <Image
+                      src={event.image.sourceUrl}
+                      alt={event.year || "Timeline image"}
+                      width={500}
+                      height={300}
+                    />
+                  )}
                 </div>
                 <div className={styles.timelinePoint}>
                   <h3>{event.year}</h3>
                   <h4>{event.title}</h4>
-                  <p>{event.desc}</p>
+                  <p>{event.description}</p>
                 </div>
               </>
             ) : (
@@ -93,15 +80,17 @@ export default function Timeline() {
                 <div className={styles.timelinePoint}>
                   <h3>{event.year}</h3>
                   <h4>{event.title}</h4>
-                  <p>{event.desc}</p>
+                  <p>{event.description}</p>
                 </div>
                 <div className={styles.timelineContent}>
-                  <Image
-                    src={event.image}
-                    alt={event.year}
-                    width={500}
-                    height={300}
-                  />
+                  {event.image?.sourceUrl && (
+                    <Image
+                      src={event.image.sourceUrl}
+                      alt={event.year || "Timeline image"}
+                      width={500}
+                      height={300}
+                    />
+                  )}
                 </div>
               </>
             )}

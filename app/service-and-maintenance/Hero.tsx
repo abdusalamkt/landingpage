@@ -1,16 +1,27 @@
-'use client';
+// app/service-maintenance/Hero.tsx
+'use client'; // Only if needed (e.g. for animations or interactivity)
 
 import './hero.css';
 
-export default function Hero() {
+interface HeroProps {
+  title?: string;
+  highlight?: string;
+  description?: string;
+  bgImage?: string;
+}
+
+export default function Hero({ title, highlight, description, bgImage }: HeroProps) {
   return (
-    <section className="hero-container">
+    <section
+      className="hero-container"
+      style={{ backgroundImage: `url(${bgImage})` }}
+    >
       <div className="hero-overlay">
         <div className="hero-content">
-          <h1 className="hero-title">Service and <span className='highlight-heading'>Maintenance</span> </h1>
-          <p className="hero-description">
-            Gibca Furniture Industry Co. Ltd. (L.L.C) offers operable partitions including walls and doors, upholding global standards. Regular maintenance ensures optimal performance and safety, keeping your partitions functional and secure.
-          </p>
+          <h1 className="hero-title">
+            {title} <span className="highlight-heading">{highlight}</span>
+          </h1>
+          <p className="hero-description">{description}</p>
         </div>
       </div>
     </section>

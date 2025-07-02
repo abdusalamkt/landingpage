@@ -1,38 +1,54 @@
 import { Metadata } from 'next';
-import HeroSection from './HeroSection';
 import Header from '../components/Header';
-import { motion } from 'framer-motion';
+import FloatingSidebar from '../components/FloatingSidebar';
+import HeroSection from './HeroSection';
 import VideoSection from './VideoSection';
 import Timeline from './Timeline';
 import VisionMission from './VisionMission';
 import IsoSection from './IsoSection';
 import ContactUs from '../components/ContactUs';
-import FloatingSidebar from '../components/FloatingSidebar';
 
-// import MissionSection from './MissionSection';
-// import TeamSection from './TeamSection';
+import { GET_ABOUT_US_PAGE_FIELDS } from './graphql/queries';  // Adjust path as needed
+
+const WORDPRESS_API_URL = process.env.WORDPRESS_GRAPHQL_ENDPOINT as string;
 
 export const metadata: Metadata = {
   title: 'About Us – GIBCA',
   description: 'Learn about GIBCA’s vision, team, and space management solutions.',
 };
 
-export default function AboutUsPage() {
+export const revalidate = 0; // For dev: no caching
+
+async function getPageFields() {
+  const res = await fetch(WORDPRESS_API_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ query: GET_ABOUT_US_PAGE_FIELDS }),
+    next: { revalidate: 0 },
+  });
+
+  const json = await res.json();
+  return json?.data?.page?.aboutUsPageFields;
+}
+
+export default async function AboutUsPage() {
+  const fields = await getPageFields();
+
   return (
     <>
-    
-        <Header />
-        <FloatingSidebar />
-        {/* Hero Section */}
-      <HeroSection />
-      <VideoSection />
-      <Timeline />
-      <VisionMission/>
-      <IsoSection/>
+      <Header />
+      <FloatingSidebar />
+      <HeroSection fields={fields} />
+      <VideoSection fields={fields} />
+      <Timeline events={fields?.timelineEvents} />
+          <VisionMission
+  visionTitle={fields?.visionTitle}
+  visionDescription={fields?.visionDescription}
+  missionTitle={fields?.missionTitle}
+  missionDescription={fields?.missionDescription}
+/>
+      <IsoSection fields={fields} />  
       <ContactUs />
-      {/* <MissionSection /> */}
-      {/* <TeamSection /> */}
-      {/* Add more sections as components */}
     </>
   );
 }
