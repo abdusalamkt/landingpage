@@ -1,0 +1,39 @@
+.cardContainer {
+          display: flex;
+          justify-content: center;
+          gap: 2rem;
+          padding: 2rem 5rem;
+          flex-wrap: wrap;
+          background-image: url('/BG/Asset 2.webp');
+          background-color: #ffffffa6;
+          background-blend-mode: hue;
+            
+          background-attachment: fixed;
+        }
+
+        .infoCard {
+          flex: 1 1 300px;
+          /* max-width: 400px; */
+          background: #ffff;
+          padding: 2rem;
+          border-radius: 12px;
+          text-align: center;
+          box-shadow: 0 2px 6px rgba(0, 0, 0, 0.486);
+          transition: transform .6s ease;
+        }
+
+        .infoCard:hover {
+          transform: translateY(-10px);
+        }
+
+        .infoCard h3 {
+          color: #109c5d;
+          font-size: 3rem;
+          margin-bottom: 1rem;
+        }
+
+        .infoCard p {
+          color: #3d3d3d;
+          font-size: 1rem;
+          line-height: 1.6;
+        }
