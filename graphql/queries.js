@@ -130,37 +130,3 @@ export const GET_LANDING_PAGE = gql`
     }
   }
 `;
-
-export const OUR_PRODUCTS_PAGE_QUERY = gql`
- query GetOurProducts {
-  page(id: "472", idType: DATABASE_ID) {
-    title
-    ourProducts {
-      productSections {
-        sectionTitle
-        sectionDescription
-        sectionDefaultBg {
-          sourceUrl
-        }
-        knowMoreUrl
-        sectionCategories {
-          categoryName
-          categoriesUrl
-          categoryHoverImage {
-            sourceUrl
-          }
-          categoryProducts {
-            productName
-            productsUrl
-            productHoverBg {
-              sourceUrl
-            }
-          }
-        }
-      }
-    }
-  }
-}
-
-`;
-
