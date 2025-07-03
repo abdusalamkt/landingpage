@@ -48,8 +48,8 @@
   flex-wrap: wrap;
   width: 100%;
   margin: 0;
-  height: 100vh;
-  padding: 50px 0;
+ min-height: 100vh;
+  height: auto;  padding: 50px 0;
   
 }
 
@@ -282,7 +282,7 @@
 /* Style for second slideshow */
 .glassSlider .sliderImageWrapper {
   border-radius: 20px 0px 0px 20px;
-  overflow: hidden; /* important to clip image corners */
+  overflow: hidden;
 }
 
 /* Optional: apply directly to images too if needed */
