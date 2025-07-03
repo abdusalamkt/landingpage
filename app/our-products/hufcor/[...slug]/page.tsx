@@ -1,5 +1,5 @@
-export const revalidate = 86400; // Regenerate every 24 hours
-export const dynamicParams = true; // Enable fallback for new slugs
+export const revalidate = 86400; // Rebuild page every 24 hours
+export const dynamicParams = true; // Allow fallback for new pages
 
 import { gql } from "@apollo/client";
 import client from "@/lib/apolloClient";
@@ -68,9 +68,11 @@ export async function generateStaticParams() {
 export default async function HufcorProduct({
   params,
 }: {
-  params: { slug: string[] };
+  params: Promise<{ slug: string[] }>; // ✅ FIXED: Now a Promise
 }) {
-  const slugPath = params.slug.join("/");
+  // ✅ FIXED: Await the params Promise
+  const resolvedParams = await params;
+  const slugPath = resolvedParams.slug.join("/");
 
   const { data } = await client.query({
     query: GET_HUFCOR_PRODUCT,
@@ -80,7 +82,6 @@ export default async function HufcorProduct({
   });
 
   const fields = data?.page?.hufcorSeriesFields;
-
   if (!fields) return <div>Product not found</div>;
 
   return <HufcorProductLayout fields={fields} />;
