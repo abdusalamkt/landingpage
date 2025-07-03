@@ -12,9 +12,12 @@ const downloadData = {
     { title: "ISO CERTIFICATE 9001 – QMS", link: "/downloads/iso-qms.pdf" },
     { title: "ISO CERTIFICATE 9001 – QMS", link: "/downloads/iso-qms.pdf" },
   ],
-  Finishes: [],
-  "Project Reference": [],
-  Specification: [],
+  Finishes: [ { title: "ISO CERTIFICATE 9001 – QMS", link: "/downloads/iso-qms.pdf" },
+    { title: "ISO CERTIFICATE 9001 – QMS", link: "/downloads/iso-qms.pdf" },],
+  "Project Reference": [ { title: "ISO CERTIFICATE 9001 – QMS", link: "/downloads/iso-qms.pdf" },
+    { title: "ISO CERTIFICATE 9001 – QMS", link: "/downloads/iso-qms.pdf" },],
+  Specification: [{ title: "GIBCA COMPANY PROFILE - BROCHURE", link: "/downloads/company-brochure.pdf" },
+    { title: "ISO CERTIFICATE 9001 – QMS", link: "/downloads/iso-qms.pdf" },],
 };
 
 export default function DownloadSection() {
