@@ -1,5 +1,5 @@
-export const dynamicParams = false;
-export const revalidate = false;
+export const revalidate = 86400; // Regenerate every 24 hours
+export const dynamicParams = true; // Enable fallback for new slugs
 
 import { gql } from "@apollo/client";
 import client from "@/lib/apolloClient";
@@ -65,15 +65,12 @@ export async function generateStaticParams() {
   }));
 }
 
-// ✅ FIXED: Properly handle Promise params in Next.js 15
 export default async function HufcorProduct({
   params,
 }: {
-  params: Promise<{ slug: string[] }>;
+  params: { slug: string[] };
 }) {
-  // Await the params Promise
-  const resolvedParams = await params;
-  const slugPath = resolvedParams.slug.join("/");
+  const slugPath = params.slug.join("/");
 
   const { data } = await client.query({
     query: GET_HUFCOR_PRODUCT,
@@ -83,6 +80,7 @@ export default async function HufcorProduct({
   });
 
   const fields = data?.page?.hufcorSeriesFields;
+
   if (!fields) return <div>Product not found</div>;
 
   return <HufcorProductLayout fields={fields} />;

@@ -65,10 +65,10 @@ const Section = ({
 };
 
 const ImageLayout = ({ data }) => {
-  console.log('Received data:', data); // Add this line
+
   
   const fields = data?.page?.landingPageFields || {};
-  console.log('Fields:', fields); // Add this line
+
   
   return (
     <>
