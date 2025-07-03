@@ -1,18 +1,21 @@
 "use client";
 
 import styles from "./hufcorproduct.module.css";
-import { useRef, useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useInView, motion } from "framer-motion";
 import DownloadSection from "@/app/components/DownloadSection";
 import ContactUs from "@/app/components/ContactUs";
 import Image from "next/image";
 import Header from "@/app/components/Header";
+import { usePathname } from "next/navigation";
 
 export default function HufcorProductLayout({ fields }: { fields: any }) {
-  // ✅ Scroll to top on mount
+  const pathname = usePathname();
+
+  // ✅ Scroll to top whenever path changes
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, []);
+  }, [pathname]);
 
   if (!fields) return <div>Invalid product data</div>;
 
