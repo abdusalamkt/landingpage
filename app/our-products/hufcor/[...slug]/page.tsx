@@ -1,8 +1,15 @@
-export const dynamic = "force-static";
+export const dynamicParams = false;
+export const revalidate = false;
 
 import { gql } from "@apollo/client";
 import client from "@/lib/apolloClient";
 import HufcorProductLayout from "../hufcorproduct/HufcorProductLayout";
+
+type Props = {
+  params: {
+    slug: string[];
+  };
+};
 
 const GET_HUFCOR_PRODUCT = gql`
   query GetHufcorProductPage($uri: ID!) {
@@ -64,10 +71,8 @@ export async function generateStaticParams() {
   }));
 }
 
-export default async function HufcorProduct(props: { params: { slug?: string[] } }) {
-  const params = props.params;
-  const slugArray = params?.slug || [];
-  const slugPath = slugArray.join("/");
+export default async function HufcorProduct({ params }: Props) {
+  const slugPath = params.slug.join("/");
 
   const { data } = await client.query({
     query: GET_HUFCOR_PRODUCT,
@@ -76,8 +81,8 @@ export default async function HufcorProduct(props: { params: { slug?: string[] }
     },
   });
 
-  if (!data.page?.hufcorSeriesFields) {
-    return <div>Product not found</div>;
+  if (!data?.page?.hufcorSeriesFields) {
+    return <div>Page not found</div>;
   }
 
   return <HufcorProductLayout fields={data.page.hufcorSeriesFields} />;
