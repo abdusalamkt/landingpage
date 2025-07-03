@@ -1,7 +1,7 @@
 "use client";
 
 import styles from "./hufcorproduct.module.css";
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
 import { useInView, motion } from "framer-motion";
 import DownloadSection from "@/app/components/DownloadSection";
 import ContactUs from "@/app/components/ContactUs";
@@ -9,6 +9,11 @@ import Image from "next/image";
 import Header from "@/app/components/Header";
 
 export default function HufcorProductLayout({ fields }: { fields: any }) {
+  // ✅ Scroll to top on mount
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   if (!fields) return <div>Invalid product data</div>;
 
   const {
@@ -26,7 +31,6 @@ export default function HufcorProductLayout({ fields }: { fields: any }) {
     choices,
   } = fields;
 
-  // ✅ Safeguard: fallback to empty array if null/undefined
   const safeFeatures = Array.isArray(features) ? features : [];
   const safeCustomizationRows = Array.isArray(customizationRows) ? customizationRows : [];
   const safePanelConfig = Array.isArray(panelConfig) ? panelConfig : [];
