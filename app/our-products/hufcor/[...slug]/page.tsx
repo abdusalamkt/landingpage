@@ -5,12 +5,6 @@ import { gql } from "@apollo/client";
 import client from "@/lib/apolloClient";
 import HufcorProductLayout from "../hufcorproduct/HufcorProductLayout";
 
-type Props = {
-  params: {
-    slug: string[];
-  };
-};
-
 const GET_HUFCOR_PRODUCT = gql`
   query GetHufcorProductPage($uri: ID!) {
     page(id: $uri, idType: URI) {
@@ -71,8 +65,15 @@ export async function generateStaticParams() {
   }));
 }
 
-export default async function HufcorProduct({ params }: Props) {
-  const slugPath = params.slug.join("/");
+// ✅ FIXED: Properly handle Promise params in Next.js 15
+export default async function HufcorProduct({
+  params,
+}: {
+  params: Promise<{ slug: string[] }>;
+}) {
+  // Await the params Promise
+  const resolvedParams = await params;
+  const slugPath = resolvedParams.slug.join("/");
 
   const { data } = await client.query({
     query: GET_HUFCOR_PRODUCT,
@@ -81,9 +82,8 @@ export default async function HufcorProduct({ params }: Props) {
     },
   });
 
-  if (!data?.page?.hufcorSeriesFields) {
-    return <div>Page not found</div>;
-  }
+  const fields = data?.page?.hufcorSeriesFields;
+  if (!fields) return <div>Product not found</div>;
 
-  return <HufcorProductLayout fields={data.page.hufcorSeriesFields} />;
+  return <HufcorProductLayout fields={fields} />;
 }
