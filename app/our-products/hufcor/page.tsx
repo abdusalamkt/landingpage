@@ -1,32 +1,101 @@
-"use client";
-
-import { useState, useEffect } from "react";
 import Header from "@/app/components/Header";
-import styles from "./hufcor.module.css";
 import Link from "next/link";
+import ImageSlider from "./ImageSlider"; // client component for slider
+import styles from "./hufcor.module.css";
 
-const slides1 = [
-  { src: "/hufcor/hufcor.PNG", title: "Operable Wall 1" },
-  { src: "/hufcor/600.jpg", title: "Operable Wall 2" },
-];
+const WORDPRESS_API_URL = process.env.WORDPRESS_GRAPHQL_ENDPOINT as string;
 
-const slides2 = [
-  { src: "/hufcor/def.jpg", title: "Glass Wall 1" },
-  { src: "/hufcor/hufcor.PNG", title: "Glass Wall 2" },
-];
+const GET_HUFCOR_PAGE = `
+  query GetHufcorPage {
+    page(id: "/hufcor", idType: URI) {
+      hufcorPageFields {
+        logo {
+          sourceUrl
+          altText
+        }
+        heroHeading
+        heroSubheading
+        operableHeading
+        operableDescription
+        operableProductRangeTitle
+        operableButtons {
+          label
+          url
+        }
+        operableslider {
+          image {
+            sourceUrl
+            altText
+          }
+          title
+        }
+        glassHeading
+        glassDescription
+        glassProductRangeTitle
+        glassButtons {
+          label
+          url
+        }
+        glassslider {
+          image {
+            sourceUrl
+            altText
+          }
+          title
+        }
+      }
+    }
+  }
+`;
 
-export default function HufcorPage() {
+async function getHufcorPageFields() {
+  const res = await fetch(WORDPRESS_API_URL, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ query: GET_HUFCOR_PAGE }),
+    next: { revalidate: 3600 }, // cache for 1 hour
+  });
+
+  const json = await res.json();
+  return json?.data?.page?.hufcorPageFields;
+}
+
+export default async function HufcorPage() {
+  const fields = await getHufcorPageFields();
+
+  if (!fields) {
+    return <div>Failed to load content.</div>;
+  }
+
+  const {
+    logo,
+    heroHeading,
+    heroSubheading,
+    operableHeading,
+    operableDescription,
+    operableProductRangeTitle,
+    operableButtons,
+    operableslider,
+    glassHeading,
+    glassDescription,
+    glassProductRangeTitle,
+    glassButtons,
+    glassslider,
+  } = fields;
+
   return (
-    <div>
+    <>
       <Header />
 
       {/* Banner Section */}
       <div className={styles.banner}>
         <div className={styles.overlay} />
         <div className={styles.bannerContent}>
-          <img src="/hufcor/HUFCOR HIG RES.png" alt="Logo" className={styles.logo} />
+          {logo?.sourceUrl && (
+            <img src={logo.sourceUrl} alt={logo.altText || "Logo"} className={styles.logo} />
+          )}
           <h1 className={styles.heading}>
-            HUFCOR <span className={styles.red}>PRODUCTS</span>
+            {heroHeading} <span className={styles.red}>{heroSubheading}</span>
           </h1>
         </div>
       </div>
@@ -34,25 +103,30 @@ export default function HufcorPage() {
       {/* First Product Section (Image Left) */}
       <div className={styles.productSection}>
         <div className={styles.imageContainer}>
-          <ImageSlider slides={slides1} />
+          <ImageSlider
+            slides={
+              operableslider?.map((slide: any) => ({
+                src: slide.image?.sourceUrl || "",
+                title: slide.title || "",
+              })) || []
+            }
+          />
         </div>
         <div className={styles.textContainer}>
-          <h2>OPERABLE WALLS</h2>
-          <p>
-            Hufcor Operable Walls System, offering premium quality craftsmanship,
-            design adaptability and varying levels of acoustic performance.
-            Customization options offered are boundless with the Operable Wall
-            System, letting you create a space that fits your objectives.
-          </p>
+          <h2>{operableHeading}</h2>
+          <p>{operableDescription}</p>
+
           <div className={styles.productRangeRow}>
-            <h3>PRODUCT RANGE</h3>
+            <h3>{operableProductRangeTitle}</h3>
             <div className={styles.line}></div>
           </div>
+
           <div className={styles.buttons}>
-            <button>Series 600™</button>
-            <Link href="/our-products/hufcor/hufcor7000">
-      <button>SERIES 7000™</button>
-    </Link>
+            {operableButtons?.map((btn: any, idx: number) => (
+              <Link href={btn.url} key={idx}>
+                <button>{btn.label}</button>
+              </Link>
+            ))}
           </div>
         </div>
       </div>
@@ -60,55 +134,33 @@ export default function HufcorPage() {
       {/* Second Product Section (Image Right) */}
       <div className={`${styles.productSection} ${styles.reverse}`}>
         <div className={styles.textContainer}>
-          <h2>MOVABLE GLASS WALLS</h2>
-          <p>
-            Sleek, modern and functional — Hufcor’s glass wall systems bring in natural
-            light while providing acoustic separation. Designed to blend into contemporary
-            architecture with flexible space division.
-          </p>
+          <h2>{glassHeading}</h2>
+          <p>{glassDescription}</p>
+
           <div className={styles.productRangeRow}>
-            <h3>PRODUCT RANGE</h3>
+            <h3>{glassProductRangeTitle}</h3>
             <div className={styles.line}></div>
           </div>
+
           <div className={styles.buttons}>
-            <button>Elite Glass™</button>
-            <button>Summit Glass™</button>
+            {glassButtons?.map((btn: any, idx: number) => (
+              <Link href={btn.url} key={idx}>
+                <button>{btn.label}</button>
+              </Link>
+            ))}
           </div>
         </div>
         <div className={`${styles.imageContainer} ${styles.glassSlider}`}>
-  <ImageSlider slides={slides2} />
-</div>
-
+          <ImageSlider
+            slides={
+              glassslider?.map((slide: any) => ({
+                src: slide.image?.sourceUrl || "",
+                title: slide.title || "",
+              })) || []
+            }
+          />
+        </div>
       </div>
-    </div>
+    </>
   );
 }
-
-// Auto-fading ImageSlider component
-const ImageSlider = ({ slides }: { slides: { src: string; title: string }[] }) => {
-  const [current, setCurrent] = useState(0);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrent((prev) => (prev + 1) % slides.length);
-    }, 2000); // change slide every 4 seconds
-
-    return () => clearInterval(interval);
-  }, [slides.length]);
-
-  return (
-    <div className={styles.sliderContainer}>
-      <div className={styles.sliderImageWrapper}>
-        {slides.map((slide, index) => (
-          <img
-            key={index}
-            src={slide.src}
-            alt={slide.title}
-            className={`${styles.sliderImage} ${index === current ? styles.active : ""}`}
-          />
-        ))}
-        <div className={styles.caption}>{slides[current].title}</div>
-      </div>
-    </div>
-  );
-};
