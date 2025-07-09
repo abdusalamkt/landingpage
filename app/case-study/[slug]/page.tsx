@@ -4,6 +4,12 @@ import { gql } from "@apollo/client";
 import client from "@/lib/apolloClient";
 import CaseStudyClient from "./DynamicCaseStudyClient";
 
+interface CaseStudyPageProps {
+  params: {
+    slug: string;
+  };
+}
+
 const GET_CASE_STUDY = gql`
   query GetCaseStudyBySlug($slug: ID!) {
     caseStudy(id: $slug, idType: SLUG) {
@@ -43,13 +49,15 @@ const GET_CASE_STUDY = gql`
   }
 `;
 
-export default async function CaseStudyDetail({ params }: { params: { slug: string } }) {
+export default async function CaseStudyDetail({ params }: CaseStudyPageProps) {
   const { data } = await client.query({
     query: GET_CASE_STUDY,
     variables: { slug: params.slug },
   });
 
-  if (!data?.caseStudy) return notFound();
+  if (!data?.caseStudy) {
+    return notFound();
+  }
 
   return <CaseStudyClient title={data.caseStudy.title} fields={data.caseStudy.caseStudyFields} />;
 }
