@@ -1,14 +1,7 @@
-// app/case-study/[slug]/page.tsx
 import { notFound } from "next/navigation";
 import { gql } from "@apollo/client";
 import client from "@/lib/apolloClient";
-import CaseStudyClient from "./DynamicCaseStudyClient";
-
-interface CaseStudyPageProps {
-  params: {
-    slug: string;
-  };
-}
+import DynamicCaseStudyClient from "./DynamicCaseStudyClient";
 
 const GET_CASE_STUDY = gql`
   query GetCaseStudyBySlug($slug: ID!) {
@@ -49,15 +42,26 @@ const GET_CASE_STUDY = gql`
   }
 `;
 
-export default async function CaseStudyDetail({ params }: CaseStudyPageProps) {
+// Make the component async so Next.js can handle the params Promise
+export default async function CaseStudyDetail({
+  params,
+}: {
+  params: { slug: string } | Promise<{ slug: string }>;
+}) {
+  // Await params if needed
+  const resolvedParams = await params;
+
   const { data } = await client.query({
     query: GET_CASE_STUDY,
-    variables: { slug: params.slug },
+    variables: { slug: resolvedParams.slug },
   });
 
-  if (!data?.caseStudy) {
-    return notFound();
-  }
+  if (!data?.caseStudy) return notFound();
 
-  return <CaseStudyClient title={data.caseStudy.title} fields={data.caseStudy.caseStudyFields} />;
+  return (
+    <DynamicCaseStudyClient
+      title={data.caseStudy.title}
+      fields={data.caseStudy.caseStudyFields}
+    />
+  );
 }
