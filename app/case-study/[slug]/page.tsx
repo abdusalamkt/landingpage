@@ -45,11 +45,13 @@ const GET_CASE_STUDY = gql`
 export default async function CaseStudyDetail({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;  // <-- params is a Promise here
 }) {
+  const resolvedParams = await params;  // <-- await the params
+
   const { data } = await client.query({
     query: GET_CASE_STUDY,
-    variables: { slug: params.slug },
+    variables: { slug: resolvedParams.slug },
   });
 
   if (!data?.caseStudy) return notFound();
