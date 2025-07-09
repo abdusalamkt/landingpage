@@ -35,6 +35,7 @@ export default function DynamicCaseStudyClient({
             {title} {fields.herohighlight}
           </h1>
           {fields.herodescription && (
+            // Use div here instead of p to avoid nested <p> issue
             <div className={styles.description}>{parse(fields.herodescription)}</div>
           )}
           <div className={styles.buttons}>
@@ -78,6 +79,7 @@ export default function DynamicCaseStudyClient({
               )}
               <h3 className={styles.infoTitle}>{box.title}</h3>
             </div>
+            {/* Use div + parse here */}
             <div className={styles.infoText}>{parse(box.content)}</div>
           </div>
         ))}
@@ -93,7 +95,8 @@ export default function DynamicCaseStudyClient({
                   <img src="/logos/Challenge.png" alt="Challenge" className={styles.icon} />
                   <h2 className={styles.title}>{fields.challengeheading || "CHALLENGE"}</h2>
                 </div>
-                <p className={styles.text}>{fields.challengecontent}</p>
+                {/* parse challenge content in div */}
+                <div className={styles.text}>{parse(fields.challengecontent)}</div>
               </div>
             )}
             {fields.solutioncontent && (
@@ -102,7 +105,8 @@ export default function DynamicCaseStudyClient({
                   <img src="/logos/Solution Icon.png" alt="Solution" className={styles.icon} />
                   <h2 className={styles.title}>{fields.solutionheading || "SOLUTION"}</h2>
                 </div>
-                <p className={styles.text}>{fields.solutioncontent}</p>
+                {/* parse solution content in div */}
+                <div className={styles.text}>{parse(fields.solutioncontent)}</div>
               </div>
             )}
           </div>
