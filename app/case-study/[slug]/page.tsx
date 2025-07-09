@@ -42,18 +42,14 @@ const GET_CASE_STUDY = gql`
   }
 `;
 
-// Make the component async so Next.js can handle the params Promise
 export default async function CaseStudyDetail({
   params,
 }: {
-  params: { slug: string } | Promise<{ slug: string }>;
+  params: { slug: string };
 }) {
-  // Await params if needed
-  const resolvedParams = await params;
-
   const { data } = await client.query({
     query: GET_CASE_STUDY,
-    variables: { slug: resolvedParams.slug },
+    variables: { slug: params.slug },
   });
 
   if (!data?.caseStudy) return notFound();
