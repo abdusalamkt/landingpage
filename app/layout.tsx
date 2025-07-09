@@ -31,7 +31,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
     <html lang="en" className={`${bebasNeue.variable} ${poppins.variable}`}>
       <body>
         <SmoothScroll /> 
-        {/* <Header /> */}
+        <Header />
         {/* <PageTransition /> */}
         {children}
       </body>
