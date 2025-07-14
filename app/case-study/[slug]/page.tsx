@@ -25,6 +25,10 @@ const GET_CASE_STUDY = gql`
         challengecontent
         solutionheading
         solutioncontent
+        infosectionbg {
+          sourceUrl
+          altText
+        }
         infoboxes {
           title
           content
@@ -41,6 +45,7 @@ const GET_CASE_STUDY = gql`
     }
   }
 `;
+
 
 export default async function CaseStudyDetail({
   params,

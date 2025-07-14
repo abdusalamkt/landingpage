@@ -29,26 +29,7 @@ export const GET_LANDING_PAGE = gql`
             height
           }
         }
-        newsPost {
-          ... on Post {
-            id
-            databaseId
-            title
-            excerpt
-            slug
-            date
-            featuredImage {
-              node {
-                sourceUrl
-                altText
-                mediaDetails {
-                  width
-                  height
-                }
-              }
-            }
-          }
-        }
+       
 
         numberOfClients
         projectsCompleted

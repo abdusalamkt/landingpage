@@ -1,0 +1,206 @@
+/* Base styles */
+.row {
+  display: grid;
+  grid-template-columns: 1fr 80px 60px 40px;
+  align-items: center;
+  padding: 12px 16px;
+  background: white;
+  border-bottom: 1px solid #ddd;
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+
+.title {
+  font-weight: 500;
+}
+
+.downloadBtn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+  transition: transform 0.2s ease;
+}
+
+.downloadBtn:hover {
+  transform: scale(1.2);
+}
+
+/* Modal Overlay */
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  backdrop-filter: blur(3px);
+}
+
+.modalOverlay.animating {
+  opacity: 1;
+}
+
+/* Modal Container */
+.modal {
+  position: relative;
+  background: #ffffff;
+  padding: 30px;
+  border-radius: 8px;
+  width: 90%;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  transform: translateY(20px);
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  opacity: 0;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.modal.animating {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.modal h3 {
+  font-size: 2.5rem;
+  font-weight: 600;
+  /* font-family: bebas neu; */
+  color: #3d3d3d;
+  text-align: center;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+}
+
+.titleText {
+  display: block;
+  font-weight: 400;
+
+}
+
+.subtitle {
+  display: block;
+  font-size: .8rem;
+  color: #727272;
+  font-weight: 100;
+  /* margin-top: 5px; */
+  font-family: poppins, sans-serif;
+}
+
+.inputContainer {
+  position: relative;
+}
+
+.input {
+  width: 100%;
+  padding: 12px 0;
+  border: none;
+  background: transparent;
+  color: white;
+  font-family: 'Inter', sans-serif;
+  font-size: 1rem;
+  border-bottom: 1px solid #555;
+  transition: all 0.3s ease;
+}
+
+.input:focus {
+  outline: none;
+  border-bottom-color: #4CAF50;
+}
+
+.input::placeholder {
+  color: #999;
+}
+
+.inputUnderline {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: #4CAF50;
+  transition: width 0.3s ease;
+}
+
+.input:focus ~ .inputUnderline {
+  width: 100%;
+}
+
+.submitBtn {
+  position: relative;
+  background: #109c5d;
+  color: white;
+  padding: 14px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-family: 'poppins', sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  margin-top: 10px;
+  z-index: 1;
+  text-transform: uppercase;
+}
+
+.btnHoverEffect {
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: all 0.6s ease;
+  z-index: -1;
+}
+
+.submitBtn:hover .btnHoverEffect {
+  left: 100%;
+}
+
+.submitBtn:hover {
+  background: #109c5d;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.close {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  font-size: 24px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #3d3d3d;
+  transition: all 0.3s ease;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50px;
+}
+
+.close:hover {
+  color: white;
+  transform: rotate(90deg);
+  background-color: #3d3d3d;
+}
+
+@media (max-width: 480px) {
+  .modal {
+    padding: 20px;
+    width: 95%;
+  }
+  
+  .modal h3 {
+    font-size: 1.3rem;
+  }
+}

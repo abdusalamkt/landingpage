@@ -43,7 +43,7 @@ export default function Header() {
       { name: 'OPS', link: '#' },
     ],
     resources: [
-      { name: 'Blogs', link: '#' },
+      { name: 'Blogs', link: '/blogs' },
       { name: 'Case Studies', link: '/case-study' },
       { name: 'Downloads', link: '/downloads' },
     ],

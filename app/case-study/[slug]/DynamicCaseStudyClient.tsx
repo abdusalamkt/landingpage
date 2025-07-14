@@ -25,6 +25,17 @@ export default function DynamicCaseStudyClient({
     setLightboxImage("");
   };
 
+  // Converts plain text with newlines into paragraph-wrapped HTML
+  const convertNewlinesToParagraphs = (text: string) => {
+  return text
+    .trim()
+    .split(/\n\s*\n+/) // Split by double newlines, ignoring extra space
+    .filter((para) => para.trim() !== "") // Remove empty paragraphs
+    .map((para) => `<p>${para.trim()}</p>`)
+    .join("");
+};
+
+
   return (
     <>
       {/* Hero Section */}
@@ -35,8 +46,9 @@ export default function DynamicCaseStudyClient({
             {title} {fields.herohighlight}
           </h1>
           {fields.herodescription && (
-            // Use div here instead of p to avoid nested <p> issue
-            <div className={styles.description}>{parse(fields.herodescription)}</div>
+            <div className={styles.description}>
+              {parse(convertNewlinesToParagraphs(fields.herodescription))}
+            </div>
           )}
           <div className={styles.buttons}>
             {fields.herobutton1label && fields.herobutton1url && (
@@ -66,7 +78,18 @@ export default function DynamicCaseStudyClient({
       </section>
 
       {/* Info Boxes */}
-      <section className={styles.infoSection}>
+      <section
+  className={styles.infoSection}
+  style={{
+    backgroundImage: fields.infosectionbg?.sourceUrl
+      ? `url(${fields.infosectionbg.sourceUrl})`
+      : "none",
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+    backgroundRepeat: "no-repeat",
+    backgroundAttachment: "fixed",
+  }}
+>
         {fields.infoboxes?.map((box: any, index: number) => (
           <div key={index} className={styles.infoBox}>
             <div className={styles.iconTitleRow}>
@@ -79,8 +102,7 @@ export default function DynamicCaseStudyClient({
               )}
               <h3 className={styles.infoTitle}>{box.title}</h3>
             </div>
-            {/* Use div + parse here */}
-            <div className={styles.infoText}>{parse(box.content)}</div>
+            <div className={styles.infoText}>{parse(convertNewlinesToParagraphs(box.content))}</div>
           </div>
         ))}
       </section>
@@ -89,14 +111,26 @@ export default function DynamicCaseStudyClient({
       <section className={styles.caseStudySection}>
         <div className={styles.contentWrapper}>
           <div className={styles.leftColumn}>
+            {fields.introductioncontent && (
+              <div className={styles.textBlock}>
+                <div className={styles.iconTitleRow}>
+                  <img src="/logos/key features.png" alt="Challenge" className={styles.icon} />
+                  <h2 className={styles.title}>{fields.introductionheading || ""}</h2>
+                </div>
+                <div className={styles.text}>
+                  {parse(convertNewlinesToParagraphs(fields.introductioncontent))}
+                </div>
+              </div>
+            )}
             {fields.challengecontent && (
               <div className={styles.textBlock}>
                 <div className={styles.iconTitleRow}>
                   <img src="/logos/Challenge.png" alt="Challenge" className={styles.icon} />
                   <h2 className={styles.title}>{fields.challengeheading || "CHALLENGE"}</h2>
                 </div>
-                {/* parse challenge content in div */}
-                <div className={styles.text}>{parse(fields.challengecontent)}</div>
+                <div className={styles.text}>
+                  {parse(convertNewlinesToParagraphs(fields.challengecontent))}
+                </div>
               </div>
             )}
             {fields.solutioncontent && (
@@ -105,8 +139,9 @@ export default function DynamicCaseStudyClient({
                   <img src="/logos/Solution Icon.png" alt="Solution" className={styles.icon} />
                   <h2 className={styles.title}>{fields.solutionheading || "SOLUTION"}</h2>
                 </div>
-                {/* parse solution content in div */}
-                <div className={styles.text}>{parse(fields.solutioncontent)}</div>
+                <div className={styles.text}>
+                  {parse(convertNewlinesToParagraphs(fields.solutioncontent))}
+                </div>
               </div>
             )}
           </div>
@@ -173,7 +208,9 @@ export default function DynamicCaseStudyClient({
       {lightboxOpen && (
         <div className={styles.lightboxOverlay} onClick={closeLightbox}>
           <div className={styles.lightboxContent} onClick={(e) => e.stopPropagation()}>
-            <button className={styles.lightboxClose} onClick={closeLightbox}>✕</button>
+            <button className={styles.lightboxClose} onClick={closeLightbox}>
+              ✕
+            </button>
             <Image src={lightboxImage} alt="Fullscreen" width={1200} height={800} />
           </div>
         </div>
