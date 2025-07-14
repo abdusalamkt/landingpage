@@ -31,14 +31,14 @@ const GET_ALL_BLOGS = gql`
   }
 `;
 
-const TAGS = ['Hufcor', 'HPL Solutions', 'Pivot Doors', 'Gibca Office Partitioning','Hydraulic Doors', 'Glass Partitions', 'Movable Walls'];
+const TAGS = ['Hufcor', 'HPL Solutions', 'Pivot Doors', 'Gibca Office Partitioning', 'Hydraulic Doors', 'Glass Partitions', 'Movable Walls'];
 
 export default function BlogsPage() {
-  const [posts, setPosts] = useState([]);
-  const [imageLoadedMap, setImageLoadedMap] = useState({});
+  const [posts, setPosts] = useState<any[]>([]);
+  const [imageLoadedMap, setImageLoadedMap] = useState<Record<string, boolean>>({});
   const [loading, setLoading] = useState(true);
-  const [selectedTag, setSelectedTag] = useState(null);
-  const [sortOrder, setSortOrder] = useState('Newest');
+  const [selectedTag, setSelectedTag] = useState<string | null>(null);
+  const [sortOrder, setSortOrder] = useState<'Newest' | 'Oldest'>('Newest');
 
   useEffect(() => {
     client.query({ query: GET_ALL_BLOGS }).then(({ data }) => {
@@ -47,23 +47,27 @@ export default function BlogsPage() {
     });
   }, []);
 
-  const handleImageLoad = (postId) => {
+  const handleImageLoad = (postId: string) => {
     setImageLoadedMap((prev) => ({ ...prev, [postId]: true }));
   };
 
-  // Filter by tag
+  // Filter posts by selectedTag
   const filteredPosts = selectedTag
-  ? posts.filter(post => {
-      const postTags = post.blogPostFields?.productTags || [];
-      return postTags.some(tag => tag.trim().toLowerCase() === selectedTag.trim().toLowerCase());
-    })
-  : posts;
+    ? posts.filter((post) => {
+        const rawTags = post.blogPostFields?.productTags || '';
+        const tagsArray = Array.isArray(rawTags)
+          ? rawTags
+          : rawTags.split(',').map((t: string) => t.trim());
+        return tagsArray.some((tag: string) => tag.toLowerCase() === selectedTag.toLowerCase());
+      })
+    : posts;
 
-const sortedPosts = [...filteredPosts].sort((a, b) => {
-  const dateA = new Date(a.date).getTime();
-  const dateB = new Date(b.date).getTime();
-  return sortOrder === 'Newest' ? dateB - dateA : dateA - dateB;
-});
+  // Sort posts
+  const sortedPosts = [...filteredPosts].sort((a, b) => {
+    const dateA = new Date(a.date).getTime();
+    const dateB = new Date(b.date).getTime();
+    return sortOrder === 'Newest' ? dateB - dateA : dateA - dateB;
+  });
 
   return (
     <div className={styles.container}>
@@ -99,7 +103,7 @@ const sortedPosts = [...filteredPosts].sort((a, b) => {
           <select
             id="sortSelect"
             value={sortOrder}
-            onChange={(e) => setSortOrder(e.target.value)}
+            onChange={(e) => setSortOrder(e.target.value as 'Newest' | 'Oldest')}
           >
             <option value="Newest">Newest</option>
             <option value="Oldest">Oldest</option>
@@ -142,9 +146,12 @@ const sortedPosts = [...filteredPosts].sort((a, b) => {
                       />
                     )}
                     <div className={styles.overlayTags}>
-                      {post.blogPostFields.productTags?.map((tag, i) => (
+                      {(Array.isArray(post.blogPostFields.productTags)
+                        ? post.blogPostFields.productTags
+                        : post.blogPostFields.productTags?.split(',') || []
+                      ).map((tag: string, i: number) => (
                         <span key={i} className={styles.productTag}>
-                          {tag}
+                          {tag.trim()}
                         </span>
                       ))}
                       {post.blogPostFields.categoryLabel !== 'null' &&
