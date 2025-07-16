@@ -12,7 +12,6 @@
   font-weight: bold;
   color: white;
   display: inline-block;
-
   font-family: Bebas Neue;
 font-weight: 400;
 font-style: Regular;
@@ -38,6 +37,11 @@ font-style: Regular;
   padding: 8px;
   border-radius: 6px;
   border: 1px solid #ccc;
+  
+}
+
+.filters input{
+  margin-left: auto;
 }
 .filters button {
   background: transparent;

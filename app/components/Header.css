@@ -236,23 +236,23 @@ font-weight: 400;
   animation: move-gradient 3s linear infinite;
 }
 
-/* Bounce animation for the arrow on hover */
+/* Left-right bounce animation for the arrow */
 @keyframes bounce {
   0%, 100% {
     transform: translateX(0);
   }
   50% {
-    transform: translateX(5px);
+    transform: translateX(10px); /* or -5px for reverse */
   }
 }
 
 @media (hover: hover) and (pointer: fine) {
   .flashing-arrow-btn:hover .flashing-arrow-btn__img {
     translate: 0 0;
-    
   }
+
   .flashing-arrow-btn:hover svg {
-    animation: bounce .8s ease infinite;
+    animation: bounce 0.8s ease-in-out infinite;
   }
 }
 
@@ -260,10 +260,12 @@ font-weight: 400;
   .flashing-arrow-btn:active .flashing-arrow-btn__img {
     translate: 0 0;
   }
+
   .flashing-arrow-btn:active svg {
-    animation: bounce 0.5s ease 2;
+    animation: bounce 0.5s ease-in-out 2;
   }
 }
+
 
 /* Add a little shake effect when clicked */
 .flashing-arrow-btn:active {
