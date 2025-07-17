@@ -29,7 +29,7 @@
 /* Expand with image on hover */
 .news-nav.hovered .nav-trigger {
   height: 90px;
-  background-image: url('/hufcor/600.jpg'); /* Your background image */
+
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -145,3 +145,4 @@
     transform: none;
   }
 }
+

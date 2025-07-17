@@ -552,20 +552,8 @@ margin-bottom: 3rem;
   height: 16px;
 }
 
-/* Spinner */
-.spinner {
-  width: 16px;
-  height: 16px;
-  border: 2px solid #f3f4f6;
-  border-top: 2px solid #3b82f6;
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-}
 
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
+
 
 /* Responsive Design */
 @media (max-width: 768px) {
@@ -606,4 +594,85 @@ margin-bottom: 3rem;
   transition: all 0.4s ease;
   text-transform: uppercase;
   font-family: 'Bebas Neue', sans-serif;
+}
+
+/* Loading animations */
+.skeleton-card {
+  position: relative;
+  overflow: hidden;
+  background-color: #e0e0e0;
+}
+
+.skeleton-animation {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(90deg, #e0e0e0 25%, #f0f0f0 50%, #e0e0e0 75%);
+  background-size: 200% 100%;
+  animation: shimmer .5s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+.image-loading-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.8);
+  z-index: 10;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid rgba(0, 0, 0, 0.1);
+  border-radius: 50%;
+  border-top-color: #000;
+  /* animation: spin s ease-in-out infinite; */
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.gallery-card.loading {
+  position: relative;
+}
+
+.gallery-card.loading .image-wrapper {
+  opacity: 0;
+}
+
+.gallery-card.loaded .image-wrapper {
+  opacity: 1;
+  transition: opacity 0.3s ease;
+}
+
+.description {
+  font-family: Century Gothic;
+font-weight: 400;
+font-style: Regular;
+font-size: 18px;
+line-height: 35px;
+letter-spacing: 0%;
+text-align: center;
+vertical-align: middle;
+margin-bottom: 2rem;
+
 }

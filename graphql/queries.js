@@ -21,14 +21,11 @@ export const GET_LANDING_PAGE = gql`
         }
 
         newsHeading
-        newsBannerImage {
-          sourceUrl
-          altText
-          mediaDetails {
-            width
-            height
-          }
-        }
+      newsUrl
+      newsBannerImage {
+        sourceUrl
+        altText
+      }
        
 
         numberOfClients

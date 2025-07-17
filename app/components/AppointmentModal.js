@@ -85,7 +85,7 @@ export default function AppointmentModal({ isOpen, onClose, products = [] }) {
           <input type="email" name="email" placeholder="Your Email" value={form.email} onChange={handleChange} required />
           <input type="tel" name="mobile" placeholder="Mobile Number" value={form.mobile} onChange={handleChange} required />
 
-          <select name="product" value={form.product} onChange={handleChange} required>
+          <select name="product" value={form.product} onChange={handleChange} >
             <option value="">Select Interested Product</option>
             {products.map((p, i) => (
               <option key={i} value={p}>{p}</option>
@@ -103,7 +103,7 @@ export default function AppointmentModal({ isOpen, onClose, products = [] }) {
           />
 
           {form.date && (
-            <select name="time_slot" value={form.time_slot} onChange={handleChange} required>
+            <select name="time_slot" value={form.time_slot} onChange={handleChange} >
               <option value="">Select Time Slot</option>
               {loadingSlots ? (
                 <option disabled>Loading slots...</option>

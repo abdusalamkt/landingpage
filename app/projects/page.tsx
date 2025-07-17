@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState, useRef } from 'react';
 import Image from 'next/image';
 import './projects.css';
 import Header from '../components/Header';
@@ -24,11 +24,13 @@ type Project = {
   product: string;
   sizeClass?: string;
   altText?: string;
+  loaded?: boolean;
 };
 
 export default function ProjectsPage() {
   const [projects, setProjects] = useState<Project[]>([]);
   const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
 
   const [selectedProduct, setSelectedProduct] = useState('');
   const [selectedSector, setSelectedSector] = useState('');
@@ -63,6 +65,7 @@ export default function ProjectsPage() {
   useEffect(() => {
     const fetchProjects = async () => {
       try {
+        setLoading(true);
         const response = await fetch('/api/graphql', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -76,6 +79,8 @@ export default function ProjectsPage() {
       } catch (err) {
         console.error(err);
         setError((err as Error).message);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -101,6 +106,7 @@ export default function ProjectsPage() {
             sectors: sectorNames,
             product: title,
             altText: image.altText || title,
+            loaded: false
           });
         });
       });
@@ -170,12 +176,39 @@ export default function ProjectsPage() {
     setDisplayedCount(18);
   };
 
+  const handleImageLoad = (id: string) => {
+    setProjects(prevProjects =>
+      prevProjects.map(project =>
+        project.id === id ? { ...project, loaded: true } : project
+      )
+    );
+  };
+
+  // Skeleton loader component
+  const SkeletonLoader = ({ count = 18 }: { count?: number }) => {
+    return (
+      <div className="gallery-grid">
+        {Array.from({ length: count }).map((_, index) => {
+          const sizeVariants = ['wide', 'tall', 'big', ''];
+          const sizeClass = sizeVariants[index % sizeVariants.length];
+          
+          return (
+            <div key={`skeleton-${index}`} className={`gallery-card ${sizeClass} skeleton-card`}>
+              <div className="skeleton-animation"></div>
+            </div>
+          );
+        })}
+      </div>
+    );
+  };
+
   return (
     <>
       <Header />
       <FloatingSidebar />
       <div className="projects-gallery-container">
         <h1 className="gallery-title">GALLERY</h1>
+        <div className="description">Gibca Furniture Industry Co. Ltd. (L.L.C) offers operable partitions including walls and doors, upholding global standards. Regular maintenance ensures optimal performance and safety, keeping your partitions functional and secure.</div>
 
         {/* Filter UI */}
         <div className="filter-bar">
@@ -196,64 +229,65 @@ export default function ProjectsPage() {
           <button onClick={handleApply} className="filter-apply-btn">APPLY</button>
         </div>
 
+        {/* Loading state */}
+        {loading && <SkeletonLoader />}
+
         {/* Gallery Grid */}
-        <div className="gallery-grid">
-          {displayedProjects.length ? (
-            displayedProjects.map((project, index) => {
-              const sizeVariants = ['wide', 'tall', 'big', ''];
-              const sizeClass = sizeVariants[index % sizeVariants.length];
+        {!loading && (
+          <div className="gallery-grid">
+            {displayedProjects.length ? (
+              displayedProjects.map((project, index) => {
+                const sizeVariants = ['wide', 'tall', 'big', ''];
+                const sizeClass = sizeVariants[index % sizeVariants.length];
 
-              return (
-                <div
-                  key={project.id}
-                  className={`gallery-card ${sizeClass}`}
-                  onMouseMove={e => handleMouseMove(e, project.id)}
-                  onMouseLeave={handleMouseLeave}
-                >
-                  <div className="image-wrapper">
-                    <Image
-                      src={project.image}
-                      alt={project.altText || project.title}
-                      fill
-                      style={{ objectFit: 'cover' }}
-                      quality={80}
-                    />
-                  </div>
-
-                  {/* Tags */}
-                  <div className="tags-container">
-                    <div className="product-tags">
-                      <span className="product-tag">{project.product}</span>
-                    </div>
-                    <div className="sector-tags">
-                      {project.sectors.map((s, i) => (
-                        <span key={i} className="sector-tag">{s}</span>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Tooltip */}
-                  {tooltip.visible && tooltip.projectId === project.id && (
-                    <div
-                      className="cursor-tooltip"
-                      style={{ left: tooltip.x - 60, top: tooltip.y, position: 'absolute', zIndex: 1000 }}
-                    >
-                      <div className="tooltip-content">
-                        <h3 className="tooltip-title">{project.title}</h3>
-                        <p>{project.sectors.join(', ')}</p>
+                return (
+                  <div
+                    key={project.id}
+                    className={`gallery-card ${sizeClass} ${project.loaded ? 'loaded' : 'loading'}`}
+                    onMouseMove={e => handleMouseMove(e, project.id)}
+                    onMouseLeave={handleMouseLeave}
+                  >
+                    {!project.loaded && (
+                      <div className="image-loading-overlay">
+                      
                       </div>
+                    )}
+                    <div className="image-wrapper">
+                      <Image
+                        src={project.image}
+                        alt={project.altText || project.title}
+                        fill
+                        style={{ objectFit: 'cover' }}
+                        quality={80}
+                        onLoadingComplete={() => handleImageLoad(project.id)}
+                        priority={index < 6} // Prioritize loading first few images
+                      />
                     </div>
-                  )}
-                </div>
-              );
-            })
-          ) : (
-            <p>No projects match your filters.</p>
-          )}
-        </div>
+
+
+                    {/* Tooltip */}
+                    {tooltip.visible && tooltip.projectId === project.id && (
+                      <div
+                        className="cursor-tooltip"
+                        style={{ left: tooltip.x - 60, top: tooltip.y, position: 'absolute', zIndex: 1000 }}
+                      >
+                        <div className="tooltip-content">
+                          <h3 className="tooltip-title">{project.title}</h3>
+                          <p>{project.sectors.join(', ')}</p>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                );
+              })
+            ) : (
+              <p>No projects match your filters.</p>
+            )}
+          </div>
+        )}
 
         {/* Load More */}
-        {hasMore && (
+        {hasMore && !loading && (
           <div className="load-more-container">
             <button onClick={loadMore} className="load-more-btn">
               Load More

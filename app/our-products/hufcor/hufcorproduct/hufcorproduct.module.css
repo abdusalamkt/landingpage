@@ -135,7 +135,8 @@ font-size: 2rem;
 }
 
 .featureBlock h3 {
-  background-color: #D72027;
+  background: linear-gradient(269.42deg, #D72027 0.16%, #8E1217 99.84%);
+
   color: white;
   padding: 5px 120px;
   display: inline-block;

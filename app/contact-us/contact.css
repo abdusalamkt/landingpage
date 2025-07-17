@@ -112,8 +112,8 @@ img{
 .contact-image.slideshow {
   flex: 1;
   background-size: cover;
-  background-position: center;
-  transition: background-image .5s ease-in-out;
+  /* background-position: center; */
+  /* transition: background-image .5s ease-in; */
 }
 
 .contact-footer {
@@ -148,4 +148,6 @@ img{
   text-decoration: none;
 
 }
-
+.contact-footer .footer-column div {
+  white-space: pre-line;
+}

@@ -116,7 +116,16 @@ export default function HomePageContent({ fields }: { fields: any }) {
             slug={fields.newsPost?.slug}
           />
         </AnimatedSection> */}
-        <NewsNav />
+        <NewsNav
+  heading={fields.newsHeading || 'Latest Update'}
+  image={{
+    sourceUrl: fields.newsBannerImage?.sourceUrl || '',
+    altText: fields.newsBannerImage?.altText || '',
+  }}
+  url={fields.newsUrl || '#'}
+/>
+
+
 
         <AnimatedSection animation="fadeUp" delay={0.6}>
           <Stats

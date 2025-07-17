@@ -8,6 +8,8 @@ import ContactUs from "@/app/components/ContactUs";
 import Image from "next/image";
 import Header from "@/app/components/Header";
 import { usePathname } from "next/navigation";
+import FinishesSection from '@/app/components/FinishesSection';
+
 
 export default function HufcorProductLayout({ fields }: { fields: any }) {
   const pathname = usePathname();
@@ -164,6 +166,7 @@ export default function HufcorProductLayout({ fields }: { fields: any }) {
           ))}
         </div>
       </section>
+          <FinishesSection />
 
       {/* Choices Section */}
       <section className={styles.choices}>
