@@ -1,5 +1,7 @@
-// components/ResourcesSection.js
+'use client';
+
 import React from 'react';
+import Link from 'next/link';
 import './ResourcesSection.css';
 
 const ResourcesSection = () => {
@@ -11,11 +13,11 @@ const ResourcesSection = () => {
       </p>
 
       <div className="resources-section">
-        <div className="resource-item">Case Study</div>
+        <Link href="/case-study" className="resource-item">Case Study</Link>
         <div className="divider" />
-        <div className="resource-item">Downloads</div>
+        <Link href="/downloads" className="resource-item">Downloads</Link>
         <div className="divider" />
-        <div className="resource-item">Blogs</div>
+        <Link href="/blogs" className="resource-item">Blogs</Link>
         <div className="divider" />
       </div>
     </div>
