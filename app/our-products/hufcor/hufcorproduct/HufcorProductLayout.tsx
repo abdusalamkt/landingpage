@@ -11,6 +11,7 @@ import { usePathname } from "next/navigation";
 import FinishesSection from '@/app/components/FinishesSection';
 
 
+
 export default function HufcorProductLayout({ fields }: { fields: any }) {
   const pathname = usePathname();
 
@@ -40,6 +41,9 @@ export default function HufcorProductLayout({ fields }: { fields: any }) {
   const safeCustomizationRows = Array.isArray(customizationRows) ? customizationRows : [];
   const safePanelConfig = Array.isArray(panelConfig) ? panelConfig : [];
   const safeChoices = Array.isArray(choices) ? choices : [];
+
+  const bannerRef = useRef(null);
+const bannerInView = useInView(bannerRef, { once: true, amount: 0.5 });
 
   return (
     <div>
@@ -127,6 +131,18 @@ export default function HufcorProductLayout({ fields }: { fields: any }) {
           );
         })}
       </section>
+        {/* image section */}
+       <section className={styles.noiseBanner} ref={bannerRef}>
+  <div className={styles.noiseOverlay}></div>
+  <div className={`${styles.bannerText} ${bannerInView ? styles.show : ''}`}>
+    <span className={`${styles.word} ${styles.left}`}>YOUR</span>
+    <span className={`${styles.word} ${styles.bottom}`}>INNOVATION</span>
+    <span className={`${styles.word} ${styles.right}`}>SPACE</span>
+  </div>
+</section>
+
+
+
 
       {/* Customization Section */}
       <section className={styles.customization}>

@@ -343,7 +343,7 @@ max-width: 1100px;
 }
 
 .choiceBlock h3 {
-  background-color: #D72027;
+  background: linear-gradient(269.42deg, #D72027 0.16%, #8E1217 99.84%);
   color: white;
   padding: 5px 120px;
   display: inline-block;
@@ -569,4 +569,125 @@ text-transform: uppercase;
   .gif {
     max-height: 180px;
   }
+}
+
+
+
+
+.noiseBanner {
+  height: 70vh;
+  background-image: url('/hufcor/600.jpg');
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 3rem;
+  font-family: 'Bebas Neue', sans-serif;
+  letter-spacing: 2px;
+  overflow: hidden;
+  background-attachment: fixed;
+  margin-bottom: 50px;
+}
+
+.noiseBanner::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: url('/textures/noise.gif');
+  background: #000000; /* Add grainy gif */
+  opacity: 0.2;
+  pointer-events: none;
+  z-index: 1;
+  
+}
+
+.bannerText {
+  position: relative;
+  z-index: 2;
+  animation: fadeInUp 1s ease-out;
+  /* display: none; */
+}
+
+@keyframes fadeInUp {
+  from {
+    transform: translateY(40px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+
+.noiseBanner {
+  position: relative;
+  height: 80vh;
+  background: url('/hufcor/IMG_4659.jpg') center/cover no-repeat;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* background-attachment: fixed; */
+  border-top: 5px solid #D72027;
+  border-bottom: 5px solid #D72027;
+}
+
+.noiseOverlay {
+  pointer-events: none;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100%' height='100%'><filter id='grain'><feTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='3' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23grain)' opacity='0.07' /></svg>") repeat;
+}
+
+.bannerText {
+  z-index: 2;
+  display: flex;
+  gap: 2rem;
+  font-size: 4rem;
+  font-family: 'Bebas Neue', sans-serif;
+  color: white;
+  opacity: 0;
+  transition: opacity 1s ease;
+}
+
+.bannerText.show {
+  opacity: 1;
+}
+
+.word {
+  position: relative;
+  opacity: 0;
+}
+
+.bannerText.show .word.left {
+  animation: slideFromLeft 1s forwards 0.2s;
+}
+
+.bannerText.show .word.bottom {
+  animation: slideFromBottom 1s forwards 0.4s;
+}
+
+.bannerText.show .word.right {
+  animation: slideFromRight 1s forwards 0.6s;
+}
+
+@keyframes slideFromLeft {
+  0% { opacity: 0; transform: translateX(-100%); }
+  100% { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes slideFromRight {
+  0% { opacity: 0; transform: translateX(100%); }
+  100% { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes slideFromBottom {
+  0% { opacity: 0; transform: translateY(100%); }
+  100% { opacity: 1; transform: translateY(0); }
 }
