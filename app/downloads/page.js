@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import styles from './downloads.module.css';
 import Header from '../components/Header';
 import DownloadItemRow from '../components/DownloadItemRow';
@@ -44,10 +44,68 @@ const uniqueValues = (key) => [
   ...new Set(allDownloads.map((item) => item[key])),
 ].filter(Boolean);
 
+const fileIcons = {
+  Brochure: '📄',
+  Certificate: '📑',
+  Specification: '📊',
+  'Case Study': '📂'
+};
+
 export default function DownloadsPage() {
   const [product, setProduct] = useState('');
   const [docType, setDocType] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
+  const [transferFiles, setTransferFiles] = useState([]);
+  const animationRef = useRef();
+
+  useEffect(() => {
+    const createFile = () => {
+      const types = ['Brochure', 'Certificate', 'Specification', 'Case Study'];
+      const type = types[Math.floor(Math.random() * types.length)];
+      const size = (0.5 + Math.random() * 4.5).toFixed(1);
+      
+      return {
+        id: Date.now() + Math.random(),
+        type,
+        icon: fileIcons[type],
+        size: `${size}MB`,
+        progress: 0,
+        x: Math.random() * 80 + 10, // 10-90%
+        speed: .2 + Math.random() * 2,
+        rotation: Math.random() * 30 - 15,
+        opacity: 0.7 + Math.random() * 0.3,
+        direction: Math.random() > 0.5 ? 1 : -1
+      };
+    };
+
+    const updateFiles = () => {
+      setTransferFiles(prevFiles => {
+        // Remove completed files
+        let files = prevFiles.filter(f => f.progress < 100);
+        
+        // Add new files randomly
+        if (files.length < 10 && Math.random() > 0.7) {
+          files = [...files, createFile()];
+        }
+        
+        // Update progress
+        return files.map(f => ({
+          ...f,
+          progress: Math.min(f.progress + f.speed, 1000),
+          x: f.x + (Math.random() - 0.1) * 0 * f.direction
+        }));
+      });
+    };
+
+    // Initial files
+    const initialFiles = Array.from({ length: 5 }, () => createFile());
+    setTransferFiles(initialFiles);
+
+    // Animation loop
+    animationRef.current = setInterval(updateFiles, 30);
+
+    return () => clearInterval(animationRef.current);
+  }, []);
 
   const filtered = allDownloads.filter((item) => {
     return (
@@ -61,12 +119,66 @@ export default function DownloadsPage() {
     <>
       <Header />
       <section className={styles.hero}>
-        <h1>DOWNLOADS</h1>
-        <p>
-          As your collaborative consultant in flexible space management, we want
-          to provide you with the resources you need to efficiently specify the
-          right product for the job.
-        </p>
+        <div className={styles.animatedBackground}>
+          {/* Server Rack */}
+          <div className={styles.serverRack}>
+            <div className={styles.serverNodes}>
+              {Array.from({ length: 8 }).map((_, i) => (
+                <div key={i} className={styles.serverNode}>
+                  <div className={styles.serverLight} style={{ animationDelay: `${i * .2}s` }} />
+                </div>
+              ))}
+            </div>
+          </div>
+          
+          {/* Data Center Visualization */}
+          <div className={styles.dataCenter}>
+            {Array.from({ length: 5 }).map((_, i) => (
+              <div key={i} className={styles.serverTower} />
+            ))}
+          </div>
+          
+          {/* Animated File Transfers */}
+          {transferFiles.map((file) => (
+            <div
+              key={file.id}
+              className={styles.fileTransfer}
+              style={{
+                left: `${file.x}%`,
+                top: `${file.progress}%`,
+                transform: `rotate(${file.rotation}deg)`,
+                opacity: file.opacity
+              }}
+            >
+              <div className={styles.fileIcon}>{file.icon}</div>
+              <div className={styles.fileType}>{file.type}</div>
+              <div className={styles.fileSize}>{file.size}</div>
+              <div className={styles.progressBar}>
+                <div 
+                  className={styles.progressFill} 
+                  style={{ width: `${file.progress}%` }}
+                />
+              </div>
+            </div>
+          ))}
+          
+          {/* Network Connections */}
+         
+          
+          {/* Animated Data Packets */}
+          
+        </div>
+        
+        <div className={styles.heroContent}>
+          <h1>
+            <span className={styles.titleGlow}>DOWNLOADS</span>
+          </h1>
+          <p>
+            As your collaborative consultant in flexible space management, we want
+            to provide you with the resources you need to efficiently specify the
+            right product for the job.
+          </p>
+        </div>
       </section>
 
       <div className={styles.filters}>
