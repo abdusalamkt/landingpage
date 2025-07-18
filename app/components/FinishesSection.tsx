@@ -27,7 +27,7 @@ const finishOptions: FinishOption[] = [
   {
     label: 'Steel',
     thumbnail: '/finishes/thumbnails/steel.png',
-    panel: '/finishes/panels/Vinyl.png',
+    panel: '/finishes/panels/steel.png',
   },
   {
     label: 'Fabric',
@@ -37,7 +37,7 @@ const finishOptions: FinishOption[] = [
   {
     label: 'Whiteboard',
     thumbnail: '/finishes/thumbnails/whiteboard.PNG',
-    panel: '/finishes/panels/Carpet.PNG',
+    panel: '/finishes/panels/whiteboard.PNG',
   },
 ];
 export default function FinishesSection() {
