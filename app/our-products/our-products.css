@@ -7,11 +7,12 @@
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  background-attachment: scroll;
+  background-attachment: fixed;
   color: white;
   margin-bottom: 1rem;
   transition: background-size .6s ease-in-out;
   line-height: normal;
+
 }
 
 .products-heading {

@@ -5,10 +5,110 @@ import Head from "next/head";
 import Header from "@/app/components/Header";
 import "./our-products.css";
 import { ChevronDown, ChevronUp } from "lucide-react";
+import { useQuery, ApolloProvider, ApolloClient, InMemoryCache } from '@apollo/client';
+import { gql } from '@apollo/client';
 
-const sections = [
+// Initialize Apollo Client
+const client = new ApolloClient({
+  uri: process.env.WORDPRESS_GRAPHQL_ENDPOINT,
+  cache: new InMemoryCache(),
+});
+
+// GraphQL Query
+const GET_OUR_PRODUCTS_PAGE = gql`
+  query GetOurProductsPage {
+    page(id: "our-products", idType: URI) {
+      ourProducts {
+        productSections {
+          sectionTitle
+          sectionDescription
+          sectionDefaultBg {
+            sourceUrl
+          }
+          knowMoreUrl
+          sectionCategories {
+            categoryName
+            categoriesUrl
+            categoryHoverImage {
+              sourceUrl
+            }
+            categoryProducts {
+              productName
+              productHoverBg {
+                sourceUrl
+              }
+              productsUrl
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
+// Types for WordPress data
+interface ProductItem {
+  productName: string;
+  productHoverBg: {
+    sourceUrl: string;
+  } | null;
+  productsUrl: string;
+}
+
+interface Category {
+  categoryName: string;
+  categoriesUrl: string;
+  categoryHoverImage: {
+    sourceUrl: string;
+  } | null;
+  categoryProducts: ProductItem[];
+}
+
+interface Section {
+  sectionTitle: string;
+  sectionDescription: string;
+  sectionDefaultBg: {
+    sourceUrl: string;
+  } | null;
+  knowMoreUrl: string;
+  sectionCategories: Category[];
+}
+
+interface WordPressData {
+  page: {
+    ourProducts: {
+      productSections: Section[];
+    };
+  } | null;
+}
+
+// Transformed data types for component state
+interface TransformedItem {
+  name: string;
+  hoverBg: string;
+  url?: string;
+}
+
+interface TransformedCategory {
+  name: string;
+  items: TransformedItem[];
+  hoverBg: string;
+  url?: string;
+}
+
+interface TransformedSection {
+  title: string;
+  description: string;
+  defaultBg: string;
+  knowMoreUrl?: string;
+  categories?: TransformedCategory[];
+  items?: TransformedItem[];
+}
+
+// Fallback data for development/testing
+const fallbackData: TransformedSection[] = [
   {
-    title: "hufcor",
+    title: "hucor",
     description: "Operable Walls and Moving Glasswalls",
     defaultBg: "/hufcor/hufcor.PNG",
     categories: [
@@ -62,33 +162,125 @@ const sections = [
   },
 ];
 
-const navigationItems = [
-  { label: "Hufcor", index: 0 },
-  { label: "HPL Solutions", index: 1 },
-  { label: "Pivot Doors" },
-  { label: "GIBCA Glazed & Solid Partitions" },
-  { label: "Crown Hydraulic Doors & Windows" },
-  { label: "Acristalia Terrace Solutions" },
-];
+// Transform WordPress data to component format
+function transformWordPressData(wpData: WordPressData): TransformedSection[] {
+  if (!wpData?.page?.ourProducts?.productSections) {
+    return [];
+  }
 
-export default function OurProductsPage() {
+  return wpData.page.ourProducts.productSections.map(section => {
+    const transformedSection: TransformedSection = {
+      title: section.sectionTitle,
+      description: section.sectionDescription,
+      defaultBg: section.sectionDefaultBg?.sourceUrl || '/default-bg.jpg',
+      knowMoreUrl: section.knowMoreUrl,
+    };
+
+    if (section.sectionCategories && section.sectionCategories.length > 0) {
+      // Check if this section has categories with products
+      const hasCategories = section.sectionCategories.some(cat => 
+        cat.categoryProducts && cat.categoryProducts.length > 0
+      );
+
+      if (hasCategories) {
+        // Structure with categories
+        transformedSection.categories = section.sectionCategories.map(category => ({
+          name: category.categoryName,
+          url: category.categoriesUrl,
+          hoverBg: category.categoryHoverImage?.sourceUrl || transformedSection.defaultBg,
+          items: category.categoryProducts?.map(product => ({
+            name: product.productName,
+            hoverBg: product.productHoverBg?.sourceUrl || transformedSection.defaultBg,
+            url: product.productsUrl,
+          })) || [],
+        }));
+      } else {
+        // Structure with direct items (no subcategories)
+        transformedSection.items = section.sectionCategories.map(category => ({
+          name: category.categoryName,
+          hoverBg: category.categoryHoverImage?.sourceUrl || transformedSection.defaultBg,
+          url: category.categoriesUrl,
+        }));
+      }
+    }
+
+    return transformedSection;
+  });
+}
+
+// Generate navigation items from sections
+function generateNavigationItems(sections: TransformedSection[]) {
+  return sections.map((section, index) => ({
+    label: section.title,
+    index: index,
+  }));
+}
+
+function OurProductsContent() {
   const sectionRefs = useRef<(HTMLElement | null)[]>([]);
   const observerRef = useRef<IntersectionObserver | null>(null);
   const [activeIndex, setActiveIndex] = useState(0);
-  const [currentBgImages, setCurrentBgImages] = useState<string[]>(
-    sections.map((section) => section.defaultBg)
-  );
-  const [targetBgImages, setTargetBgImages] = useState<string[]>(
-    sections.map((section) => section.defaultBg)
-  );
-  const [isZoomed, setIsZoomed] = useState<boolean[]>(
-    sections.map(() => false)
-  );
+  const [sections, setSections] = useState<TransformedSection[]>([]);
+  const [navigationItems, setNavigationItems] = useState<{ label: string; index: number }[]>([]);
+  const [currentBgImages, setCurrentBgImages] = useState<string[]>([]);
+  const [targetBgImages, setTargetBgImages] = useState<string[]>([]);
+  const [isZoomed, setIsZoomed] = useState<boolean[]>([]);
   const [isHeaderVisible, setIsHeaderVisible] = useState(true);
+  const [expandedCategories, setExpandedCategories] = useState<(number | null)[]>([]);
+  const [warningMessage, setWarningMessage] = useState<string | null>(null);
 
-  const [expandedCategories, setExpandedCategories] = useState<
-    (number | null)[]
-  >(sections.map(() => null));
+  // Use Apollo Client hook
+  const { loading, error, data } = useQuery<WordPressData>(GET_OUR_PRODUCTS_PAGE, {
+    errorPolicy: 'all',
+    notifyOnNetworkStatusChange: true,
+  });
+
+  // Process data when it loads
+  useEffect(() => {
+    let sectionsToUse: TransformedSection[] = [];
+    let shouldShowWarning = false;
+    let warningText = '';
+
+    if (error) {
+      console.error('GraphQL Error:', error);
+      sectionsToUse = fallbackData;
+      shouldShowWarning = true;
+      warningText = `WordPress connection failed: ${error.message}. Using demo data.`;
+    } else if (data) {
+      const transformedSections = transformWordPressData(data);
+      if (transformedSections.length === 0) {
+        sectionsToUse = fallbackData;
+        shouldShowWarning = true;
+        warningText = 'No product data found in WordPress. Using demo data.';
+      } else {
+        sectionsToUse = transformedSections;
+        console.log('Successfully loaded data from WordPress');
+      }
+    } else if (!loading) {
+      // No data and not loading - use fallback
+      sectionsToUse = fallbackData;
+      shouldShowWarning = true;
+      warningText = 'No data received from WordPress. Using demo data.';
+    }
+
+    if (sectionsToUse.length > 0) {
+      setSections(sectionsToUse);
+      setNavigationItems(generateNavigationItems(sectionsToUse));
+      
+      // Initialize state arrays based on data
+      const defaultBgs = sectionsToUse.map(section => section.defaultBg);
+      setCurrentBgImages(defaultBgs);
+      setTargetBgImages(defaultBgs);
+      setIsZoomed(sectionsToUse.map(() => false));
+      setExpandedCategories(sectionsToUse.map(() => null));
+    }
+
+    if (shouldShowWarning) {
+      setWarningMessage(warningText);
+      // Clear warning after 5 seconds
+      setTimeout(() => setWarningMessage(null), 5000);
+    }
+  }, [data, error, loading]);
 
   const scrollToSection = (index: number) => {
     sectionRefs.current[index]?.scrollIntoView({ behavior: "smooth" });
@@ -102,10 +294,10 @@ export default function OurProductsPage() {
 
       if (window.scrollY > lastScrollY && window.scrollY > 100) {
         header.classList.add('header-hidden');
-        setIsHeaderVisible(false); // Move navbar immediately when header starts hiding
+        setIsHeaderVisible(false);
       } else {
         header.classList.remove('header-hidden');
-        setIsHeaderVisible(true); // Move navbar immediately when header starts showing
+        setIsHeaderVisible(true);
       }
       
       lastScrollY = window.scrollY;
@@ -134,15 +326,25 @@ export default function OurProductsPage() {
 
   const handleSectionLeave = (sectionIdx: number) => {
     setTargetBgImages((prev) =>
-      prev.map((bg, i) => (i === sectionIdx ? sections[i].defaultBg : bg))
+      prev.map((bg, i) => (i === sectionIdx ? sections[i]?.defaultBg || bg : bg))
     );
     setIsZoomed((prev) =>
       prev.map((zoom, i) => (i === sectionIdx ? false : zoom))
     );
   };
 
-  const handleKnowMoreClick = (sectionTitle: string) => {
-    console.log(`Know more about ${sectionTitle}`);
+  const handleKnowMoreClick = (section: TransformedSection) => {
+    if (section.knowMoreUrl) {
+      window.open(section.knowMoreUrl, '_blank');
+    } else {
+      console.log(`Know more about ${section.title}`);
+    }
+  };
+
+  const handleItemClick = (url?: string) => {
+    if (url) {
+      window.open(url, '_blank');
+    }
   };
 
   const toggleCategory = (
@@ -181,19 +383,22 @@ export default function OurProductsPage() {
     return () => {
       observerRef.current?.disconnect();
     };
-  }, []);
+  }, [sections]);
 
+  // Preload images
   useEffect(() => {
+    if (sections.length === 0) return;
+
     const allImages = new Set(
       sections.flatMap((section) => {
         const base = [section.defaultBg];
-        if ("categories" in section && section.categories) {
+        if (section.categories) {
           return base.concat(
             section.categories.flatMap((cat) =>
-              cat.items.map((item) => item.hoverBg)
+              [cat.hoverBg, ...cat.items.map((item) => item.hoverBg)]
             )
           );
-        } else if ("items" in section && section.items) {
+        } else if (section.items) {
           return base.concat(section.items.map((item) => item.hoverBg));
         }
         return base;
@@ -204,25 +409,58 @@ export default function OurProductsPage() {
       const img = new Image();
       img.src = src;
     });
-  }, []);
+  }, [sections]);
 
-  const allUniqueImages = Array.from(
+  const allUniqueImages = sections.length > 0 ? Array.from(
     new Set(
       sections.flatMap((section) => {
         const base = [section.defaultBg];
-        if ("categories" in section && section.categories) {
+        if (section.categories) {
           return base.concat(
             section.categories.flatMap((cat) =>
-              cat.items.map((item) => item.hoverBg)
+              [cat.hoverBg, ...cat.items.map((item) => item.hoverBg)]
             )
           );
-        } else if ("items" in section && section.items) {
+        } else if (section.items) {
           return base.concat(section.items.map((item) => item.hoverBg));
         }
         return base;
       })
     )
-  );
+  ) : [];
+
+  if (loading) {
+    return (
+      <>
+        <Header />
+        <div className="flex items-center justify-center min-h-screen">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-gray-900 mx-auto mb-4"></div>
+            <p className="text-lg">Loading products...</p>
+          </div>
+        </div>
+      </>
+    );
+  }
+
+  if (sections.length === 0 && !loading) {
+    return (
+      <>
+        <Header />
+        <div className="flex items-center justify-center min-h-screen">
+          <div className="text-center">
+            <p className="text-lg text-red-600 mb-4">No products found.</p>
+            <button 
+              onClick={() => window.location.reload()} 
+              className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+            >
+              Retry
+            </button>
+          </div>
+        </div>
+      </>
+    );
+  }
 
   return (
     <>
@@ -234,18 +472,40 @@ export default function OurProductsPage() {
 
       <Header />
       
+      {/* Warning Toast */}
+      {warningMessage && (
+        <div className="fixed top-4 right-4 bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 max-w-md z-50 rounded shadow-lg">
+          <div className="flex">
+            <div className="flex-shrink-0">
+              <svg className="h-5 w-5 text-yellow-500" viewBox="0 0 20 20" fill="currentColor">
+                <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+              </svg>
+            </div>
+            <div className="ml-3">
+              <p className="text-sm font-medium">Warning</p>
+              <p className="text-sm">{warningMessage}</p>
+            </div>
+            <div className="ml-auto pl-3">
+              <button
+                onClick={() => setWarningMessage(null)}
+                className="text-yellow-500 hover:text-yellow-700"
+              >
+                <span className="sr-only">Dismiss</span>
+                <svg className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                  <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+      
       <div className={`scroll-navigation ${isHeaderVisible ? 'with-header' : 'without-header'}`}>
         {navigationItems.map((item, idx, arr) => (
           <div key={idx} className="scroll-nav-item">
             <button
-              className={typeof item.index === "number" && activeIndex === item.index ? 'active' : ''}
-              onClick={() => {
-                if (typeof item.index === "number") {
-                  scrollToSection(item.index);
-                } else {
-                  console.log(`${item.label} clicked`);
-                }
-              }}
+              className={activeIndex === item.index ? 'active' : ''}
+              onClick={() => scrollToSection(item.index)}
             >
               {item.label}
             </button>
@@ -279,13 +539,16 @@ export default function OurProductsPage() {
                 className="products-section"
                 onMouseLeave={() => handleSectionLeave(i)}
               >
-                {"categories" in section && section.categories ? (
+                {section.categories ? (
                   <>
                     {section.categories.map((cat, catIdx) => (
                       <div key={catIdx} className="category-container">
                         <div
                           className="category-name products-item"
-                          onClick={() => toggleCategory(i, catIdx, cat.hoverBg)}
+                          onClick={() => {
+                            toggleCategory(i, catIdx, cat.hoverBg);
+                            if (cat.url) handleItemClick(cat.url);
+                          }}
                           onMouseEnter={() => handleHover(i, cat.hoverBg)}
                         >
                           {cat.name}
@@ -316,6 +579,8 @@ export default function OurProductsPage() {
                               <div
                                 className="products-item"
                                 onMouseEnter={() => handleHover(i, item.hoverBg)}
+                                onClick={() => handleItemClick(item.url)}
+                                style={{ cursor: item.url ? 'pointer' : 'default' }}
                               >
                                 {item.name}
                                 <span className="arrow">→</span>
@@ -334,6 +599,8 @@ export default function OurProductsPage() {
                       <div
                         className="products-item"
                         onMouseEnter={() => handleHover(i, item.hoverBg)}
+                        onClick={() => handleItemClick(item.url)}
+                        style={{ cursor: item.url ? 'pointer' : 'default' }}
                       >
                         {item.name}
                         <span className="arrow">→</span>
@@ -347,7 +614,7 @@ export default function OurProductsPage() {
 
                 <button
                   className="cta-button"
-                  onClick={() => handleKnowMoreClick(section.title)}
+                  onClick={() => handleKnowMoreClick(section)}
                 >
                   Know More
                 </button>
@@ -377,5 +644,13 @@ export default function OurProductsPage() {
         ))}
       </nav>
     </>
+  );
+}
+
+export default function OurProductsPage() {
+  return (
+    <ApolloProvider client={client}>
+      <OurProductsContent />
+    </ApolloProvider>
   );
 }
