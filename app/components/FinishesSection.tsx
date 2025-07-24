@@ -34,17 +34,21 @@ export default function FinishesSection({ finishes }: { finishes?: FinishItem[] 
       setNextImage(newImage);
       setIsTransitioning(true);
       setRevealHeight(0);
-
-      setTimeout(() => setRevealHeight(100), 50);
-
-      setTimeout(() => {
-        setCurrentImage(newImage);
-        setNextImage('');
-        setRevealHeight(0);
-        setIsTransitioning(false);
-        setSelectedIndex(index);
-      }, 1000);
+      setSelectedIndex(index);
     }
+  };
+
+  const handleImageLoad = () => {
+    // Start reveal animation once image is loaded
+    setTimeout(() => setRevealHeight(100), 50);
+
+    // Complete transition after animation
+    setTimeout(() => {
+      setCurrentImage(nextImage);
+      setNextImage('');
+      setRevealHeight(0);
+      setIsTransitioning(false);
+    }, 1050);
   };
 
   if (!hasValidFinishes) return null;
@@ -90,6 +94,7 @@ export default function FinishesSection({ finishes }: { finishes?: FinishItem[] 
                   src={nextImage}
                   alt="Next panel"
                   className="main-image-after"
+                  onLoad={handleImageLoad}
                 />
               </div>
             )}

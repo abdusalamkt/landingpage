@@ -251,10 +251,9 @@ function OurProductsContent() {
       if (transformedSections.length === 0) {
         sectionsToUse = fallbackData;
         shouldShowWarning = true;
-        warningText = 'No product data found in WordPress. Using demo data.';
       } else {
         sectionsToUse = transformedSections;
-        console.log('Successfully loaded data from WordPress');
+        
       }
     } else if (!loading) {
       // No data and not loading - use fallback
@@ -448,15 +447,7 @@ function OurProductsContent() {
       <>
         <Header />
         <div className="flex items-center justify-center min-h-screen">
-          <div className="text-center">
-            <p className="text-lg text-red-600 mb-4">No products found.</p>
-            <button 
-              onClick={() => window.location.reload()} 
-              className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-            >
-              Retry
-            </button>
-          </div>
+          
         </div>
       </>
     );
