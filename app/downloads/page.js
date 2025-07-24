@@ -121,7 +121,7 @@ export default function DownloadsPage() {
       <section className={styles.hero}>
         <div className={styles.animatedBackground}>
           {/* Server Rack */}
-          <div className={styles.serverRack}>
+          {/* <div className={styles.serverRack}>
             <div className={styles.serverNodes}>
               {Array.from({ length: 8 }).map((_, i) => (
                 <div key={i} className={styles.serverNode}>
@@ -129,15 +129,15 @@ export default function DownloadsPage() {
                 </div>
               ))}
             </div>
-          </div>
+          </div> */}
           
           {/* Data Center Visualization */}
-          <div className={styles.dataCenter}>
+          {/* <div className={styles.dataCenter}>
             {Array.from({ length: 5 }).map((_, i) => (
               <div key={i} className={styles.serverTower} />
             ))}
           </div>
-          
+           */}
           {/* Animated File Transfers */}
           {transferFiles.map((file) => (
             <div

@@ -1,51 +1,33 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
-interface FinishOption {
+interface FinishItem {
   label: string;
-  thumbnail: string;
-  panel: string;
+  thumbnail: {
+    sourceUrl: string;
+    altText?: string;
+  };
+  panel: {
+    sourceUrl: string;
+    altText?: string;
+  };
 }
 
-const finishOptions: FinishOption[] = [
-  {
-    label: 'Carpet',
-    thumbnail: '/finishes/thumbnails/carpet.jpg',
-    panel: '/finishes/panels/Carpet.png',
-  },
-  {
-    label: 'Laminate',
-    thumbnail: '/finishes/thumbnails/LAMINATE.jpg',
-    panel: '/finishes/panels/Laminate.png',
-  },
-  {
-    label: 'Vinyl',
-    thumbnail: '/finishes/thumbnails/VIYNL.jpg',
-    panel: '/finishes/panels/Vinyl.png',
-  },
-  {
-    label: 'Steel',
-    thumbnail: '/finishes/thumbnails/steel.png',
-    panel: '/finishes/panels/steel.png',
-  },
-  {
-    label: 'Fabric',
-    thumbnail: '/finishes/thumbnails/Fabric.jpg',
-    panel: '/finishes/panels/Fabric.png',
-  },
-  {
-    label: 'Whiteboard',
-    thumbnail: '/finishes/thumbnails/whiteboard.PNG',
-    panel: '/finishes/panels/whiteboard.PNG',
-  },
-];
-export default function FinishesSection() {
-  const [currentImage, setCurrentImage] = useState(finishOptions[0].panel);
+export default function FinishesSection({ finishes }: { finishes?: FinishItem[] }) {
+  const hasValidFinishes = Array.isArray(finishes) && finishes.length > 0;
+
+  const [currentImage, setCurrentImage] = useState<string>('');
   const [nextImage, setNextImage] = useState('');
   const [revealHeight, setRevealHeight] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(0);
+
+  useEffect(() => {
+    if (hasValidFinishes) {
+      setCurrentImage(finishes[0].panel.sourceUrl || '');
+    }
+  }, [hasValidFinishes, finishes]);
 
   const handleImageChange = (newImage: string, index: number) => {
     if (newImage !== currentImage && !isTransitioning) {
@@ -53,12 +35,8 @@ export default function FinishesSection() {
       setIsTransitioning(true);
       setRevealHeight(0);
 
-      // Start the reveal animation
-      setTimeout(() => {
-        setRevealHeight(100);
-      }, 50);
+      setTimeout(() => setRevealHeight(100), 50);
 
-      // Complete the transition after animation
       setTimeout(() => {
         setCurrentImage(newImage);
         setNextImage('');
@@ -69,6 +47,8 @@ export default function FinishesSection() {
     }
   };
 
+  if (!hasValidFinishes) return null;
+
   return (
     <section className="finishes-section">
       <h2 className="heading">
@@ -78,14 +58,18 @@ export default function FinishesSection() {
 
       <div className="container">
         <div className="tiles">
-          {finishOptions.map((item, idx) => (
+          {finishes.map((item, idx) => (
             <div
               key={idx}
-              className={`tile ${selectedIndex === idx ? 'selected' : ''}`}
-              onClick={() => handleImageChange(item.panel, idx)}
+              className="tile"
+              onClick={() => handleImageChange(item.panel.sourceUrl, idx)}
             >
               <span>{item.label}</span>
-              <img src={item.thumbnail} alt={item.label} />
+              <img
+                src={item.thumbnail.sourceUrl}
+                alt={item.thumbnail.altText || item.label}
+                className={selectedIndex === idx ? 'selected' : ''}
+              />
             </div>
           ))}
         </div>
@@ -93,15 +77,20 @@ export default function FinishesSection() {
         <div className="main-image-wrap">
           <div className="image-comparison-wrapper">
             <div className="before-image">
-              <img src={currentImage} alt="Current panel" className="main-image" />
+              <img
+                src={currentImage}
+                alt="Current panel"
+                className="main-image"
+              />
             </div>
 
             {nextImage && (
-              <div
-                className="after-image"
-                style={{ height: `${revealHeight}%` }}
-              >
-                <img src={nextImage} alt="Next panel" className="main-image-after" />
+              <div className="after-image" style={{ height: `${revealHeight}%` }}>
+                <img
+                  src={nextImage}
+                  alt="Next panel"
+                  className="main-image-after"
+                />
               </div>
             )}
           </div>
@@ -118,12 +107,7 @@ export default function FinishesSection() {
         .heading {
           font-family: 'Bebas Neue', sans-serif;
           font-weight: 400;
-          font-style: normal;
           font-size: 51px;
-          line-height: 100%;
-          letter-spacing: 0%;
-          text-align: center;
-          vertical-align: middle;
           margin: 0;
         }
 
@@ -134,13 +118,8 @@ export default function FinishesSection() {
         .subheading {
           font-family: 'Poppins', sans-serif;
           font-weight: 300;
-          font-style: normal;
           font-size: 19.27px;
           text-transform: uppercase;
-          line-height: 100%;
-          letter-spacing: 0%;
-          text-align: center;
-          vertical-align: middle;
           margin-top: 0.5rem;
           color: #555;
         }
@@ -153,14 +132,16 @@ export default function FinishesSection() {
           gap: 4rem;
           flex-wrap: wrap;
           margin-top: 3rem;
+          margin-right: -80px;
         }
 
         .tiles {
           display: grid;
           grid-template-columns: 1fr 1fr;
-          gap: 1rem;
+          gap: 2px;
           align-self: center;
           max-height: 100vh;
+          margin-right: -80px;
         }
 
         .tile {
@@ -169,20 +150,13 @@ export default function FinishesSection() {
           cursor: pointer;
           background: #fdfdfd;
           transition: transform 0.2s;
-          align-self: center;
           display: flex;
           flex-direction: column;
           align-items: center;
-          border: 1px solid transparent;
         }
 
         .tile:hover {
           transform: scale(1.05);
-        }
-
-        .tile.selected {
-          border-color: #cf202f;
-          transform: scale(1.02);
         }
 
         .tile img {
@@ -190,9 +164,9 @@ export default function FinishesSection() {
           height: 160px;
           object-fit: cover;
           border-radius: 4px;
-          flex-shrink: 0;
           padding: 3px;
           transition: all 0.2s;
+          border: 1px solid transparent;
         }
 
         .tile img:hover {
@@ -200,14 +174,17 @@ export default function FinishesSection() {
           box-shadow: 2px 3px 4px 0px #00000040;
         }
 
+        .tile img.selected {
+          border: 2px solid #cf202f;
+          box-shadow: 0 0 10px rgba(207, 32, 47, 0.4);
+        }
+
         .tile span {
-          display: block;
           margin-top: 0.5rem;
           font-weight: 500;
           color: #333;
           font-size: 0.9rem;
           text-align: center;
-          flex-grow: 1;
           display: flex;
           align-items: center;
         }
@@ -228,11 +205,6 @@ export default function FinishesSection() {
           position: relative;
         }
 
-        .before-image {
-          position: relative;
-          z-index: 1;
-        }
-
         .after-image {
           position: absolute;
           bottom: 0;
@@ -243,7 +215,8 @@ export default function FinishesSection() {
           transition: height 1s ease-in-out;
         }
 
-        .main-image {
+        .main-image,
+        .main-image-after {
           width: 100%;
           height: auto;
           border-radius: 8px;
@@ -252,10 +225,6 @@ export default function FinishesSection() {
         }
 
         .main-image-after {
-          width: 100%;
-          height: auto;
-          object-fit: contain;
-          display: block;
           position: absolute;
           bottom: 0;
           left: 0;
