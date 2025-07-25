@@ -99,6 +99,35 @@ const GET_FAQS = gql`
   }
 `;
 
+const GET_DOWNLOADS = gql`
+  query GetDownloads {
+    downloads {
+      nodes {
+        title
+        downloadFields {
+          productdownloads {
+            filetype
+            filetitle
+            filepdf {
+              sourceUrl
+              title
+            }
+            gated
+          }
+          product {
+            ... on Page {
+              id
+              title
+              slug
+              uri
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
 export async function generateStaticParams() {
   const { data } = await client.query({
     query: gql`
@@ -132,14 +161,18 @@ export default async function HufcorProduct({ params }: { params: Promise<{ slug
     query: GET_FAQS,
   });
 
+  const { data: downloadData } = await client.query({
+    query: GET_DOWNLOADS,
+  });
+
   const fields = productData?.page?.hufcorSeriesFields;
   const pageSlug = productData?.page?.slug;
   const pageId = productData?.page?.id;
 
   if (!fields) return <div>Product not found</div>;
 
+  // Process FAQ data
   let relatedFaqs: any[] = [];
-
   if (faqData?.fAQs?.nodes) {
     faqData.fAQs.nodes.forEach((faqNode: any) => {
       const relatedPage = faqNode.faqItems?.relatedProductPage;
@@ -163,5 +196,38 @@ export default async function HufcorProduct({ params }: { params: Promise<{ slug
     });
   }
 
-  return <HufcorProductLayout fields={fields} faqData={relatedFaqs} />;
+  // Process Download data
+  let relatedDownloads: any[] = [];
+  if (downloadData?.downloads?.nodes) {
+    downloadData.downloads.nodes.forEach((downloadNode: any) => {
+      const relatedPage = downloadNode.downloadFields?.product;
+      const downloads = downloadNode.downloadFields?.productdownloads;
+
+      if (relatedPage && downloads?.length) {
+        const isMatch =
+          relatedPage.slug === pageSlug ||
+          relatedPage.id === pageId ||
+          relatedPage.uri === productData?.page?.uri;
+
+        if (isMatch) {
+          downloads.forEach((download: any) => {
+            relatedDownloads.push({
+              fileType: download.filetype,
+              fileTitle: download.filetitle,
+              filePdf: download.filepdf,
+              gated: download.gated,
+            });
+          });
+        }
+      }
+    });
+  }
+
+  return (
+    <HufcorProductLayout 
+      fields={fields} 
+      faqData={relatedFaqs} 
+      downloadData={relatedDownloads}
+    />
+  );
 }

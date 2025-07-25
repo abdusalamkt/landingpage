@@ -16,12 +16,27 @@ interface FaqData {
   answer: string;
 }
 
+interface DownloadData {
+  fileType: string;
+  fileTitle: string;
+  filePdf: {
+    sourceUrl: string;
+    title: string;
+  };
+  gated: boolean;
+}
+
 interface HufcorProductLayoutProps {
   fields: any;
   faqData?: FaqData[];
+  downloadData?: DownloadData[];
 }
 
-export default function HufcorProductLayout({ fields, faqData }: HufcorProductLayoutProps) {
+export default function HufcorProductLayout({ 
+  fields, 
+  faqData, 
+  downloadData 
+}: HufcorProductLayoutProps) {
   const pathname = usePathname();
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -308,7 +323,7 @@ export default function HufcorProductLayout({ fields, faqData }: HufcorProductLa
       )}
 
       {/* Download, FAQ, Contact */}
-      <DownloadSection />
+      <DownloadSection downloadData={downloadData} />
       {faqData && faqData.length > 0 && <FaqSection faqData={faqData} />}
       <ContactUs />
     </div>

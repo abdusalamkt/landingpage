@@ -136,7 +136,7 @@ font-size: 2rem;
 
 .featureBlock h3 {
   background: linear-gradient(269.42deg, #D72027 0.16%, #8E1217 99.84%);
-
+ position: relative;
   color: white;
   padding: 5px 120px;
   display: inline-block;
@@ -148,6 +148,17 @@ font-size: 2rem;
 letter-spacing: 3%;
 vertical-align: middle;
 
+}
+
+
+.featureBlock h3::after {
+  content: "";
+  position: absolute;
+  top: 0px;
+  right: 10px;
+  width: 4px;            
+  height: 100%;
+  background-color: rgb(255, 255, 255);
 }
 
 .headingLineWrap {
@@ -325,6 +336,7 @@ max-width: 1100px;
 }
 
 .choiceBlock h3 {
+  position: relative;
   background: linear-gradient(269.42deg, #D72027 0.16%, #8E1217 99.84%);
   color: white;
   padding: 5px 120px;
@@ -337,6 +349,17 @@ max-width: 1100px;
   letter-spacing: 3%;
   vertical-align: middle;
 }
+
+.choiceBlock h3::after {
+  content: "";
+  position: absolute;
+  top: 0px;
+  right: 10px;
+  width: 4px;            
+  height: 100%;
+  background-color: rgb(255, 255, 255);
+}
+
 .choicePointsWrap {
   display: flex;
   flex-wrap: wrap;
