@@ -18,10 +18,14 @@ interface DownloadSectionProps {
   downloadData?: DownloadData[];
 }
 
-const tabs = ["Brochures", "Finishes", "Project Reference", "Specification"];
+const tabs = ["Brochures", "Finishes", "Project Reference", "Specification"] as const;
+type Tab = typeof tabs[number];
 
 // Default fallback data (in case no data is passed)
-const defaultDownloadData = {
+const defaultDownloadData: Record<
+  Tab,
+  Array<{ title: string; link: string; gated: boolean }>
+> = {
   Brochures: [
     { title: "GIBCA COMPANY PROFILE - BROCHURE", link: "/downloads/company-brochure.pdf", gated: false },
     { title: "ISO CERTIFICATE 9001 – QMS", link: "/downloads/iso-qms.pdf", gated: true },
@@ -38,19 +42,23 @@ const defaultDownloadData = {
 };
 
 export default function DownloadSection({ downloadData }: DownloadSectionProps) {
-  const [activeTab, setActiveTab] = useState("Brochures");
+  // Tell TS activeTab will always be one of the tab strings
+  const [activeTab, setActiveTab] = useState<Tab>("Brochures");
 
   // Group the dynamic downloadData by fileType
-  const processedDownloadData: Record<string, Array<{ title: string; link: string; gated: boolean }>> = {};
+  const processedDownloadData: Record<
+    Tab,
+    Array<{ title: string; link: string; gated: boolean }>
+  > = {
+    Brochures: [],
+    Finishes: [],
+    "Project Reference": [],
+    Specification: [],
+  };
 
   if (downloadData && downloadData.length > 0) {
-    // Ensure each tab is initialized
-    tabs.forEach((tab) => {
-      processedDownloadData[tab] = [];
-    });
-
     downloadData.forEach((item) => {
-      const type = item.fileType?.trim();
+      const type = item.fileType?.trim() as Tab;
       if (type && tabs.includes(type) && item.filePdf?.sourceUrl) {
         processedDownloadData[type].push({
           title: item.fileTitle,
@@ -61,7 +69,6 @@ export default function DownloadSection({ downloadData }: DownloadSectionProps) 
     });
   }
 
-  // Choose actual or fallback data
   const displayData = downloadData && downloadData.length > 0 ? processedDownloadData : defaultDownloadData;
 
   return (
