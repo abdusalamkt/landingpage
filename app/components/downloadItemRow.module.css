@@ -101,11 +101,11 @@
   padding: 12px 0;
   border: none;
   background: transparent;
+  color: white;
   font-family: 'Inter', sans-serif;
   font-size: 1rem;
   border-bottom: 1px solid #555;
   transition: all 0.3s ease;
-  color: #3d3d3d;
 }
 
 .input:focus {

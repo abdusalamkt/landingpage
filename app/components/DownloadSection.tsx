@@ -91,7 +91,7 @@ export default function DownloadSection({ downloadData }: DownloadSectionProps) 
 
       <div className={styles.list}>
         {displayData[activeTab]?.map((item, index) => (
-          <DownloadItemRow key={index} item={item} />
+          <DownloadItemRow key={index} item={item}  />
         ))}
 
         {(!displayData[activeTab] || displayData[activeTab].length === 0) && (
