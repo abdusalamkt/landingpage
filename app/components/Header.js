@@ -37,10 +37,13 @@ export default function Header() {
 
   const dropdownItems = {
     products: [
-      { name: 'CROWN', link: '#' },
+      
       { name: 'HUFCOR', link: '/our-products/hufcor' },
       { name: 'HPL', link: '#' },
       { name: 'OPS', link: '#' },
+      { name: 'acristalia', link: '/our-products/terrace-solutions' },
+      { name: 'Crown', link: '/our-products/crown' },
+    
     ],
     resources: [
       { name: 'Blogs', link: '/blogs' },

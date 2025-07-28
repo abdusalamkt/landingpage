@@ -3,6 +3,7 @@
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
+import { useState, useRef, useEffect } from 'react';
 import './service.css';
 
 type ServiceItem = {
@@ -27,6 +28,10 @@ type ServicePageProps = {
       sourceUrl: string;
       altText: string;
     };
+    whyServiceImageBefore: {
+      sourceUrl: string;
+      altText: string;
+    };
     whyServiceItems: ServiceItem[];
   };
 };
@@ -40,6 +45,18 @@ export default function ServicePage({ fields }: ServicePageProps) {
     level: item.level,
   }));
 
+  // Hardcoded images for the reveal slider
+  const beforeImage = {
+  sourceUrl: fields.whyServiceImageBefore.sourceUrl,
+  altText: fields.whyServiceImageBefore.altText || "Before service"
+};
+
+const afterImage = {
+  sourceUrl: fields.whyServiceImage.sourceUrl,
+  altText: fields.whyServiceImage.altText || "After service"
+};
+
+
   return (
     <div className="service-page">
       {/* Header Section */}
@@ -52,7 +69,7 @@ export default function ServicePage({ fields }: ServicePageProps) {
         >
           <h1 className="service-heading">
             {fields.whyServiceTitle}{' '}
-            <span className="highlight-green">{fields.heroHighlight}</span>
+            {/* <span className="highlight-green">{fields.heroHighlight}</span> */}
           </h1>
           <p className="service-subheading">
             {fields.whyServiceDescription}
@@ -79,12 +96,10 @@ export default function ServicePage({ fields }: ServicePageProps) {
             <line x1="600" y1="640" x2="600" y2="1000" stroke="#000" strokeWidth="2" />
           </svg>
 
-          <Image
-            src={fields.whyServiceImage?.sourceUrl || "/fallback.jpg"}
-            alt={fields.whyServiceImage?.altText || "Service Image"}
-            width={300}
-            height={600}
-            className="service-image"
+          {/* Using hardcoded images for the reveal slider */}
+          <ImageRevealSlider
+            beforeImage={beforeImage}
+            afterImage={afterImage}
           />
 
           {items.map((item, index) => (
@@ -95,6 +110,89 @@ export default function ServicePage({ fields }: ServicePageProps) {
     </div>
   );
 }
+
+function ImageRevealSlider({ beforeImage, afterImage }: { 
+  beforeImage: { sourceUrl: string; altText: string };
+  afterImage: { sourceUrl: string; altText: string };
+}) {
+  const [sliderPosition, setSliderPosition] = useState(50);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [isDragging, setIsDragging] = useState(false);
+
+  const handleMouseDown = () => setIsDragging(true);
+  const handleMouseUp = () => setIsDragging(false);
+
+  const handleMouseMove = (e: MouseEvent) => {
+    if (!isDragging || !containerRef.current) return;
+    const rect = containerRef.current.getBoundingClientRect();
+    const x = ((e.clientX - rect.left) / rect.width) * 100;
+    setSliderPosition(Math.max(0, Math.min(100, x)));
+  };
+
+  const handleTouchMove = (e: TouchEvent) => {
+    if (!isDragging || !containerRef.current) return;
+    const rect = containerRef.current.getBoundingClientRect();
+    const x = ((e.touches[0].clientX - rect.left) / rect.width) * 100;
+    setSliderPosition(Math.max(0, Math.min(100, x)));
+  };
+
+  useEffect(() => {
+    window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("mouseup", handleMouseUp);
+    window.addEventListener("touchmove", handleTouchMove);
+    window.addEventListener("touchend", handleMouseUp);
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("mouseup", handleMouseUp);
+      window.removeEventListener("touchmove", handleTouchMove);
+      window.removeEventListener("touchend", handleMouseUp);
+    };
+  }, [isDragging]);
+
+  return (
+    <div
+      ref={containerRef}
+      className="image-reveal-container"
+      onMouseDown={handleMouseDown}
+      onTouchStart={() => setIsDragging(true)}
+    >
+      {/* BEFORE IMAGE on left side */}
+      <div className="image-layer">
+        <Image
+          src={beforeImage.sourceUrl}
+          alt={beforeImage.altText}
+          fill
+          draggable={false} onDragStart={(e) => e.preventDefault()}
+          className="image-fill"
+          style={{ objectFit: 'cover' }}
+        />
+      </div>
+
+      {/* AFTER IMAGE on right side */}
+      <div
+        className="image-layer mask-layer"
+        style={{ clipPath: `inset(0 ${100 - sliderPosition}% 0 0)` }}
+      >
+        <Image
+          src={afterImage.sourceUrl}
+          alt={afterImage.altText}
+          draggable={false} onDragStart={(e) => e.preventDefault()}
+          fill
+          className="image-fill"
+          style={{ objectFit: 'cover' }}
+        />
+      </div>
+
+      <div
+        className="image-reveal-slider"
+        style={{ left: `${sliderPosition}%` }}
+      >
+        <div className="slider-handle" />
+      </div>
+    </div>
+  );
+}
+
 
 function AnimatedServiceItem({ item, index }: { item: any; index: number }) {
   const { ref, inView } = useInView({ 

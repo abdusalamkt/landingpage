@@ -13,6 +13,9 @@ export const GET_SERVICE_PAGE_FIELDS = `
         whyServiceImage {
           sourceUrl
         }
+        whyServiceImageBefore {
+          sourceUrl
+        }
         whyServiceItems {
           title
           description
