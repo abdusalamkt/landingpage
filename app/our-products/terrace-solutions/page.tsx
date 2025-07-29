@@ -1,6 +1,6 @@
 import Header from "@/app/components/Header";
 import Link from "next/link";
-import ImageSlider from "./ImageSlider"; // client component for slider
+import ImageSlider from "./ImageSlider";
 import styles from "./acristalia.module.css";
 
 const WORDPRESS_API_URL = process.env.WORDPRESS_GRAPHQL_ENDPOINT as string;
@@ -44,91 +44,61 @@ async function getAcristaliaPageFields() {
   try {
     const res = await fetch(WORDPRESS_API_URL, {
       method: "POST",
-      headers: { 
+      headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ query: GET_ACRISTALIA_PAGE }),
+      next: { revalidate: 10 }, // cache for 60 days
     });
 
-    if (!res.ok) {
-      throw new Error(`HTTP error! status: ${res.status}`);
-    }
-
     const json = await res.json();
-    
-    if (json.errors) {
-      throw new Error('GraphQL query failed');
-    }
-
     return json?.data?.page?.acristaliaPageFields;
   } catch (error) {
-    console.error('Error fetching Acristalia page data at build time:', error);
+    console.error("Error fetching Acristalia page data:", error);
     return null;
   }
 }
 
-// Generate static props at build time
-export async function generateStaticProps() {
-  const fields = await getAcristaliaPageFields();
-  
-  return {
-    props: {
-      fields,
-    },
-    // Regenerate the page at most once every 2 months (in seconds)
-    revalidate: 60 * 60 * 24 * 60, // 60 days
-  };
-}
-
-// For App Router (if using app directory)
-export const revalidate = 5184000; // 60 days in seconds
-export const dynamic = 'force-static';
-
 export default async function AcristaliaPage() {
-  // Fetch data at build time
   const fields = await getAcristaliaPageFields();
 
   if (!fields) {
     return (
       <>
         <Header />
-        <div style={{ 
-          display: 'flex', 
-          justifyContent: 'center', 
-          alignItems: 'center', 
-          minHeight: '50vh',
-          fontSize: '18px' 
-        }}>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            minHeight: "50vh",
+            fontSize: "18px",
+          }}
+        >
           Content temporarily unavailable. Please try again later.
         </div>
       </>
     );
   }
 
-  const {
-    logo,
-    heroHeading,
-    heroSubheading,
-    heroBanner,
-    products = [],
-  } = fields;
+  const { logo, heroHeading, heroSubheading, heroBanner, products = [] } = fields;
 
   return (
     <>
       <Header />
 
       {/* Banner Section */}
-      <div 
-        className={styles.banner} 
+      <div
+        className={styles.banner}
         style={heroBanner?.sourceUrl ? { backgroundImage: `url(${heroBanner.sourceUrl})` } : {}}
       >
         <div className={styles.overlay} />
         <div className={styles.bannerContent}>
           {logo?.sourceUrl && (
-            <img 
-              src={logo.sourceUrl} 
-              alt={logo.altText || "Acristalia Logo"} 
-              className={styles.logo} 
+            <img
+              src={logo.sourceUrl}
+              alt={logo.altText || "Acristalia Logo"}
+              className={styles.logo}
             />
           )}
           <h1 className={styles.heading}>
@@ -139,9 +109,9 @@ export default async function AcristaliaPage() {
 
       {/* Product Sections */}
       {products.map((product: any, index: number) => (
-        <div 
+        <div
           key={index}
-          className={`${styles.productSection} ${index % 2 === 0 ? '' : styles.reverse}`}
+          className={`${styles.productSection} ${index % 2 === 0 ? "" : styles.reverse}`}
         >
           <div className={styles.imageContainer}>
             <ImageSlider
@@ -165,11 +135,15 @@ export default async function AcristaliaPage() {
 
             <div className={styles.buttons}>
               {product.buttons?.map((btn: any, idx: number) => (
-                <Link href={btn.url || '#'} key={idx}>
-                  <button 
-                    className={btn.label?.toLowerCase() === 'view product' ? styles['view-product'] : ''}
+                <Link href={btn.url || "#"} key={idx}>
+                  <button
+                    className={
+                      btn.label?.toLowerCase() === "view product"
+                        ? styles["view-product"]
+                        : ""
+                    }
                   >
-                    {btn.label || 'Button'}
+                    {btn.label || "Button"}
                   </button>
                 </Link>
               ))}
