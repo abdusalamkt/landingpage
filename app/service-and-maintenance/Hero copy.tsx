@@ -183,7 +183,7 @@ export default function Hero({
         targetX: canvas.width * 0.8,
         targetY: canvas.height * 0.2,
         image: gearImageRef.current,
-        draw(ctx, time) {
+        draw(ctx: CanvasRenderingContext2D, time: number) {
           ctx.save();
           ctx.translate(this.x, this.y);
           this.rotation += 0.01 * this.speed * 60;
