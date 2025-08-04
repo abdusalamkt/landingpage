@@ -49,6 +49,15 @@
   /* padding: 0 20px; */
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
   /* margin-left: 5rem; */
+  font-family: Bebas Neue;
+font-weight: 400;
+font-style: Regular;
+font-size: 53.21px;
+/* leading-trim: NONE; */
+line-height: 100%;
+letter-spacing: 0%;
+vertical-align: middle;
+
 }
 
 .banner-heading {
@@ -69,7 +78,16 @@
 }
 
 .second-line {
-  font-size: 3.5rem;
+font-family: Bebas Neue;
+font-weight: 400;
+font-style: Regular;
+font-size: 53.21px;
+leading-trim: NONE;
+line-height: 100%;
+letter-spacing: 0%;
+vertical-align: middle;
+
+
 }
 
 .rotating-word {

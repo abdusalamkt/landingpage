@@ -11,7 +11,7 @@
 .resources-heading {
   font-family: 'Bebas Neue', sans-serif;
   font-size: 3rem;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
   color: #3d3d3d;
   z-index: 2;
   position: relative;
@@ -19,9 +19,9 @@
 
 .resources-description {
   font-family: 'Poppins', sans-serif;
-  font-size: 18px;
+  font-size: 16px;
   color: #3d3d3d;
-  margin-bottom: 6rem;
+  margin-bottom: 4rem;
   max-width: 80%;
   margin-left: auto;
   margin-right: auto;

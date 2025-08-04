@@ -40,14 +40,15 @@ export default async function AboutUsPage() {
       <FloatingSidebar />
       <HeroSection fields={fields} />
       <VideoSection fields={fields} />
-      <Timeline events={fields?.timelineEvents} />
-          <VisionMission
+      
+          {/* <VisionMission
   visionTitle={fields?.visionTitle}
   visionDescription={fields?.visionDescription}
   missionTitle={fields?.missionTitle}
   missionDescription={fields?.missionDescription}
-/>
+/> */}
       <IsoSection fields={fields} />  
+      <Timeline events={fields?.timelineEvents} />
       <ContactUs />
     </>
   );

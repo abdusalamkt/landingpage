@@ -204,3 +204,14 @@
     font-size: 1.3rem;
   }
 }
+.hufcorTheme {
+  background-color: #f3f3f3; /* example */
+}
+
+.acristaliaTheme {
+  background-color: #fff8f0; /* example */
+}
+
+.defaultTheme {
+  background-color: white;
+}

@@ -61,10 +61,9 @@ export default function ContactUs() {
 
   return (
     <div className="contact-section">
-      <h2 className="contact-heading"><span className="highlight">Build</span> with a difference.</h2>
+      <h2 className="contact-heading"><span className="highlight">Build</span> with a difference – Let’s Connect!</h2>
       <p className="contact-description ">
-We’re excited to hear about your project and explore how we can work together.
-Let’s start a conversation and turn your vision into reality.      </p>
+We are excited to hear about your project and explore how we can work together. Let’s start a conversation and turn your vision into reality.    </p>
       <form className="contact-form" onSubmit={handleSubmit}>
         <div className="form-row">
           <div className="input-group half">

@@ -80,11 +80,11 @@
   transition: opacity 0.3s ease;
 }
 .stat-label {
-  font-size: 1.5rem;
+  font-size: 1.8rem;
   color: #3D3D3D;
   text-transform: uppercase;
   font-family: 'Bebas Neue', Arial, sans-serif;
-  /* margin-top: 0;  */
+  margin-top: -20px; 
 }
 
 @media (max-width: 768px) {
@@ -175,10 +175,11 @@
   color: #109C5D;
   transition: color 0.3s ease;
   font-family: 'Bebas Neue', Arial, sans-serif;
+  left: 4%;
 }
 
 .stat-label {
-  font-size: 1.5rem;
+  /* font-size: 1.5rem; */
   color: #3D3D3D;
   text-transform: uppercase;
   font-family: 'Bebas Neue', Arial, sans-serif;

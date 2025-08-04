@@ -9,7 +9,7 @@ const ResourcesSection = () => {
     <div className="resources-wrapper">
       <h2 className="resources-heading">RESOURCES</h2>
       <p className="resources-description">
-        There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.
+        A lot happens here at Gibca Furniture and you would not want to miss out! Be up to date with the latest trends, our current projects and get your hands on the latest technical information on our products - all under the resources section! 
       </p>
 
       <div className="resources-section">
