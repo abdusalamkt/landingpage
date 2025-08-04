@@ -23,16 +23,28 @@ export default function DownloadItemRow({ item, theme = 'default' }: DownloadIte
   const [isAnimating, setIsAnimating] = useState(false);
   const modalRef = useRef<HTMLFormElement>(null);
 
-  useEffect(() => {
+  // ✅ Check unlock access status
+  const checkUnlockAccess = () => {
     const stored = localStorage.getItem(UNLOCK_KEY);
     if (stored) {
       const { timestamp } = JSON.parse(stored);
       const now = Date.now();
-      const diff = now - timestamp;
-      if (diff < UNLOCK_DURATION_MS) {
+      if (now - timestamp < UNLOCK_DURATION_MS) {
         setCanDownload(true);
       }
     }
+  };
+
+  // ✅ Initial check + listen to unlock events
+  useEffect(() => {
+    checkUnlockAccess();
+
+    const handleUnlock = () => checkUnlockAccess();
+    window.addEventListener('unlockGatedDownloads', handleUnlock);
+
+    return () => {
+      window.removeEventListener('unlockGatedDownloads', handleUnlock);
+    };
   }, []);
 
   useEffect(() => {
@@ -101,9 +113,11 @@ export default function DownloadItemRow({ item, theme = 'default' }: DownloadIte
 
     if (name && email && phone) {
       localStorage.setItem(UNLOCK_KEY, JSON.stringify({ timestamp: Date.now() }));
-      setCanDownload(true);
       openPdfInBrowser(item.link);
       closeModal();
+
+      // ✅ Trigger event for all rows to unlock
+      window.dispatchEvent(new Event('unlockGatedDownloads'));
     }
   };
 
