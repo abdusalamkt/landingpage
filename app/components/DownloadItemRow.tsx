@@ -14,6 +14,9 @@ type DownloadItemRowProps = {
   theme?: 'default' | 'hufcor' | 'acristalia';
 };
 
+const UNLOCK_KEY = 'gated_download_access';
+const UNLOCK_DURATION_MS = 1000 * 60 * 60 * 24 * 14; // 14 days
+
 export default function DownloadItemRow({ item, theme = 'default' }: DownloadItemRowProps) {
   const [showForm, setShowForm] = useState(false);
   const [canDownload, setCanDownload] = useState(false);
@@ -21,13 +24,12 @@ export default function DownloadItemRow({ item, theme = 'default' }: DownloadIte
   const modalRef = useRef<HTMLFormElement>(null);
 
   useEffect(() => {
-    const stored = localStorage.getItem('gated_download_access');
+    const stored = localStorage.getItem(UNLOCK_KEY);
     if (stored) {
       const { timestamp } = JSON.parse(stored);
       const now = Date.now();
       const diff = now - timestamp;
-      const hours = diff / (1000 * 60 * 60);
-      if (hours < 0.1) {
+      if (diff < UNLOCK_DURATION_MS) {
         setCanDownload(true);
       }
     }
@@ -67,27 +69,11 @@ export default function DownloadItemRow({ item, theme = 'default' }: DownloadIte
 
   const cleanUrl = (url: string): string => {
     let result = url;
-
-    if (result.endsWith('.jpg') && !result.includes('.pdf.jpg')) {
-      result = result.replace(/\.jpg$/, '');
-    }
-
-    if (result.endsWith('.pdf.jpg')) {
-      result = result.replace(/\.jpg$/, '');
-    }
-
-    if (result.includes('-pdf.pdf')) {
-      result = result.replace('-pdf.pdf', '.pdf');
-    }
-
-    if (result.includes('-pdf') && !result.endsWith('.pdf')) {
-      result = result.replace('-pdf', '') + '.pdf';
-    }
-
-    if (!result.endsWith('.pdf')) {
-      result += '.pdf';
-    }
-
+    if (result.endsWith('.pdf.jpg')) result = result.replace(/\.jpg$/, '');
+    if (result.endsWith('.jpg')) result = result.replace(/\.jpg$/, '');
+    if (result.includes('-pdf.pdf')) result = result.replace('-pdf.pdf', '.pdf');
+    if (result.includes('-pdf') && !result.endsWith('.pdf')) result = result.replace('-pdf', '') + '.pdf';
+    if (!result.endsWith('.pdf')) result += '.pdf';
     return result;
   };
 
@@ -98,12 +84,7 @@ export default function DownloadItemRow({ item, theme = 'default' }: DownloadIte
 
   const handleDownload = (e: React.MouseEvent) => {
     e.stopPropagation();
-
-    if (!item.link) {
-      console.error('No download link available');
-      return;
-    }
-
+    if (!item.link) return console.error('No download link available');
     if (item.gated && !canDownload) {
       setShowForm(true);
     } else {
@@ -119,13 +100,10 @@ export default function DownloadItemRow({ item, theme = 'default' }: DownloadIte
     const phone = (form.elements.namedItem('phone') as HTMLInputElement)?.value.trim();
 
     if (name && email && phone) {
-      localStorage.setItem(
-        'gated_download_access',
-        JSON.stringify({ timestamp: Date.now() })
-      );
+      localStorage.setItem(UNLOCK_KEY, JSON.stringify({ timestamp: Date.now() }));
+      setCanDownload(true);
       openPdfInBrowser(item.link);
       closeModal();
-      setCanDownload(true);
     }
   };
 
@@ -146,26 +124,14 @@ export default function DownloadItemRow({ item, theme = 'default' }: DownloadIte
       </div>
 
       {showForm && (
-        <div
-          className={`${styles.modalOverlay} ${isAnimating ? styles.animating : ''}`}
-          onClick={closeModal}
-        >
+        <div className={`${styles.modalOverlay} ${isAnimating ? styles.animating : ''}`} onClick={closeModal}>
           <form
             ref={modalRef}
             className={`${styles.modal} ${isAnimating ? styles.animating : ''}`}
             onSubmit={handleSubmit}
             onClick={handleFormClick}
           >
-            <button
-              className={styles.close}
-              type="button"
-              onClick={(e) => {
-                e.stopPropagation();
-                closeModal();
-              }}
-            >
-              ×
-            </button>
+            <button className={styles.close} type="button" onClick={(e) => { e.stopPropagation(); closeModal(); }}>×</button>
             <h3>
               <span className={styles.titleText}>Download Ready</span>
               <span className={styles.subtitle}>one more step away!</span>
