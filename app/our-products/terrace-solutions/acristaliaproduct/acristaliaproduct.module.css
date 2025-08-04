@@ -1,0 +1,576 @@
+/* Loading and Error States */
+.loading, .error {
+  text-align: center;
+  padding: 2rem;
+  font-size: 1.2rem;
+}
+
+.error {
+  color: #e74c3c;
+}
+
+/* Hero Section */
+.hero {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  margin-top: 50px;
+}
+
+/* .heroLogo {
+  margin-bottom: 1rem;
+  text-align: left; 
+}
+
+.logoImage {
+  height: auto;
+  width: auto;
+  max-width: 160px;
+  object-fit: contain;
+} */
+
+
+.textContent {
+  flex: 1;
+  padding: 70px 50px;
+}
+
+.imageWrapper {
+  flex: 1;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  border-radius: 20px;
+  height: 80vh;
+  
+}
+
+
+.imageWrapper img {
+  max-width: 100%;
+  border-radius: 20px 0px 0px 20px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  border: 1px solid black;
+height: 80vh;
+
+}
+
+
+
+.series {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 8rem;
+  margin: 10px 0;
+}
+
+.red {
+  color: #1898D3;
+  margin-left: 20px;
+}
+
+.description {
+  font-family: Poppins;
+  font-weight: 100;
+  font-size: 1.2rem;
+  line-height: 37px;
+  letter-spacing: 0%;
+  text-align: justify;
+  vertical-align: middle;
+  color: #3D3D3D;
+  margin-bottom: 50px;
+}
+
+.buttons {
+  display: flex;
+  gap: 30px;
+  flex-wrap: wrap;
+}
+
+.outline {
+  background: transparent;
+  border: 2px solid #3D3D3D;
+  padding: 5px 40px;
+  color: #3D3D3D;
+  font-size: 1.5rem;
+  cursor: pointer;
+  font-family: Bebas Neue;
+  font-weight: 400;
+  font-size: 2rem;
+}
+
+.outline:hover {
+  background: #3D3D3D;
+  color: white;
+  transition: background-color 0.3s ease;
+  transform: translateY(-5px);
+  transition: transform .9s ease-in-out;
+  box-shadow: -4px 4px 0px rgba(0, 0, 0, 0.2);
+}
+
+.primary:hover {
+  background: #3D3D3D;
+  color: white;
+  transition: background-color 0.3s ease;
+  transform: translateY(-5px);
+  transition: transform .9s ease;
+  box-shadow: -4px 4px 0px rgba(0, 0, 0, 0.2);
+}
+
+.primary {
+  background: linear-gradient(269.42deg, #1898D3 0.16%, #116d97 99.84%);
+  color: white;
+  border: none;
+  padding: 5px 40px;
+  cursor: pointer;
+  font-family: Bebas Neue;
+  font-weight: 400;
+  font-size: 2rem;
+}
+
+/* Features/Specifications Section */
+.features {
+  padding: 60px 0px;
+  background-color: #fff;
+  font-family: 'Poppins', sans-serif;
+}
+
+.sectionHeading {
+  display: flex;
+  align-items: center;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 4rem;
+  margin-bottom: 40px;
+  justify-content: center;
+}
+
+.sectionHeading .icon {
+  width: 28px;
+  margin-right: 12px;
+}
+
+.featureBlock {
+  margin-bottom: 40px;
+}
+
+.featureBlock h3 {
+  background: linear-gradient(269.42deg, #1898D3 0.16%, #116d97 99.84%);
+  position: relative;
+  color: white;
+  padding: 5px 120px;
+  display: inline-block;
+  margin: 7px 1px 5px;
+  text-transform: uppercase;
+  font-family: Bebas Neue;
+  font-weight: 400;
+  font-size: 2rem;
+  letter-spacing: 3%;
+}
+
+.featureBlock h3::after {
+  content: "";
+  position: absolute;
+  top: 0px;
+  right: 10px;
+  width: 4px;
+  height: 100%;
+  background-color: rgb(255, 255, 255);
+}
+
+.headingLineWrap {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.headingLineWrap .line {
+  flex: 1;
+  height: 2px;
+  background-color: #ccc;
+}
+
+.featureBlock p {
+  margin-left: 150px;
+  font-family: Poppins;
+  font-weight: 300;
+  font-size: 20px;
+  line-height: 35px;
+  letter-spacing: 0%;
+  vertical-align: middle;
+  margin-top: 10px;
+}
+
+.featureBlock p:last-child {
+  margin-bottom: 50px;
+}
+
+.featureBlock p:first-child {
+  margin-top: 50px;
+}
+
+.specificationPoints {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  padding-left: 3.5rem;
+}
+
+.specificationPoints li {
+  position: relative;
+  padding-left: 1.5rem;
+  margin-bottom: 0.8rem;
+  line-height: 1.6;
+  color: #666;
+}
+
+.specificationPoints li::before {
+  content: "•";
+  /* color: #e74c3c; */
+  font-weight: bold;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+
+.fullscreenVideoSection {
+  position: relative;
+  width: 90vw;
+  margin: 0 auto;
+  height: 80vh;
+  border-radius: 20px;
+  overflow: hidden;
+  background-color: white;
+  z-index: 1;
+  /* border-bottom-left-radius: 30px;
+  border-bottom-right-radius: 30px; */
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+}
+
+/* Use same iframe class so you get consistent styling */
+.videoIframe {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: max(100vw, calc(100vh * 16 / 9));
+  height: max(90vh, calc(90vw * 9 / 16));
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  border: none;
+}
+
+/* Reusing your current clean description styling */
+.videoDescription {
+  max-width: 1100px;
+  margin: 2rem auto;
+  padding: 0 2rem;
+  text-align: center;
+}
+
+.videoDescription p {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: #666;
+  margin: 0;
+}
+
+/* Key Features Section */
+.keyFeaturesSection {
+  padding: 4rem 0rem;
+  background: #fff;
+}
+
+.keyFeatureGroup {
+  margin-bottom: 4rem;
+}
+
+.keyFeaturesBanner {
+  position: relative;
+  height: 90vh;
+  /* width: 100%; */
+  overflow: hidden;
+  margin: 3rem 0;
+  /* border-radius: 12px; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.noiseOverlay {
+  pointer-events: none;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100%' height='100%'><filter id='grain'><feTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='3' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23grain)' opacity='0.07' /></svg>") repeat;
+}
+
+.bannerText {
+  z-index: 2;
+  display: flex;
+  gap: 2rem;
+  font-size: 4rem;
+  font-family: 'Bebas Neue', sans-serif;
+  color: white;
+  opacity: 0;
+  transition: opacity 1s ease;
+}
+
+.bannerText.show {
+  opacity: 1;
+}
+
+.word {
+  position: relative;
+  opacity: 0;
+}
+
+.bannerText.show .word.left {
+  animation: slideFromLeft 1s forwards 0.2s;
+}
+
+.bannerText.show .word.bottom {
+  animation: slideFromBottom 1s forwards 0.4s;
+}
+
+.bannerText.show .word.right {
+  animation: slideFromRight 1s forwards 0.6s;
+}
+
+.keyFeaturesGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 3rem auto 0;
+  padding: 0 1rem;
+}
+
+.keyFeatureCard {
+  background: #fff;
+  border-radius: 12px;
+  padding: 2rem;
+  text-align: center;
+  /* box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); */
+  /* transition: transform 0.3s ease, box-shadow 0.3s ease; */
+  /* border: 1px solid #f0f0f0; */
+}
+
+.keyFeatureCard:hover {
+  transform: translateY(-50px);
+  /* box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15); */
+}
+
+.featureIcon {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border-radius: 50%;
+  padding: 1rem;
+}
+
+.featureIcon img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.featureTitle {
+  
+  color: #333;
+ 
+  font-family: Bebas Neue;
+font-weight: 400;
+
+font-size: 2.5rem;
+line-height: 100%;
+
+
+}
+
+.featureDescription {
+
+  color: #666;
+
+  font-family: Poppins;
+font-weight: 300;
+font-style: Light;
+font-size: 1rem;
+letter-spacing: 0%;
+text-align: center;
+
+}
+
+.noFeaturesMessage {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: #666;
+  font-style: italic;
+}
+
+/* Animations */
+@keyframes slideFromLeft {
+  0% { opacity: 0; transform: translateX(-100%); }
+  100% { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes slideFromRight {
+  0% { opacity: 0; transform: translateX(100%); }
+  100% { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes slideFromBottom {
+  0% { opacity: 0; transform: translateY(100%); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+/* Responsive Design */
+@media (max-width: 1440px) {
+  .series {
+    font-size: 6rem;
+  }
+
+  .description {
+    font-size: 1.1rem;
+  }
+
+  .outline,
+  .primary {
+    font-size: 1.7rem;
+    padding: 5px 30px;
+  }
+
+  .featureBlock p {
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .hero {
+    flex-direction: column;
+    height: auto;
+    margin-top: 20px;
+  }
+
+  .textContent {
+    padding: 40px 20px;
+    text-align: center;
+  }
+
+  .imageWrapper {
+    border-radius: 20px;
+    margin-top: 20px;
+  }
+
+  .heroImage {
+    border-radius: 20px;
+    height: auto;
+  }
+
+  .series {
+    font-size: 5rem;
+  }
+
+  .outline,
+  .primary {
+    font-size: 1.5rem;
+    padding: 5px 20px;
+  }
+
+  .buttons {
+    justify-content: center;
+  }
+
+  .featureBlock p {
+    margin-left: 30px;
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 768px) {
+  .series {
+    font-size: 3.5rem;
+  }
+
+  .description {
+    font-size: 1rem;
+    line-height: 28px;
+  }
+
+  .sectionHeading {
+    font-size: 2.5rem;
+  }
+
+  .featureBlock h3 {
+    font-size: 1.5rem;
+    padding: 8px 30px;
+  }
+
+  .keyFeaturesBanner {
+    height: 60vh;
+    margin: 2rem 0;
+  }
+  
+  .keyFeaturesGrid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    margin-top: 2rem;
+    padding: 0;
+  }
+  
+  .keyFeatureCard {
+    padding: 1.5rem;
+  }
+  
+  .featureIcon {
+    width: 60px;
+    height: 60px;
+    margin-bottom: 1rem;
+  }
+  
+  .featureTitle {
+    font-size: 1.1rem;
+  }
+  
+  .featureDescription {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .series {
+    font-size: 2.5rem;
+  }
+
+  .outline,
+  .primary {
+    font-size: 1.2rem;
+    padding: 5px 16px;
+  }
+
+  .featureBlock p {
+    margin-left: 10px;
+    font-size: 14px;
+  }
+
+  .featureBlock h3 {
+    font-size: 1.2rem;
+  }
+
+  .keyFeaturesBanner {
+    height: 40vh;
+  }
+  
+  .keyFeatureCard {
+    padding: 1rem;
+  }
+
+  .bannerText {
+    flex-direction: column;
+    font-size: 2.5rem;
+    gap: 1rem;
+  }
+}

@@ -16,6 +16,7 @@ interface DownloadData {
 
 interface DownloadSectionProps {
   downloadData?: DownloadData[];
+  theme?: 'hufcor' | 'acristalia' | 'default';
 }
 
 const tabs = ["Brochures", "Finishes", "Project Reference", "Specification"] as const;
@@ -41,7 +42,7 @@ const defaultDownloadData: Record<
   ],
 };
 
-export default function DownloadSection({ downloadData }: DownloadSectionProps) {
+export default function DownloadSection({ downloadData, theme = 'default' }: DownloadSectionProps) {
   // Tell TS activeTab will always be one of the tab strings
   const [activeTab, setActiveTab] = useState<Tab>("Brochures");
 
@@ -71,8 +72,22 @@ export default function DownloadSection({ downloadData }: DownloadSectionProps) 
 
   const displayData = downloadData && downloadData.length > 0 ? processedDownloadData : defaultDownloadData;
 
+  // Get theme-specific class name
+  const getThemeClass = () => {
+    switch (theme) {
+      case 'hufcor':
+        return styles.hufcorTheme;
+      case 'acristalia':
+        return styles.acristaliaTheme;
+      default:
+        return styles.defaultTheme;
+    }
+  };
+
+  console.log('DownloadSection theme:', theme);
+
   return (
-    <section className={styles.downloadSection}>
+    <section className={`${styles.downloadSection} ${getThemeClass()}`}>
       <h2 className={styles.heading}>
         DOWNLOADS <span className={styles.red}>SECTION</span>
       </h2>
@@ -91,7 +106,7 @@ export default function DownloadSection({ downloadData }: DownloadSectionProps) 
 
       <div className={styles.list}>
         {displayData[activeTab]?.map((item, index) => (
-          <DownloadItemRow key={index} item={item}  />
+          <DownloadItemRow key={index} item={item} theme={theme} />
         ))}
 
         {(!displayData[activeTab] || displayData[activeTab].length === 0) && (

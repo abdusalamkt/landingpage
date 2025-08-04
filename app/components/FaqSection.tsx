@@ -11,6 +11,7 @@ interface FaqData {
 
 interface FaqSectionProps {
   faqData?: FaqData[];
+  theme?: 'hufcor' | 'acristalia' | 'default';
 }
 
 // Default FAQ data as fallback
@@ -38,7 +39,7 @@ const defaultFaqData = [
   },
 ];
 
-export default function FaqSection({ faqData }: FaqSectionProps) {
+export default function FaqSection({ faqData, theme = 'default' }: FaqSectionProps) {
   const [activeIndex, setActiveIndex] = useState<number | null>(0); // default first item open
   
   // Use provided faqData or fallback to default
@@ -46,13 +47,26 @@ export default function FaqSection({ faqData }: FaqSectionProps) {
   
   console.log('FaqSection received faqData:', faqData);
   console.log('FaqSection using displayFaqData:', displayFaqData);
+  console.log('FaqSection theme:', theme);
 
   const toggleIndex = (index: number) => {
     setActiveIndex(index === activeIndex ? null : index);
   };
 
+  // Get theme-specific class name
+  const getThemeClass = () => {
+    switch (theme) {
+      case 'hufcor':
+        return styles.hufcorTheme;
+      case 'acristalia':
+        return styles.acristaliaTheme;
+      default:
+        return styles.defaultTheme;
+    }
+  };
+
   return (
-    <section className={styles.faqSection}>
+    <section className={`${styles.faqSection} ${getThemeClass()}`}>
       <div className={styles.left}>
         <h2 className={styles.title}>
           FREQUENTLY ASKED <br /> QUESTIONS
@@ -74,7 +88,6 @@ export default function FaqSection({ faqData }: FaqSectionProps) {
       </div>
 
       <div className={styles.right}>
-       
         {displayFaqData.map((item, index) => {
           const isActive = activeIndex === index;
 

@@ -43,6 +43,8 @@ export default function Header() {
       { name: 'OPS', link: '#' },
       { name: 'acristalia', link: '/our-products/terrace-solutions' },
       { name: 'Crown', link: '/our-products/crown' },
+      { name: 'Pivot Doors', link: '/our-products/pivot-doors' },
+
     
     ],
     resources: [

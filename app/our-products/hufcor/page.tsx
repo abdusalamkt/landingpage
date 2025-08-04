@@ -99,6 +99,17 @@ export default async function HufcorPage() {
           </h1>
         </div>
       </div>
+{/* Fullscreen YouTube Video Section */}
+<div className={styles.fullscreenVideoSection}>
+  <iframe
+    src="https://www.youtube.com/embed/KitUxtXp2Lw?autoplay=1&loop=1&mute=1&controls=0&playlist=KitUxtXp2Lw&modestbranding=1&showinfo=0&rel=0&vq=hd1080"
+    title="Hufcor video"
+    frameBorder="0"
+    allow="autoplay; fullscreen"
+    allowFullScreen
+  ></iframe>
+</div>
+
 
       {/* First Product Section (Image Left) */}
       <div className={styles.productSection}>

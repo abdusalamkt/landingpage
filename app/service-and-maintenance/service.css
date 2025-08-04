@@ -344,6 +344,8 @@
   position: absolute;
   inset: 0;
   z-index: 1;
+  /* height: 150vh; */
+  height: 115%;
 }
 
 .mask-layer {

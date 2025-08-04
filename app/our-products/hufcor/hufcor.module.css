@@ -290,3 +290,103 @@
   border-radius: 20px 0px 0px 20px;
 }
 
+/* Primary solution - Dynamic scaling based on screen ratio */
+.fullscreenVideoSection {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background-color: white; /* Changed to white */
+  z-index: 1;
+}
+
+.fullscreenVideoSection iframe {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  /* Dynamic sizing to always cover the screen */
+  width: max(100vw, calc(100vh * 16/9));
+  height: max(100vh, calc(100vw * 9/16));
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  border: none;
+}
+
+/* Alternative solution - CSS object-fit approach */
+.fullscreenVideoSection-alt {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background-color: white;
+  z-index: 1;
+}
+
+.fullscreenVideoSection-alt iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  border: none;
+  /* Force minimum dimensions to prevent gaps */
+  min-width: 100vw;
+  min-height: 100vh;
+}
+
+/* Most aggressive solution - Ensures no gaps on any device */
+.fullscreenVideoSection-aggressive {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background-color: white;
+  z-index: 1;
+}
+
+.fullscreenVideoSection-aggressive iframe {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  /* Oversized to guarantee coverage */
+  width: 120vw;
+  height: 120vh;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  border: none;
+}
+
+/* Media queries for specific breakpoints */
+@media (max-aspect-ratio: 16/9) {
+  .fullscreenVideoSection iframe {
+    width: calc(100vh * 16/9);
+    height: 100vh;
+  }
+}
+
+@media (min-aspect-ratio: 16/9) {
+  .fullscreenVideoSection iframe {
+    width: 100vw;
+    height: calc(100vw * 9/16);
+  }
+}
+
+
+/* Additional fix for mobile devices */
+@media screen and (max-width: 768px) {
+  .fullscreenVideoSection {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+  }
+  
+  .fullscreenVideoSection iframe {
+    width: 130vw;
+    height: 130vh;
+  }
+}
