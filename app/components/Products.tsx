@@ -115,7 +115,7 @@ export default function Products({ description, products = [] }: ProductsProps) 
                   className="product-image grayscale"
                   style={{
                     transformOrigin: `${pos.x}% ${pos.y}%`,
-                    transform: hovered ? `scale(1)` : `scale(1)`,
+                    transform: hovered ? `scale(1.05)` : `scale(1)`,
                     transition: 'transform 0.4s ease-out, filter 1.5s ease',
                     filter: hovered ? 'grayscale(0%)' : 'grayscale(100%)',
                   }}
