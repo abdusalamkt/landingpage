@@ -43,7 +43,7 @@ const TestimonialSlider: React.FC<TestimonialSliderProps> = ({ testimonials }) =
 
   return (
     <section className="w-full py-12 bg-white">
-      <div className="text-center mb-32">
+      <div className="text-center mb-24">
         <h2 className="text-5xl font-normal text-[#3d3d3d]">
           What they say <span className="text-[#109c5d]">about us!</span>
         </h2>

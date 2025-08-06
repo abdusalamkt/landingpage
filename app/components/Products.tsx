@@ -138,6 +138,26 @@ export default function Products({ description, products = [] }: ProductsProps) 
           );
         })}
       </motion.div>
+     <motion.div
+  className="more-products-wrapper"
+  initial={{ opacity: 0, y: 80 }} // 👈 Make it look like it's coming from bottom
+  whileInView={{ opacity: 1, y: 0 }}
+  viewport={{ once: true, amount: 0.3 }}
+  transition={{ duration: 0.8, ease: 'easeOut' }}
+>
+  <motion.button
+    className="cta-button"
+    whileHover={{ scale: 1.05 }}
+    whileTap={{ scale: 0.95 }}
+    onClick={() => {
+      window.location.href = '/our-products';
+    }}
+  >
+    More Products
+  </motion.button>
+</motion.div>
+
     </motion.section>
+    
   );
 }

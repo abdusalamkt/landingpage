@@ -70,9 +70,6 @@ export const GET_LANDING_PAGE = gql`
           sourceUrl
         }
 
-        section2Bg {
-          sourceUrl
-        }
         section2Title
         section2Description
         section2ButtonLabel

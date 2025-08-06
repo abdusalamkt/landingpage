@@ -1,4 +1,3 @@
-/* /app/components/Banner.css */
 .banner-container {
   position: relative;
   width: 100%;
@@ -10,16 +9,7 @@
   position: relative;
   width: 100%;
   height: 100%;
-
 }
-
-.slide::before{
-  background: linear-gradient(90.19deg, rgba(0, 0, 0, 0.64) 22.15%, rgba(0, 0, 0, 0.064) 100.84%);
-  content: '';
-  position: absolute;
-  top: 0;
-}
-
 
 .slide {
   position: absolute;
@@ -31,6 +21,20 @@
   background-position: center;
   opacity: 0;
   transition: opacity 1.5s ease-in-out;
+  z-index: 0; /* Behind overlay and content */
+}
+
+/* Overlay ONLY on image */
+.slide::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  background: linear-gradient(90.19deg, rgba(0, 0, 0, 0.64) 22.15%, rgba(255, 255, 255, 0) 100.84%);
+  pointer-events: none;
 }
 
 .slide.active {
@@ -40,28 +44,24 @@
 .banner-content {
   position: absolute;
   top: 50%;
-  /* left: 50%; */
   transform: translate(10%, -50%);
   text-align: center;
   color: white;
   width: 100%;
   max-width: 800px;
-  /* padding: 0 20px; */
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-  /* margin-left: 5rem; */
-  font-family: Bebas Neue;
-font-weight: 400;
-font-style: Regular;
-font-size: 53.21px;
-/* leading-trim: NONE; */
-line-height: 100%;
-letter-spacing: 0%;
-vertical-align: middle;
-
+  font-family: 'Bebas Neue', sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 53.21px;
+  line-height: 100%;
+  letter-spacing: 0%;
+  vertical-align: middle;
+  z-index: 2; /* Above overlay */
 }
 
 .banner-heading {
-    text-align: left;
+  text-align: left;
   font-size: 4rem;
   margin: 0;
   display: flex;
@@ -71,23 +71,20 @@ vertical-align: middle;
 }
 
 .first-line {
-  font-size: 5rem;
-  margin-bottom: 0.5rem;
-  font-weight: 700;
+  font-size: 6rem;
+margin-bottom: -18px;
+  font-weight: 400;
   color: #109C5D;
 }
 
 .second-line {
-font-family: Bebas Neue;
-font-weight: 400;
-font-style: Regular;
-font-size: 53.21px;
-leading-trim: NONE;
-line-height: 100%;
-letter-spacing: 0%;
-vertical-align: middle;
-
-
+  font-family: 'Bebas Neue', sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 53.21px;
+  line-height: 100%;
+  /* letter-spacing: 0%; */
+  vertical-align: middle;
 }
 
 .rotating-word {
@@ -96,32 +93,14 @@ vertical-align: middle;
   padding: 0 10px;
 }
 
-
-
-
 .typewriter-bg {
   display: inline-block;
   padding: 0 0.1em;
-  /* background: linear-gradient(180deg, #109C5D, #ffffff00); */
   background: #109C5D;
-  /* border-radius: 4px; */
   color: white;
-  /* font-weight: bold; */
   position: relative;
-  text-shadow: none
-  /* min-height: 20px; */
-  ;
+  text-shadow: none;
 }
-
-/* .cursor {
-  display: inline-block;
-  width: 2px;
-  height: 1em;
-  background: white;
-  margin-left: 3px;
-  animation: blink 1s step-start infinite;
-  vertical-align: bottom;
-} */
 
 @keyframes blink {
   50% { opacity: 0; }

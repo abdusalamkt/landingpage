@@ -65,17 +65,21 @@
     justify-content: space-between;
     gap: 60px;
     /* max-width: 1200px; */
-    margin: 30px auto;
+    /* margin: 30px auto; */
     flex-wrap: wrap;
     perspective: 1000px;
     position: relative;
     /* overflow: hidden; */
     padding: 20px 100px;
+   
 }
-
+.second-container{
+     padding-bottom: 80px;
+}
 .main-container {
     background-size: cover;
     background-attachment: fixed;
+    padding-top: 40px;
 }
 
 /* Add white semi-transparent overlay */
@@ -90,7 +94,7 @@
 .second-container {
     flex-direction: row-reverse;
     /* margin-top: 100px; */
-    margin-bottom: 100px;
+    margin-bottom: 40px;
     background-size: cover;
     background-attachment: fixed;
 }
@@ -141,9 +145,11 @@
     
 }
 
-.description:hover {
-    /* transform: translateY(-5px); */
-}
+/* .description:hover {
+    transform: translateY(-5px);
+} */
+
+
 
 .cta-button {
     background: linear-gradient(135deg, #1C6544, #109C5D);

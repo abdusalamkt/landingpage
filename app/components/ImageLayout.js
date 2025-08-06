@@ -2,7 +2,6 @@ import React from 'react';
 import './ImageLayout.css';
 
 const Section = ({ 
-  bgImage, 
   title, 
   description, 
   buttonLabel, 
@@ -14,11 +13,11 @@ const Section = ({
 }) => {
   const renderTitle = () => {
     if (!title) return null;
-    
+
     const words = title.split(' ');
     const firstWord = words[0];
     const remainingWords = words.slice(1).join(' ');
-    
+
     return (
       <h2 className="title">
         <span className="first-word">{firstWord}</span>
@@ -28,12 +27,7 @@ const Section = ({
   };
 
   return (
-    <div 
-      className={reverse ? "second-container" : "main-container"} 
-      style={{ 
-        backgroundImage: bgImage ? `url(${bgImage})` : 'none'
-      }}
-    >
+    <div className={reverse ? "second-container" : "main-container"}>
       <div className="image-layout">
         <div className={reverse ? "second-border" : "main-border"}>
           <div className="border-gap top-right-gap"></div>
@@ -65,15 +59,22 @@ const Section = ({
 };
 
 const ImageLayout = ({ data }) => {
-
-  
   const fields = data?.page?.landingPageFields || {};
 
-  
+  const commonBgImage = fields.section1Bg?.sourceUrl;
+
   return (
-    <>
+    <div
+      className="shared-bg-wrapper"
+      style={{
+        backgroundImage: commonBgImage ? `url(${commonBgImage})` : 'none',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+        // backgroundAttachment: 'fixed',
+      }}
+    >
       <Section
-        bgImage={fields.section1Bg?.sourceUrl}
         title={fields.section1Title}
         description={fields.section1Description}
         buttonLabel={fields.section1ButtonLabel}
@@ -84,7 +85,6 @@ const ImageLayout = ({ data }) => {
         reverse={false}
       />
       <Section
-        bgImage={fields.section2Bg?.sourceUrl}
         title={fields.section2Title}
         description={fields.section2Description}
         buttonLabel={fields.section2ButtonLabel}
@@ -94,7 +94,7 @@ const ImageLayout = ({ data }) => {
         bottomLeftImg={fields.section2ImageBottomLeft?.sourceUrl}
         reverse={true}
       />
-    </>
+    </div>
   );
 };
 

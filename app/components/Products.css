@@ -1,5 +1,5 @@
 .products-section {
-  padding: 4rem 0rem;
+  padding: 1rem 0rem;
   max-width: 1200px;
   margin: 0 auto;
   padding-bottom: 82px;
@@ -212,4 +212,27 @@
 .sector-tag.active {
   background-color: #109C5D;
   color: white;
+}
+
+.more-products-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+.more-products-button {
+  padding: 0.75rem 2rem;
+  background-color: #109C5D;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.more-products-button:hover {
+  background-color: #0c7b49;
+  transform: scale(1.05);
 }
