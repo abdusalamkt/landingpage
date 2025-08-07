@@ -7,7 +7,7 @@ import "./our-products.css";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import { useQuery, ApolloProvider, ApolloClient, InMemoryCache } from '@apollo/client';
 import { gql } from '@apollo/client';
-import WhatSetsUsApart from './components/WhatSetsUsApart';
+
 
 // Initialize Apollo Client
 const client = new ApolloClient({
