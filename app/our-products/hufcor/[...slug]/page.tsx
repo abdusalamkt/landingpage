@@ -28,10 +28,12 @@ const GET_HUFCOR_PRODUCT = gql`
           featureTitle
           featureContent
         }
+        description
         imagebanner1 {
           sourceUrl
           altText
         }
+        imagebanner1Title
         customizationOptionsDescription
         panelConfig {
           label
@@ -64,6 +66,7 @@ const GET_HUFCOR_PRODUCT = gql`
           sourceUrl
           altText
         }
+        imagebanner2Title
         choices {
           choiceTitle
           choicePoints {

@@ -23,7 +23,7 @@ export default function Banner({ heading, images }) {
     if (!images || images.length === 0) return;
     const imageInterval = setInterval(() => {
       setCurrentIndex(prev => (prev + 1) % images.length);
-    }, 10000);
+    }, 3000);
     return () => clearInterval(imageInterval);
   }, [images]);
 

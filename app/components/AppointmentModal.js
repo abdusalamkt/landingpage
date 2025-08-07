@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import './AppointmentModal.css';
@@ -29,8 +29,21 @@ export default function AppointmentModal({ isOpen, onClose, products = [] }) {
     time_slot: '',
   });
 
+  const [showDropdown, setShowDropdown] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [success, setSuccess] = useState(false);
+
+  // ✅ Prevent background scrolling when modal is open
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isOpen]);
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -56,8 +69,8 @@ export default function AppointmentModal({ isOpen, onClose, products = [] }) {
         setSuccess(false);
         setSubmitting(false);
         onClose();
-      }, 2500); // animation time + delay
-    }, 1000); // simulate processing delay
+      }, 2500);
+    }, 1000);
   };
 
   const isDayBlocked = (date) => {
@@ -77,7 +90,7 @@ export default function AppointmentModal({ isOpen, onClose, products = [] }) {
         {!success ? (
           <>
             <button className="close-btn" onClick={onClose}>×</button>
-            <h2>Book Appointment</h2>
+            <h3>Book Appointment</h3>
 
             <form onSubmit={handleSubmit}>
               <input
@@ -107,17 +120,31 @@ export default function AppointmentModal({ isOpen, onClose, products = [] }) {
                 required
               />
 
-              <select
-                name="product"
-                value={form.product}
-                onChange={handleChange}
-                required
-              >
-                <option value="">Select Interested Product</option>
-                {(products.length > 0 ? products : defaultProducts).map((p, i) => (
-                  <option key={i} value={p}>{p}</option>
-                ))}
-              </select>
+              <div className="custom-dropdown-wrapper">
+                <div
+                  className="custom-dropdown"
+                  onClick={() => setShowDropdown(!showDropdown)}
+                >
+                  {form.product || 'Select Interested Product'}
+                  <span className="arrow">{showDropdown ? '▲' : '▼'}</span>
+                </div>
+
+                {showDropdown && (
+                  <ul className="custom-options">
+                    {(products.length > 0 ? products : defaultProducts).map((p, i) => (
+                      <li
+                        key={i}
+                        onClick={() => {
+                          setForm({ ...form, product: p });
+                          setShowDropdown(false);
+                        }}
+                      >
+                        {p}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
 
               <textarea
                 name="message"

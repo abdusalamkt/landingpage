@@ -17,9 +17,12 @@
   justify-content: center;
   height: 100vh;
   margin-top: 50px;
-  margin-bottom: 10rem;
+  /* margin-bottom: 10rem; */
 }
 
+.brown {
+  color: #E4AA25;
+}
 /* .heroLogo {
   margin-bottom: 1rem;
   text-align: left; 
@@ -180,7 +183,7 @@ height: 80vh;
 .headingLineWrap {
   display: flex;
   align-items: center;
-  margin-bottom: 15px;
+  /* margin-bottom: 15px; */
 }
 
 .headingLineWrap .line {
@@ -201,11 +204,11 @@ height: 80vh;
 }
 
 .featureBlock p:last-child {
-  margin-bottom: 50px;
+  /* margin-bottom: 50px; */
 }
 
 .featureBlock p:first-child {
-  margin-top: 50px;
+  /* margin-top: 50px; */
 }
 
 .specificationPoints {
@@ -438,7 +441,7 @@ text-align: center;
 /* Responsive Design */
 @media (max-width: 1440px) {
   .series {
-    font-size: 6rem;
+    font-size: 4.5rem;
   }
 
   .description {
@@ -600,7 +603,7 @@ text-align: center;
   
 }
 .choiceBlock {
-  margin-bottom: 50px;
+  /* margin-bottom: 50px; */
 }
 
 .choiceDescription{
@@ -644,16 +647,19 @@ text-align: center;
 }
 
 .choicePointsWrap {
+  width: 60%;
+  margin-left: auto; /* Pushes it to the right */
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
-  margin: 10px 150px;
+  justify-content: flex-end; /* Align items within the 60% to the left */
+  padding-right: 100px;
 }
 
 .choicePoint {
   border: 1px solid #000000;
   padding: 12px 20px;
-  border-radius: 10px;
+  border-radius: 6px;
   /* font-size: 18px; */
   font-weight: 300;
   line-height: 30px;
@@ -676,4 +682,53 @@ box-shadow: 2px 2px 0px rgba(0, 0, 0, 0.877);
   border-color: #999;
   transform: translateY(-3px);
   box-shadow: 0 4px 0px rgba(0, 0, 0, 0.623);
+}
+
+/* Image Banner Styles */
+.imageBanner {
+  position: relative;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+  /* margin: 4rem 0; */
+  border-top: solid 4px #77471C;
+  border-bottom: solid 4px #77471C;
+
+}
+
+.imageBannerContainer {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  
+}
+
+.imageBannerContainer img {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+}
+
+.imageBannerCaption {
+  position: absolute;
+  bottom: 1rem;
+  left: 1rem;
+
+ 
+  color: white;
+
+  font-family: Poppins;
+font-weight: 400;
+font-style: Italic;
+font-size: 21.46px;
+
+text-align: center;
+vertical-align: middle;
+
+}
+
+.imageBannerCaption p {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 500;
 }

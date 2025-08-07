@@ -110,7 +110,7 @@
 .product-card:hover .product-title {
   transform: scale(1.05);
   /* color: #109C5D; */
-  text-shadow: 2px 2px 0px rgb(0, 0, 0);
+  text-shadow: 2px 2px 5px rgb(0, 0, 0);
 }
 
 .product-title-container {

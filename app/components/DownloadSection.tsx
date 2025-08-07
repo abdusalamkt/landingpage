@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styles from "./DownloadSection.module.css";
 import DownloadItemRow from "./DownloadItemRow";
 
@@ -16,11 +16,11 @@ interface DownloadData {
 
 interface DownloadSectionProps {
   downloadData?: DownloadData[];
-  theme?: 'hufcor' | 'acristalia' | 'default';
+  theme?: 'hufcor' | 'acristalia' | 'default' | 'crown';
 }
 
-const tabs = ["Brochures", "Finishes", "Project Reference", "Specification"] as const;
-type Tab = typeof tabs[number];
+const allTabs = ["Brochures", "Finishes", "Project Reference", "Specification"] as const;
+type Tab = typeof allTabs[number];
 
 const defaultDownloadData: Record<Tab, Array<{ title: string; link: string; gated: boolean }>> = {
   Brochures: [
@@ -39,7 +39,7 @@ const defaultDownloadData: Record<Tab, Array<{ title: string; link: string; gate
 };
 
 export default function DownloadSection({ downloadData, theme = 'default' }: DownloadSectionProps) {
-  const [activeTab, setActiveTab] = useState<Tab>("Brochures");
+  const [activeTab, setActiveTab] = useState<Tab | null>(null);
 
   const processedDownloadData: Record<Tab, Array<{ title: string; link: string; gated: boolean }>> = {
     Brochures: [],
@@ -51,7 +51,7 @@ export default function DownloadSection({ downloadData, theme = 'default' }: Dow
   if (downloadData && downloadData.length > 0) {
     downloadData.forEach((item) => {
       const type = item.fileType?.trim() as Tab;
-      if (type && tabs.includes(type) && item.filePdf?.sourceUrl) {
+      if (type && allTabs.includes(type) && item.filePdf?.sourceUrl) {
         processedDownloadData[type].push({
           title: item.fileTitle,
           link: item.filePdf.sourceUrl,
@@ -63,10 +63,19 @@ export default function DownloadSection({ downloadData, theme = 'default' }: Dow
 
   const displayData = downloadData && downloadData.length > 0 ? processedDownloadData : defaultDownloadData;
 
+  const availableTabs = allTabs.filter((tab) => displayData[tab]?.length > 0);
+
+  useEffect(() => {
+    if (!activeTab && availableTabs.length > 0) {
+      setActiveTab(availableTabs[0]);
+    }
+  }, [availableTabs, activeTab]);
+
   const getThemeClass = () => {
     switch (theme) {
       case 'hufcor': return styles.hufcorTheme;
       case 'acristalia': return styles.acristaliaTheme;
+      case 'crown': return styles.crownTheme;
       default: return styles.defaultTheme;
     }
   };
@@ -77,26 +86,36 @@ export default function DownloadSection({ downloadData, theme = 'default' }: Dow
         DOWNLOADS <span className={styles.red}>SECTION</span>
       </h2>
 
-      <div className={styles.tabs}>
-        {tabs.map((tab) => (
-          <button
-            key={tab}
-            className={`${styles.tabButton} ${activeTab === tab ? styles.active : ""}`}
-            onClick={() => setActiveTab(tab)}
-          >
-            {tab.toUpperCase()}
-          </button>
-        ))}
-      </div>
+      {availableTabs.length > 0 && (
+        <>
+          <div className={styles.tabs}>
+            {availableTabs.map((tab) => (
+              <button
+                key={tab}
+                className={`${styles.tabButton} ${activeTab === tab ? styles.active : ""}`}
+                onClick={() => setActiveTab(tab)}
+              >
+                {tab.toUpperCase()}
+              </button>
+            ))}
+          </div>
 
-      <div className={styles.list}>
-        {displayData[activeTab]?.map((item, index) => (
-          <DownloadItemRow key={index} item={item} theme={theme} />
-        ))}
-        {(!displayData[activeTab] || displayData[activeTab].length === 0) && (
-          <p className={styles.empty}>No downloads available in this category.</p>
-        )}
-      </div>
+          {activeTab && (
+            <div className={styles.list}>
+              {displayData[activeTab]?.map((item, index) => (
+                <DownloadItemRow key={index} item={item} theme={theme} />
+              ))}
+              {(!displayData[activeTab] || displayData[activeTab].length === 0) && (
+                <p className={styles.empty}>No downloads available in this category.</p>
+              )}
+            </div>
+          )}
+        </>
+      )}
+
+      {availableTabs.length === 0 && (
+        <p className={styles.empty}>No downloads available at the moment.</p>
+      )}
     </section>
   );
 }

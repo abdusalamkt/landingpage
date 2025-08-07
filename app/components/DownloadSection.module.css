@@ -53,6 +53,7 @@
   display: flex;
   flex-direction: column;
   gap: 25px;
+  margin-top: 50px;
 }
 
 .downloadItem {
@@ -131,6 +132,21 @@
 .hufcorTheme .downloadBtn {
   background-color: #D72027;
 }
+
+.crownTheme .red {
+  color: #77471c;
+}
+
+.crownTheme .active {
+  background-color: #77471c;
+  color: #fff;
+}
+
+.crownTheme .downloadBtn {
+  background-color: #77471c;
+}
+
+
 
 .acristaliaTheme .red {
   color: #1898D3;

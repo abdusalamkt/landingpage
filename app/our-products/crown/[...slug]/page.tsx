@@ -28,12 +28,16 @@ const GET_CROWN_PRODUCT = gql`
         heroButton1Url
         heroButton2Label
         heroButton2Url
-        keyFeatures {
-          title
-          points {
-            points
-          }
+        description
+        features {
+          featureTitle
+          featureContent
         }
+        imagebanner1 {
+          sourceUrl
+          altText
+        }
+        imagebanner1Title
         customizationOptionHeading
         customizationOptionPoints {
           title
@@ -127,6 +131,7 @@ export default async function CrownProduct({ params }: { params: Promise<{ slug:
     },
   });
 
+
   const { data: faqData } = await client.query({ query: GET_FAQS });
   const { data: downloadData } = await client.query({ query: GET_DOWNLOADS });
 
@@ -136,44 +141,59 @@ export default async function CrownProduct({ params }: { params: Promise<{ slug:
 
   if (!fields) return <div>Product not found</div>;
 
+  // Process FAQ data
   let relatedFaqs: any[] = [];
-  faqData?.fAQs?.nodes?.forEach((faqNode: any) => {
-    const relatedPage = faqNode.faqItems?.relatedProductPage;
-    const items = faqNode.faqItems?.faqItems;
-    const isMatch =
-      relatedPage?.slug === pageSlug ||
-      relatedPage?.id === pageId ||
-      relatedPage?.uri === productData?.page?.uri;
+  if (faqData?.fAQs?.nodes) {
+    faqData.fAQs.nodes.forEach((faqNode: any) => {
+      const relatedPage = faqNode.faqItems?.relatedProductPage;
+      const items = faqNode.faqItems?.faqItems;
 
-    if (isMatch && items?.length) {
-      relatedFaqs.push(...items.map((item: any) => ({
-        question: item.question,
-        answer: item.answer,
-      })));
-    }
-  });
+      if (relatedPage && items?.length) {
+        const isMatch =
+          relatedPage.slug === pageSlug ||
+          relatedPage.id === pageId ||
+          relatedPage.uri === productData?.page?.uri;
 
+        if (isMatch) {
+          items.forEach((item: any) => {
+            relatedFaqs.push({
+              question: item.question,
+              answer: item.answer,
+            });
+          });
+        }
+      }
+    });
+  }
+
+  // Process Download data
   let relatedDownloads: any[] = [];
-  downloadData?.downloads?.nodes?.forEach((downloadNode: any) => {
-    const relatedPage = downloadNode.downloadFields?.product;
-    const downloads = downloadNode.downloadFields?.productdownloads;
+  if (downloadData?.downloads?.nodes) {
+    downloadData.downloads.nodes.forEach((downloadNode: any) => {
+      const relatedPage = downloadNode.downloadFields?.product;
+      const downloads = downloadNode.downloadFields?.productdownloads;
 
-    const isMatch =
-      relatedPage?.slug === pageSlug ||
-      relatedPage?.id === pageId ||
-      relatedPage?.uri === productData?.page?.uri;
+      if (relatedPage && downloads?.length) {
+        const isMatch =
+          relatedPage.slug === pageSlug ||
+          relatedPage.id === pageId ||
+          relatedPage.uri === productData?.page?.uri;
 
-    if (isMatch && downloads?.length) {
-      relatedDownloads.push(...downloads.map((download: any) => ({
-        fileType: download.filetype,
-        fileTitle: download.filetitle,
-        filePdf: download.filepdf,
-        gated: download.gated,
-      })));
-    }
-  });
+        if (isMatch) {
+          downloads.forEach((download: any) => {
+            relatedDownloads.push({
+              fileType: download.filetype,
+              fileTitle: download.filetitle,
+              filePdf: download.filepdf,
+              gated: download.gated,
+            });
+          });
+        }
+      }
+    });
+  }
 
-  return (
+ return (
     <CrownProductPage
       fields={{
         logo: fields.logo,
@@ -185,9 +205,12 @@ export default async function CrownProduct({ params }: { params: Promise<{ slug:
         hero_button_1_url: fields.heroButton1Url,
         hero_button_2_label: fields.heroButton2Label,
         hero_button_2_url: fields.heroButton2Url,
-        key_features: fields.keyFeatures || [],
+        description: fields.description,
+        features: fields.features || [],
         customization_heading: fields.customizationOptionHeading,
         customization_options: fields.customizationOptionPoints || [],
+        imagebanner1: fields.imagebanner1, // Add this line
+        imagebanner1Title: fields.imagebanner1Title, // Add this line
       }}
       faqData={relatedFaqs}
       downloadData={relatedDownloads}

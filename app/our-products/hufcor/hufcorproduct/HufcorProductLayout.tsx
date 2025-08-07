@@ -10,6 +10,7 @@ import Header from "@/app/components/Header";
 import { usePathname } from "next/navigation";
 import FinishesSection from "@/app/components/FinishesSection";
 import FaqSection from "@/app/components/FaqSection";
+import WhatSetsUsApart from "@/app/components/WhatSetsUsApart";
 
 interface FaqData {
   question: string;
@@ -27,7 +28,68 @@ interface DownloadData {
 }
 
 interface HufcorProductLayoutProps {
-  fields: any;
+  fields: {
+    heroTitle?: string;
+    heroHighlight?: string;
+    heroDescription?: string;
+    heroImage?: {
+      sourceUrl: string;
+      altText?: string;
+    };
+    heroButton1Label?: string;
+    heroButton1Url?: string;
+    heroButton2Label?: string;
+    heroButton2Url?: string;
+    features?: Array<{
+      featureTitle: string;
+      featureContent: string;
+    }>;
+    description?: string;
+    customizationOptionsDescription?: string;
+    panelConfig?: Array<{
+      label: string;
+      description: string;
+      image?: {
+        sourceUrl: string;
+        altText?: string;
+      };
+    }>;
+    finishes?: Array<{
+      label: string;
+      thumbnail?: {
+        sourceUrl: string;
+        altText?: string;
+      };
+      panel?: {
+        sourceUrl: string;
+        altText?: string;
+      };
+    }>;
+    doorType?: Array<{
+      title: string;
+      subTitle: string;
+      image?: {
+        sourceUrl: string;
+        altText?: string;
+      };
+    }>;
+    imagebanner1?: {
+      sourceUrl: string;
+      altText?: string;
+    };
+    imagebanner2?: {
+      sourceUrl: string;
+      altText?: string;
+    };
+    imagebanner1Title?: string;
+    imagebanner2Title?: string;
+    choices?: Array<{
+      choiceTitle: string;
+      choicePoints: Array<{
+        point: string;
+      }>;
+    }>;
+  };
   faqData?: FaqData[];
   downloadData?: DownloadData[];
 }
@@ -38,6 +100,7 @@ export default function HufcorProductLayout({
   downloadData 
 }: HufcorProductLayoutProps) {
   const pathname = usePathname();
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [pathname]);
@@ -52,6 +115,7 @@ export default function HufcorProductLayout({
     heroButton2Label,
     heroButton2Url,
     features,
+    description,
     customizationOptionsDescription,
     panelConfig,
     finishes,
@@ -59,6 +123,8 @@ export default function HufcorProductLayout({
     doorType,
     imagebanner1,
     imagebanner2,
+    imagebanner1Title,
+    imagebanner2Title,
   } = fields || {};
 
   const safeFeatures = Array.isArray(features) ? features : [];
@@ -113,55 +179,11 @@ export default function HufcorProductLayout({
         </section>
       )}
 
-      {/* Features Section */}
-      {safeFeatures.length > 0 && (
-        <section className={styles.features}>
-          <h2 className={styles.sectionHeading}>
-            <img src="/workforce1.png" alt="icon" className={styles.icon} />
-            KEY <span className={styles.red}> FEATURES</span>
-          </h2>
-          {safeFeatures.map((feature: any, index: number) => {
-            const ref = useRef(null);
-            const inView = useInView(ref, { once: true, margin: "-100px" });
-
-            return (
-              <motion.div
-                ref={ref}
-                key={index}
-                className={styles.featureBlock}
-                initial={{ opacity: 0 }}
-                animate={inView ? { opacity: 1 } : {}}
-                transition={{ duration: 0.3 }}
-              >
-                <div className={styles.headingLineWrap}>
-                  <motion.h3
-                    initial={{ x: -50, opacity: 0 }}
-                    animate={inView ? { x: 0, opacity: 1 } : {}}
-                    transition={{ duration: 0.6, delay: index * 0.2 }}
-                  >
-                    {feature.featureTitle}
-                  </motion.h3>
-                  <motion.div
-                    className={styles.line}
-                    initial={{ x: 50, opacity: 0 }}
-                    animate={inView ? { x: 0, opacity: 1 } : {}}
-                    transition={{ duration: 0.6, delay: index * 0.2 + 0.1 }}
-                  />
-                </div>
-                <motion.div
-                  initial={{ opacity: 0, y: 30 }}
-                  animate={inView ? { opacity: 1, y: 0 } : {}}
-                  transition={{ duration: 0.6, delay: index * 0.2 + 0.2 }}
-                >
-                  {feature.featureContent?.split("\n").map((line: string, i: number) => (
-                    <p key={i}>{line}</p>
-                  ))}
-                </motion.div>
-              </motion.div>
-            );
-          })}
-        </section>
-      )}
+      <WhatSetsUsApart 
+        features={safeFeatures}
+        brand="red" // Blue color for Hufcor products
+        description={description} // Pass the description from query
+      />
 
       {/* Dynamic Image Banner 1 */}
       {imagebanner1?.sourceUrl?.trim() && (
@@ -171,17 +193,15 @@ export default function HufcorProductLayout({
             src={imagebanner1.sourceUrl}
             alt={imagebanner1.altText || "Banner Image 1"}
             fill
-            style={{ objectFit: "cover", zIndex: -1 }}
+            style={{zIndex: -1 }}
           />
-          <div className={`${styles.bannerText} ${bannerInView ? styles.show : ""}`}>
-            <span className={`${styles.word} ${styles.left}`}>YOUR</span>
-            <span className={`${styles.word} ${styles.bottom}`}>INNOVATION</span>
-            <span className={`${styles.word} ${styles.right}`}>SPACE</span>
-          </div>
+          {typeof imagebanner1Title === "string" && imagebanner1Title.trim() !== "" && (
+            <div className={styles.bannerCaption}>{imagebanner1Title}</div>
+          )}
         </section>
       )}
 
-      {/* Customization Options Description */}
+      {/* Customization Options */}
       {customizationOptionsDescription && (
         <section className={styles.customization}>
           <h2 className={styles.sectionHeading}>
@@ -219,9 +239,17 @@ export default function HufcorProductLayout({
       )}
 
       {/* Finishes Section */}
-      {safeFinishes.length > 0 && <FinishesSection finishes={safeFinishes} />}
+      {safeFinishes.length > 0 && (
+        <FinishesSection
+          finishes={safeFinishes.map((finish) => ({
+            ...finish,
+            thumbnail: finish.thumbnail ?? { sourceUrl: "", altText: "" },
+            panel: finish.panel ?? { sourceUrl: "", altText: "" },
+          }))}
+        />
+      )}
 
-      {/* Pocket Door Options */}
+      {/* Pocket Doors */}
       {safePocketDoors.length > 0 && (
         <section className={styles.pocketSection}>
           <h2 className={styles.sectionHeading}>
@@ -247,24 +275,6 @@ export default function HufcorProductLayout({
                 )}
               </div>
             ))}
-          </div>
-        </section>
-      )}
-
-      {/* Dynamic Image Banner 2 */}
-      {imagebanner2?.sourceUrl?.trim() && (
-        <section className={styles.noiseBanner1} ref={bannerRef1}>
-          <div className={styles.noiseOverlay}></div>
-          <Image
-            src={imagebanner2.sourceUrl}
-            alt={imagebanner2.altText || "Banner Image 2"}
-            fill
-            style={{ objectFit: "cover", zIndex: -1 }}
-          />
-          <div className={`${styles.bannerText1} ${bannerInView1 ? styles.show : ""}`}>
-            <span className={`${styles.word1} ${styles.left}`}>YOUR</span>
-            <span className={`${styles.word1} ${styles.bottom}`}>INNOVATION</span>
-            <span className={`${styles.word1} ${styles.right}`}>SPACE</span>
           </div>
         </section>
       )}
@@ -322,7 +332,23 @@ export default function HufcorProductLayout({
         </section>
       )}
 
-      {/* Download, FAQ, Contact */}
+      {/* Dynamic Image Banner 2 */}
+      {imagebanner2?.sourceUrl?.trim() && (
+        <section className={styles.noiseBanner1} ref={bannerRef1}>
+          <div className={styles.noiseOverlay}></div>
+          <Image
+            src={imagebanner2.sourceUrl}
+            alt={imagebanner2.altText || "Banner Image 2"}
+            fill
+            style={{ objectFit: "cover", zIndex: -1 }}
+          />
+          {typeof imagebanner2Title === "string" && imagebanner2Title.trim() !== "" && (
+            <div className={styles.bannerCaption}>{imagebanner2Title}</div>
+          )}
+        </section>
+      )}
+
+      {/* Downloads / FAQ / Contact */}
       <DownloadSection downloadData={downloadData} />
       {faqData && faqData.length > 0 && <FaqSection faqData={faqData} />}
       <ContactUs />

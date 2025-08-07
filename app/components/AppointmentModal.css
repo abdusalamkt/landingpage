@@ -1,14 +1,40 @@
 .modal-backdrop {
   position: fixed;
-  top: 0; left: 0;
-  width: 100vw; height: 100vh;
-  background: rgba(0,0,0,0.5);
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  overflow: auto; /* allows inner scroll */
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 1000;
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 9999;
 }
 
+.modal-content {
+  background: #fff;
+  padding: 20px;
+  max-height: 90vh;  /* Important for scroll */
+  overflow-y: auto;  /* Enables inner scroll */
+  border-radius: 10px;
+  width: 90%;
+  max-width: 600px;
+  position: relative;
+}
 .modal-box {
   background: white;
   padding: 30px;
@@ -21,9 +47,20 @@
 }
 
 .modal-box h2 {
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+  font-weight: 400;
+
+}
+
+.modal-box h3 {
   font-size: 1.8rem;
   margin-bottom: 20px;
+  font-weight: 400;
+
 }
+
+
 
 .modal-box input,
 .modal-box select,
@@ -33,6 +70,16 @@
   padding: 10px;
   font-size: 1rem;
   color: #109C5D;
+}
+
+.modal-box .close-btn {
+  padding: 10px 20px;
+  font-size: 1rem;
+  background: black;
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.2s;
 }
 
 .modal-box button {
@@ -59,6 +106,17 @@
   cursor: pointer;
 }
 
+
+select option {
+  background-color: rgb(255, 255, 255);
+  color: black;
+}
+
+select:focus {
+  border-color: #109C5D;
+  outline: none;
+}
+
 .success-animation {
   position: absolute;
   top: 0;
@@ -78,4 +136,102 @@
   font-weight: bold;
   margin-top: 20px;
   font-size: 1.2rem;
+}
+.modal-box select:hover {
+  
+  color: #3d3d3d;
+  border-color: #109C5D;
+  cursor: pointer;
+}
+.custom-dropdown-wrapper {
+  position: relative;
+  margin-bottom: 15px;
+}
+
+.custom-dropdown {
+  padding: 10px;
+  border: 1px solid #ccc;
+  background: #fff;
+  cursor: pointer;
+  color: #109C5D;
+  font-size: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.custom-dropdown:hover {
+  border-color: #109C5D;
+}
+
+.custom-options {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  max-height: 200px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ccc;
+  z-index: 99;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.custom-options li {
+  padding: 10px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.custom-options li:hover {
+  background-color: #f3f2f2;
+  color: #109C5D;
+}
+
+.arrow {
+  font-size: 0.8rem;
+  margin-left: 10px;
+}
+
+
+
+.cta-button {
+  background: linear-gradient(90deg, #109c5d, #00572b, #003514);
+  color: white;
+  font-size: 1.5rem;
+  border: solid 1px white;
+  cursor: pointer;
+  transition: all 0.4s ease;
+  text-transform: uppercase;
+  font-family: 'Bebas Neue', sans-serif;
+  position: relative;
+  overflow: hidden;
+}
+
+.cta-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(28, 101, 68, 0.4);
+  background: linear-gradient(90deg, #003514, #00572b, #109c5d);
+}
+
+.cta-button::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.4),
+    transparent
+  );
+  transition: 0.5s;
+}
+
+.cta-button:hover::after {
+  left: 100%;
 }

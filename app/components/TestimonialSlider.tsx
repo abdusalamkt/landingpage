@@ -43,7 +43,7 @@ const TestimonialSlider: React.FC<TestimonialSliderProps> = ({ testimonials }) =
 
   return (
     <section className="w-full py-12 bg-white">
-      <div className="text-center mb-24">
+      <div className="text-center mb-20">
         <h2 className="text-5xl font-normal text-[#3d3d3d]">
           What they say <span className="text-[#109c5d]">about us!</span>
         </h2>
@@ -88,7 +88,7 @@ const TestimonialSlider: React.FC<TestimonialSliderProps> = ({ testimonials }) =
         </div>
 
         {/* Slider Dots */}
-        <div className="flex justify-self-center md:justify-start mt-8 space-x-2">
+        <div className="flex justify-self-center md:justify-start mt-0 space-x-2">
           {testimonials.map((_, idx) => (
             <button
               key={idx}
