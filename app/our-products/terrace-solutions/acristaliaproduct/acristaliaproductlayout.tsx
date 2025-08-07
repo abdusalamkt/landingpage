@@ -157,11 +157,7 @@ const KeyFeatureGroupComponent = ({ group, groupIndex }: { group: KeyFeatureGrou
             style={{ objectFit: "cover" }}
             priority
           />
-          <div className={`${styles.bannerText} ${bannerInView ? styles.show : ""}`}>
-            <span className={`${styles.word} ${styles.left}`}>KEY</span>
-            <span className={`${styles.word} ${styles.bottom}`}>FEATURES</span>
-            <span className={`${styles.word} ${styles.right}`}>GROUP </span>
-          </div>
+          
         </div>
       )}
       {group.features && group.features.length > 0 && (

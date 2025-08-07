@@ -43,7 +43,7 @@ font-size: 1.1rem;
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
-      background: linear-gradient(90deg, #109c5d, #00572b, #003514);
+      background: linear-gradient(90deg, #1C6544 40%, #11955A);
     border-radius: 27px;
     color: white;
     padding: 5px 5px;

@@ -198,7 +198,7 @@ select:focus {
 
 
 .cta-button {
-  background: linear-gradient(90deg, #109c5d, #00572b, #003514);
+  background: linear-gradient(90deg, #1C6544 40%, #11955A);
   color: white;
   font-size: 1.5rem;
   border: solid 1px white;
