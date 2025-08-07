@@ -143,41 +143,55 @@ export default function HufcorProductLayout({
       <Header />
 
       {/* Hero Section */}
-      {(heroTitle || heroHighlight || heroDescription || heroImage?.sourceUrl?.trim()) && (
-        <section className={styles.hero}>
-          <div className={styles.textContent}>
-            <h1 className={styles.series}>
-              {heroTitle} <span className={styles.red}>{heroHighlight}</span>
-            </h1>
-            {heroDescription && <p className={styles.description}>{heroDescription}</p>}
-            <div className={styles.buttons}>
-              {heroButton1Label && heroButton1Url && (
-                <a href={heroButton1Url} target="_blank" rel="noopener noreferrer">
-                  <button className={styles.outline}>{heroButton1Label}</button>
-                </a>
-              )}
-              {heroButton2Label && heroButton2Url && (
-                <a href={heroButton2Url} target="_blank" rel="noopener noreferrer">
-                  <button className={styles.primary}>{heroButton2Label}</button>
-                </a>
-              )}
-            </div>
-          </div>
+      {/* Hero Section */}
+{(heroTitle || heroHighlight || heroDescription || heroImage?.sourceUrl?.trim()) && (
+  <section className={styles.hero}>
+    <div className={styles.textContent}>
+      
+      {/* Logo above title */}
+      <div className={styles.heroLogoWrapper}>
+        <Image
+          src="/hufcorlogo.png" // replace with actual path
+          alt="Hufcor Logo"
+          width={160}
+          height={60}
+          className={styles.heroLogo}
+        />
+      </div>
 
-          {heroImage?.sourceUrl?.trim() && (
-            <div className={styles.imageWrapper}>
-              <Image
-                src={heroImage.sourceUrl}
-                alt={heroImage.altText || "Product Hero Image"}
-                width={700}
-                height={500}
-                priority
-                className={styles.heroImage}
-              />
-            </div>
-          )}
-        </section>
-      )}
+      <h1 className={styles.series}>
+        {heroTitle} <span className={styles.red}>{heroHighlight}</span>
+      </h1>
+
+      {heroDescription && <p className={styles.description}>{heroDescription}</p>}
+      <div className={styles.buttons}>
+        {heroButton1Label && heroButton1Url && (
+          <a href={heroButton1Url} target="_blank" rel="noopener noreferrer">
+            <button className={styles.outline}>{heroButton1Label}</button>
+          </a>
+        )}
+        {heroButton2Label && heroButton2Url && (
+          <a href={heroButton2Url} target="_blank" rel="noopener noreferrer">
+            <button className={styles.primary}>{heroButton2Label}</button>
+          </a>
+        )}
+      </div>
+    </div>
+
+    {heroImage?.sourceUrl?.trim() && (
+      <div className={styles.imageWrapper}>
+        <Image
+          src={heroImage.sourceUrl}
+          alt={heroImage.altText || "Product Hero Image"}
+          width={700}
+          height={500}
+          priority
+          className={styles.heroImage}
+        />
+      </div>
+    )}
+  </section>
+)}
 
       <WhatSetsUsApart 
         features={safeFeatures}
