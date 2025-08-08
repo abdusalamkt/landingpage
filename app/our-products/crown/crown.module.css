@@ -267,7 +267,7 @@
 
 @media screen and (max-width: 1366px) and (min-width: 1025px) {
   .productSection.reverse {
-    margin-top: 100px;
+    /* margin-top: 100px; */
   }
 }
 

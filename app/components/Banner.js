@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import './Banner.css';
 
 const ROTATING_WORDS = [
@@ -13,21 +13,38 @@ export default function Banner({ heading, images }) {
   const [displayedText, setDisplayedText] = useState('');
   const [wordIndex, setWordIndex] = useState(0);
   const [typing, setTyping] = useState(true);
+  const imageIntervalRef = useRef(null);
 
   const headingParts = heading?.split(' ') || [];
   const firstTwoWords = headingParts.slice(0, 2).join(' ');
   const remainingWords = headingParts.slice(2).join(' ');
 
-  // Slideshow logic
-  useEffect(() => {
+  // Setup and cleanup image interval
+  const setupImageInterval = () => {
     if (!images || images.length === 0) return;
-    const imageInterval = setInterval(() => {
+    
+    // Clear existing interval
+    if (imageIntervalRef.current) {
+      clearInterval(imageIntervalRef.current);
+    }
+    
+    // Set new interval
+    imageIntervalRef.current = setInterval(() => {
       setCurrentIndex(prev => (prev + 1) % images.length);
-    }, 3000);
-    return () => clearInterval(imageInterval);
+    }, 28000);
+  };
+
+  // Initialize image interval
+  useEffect(() => {
+    setupImageInterval();
+    return () => {
+      if (imageIntervalRef.current) {
+        clearInterval(imageIntervalRef.current);
+      }
+    };
   }, [images]);
 
-  // Typewriter logic
+  // Typewriter logic with synchronized image change
   useEffect(() => {
     let timeout;
     const currentWord = ROTATING_WORDS[wordIndex];
@@ -38,7 +55,7 @@ export default function Banner({ heading, images }) {
           setDisplayedText(currentWord.slice(0, displayedText.length + 1));
         }, 50);
       } else {
-        timeout = setTimeout(() => setTyping(false), 1500); // hold word
+        timeout = setTimeout(() => setTyping(false), 3000); // hold word
       }
     } else {
       if (displayedText.length > 0) {
@@ -46,31 +63,35 @@ export default function Banner({ heading, images }) {
           setDisplayedText(displayedText.slice(0, -1));
         }, 50);
       } else {
+        // When word changes, reset the image interval and change image
         setTyping(true);
         setWordIndex((wordIndex + 1) % ROTATING_WORDS.length);
+        
+        // Change to next image and reset interval
+        setCurrentIndex(prev => (prev + 1) % images.length);
+        setupImageInterval();
       }
     }
 
     return () => clearTimeout(timeout);
-  }, [displayedText, typing, wordIndex]);
+  }, [displayedText, typing, wordIndex, images]);
 
   return (
     <section className="banner-container">
       <div className="slideshow">
         {images?.map((item, index) => {
-  const img = item?.image;
-  if (!img?.sourceUrl) return null;
+          const img = item?.image;
+          if (!img?.sourceUrl) return null;
 
-  return (
-    <div
-      key={index}
-      className={`slide ${index === currentIndex ? 'active' : ''}`}
-      style={{ backgroundImage: `url(${img.sourceUrl})` }}
-      aria-label={img.altText || `Slide ${index + 1}`}
-    />
-  );
-})}
-
+          return (
+            <div
+              key={index}
+              className={`slide ${index === currentIndex ? 'active' : ''}`}
+              style={{ backgroundImage: `url(${img.sourceUrl})` }}
+              aria-label={img.altText || `Slide ${index + 1}`}
+            />
+          );
+        })}
       </div>
 
       <div className="banner-content">
