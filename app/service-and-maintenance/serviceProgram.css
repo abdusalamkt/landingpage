@@ -153,22 +153,9 @@ margin-top: 40px;
   gap: 20px;
 }
 
-.service-button {
-  background: linear-gradient(to right, #109c5d, #0b8b4f);
-  color: white;
-  border: none;
-  padding: 14px 32px;
-  font-family: 'Poppins', sans-serif;
-  font-size: 1rem;
-  font-weight: 600;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: background 0.3s ease;
-}
 
-.service-button:hover {
-  background: #0b8b4f;
-}
+
+
 
 /* Responsive */
 @media (max-width: 768px) {
