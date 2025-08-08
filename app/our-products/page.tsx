@@ -212,7 +212,7 @@ function transformWordPressData(wpData: WordPressData): TransformedSection[] {
 // Generate navigation items from sections
 function generateNavigationItems(sections: TransformedSection[]) {
   return sections.map((section, index) => ({
-    label: section.title,
+    label: section.description,
     index: index,
   }));
 }
