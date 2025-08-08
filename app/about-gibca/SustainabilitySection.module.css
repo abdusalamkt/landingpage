@@ -76,23 +76,26 @@ vertical-align: middle;
 }
 
 .certifications {
+    margin-top: 8rem;
   text-align: center;
+  /* background-color: #109c5d; */
+  width: 100vw; /* Full viewport width */
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+  padding: 0rem 0; /* Adjust padding as needed */
 }
 
 .certifications h3 {
-  font-size: 26px;
+  font-size: 56.42px;
   margin-bottom: 6rem;
-  margin-top: 10rem;
-  font-weight: 600;
-  font-family: Bebas Neue;
-font-weight: 400;
-font-style: Regular;
-font-size: 56.42px;
-
-text-align: center;
-vertical-align: middle;
-color: #3d3d3d;
-
+  font-weight: 400;
+  font-family: 'Bebas Neue', sans-serif;
+  text-align: center;
+  color: #3d3d3d;
+  padding: 0 20px; /* Add some padding on small screens */
 }
 
 .certGrid {
@@ -102,7 +105,9 @@ color: #3d3d3d;
   gap: 30px;
   max-width: 1000px;
   margin: 0 auto;
+  padding: 0 20px; /* Add some padding on small screens */
 }
+
 
 .certCard {
   position: relative;
