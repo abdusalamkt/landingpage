@@ -1,7 +1,9 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { useState } from "react";
+import { motion } from "framer-motion";
 import './serviceProgram.css';
+import RequestServiceModal from "@/app/components/RequestServiceModal";
 
 const services = [
   {
@@ -25,6 +27,8 @@ const services = [
 ];
 
 export default function ServiceProgram() {
+  const [modalOpen, setModalOpen] = useState(false);
+
   return (
     <section className="service-program-wrapper">
       <motion.h2
@@ -45,7 +49,7 @@ export default function ServiceProgram() {
         viewport={{ once: true }}
       >
         We're here for you beyond installation, offering customizable Service and Maintenance packages to suit your needs. <br />
-        Whether it’s emergency support, part replacements, or aesthetic repairs, we’ve got you covered.
+        Whether it's emergency support, part replacements, or aesthetic repairs, we've got you covered.
       </motion.p>
 
       <div className="service-card-container">
@@ -95,9 +99,14 @@ export default function ServiceProgram() {
         transition={{ duration: 0.7 }}
         viewport={{ once: true }}
       >
-        <button className="cta-button">REQUEST SERVICE</button>
-        <button className="cta-button">DOWNLOAD BROCHURE</button>
+        <button className="cta-button service-button" onClick={() => setModalOpen(true)}>
+          REQUEST SERVICE
+        </button>
+        <button className="cta-button service-button">DOWNLOAD BROCHURE</button>
       </motion.div>
+
+      {/* Render Modal */}
+      <RequestServiceModal isOpen={modalOpen} onClose={() => setModalOpen(false)} />
     </section>
   );
 }

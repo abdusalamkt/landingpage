@@ -175,7 +175,8 @@ export default function CrownProductPage({ fields, faqData = [], downloadData = 
 
       {/* Downloads, FAQ, Contact */}
        {downloadData.length > 0 && <DownloadSection downloadData={downloadData} theme="crown" />}
-      {faqData.length > 0 && <FaqSection faqData={faqData} />}
+  
+      {faqData && <FaqSection faqData={faqData} theme="crown" />}
       <ContactUs />
     </div>
   );

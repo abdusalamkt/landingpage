@@ -130,6 +130,16 @@
   color: #e63946;
 }
 
+
+.crownTheme .faqItem.active {
+  border-left: 3px solid #77471c;
+}
+
+.crownTheme .contact a {
+  color: #77471c;
+}
+
+
 .acristaliaTheme .faqItem.active {
   border-left: 3px solid #1898D3;
 }

@@ -1,0 +1,312 @@
+/* RequestServiceModal.module.css */
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  backdrop-filter: blur(5px);
+  animation: fadeIn 0.3s ease-in-out;
+  padding: 20px;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.modalContainer {
+  background: #343434;
+  width: 100%;
+  max-width: 800px;
+  max-height: 90vh;
+  border-radius: 12px;
+  padding: 0;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+  animation: slideUp 0.4s ease-out;
+  overflow: hidden;
+}
+
+.modalContent {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  max-height: 90vh;
+}
+
+.modalHeader {
+  flex-shrink: 0;
+  padding: 2rem 2rem 1rem 2rem;
+  background: #343434;
+}
+
+.modalTitle {
+  font-size: 2.5rem;
+  text-align: center;
+  color: white;
+  margin-bottom: 0.5rem;
+}
+
+.modalSubtitle {
+  font-size: 1rem;
+  text-align: center;
+  color: #ddd;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.formContainer {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 0 2rem 2rem 2rem;
+  scroll-behavior: smooth;
+  overscroll-behavior: contain;
+}
+
+/* Custom scrollbar styling */
+.formContainer::-webkit-scrollbar {
+  width: 8px;
+}
+
+.formContainer::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+}
+
+.formContainer::-webkit-scrollbar-thumb {
+  background: #109C5D;
+  border-radius: 4px;
+}
+
+.formContainer::-webkit-scrollbar-thumb:hover {
+  background: #0c7f4d;
+}
+
+/* Firefox scrollbar styling */
+.formContainer {
+  scrollbar-width: thin;
+  scrollbar-color: #109C5D rgba(255, 255, 255, 0.1);
+}
+
+.serviceForm {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  min-height: min-content;
+  padding-bottom: 1rem;
+}
+
+.formRow {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.inputGroup {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.inputGroup input,
+.inputGroup select,
+.inputGroup textarea {
+  border: none;
+  border-bottom: 2px solid #ccc;
+  background: transparent;
+  color: white;
+  padding: 0.8rem 0;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.inputGroup input:focus,
+.inputGroup select:focus,
+.inputGroup textarea:focus {
+  border-bottom-color: #109C5D;
+  outline: none;
+}
+
+.inputGroup input::placeholder,
+.inputGroup select::placeholder,
+.inputGroup textarea::placeholder {
+  color: #aaa;
+}
+
+.inputGroup textarea {
+  resize: none;
+  min-height: 100px;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-top: 0.5rem;
+}
+
+.inputGroup select {
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 0.5rem center;
+  background-size: 1rem;
+  cursor: pointer;
+}
+
+.submitButton {
+  padding: 1rem 2rem;
+  background: linear-gradient(90deg, #109c5d, #00572b);
+  color: white;
+  font-size: 1.2rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.4s ease;
+  text-transform: uppercase;
+  font-weight: 600;
+  position: relative;
+  overflow: hidden;
+  align-self: center;
+  width: 100%;
+  max-width: 300px;
+  margin-top: 1rem;
+}
+
+.submitButton:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(28, 101, 68, 0.4);
+  background: linear-gradient(90deg, #00572b, #109c5d);
+}
+
+.submitButton::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+  transition: 0.5s;
+}
+
+.submitButton:hover::after {
+  left: 100%;
+}
+
+.closeButton {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  font-size: 1.8rem;
+  background: transparent;
+  border: none;
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  z-index: 10;
+}
+
+.closeButton:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: rotate(90deg);
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(50px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .modalOverlay {
+    padding: 10px;
+  }
+  
+  .modalContainer {
+    max-height: 95vh;
+  }
+  
+  .modalHeader {
+    padding: 1.5rem 1.5rem 1rem 1.5rem;
+  }
+  
+  .formContainer {
+    padding: 0 1.5rem 1.5rem 1.5rem;
+  }
+  
+  .formRow {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .modalTitle {
+    font-size: 2rem;
+  }
+  
+  .submitButton {
+    padding: 0.8rem 1.5rem;
+    font-size: 1rem;
+  }
+  
+  .closeButton {
+    top: 1rem;
+    right: 1rem;
+    font-size: 1.5rem;
+    width: 35px;
+    height: 35px;
+  }
+}
+
+@media (max-width: 480px) {
+  .modalOverlay {
+    padding: 5px;
+  }
+  
+  .modalContainer {
+    max-height: 98vh;
+  }
+  
+  .modalHeader {
+    padding: 1rem 1rem 0.5rem 1rem;
+  }
+  
+  .formContainer {
+    padding: 0 1rem 1rem 1rem;
+  }
+  
+  .modalTitle {
+    font-size: 1.8rem;
+  }
+  
+  .modalSubtitle {
+    font-size: 0.9rem;
+  }
+  
+  .serviceForm {
+    gap: 1rem;
+  }
+}
