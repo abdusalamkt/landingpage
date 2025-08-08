@@ -1,0 +1,180 @@
+.sustainabilitySection {
+  padding: 8rem 6rem 0rem 6rem;
+  background: white;
+  color: #333;
+  font-family: sans-serif;
+}
+
+.commitment {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 50px;
+  margin-bottom: 60px;
+  align-items: flex-start;
+}
+
+.imageWrapper {
+  position: relative;
+  flex: 1 1 300px;
+  max-width: 400px;
+}
+
+.mainImage {
+  width: auto;
+  max-width: 360px;
+  height: 450px;
+  border-radius: 6px;
+  object-fit: cover;
+}
+
+.overlayImage {
+  position: absolute;
+  bottom: -15%;
+  right: -20px;
+  border-radius: 6px;
+  background: white;
+  padding: 3px;
+  width: 270px;
+  height: 160px;
+  object-fit: cover;
+  /* box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1); */
+}
+
+.textContent {
+  flex: 2;
+
+  font-family: Poppins;
+font-weight: 400;
+font-style: Regular;
+font-size: 16px;
+
+
+vertical-align: middle;
+
+}
+
+.textContent h2 {
+
+  font-family: Bebas Neue;
+font-weight: 400;
+font-style: Regular;
+font-size: 56.42px;
+/* line-height: 100%; */
+/* letter-spacing: 0%; */
+vertical-align: middle;
+
+}
+
+.green {
+  color: #109c5d;
+}
+
+.textContent p {
+  margin-bottom: 16px;
+  font-size: 15px;
+  line-height: 2rem;
+}
+
+.certifications {
+  text-align: center;
+}
+
+.certifications h3 {
+  font-size: 26px;
+  margin-bottom: 6rem;
+  margin-top: 10rem;
+  font-weight: 600;
+  font-family: Bebas Neue;
+font-weight: 400;
+font-style: Regular;
+font-size: 56.42px;
+
+text-align: center;
+vertical-align: middle;
+color: #3d3d3d;
+
+}
+
+.certGrid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 30px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.certCard {
+  position: relative;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0px 0.88px 12.79px 0px #00000040;
+
+  padding: 130px 20px 0px 30px;
+  text-align: center;
+
+  flex: 0 0 calc(30.333% - 30px);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  min-height: 300px;
+  transition: transform 0.3s ease;
+  overflow: visible;
+  margin-bottom: 5rem;
+}
+
+.certCard:hover {
+  transform: translateY(-6px);
+}
+
+.certCardImage {
+  position: absolute;
+  top: -80px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 175px;
+  height: 165px;
+  object-fit: contain;
+  z-index: 2;
+}
+
+.certCard h4 {
+ font-family: Bebas Neue;
+font-weight: 400;
+font-style: Regular;
+font-size: 30.88px;
+/* margin-top: 4rem; */
+text-align: center;
+vertical-align: middle;
+color: #109c5d;
+
+
+}
+
+.certCard p {
+  font-family: Poppins;
+font-weight: 400;
+font-style: Regular;
+font-size: 14px;
+color: #3d3d3d;
+text-align: center;
+vertical-align: middle;
+
+}
+
+/* Responsive */
+@media screen and (max-width: 992px) {
+  .certCard {
+    flex: 0 0 calc(50% - 30px);
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .certCard {
+    flex: 0 0 100%;
+  }
+}
+.lastWord {
+  color: #109c5d; /* bright green or choose your brand's green */
+}

@@ -7,12 +7,9 @@
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  /* background-attachment: fixed; */
   color: white;
   margin-bottom: 1rem;
-  transition: background-size .6s ease-in-out;
   line-height: normal;
-
 }
 
 .products-heading {
@@ -51,7 +48,6 @@
   inset: 0;
   background-color: rgba(0, 0, 0, 0.425);
   z-index: 0;
-  transition: opacity 0.5s ease;
 }
 
 .item-container {
@@ -88,7 +84,7 @@
   left: 0;
   width: 0%;
   height: 100%;
- background: linear-gradient(to right, rgba(255, 255, 255, 0.822) 40%, rgba(255, 255, 255, 0) 100%);
+  background: linear-gradient(to right, rgba(255, 255, 255, 0.822) 40%, rgba(255, 255, 255, 0) 100%);
   z-index: -1;
   transition: width 0.8s cubic-bezier(0.25, 1, 0.5, 1);
 }
@@ -96,7 +92,6 @@
 .products-item:hover::before {
   width: 100%;
 }
-
 
 .products-item:hover {
   color: #3d3d3d;
@@ -110,11 +105,6 @@
   color: #109c5d;
   scale: 1.4;
   transform: translateX(5px);
-}
-
-.products-item.hovered {
-  color: #3d3d3d;
-  transform: translateX(10px);
 }
 
 .arrow {
@@ -133,10 +123,6 @@
 
 .item-container:hover .divider {
   background: linear-gradient(to right, transparent 0%, rgba(255, 255, 255, 0.6) 50%, transparent 100%);
-}
-
-.bg-transition {
-  transition: background-image 8s ease-in-out;
 }
 
 .cta-button {
@@ -179,7 +165,7 @@
 }
 
 .category-name.products-item {
-  font-size: 1.6rem;
+  font-size: 1.4rem;
 }
 
 .category-name.products-item:active {
@@ -189,22 +175,12 @@
 .category-items .products-item {
   font-size: 1.1rem;
   max-width: 75%;
-  /* color: rgb(255, 255, 255); */
 }
 
 .category-container {
   width: 100%;
   display: flex;
   flex-direction: column;
-}
-
-.products-wrapper.fade-bg {
-  animation: fadein .1s ease-in-out;
-}
-
-@keyframes fadein {
-  from { opacity: 0.9; }
-  to { opacity: 1; }
 }
 
 .category-items {
@@ -263,8 +239,7 @@
 
 .scroll-navigation.without-header {
   top: 0;
-    justify-content: center;
-
+  justify-content: center;
 }
 
 .scroll-nav-item {
@@ -423,10 +398,11 @@ body {
     padding: 2px 4px;
   }
 }
+
 @media screen and (max-width: 768px) {
   .products-wrapper {
     background-attachment: scroll;
-    background-size: 100%; /* Ensure image fully covers */
+    background-size: cover;
     background-position: center center;
     background-repeat: no-repeat;
   }

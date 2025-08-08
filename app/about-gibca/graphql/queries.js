@@ -20,18 +20,27 @@ export const GET_ABOUT_US_PAGE_FIELDS = `
             sourceUrl
           }
         }
-        visionTitle
-        visionDescription
-        missionTitle
-        missionDescription
         isoHeading
         isoHighlight
         isoDescription
-        isoGallery {
+        mainImage {
           sourceUrl
           altText
         }
-          
+        overlayImage {
+          sourceUrl
+          altText
+        }
+        certifications {
+          title
+          description
+          isoImage {
+            sourceUrl
+            altText
+          }
+        }
+        isoButtonText
+        isoButtonUrl
       }
     }
   }

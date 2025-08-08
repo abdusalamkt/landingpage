@@ -4,9 +4,10 @@ import FloatingSidebar from '../components/FloatingSidebar';
 import HeroSection from './HeroSection';
 import VideoSection from './VideoSection';
 import Timeline from './Timeline';
-import VisionMission from './VisionMission';
-import IsoSection from './IsoSection';
+
 import ContactUs from '../components/ContactUs';
+import SustainabilitySection from './SustainabilitySection';
+
 
 import { GET_ABOUT_US_PAGE_FIELDS } from './graphql/queries';  // Adjust path as needed
 
@@ -40,14 +41,9 @@ export default async function AboutUsPage() {
       <FloatingSidebar />
       <HeroSection fields={fields} />
       <VideoSection fields={fields} />
-      
-          {/* <VisionMission
-  visionTitle={fields?.visionTitle}
-  visionDescription={fields?.visionDescription}
-  missionTitle={fields?.missionTitle}
-  missionDescription={fields?.missionDescription}
-/> */}
-      <IsoSection fields={fields} />  
+
+      <SustainabilitySection fields={fields} />
+
       <Timeline events={fields?.timelineEvents} />
       <ContactUs />
     </>

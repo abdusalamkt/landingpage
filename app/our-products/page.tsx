@@ -223,9 +223,6 @@ function OurProductsContent() {
   const [activeIndex, setActiveIndex] = useState(0);
   const [sections, setSections] = useState<TransformedSection[]>([]);
   const [navigationItems, setNavigationItems] = useState<{ label: string; index: number }[]>([]);
-  const [currentBgImages, setCurrentBgImages] = useState<string[]>([]);
-  const [targetBgImages, setTargetBgImages] = useState<string[]>([]);
-  const [isZoomed, setIsZoomed] = useState<boolean[]>([]);
   const [isHeaderVisible, setIsHeaderVisible] = useState(true);
   const [expandedCategories, setExpandedCategories] = useState<(number | null)[]>([]);
   const [warningMessage, setWarningMessage] = useState<string | null>(null);
@@ -254,7 +251,6 @@ function OurProductsContent() {
         shouldShowWarning = true;
       } else {
         sectionsToUse = transformedSections;
-        
       }
     } else if (!loading) {
       // No data and not loading - use fallback
@@ -266,12 +262,6 @@ function OurProductsContent() {
     if (sectionsToUse.length > 0) {
       setSections(sectionsToUse);
       setNavigationItems(generateNavigationItems(sectionsToUse));
-      
-      // Initialize state arrays based on data
-      const defaultBgs = sectionsToUse.map(section => section.defaultBg);
-      setCurrentBgImages(defaultBgs);
-      setTargetBgImages(defaultBgs);
-      setIsZoomed(sectionsToUse.map(() => false));
       setExpandedCategories(sectionsToUse.map(() => null));
     }
 
@@ -306,33 +296,6 @@ function OurProductsContent() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentBgImages((prev) =>
-        prev.map((bg, i) => (bg !== targetBgImages[i] ? targetBgImages[i] : bg))
-      );
-    }, 80);
-    return () => clearInterval(interval);
-  }, [targetBgImages]);
-
-  const handleHover = (sectionIdx: number, newBg: string) => {
-    setTargetBgImages((prev) =>
-      prev.map((bg, i) => (i === sectionIdx ? newBg : bg))
-    );
-    setIsZoomed((prev) =>
-      prev.map((zoom, i) => (i === sectionIdx ? true : zoom))
-    );
-  };
-
-  const handleSectionLeave = (sectionIdx: number) => {
-    setTargetBgImages((prev) =>
-      prev.map((bg, i) => (i === sectionIdx ? sections[i]?.defaultBg || bg : bg))
-    );
-    setIsZoomed((prev) =>
-      prev.map((zoom, i) => (i === sectionIdx ? false : zoom))
-    );
-  };
-
   const handleKnowMoreClick = (section: TransformedSection) => {
     if (section.knowMoreUrl) {
       window.open(section.knowMoreUrl, '_blank');
@@ -349,15 +312,13 @@ function OurProductsContent() {
 
   const toggleCategory = (
     sectionIdx: number,
-    catIdx: number,
-    hoverBg: string
+    catIdx: number
   ) => {
     setExpandedCategories((prev) =>
       prev.map((val, i) =>
         i === sectionIdx ? (val === catIdx ? null : catIdx) : val
       )
     );
-    handleHover(sectionIdx, hoverBg);
   };
 
   useEffect(() => {
@@ -516,21 +477,17 @@ function OurProductsContent() {
             className="products-wrapper"
             id={`section-${i}`}
             style={{
-              backgroundImage: `url(${currentBgImages[i]})`,
-              backgroundSize: isZoomed[i] ? "100%" : "105%",
+              backgroundImage: `url(${section.defaultBg})`,
+              backgroundSize: "cover",
               backgroundPosition: "center",
               backgroundRepeat: "no-repeat",
-              transition: "background-size 1s ease-in-out",
             }}
           >
             <div className="section-content">
               <div className="products-heading">{section.title}</div>
               <p className="products-description">{section.description}</p>
 
-              <div
-                className="products-section"
-                onMouseLeave={() => handleSectionLeave(i)}
-              >
+              <div className="products-section">
                 {section.categories ? (
                   <>
                     {section.categories.map((cat, catIdx) => (
@@ -538,10 +495,9 @@ function OurProductsContent() {
                         <div
                           className="category-name products-item"
                           onClick={() => {
-                            toggleCategory(i, catIdx, cat.hoverBg);
+                            toggleCategory(i, catIdx);
                             if (cat.url) handleItemClick(cat.url);
                           }}
-                          onMouseEnter={() => handleHover(i, cat.hoverBg)}
                         >
                           {cat.name}
                           <span
@@ -570,7 +526,6 @@ function OurProductsContent() {
                             <div key={itemIdx} className="item-container">
                               <div
                                 className="products-item"
-                                onMouseEnter={() => handleHover(i, item.hoverBg)}
                                 onClick={() => handleItemClick(item.url)}
                                 style={{ cursor: item.url ? 'pointer' : 'default' }}
                               >
@@ -590,7 +545,6 @@ function OurProductsContent() {
                     <div key={j} className="item-container">
                       <div
                         className="products-item"
-                        onMouseEnter={() => handleHover(i, item.hoverBg)}
                         onClick={() => handleItemClick(item.url)}
                         style={{ cursor: item.url ? 'pointer' : 'default' }}
                       >
