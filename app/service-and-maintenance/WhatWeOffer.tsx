@@ -2,6 +2,8 @@
 
 import { motion } from 'framer-motion';
 import './whatweoffer.css';
+import RequestServiceModal from '@/app/components/RequestServiceModal';
+import { useState } from "react";
 
 type Offer = {
   title: string;
@@ -14,6 +16,7 @@ type Props = {
 };
 
 export default function WhatWeOffer({ offers, heading }: Props) {
+  const [modalOpen, setModalOpen] = useState(false);
   const getAnimation = (index: number) => {
     const column = index % 3;
     switch (column) {
@@ -81,9 +84,15 @@ export default function WhatWeOffer({ offers, heading }: Props) {
           transition={{ duration: 0.6, delay: 0.5 }}
           viewport={{ once: true }}
         >
-          <button className="cta-button">Request Service</button>
-        </motion.div>
+          <button className="cta-button" onClick={() => setModalOpen(true)}>Request Service</button>
+      
+                </motion.div>
+          
+                {/* Render Modal */}
+                
+        
       </div>
+      <RequestServiceModal isOpen={modalOpen} onClose={() => setModalOpen(false)} />
     </section>
   );
 }

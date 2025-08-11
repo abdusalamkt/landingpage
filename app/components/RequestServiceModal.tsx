@@ -124,7 +124,7 @@ export default function RequestServiceModal({ isOpen, onClose }: RequestServiceM
         
         <div className={styles.modalContent}>
           <div className={styles.modalHeader}>
-            <h2 className={styles.modalTitle}>Request Service</h2>
+            <h2 className={styles.modalTitle}> <span className='highlight'>Request</span> Service</h2>
             <p className={styles.modalSubtitle}>
               Fill out the form below and our team will get back to you shortly
             </p>
@@ -172,16 +172,16 @@ export default function RequestServiceModal({ isOpen, onClose }: RequestServiceM
                   />
                 </div>
               </div>
-
+<div className={styles.inputGroup}>
+                <textarea 
+                  placeholder="Address *" 
+                  required 
+                  rows={2}
+                  name="Address"
+                ></textarea>
+              </div>
               <div className={styles.formRow}>
-                <div className={styles.inputGroup}>
-                  <input 
-                    required
-                    type="text" 
-                    placeholder="Address *" 
-                    name="address"
-                  />
-                </div>
+                
                 <div className={styles.inputGroup}>
                   <input 
                     required
@@ -190,9 +190,6 @@ export default function RequestServiceModal({ isOpen, onClose }: RequestServiceM
                     name="phone"
                   />
                 </div>
-              </div>
-
-              <div className={styles.formRow}>
                 <div className={styles.inputGroup}>
                   <input 
                     type="email" 
@@ -201,6 +198,10 @@ export default function RequestServiceModal({ isOpen, onClose }: RequestServiceM
                     name="email"
                   />
                 </div>
+              </div>
+
+              <div className={styles.formRow}>
+                
                 <div className={styles.inputGroup}>
                   <select 
                     required 
@@ -243,53 +244,9 @@ export default function RequestServiceModal({ isOpen, onClose }: RequestServiceM
                 ></textarea>
               </div>
 
-              {/* Extra fields to ensure scrolling is needed */}
-              <div className={styles.formRow}>
-                <div className={styles.inputGroup}>
-                  <input 
-                    type="text" 
-                    placeholder="Preferred Contact Method" 
-                    name="contactMethod"
-                  />
-                </div>
-                <div className={styles.inputGroup}>
-                  <input 
-                    type="date" 
-                    placeholder="Preferred Date" 
-                    name="preferredDate"
-                  />
-                </div>
-              </div>
+             
 
-              <div className={styles.inputGroup}>
-                <textarea 
-                  placeholder="Additional Requirements or Special Instructions" 
-                  rows={3}
-                  name="additionalRequirements"
-                ></textarea>
-              </div>
-
-              <div className={styles.formRow}>
-                <div className={styles.inputGroup}>
-                  <input 
-                    type="text" 
-                    placeholder="Budget Range" 
-                    name="budgetRange"
-                  />
-                </div>
-                <div className={styles.inputGroup}>
-                  <select 
-                    defaultValue=""
-                    name="urgency"
-                  >
-                    <option value="" disabled>Urgency Level</option>
-                    <option value="Low">Low</option>
-                    <option value="Medium">Medium</option>
-                    <option value="High">High</option>
-                    <option value="Emergency">Emergency</option>
-                  </select>
-                </div>
-              </div>
+             
 
               <button type="submit" className={styles.submitButton}>
                 Submit Request

@@ -18,7 +18,7 @@
 }
 
 .modalContainer {
-  background: #343434;
+  background: #3d3d3d;
   width: 100%;
   max-width: 800px;
   max-height: 90vh;
@@ -42,7 +42,7 @@
 .modalHeader {
   flex-shrink: 0;
   padding: 2rem 2rem 1rem 2rem;
-  background: #343434;
+  background: #3d3d3d;
 }
 
 .modalTitle {
@@ -160,22 +160,27 @@
 }
 
 .submitButton {
-  padding: 1rem 2rem;
+  
+  font-family: Bebas Neue;
+  padding: .3rem ;
   background: linear-gradient(90deg, #109c5d, #00572b);
   color: white;
-  font-size: 1.2rem;
+  font-size: 1.5rem;
   border: none;
-  border-radius: 8px;
   cursor: pointer;
   transition: all 0.4s ease;
   text-transform: uppercase;
-  font-weight: 600;
+  font-weight: 400;
   position: relative;
   overflow: hidden;
   align-self: center;
   width: 100%;
-  max-width: 300px;
+  max-width: 250px;
   margin-top: 1rem;
+  border: solid 1px white;
+
+  font-family: Bebas Neue;
+
 }
 
 .submitButton:hover {
