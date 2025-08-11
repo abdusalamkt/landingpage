@@ -1,12 +1,12 @@
 'use client';
 import { useEffect, useState } from 'react';
 import SplashScreen from './components/SplashScreen';
-import Header from './components/Header';
+// import Header from './components/Header';
 import Banner from './components/Banner';
 import Stats from './components/Stats';
 import Products from './components/Products';
 import AnimatedSection from './components/AnimatedSection';
-import ContactUs from './components/ContactUs';
+// import ContactUs from './components/ContactUs';
 import FloatingSidebar from './components/FloatingSidebar';
 import NewsBanner from './components/NewsBanner';
 import ImageLayout from './components/ImageLayout';
@@ -95,7 +95,7 @@ export default function HomePageContent({ fields }: { fields: any }) {
       {showSplash && <SplashScreen onFinish={onSplashFinish} />}
 
       <main style={{ visibility: showSplash ? 'hidden' : 'visible' }}>
-        <Header />
+        {/* <Header /> */}
         <FloatingSidebar />
 
         <AnimatedSection animation="fadeUp" delay={0.2}>
@@ -159,7 +159,7 @@ export default function HomePageContent({ fields }: { fields: any }) {
 
         <GetInTouchSection />
 
-        <ContactUs />
+        {/* <ContactUs /> */}
       </main>
     </>
   );

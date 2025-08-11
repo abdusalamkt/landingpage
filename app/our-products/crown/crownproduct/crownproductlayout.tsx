@@ -3,7 +3,7 @@
 import styles from "./crownproduct.module.css";
 import { useEffect } from "react";
 import DownloadSection from "@/app/components/DownloadSection";
-import ContactUs from "@/app/components/ContactUs";
+// import ContactUs from "@/app/components/ContactUs";
 import Image from "next/image";
 import Header from "@/app/components/Header";
 import { usePathname } from "next/navigation";
@@ -177,7 +177,7 @@ export default function CrownProductPage({ fields, faqData = [], downloadData = 
        {downloadData.length > 0 && <DownloadSection downloadData={downloadData} theme="crown" />}
   
       {faqData && <FaqSection faqData={faqData} theme="crown" />}
-      <ContactUs />
+      {/* <ContactUs /> */}
     </div>
   );
 }

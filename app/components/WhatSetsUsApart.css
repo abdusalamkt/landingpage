@@ -204,3 +204,39 @@
     font-size: 13px;
   }
 }
+
+.choice-points-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  font-family: 'Poppins', sans-serif;
+  font-size: 15px;
+  color: #3d3d3d;
+}
+
+
+.choice-point {
+  border: 1px solid #000000;
+  padding: 12px 20px;
+  border-radius: 10px;
+  /* font-size: 18px; */
+  font-weight: 300;
+  line-height: 30px;
+  background: #fdfdfd;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+  font-family: Poppins;
+font-weight: 400;
+font-size: 16px;
+line-height: 100%;
+letter-spacing: 0%;
+text-transform: uppercase;
+
+}
+
+.choice-point:hover {
+  background: #fafafa;
+  border-color: #999;
+  transform: translateY(-3px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}

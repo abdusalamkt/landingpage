@@ -4,7 +4,7 @@ import styles from "./hufcorproduct.module.css";
 import { useEffect, useRef } from "react";
 import { useInView, motion } from "framer-motion";
 import DownloadSection from "@/app/components/DownloadSection";
-import ContactUs from "@/app/components/ContactUs";
+// import ContactUs from "@/app/components/ContactUs";
 import Image from "next/image";
 import Header from "@/app/components/Header";
 import { usePathname } from "next/navigation";
@@ -294,57 +294,52 @@ export default function HufcorProductLayout({
       )}
 
       {/* Choices Section */}
-      {safeChoices.length > 0 && (
-        <section className={styles.choices}>
-          <h2 className={styles.sectionHeading}>
-            <img src="/workforce1.png" alt="icon" className={styles.icon} />
-            a choice to <span className={styles.red}>add</span>
-          </h2>
-          {safeChoices.map((choice: any, index: number) => {
-            const ref = useRef(null);
-            const inView = useInView(ref, { once: true, margin: "-100px" });
 
-            return (
-              <motion.div
-                ref={ref}
-                key={index}
-                className={styles.choiceBlock}
-                initial={{ opacity: 0 }}
-                animate={inView ? { opacity: 1 } : {}}
-                transition={{ duration: 0.3 }}
-              >
-                <div className={styles.headingLineWrap}>
-                  <motion.h3
-                    initial={{ x: -50, opacity: 0 }}
-                    animate={inView ? { x: 0, opacity: 1 } : {}}
-                    transition={{ duration: 0.6, delay: index * 0.2 }}
-                  >
-                    {choice.choiceTitle}
-                  </motion.h3>
-                  <motion.div
-                    className={styles.line}
-                    initial={{ x: 50, opacity: 0 }}
-                    animate={inView ? { x: 0, opacity: 1 } : {}}
-                    transition={{ duration: 0.6, delay: index * 0.2 + 0.1 }}
-                  />
-                </div>
-                <motion.div
-                  className={styles.choicePointsWrap}
-                  initial={{ opacity: 0, y: 30 }}
-                  animate={inView ? { opacity: 1, y: 0 } : {}}
-                  transition={{ duration: 0.6, delay: index * 0.2 + 0.2 }}
-                >
-                  {choice.choicePoints?.map((pt: any, i: number) => (
-                    <div key={i} className={styles.choicePoint}>
-                      {pt.point}
-                    </div>
-                  ))}
-                </motion.div>
-              </motion.div>
-            );
-          })}
-        </section>
-      )}
+{safeChoices.length > 0 && (
+  <section className="apart-section">
+    {/* Left Side */}
+    <div className="apart-left">
+      <div className="apart-bg-number">!</div>
+      <h2 className="apart-heading">
+        A CHOICE TO <span className="apart-highlight" style={{ color: "#e60000" }}>ADD</span>
+      </h2>
+      <p className="apart-desc">
+        Explore the available configurations and options to customize your setup exactly the way you want.
+      </p>
+    </div>
+
+    {/* Right Side */}
+    <div className="apart-right">
+      <h3
+        className="features-title"
+        style={{
+          background: "linear-gradient(269.42deg, #d72027 0.16%, #8e1217 99.84%)",
+        }}
+      >
+        <span className="features-bar" style={{ backgroundColor: "#e60000" }} />
+        AVAILABLE OPTIONS
+      </h3>
+     <div className="features-grid" style={{ display: "block" }}>
+
+        {safeChoices.map((choice, index) => (
+          <div key={index} className="feature-item" style={{ marginBottom: "2rem" }}>
+            <h4 style={{ color: "#e60000" }}>{choice.choiceTitle}</h4>
+            <div className="choice-points-group">
+              {choice.choicePoints?.map((pt, i) => (
+                <span key={i} className="choice-point">
+                  {pt.point}
+                  
+                </span>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+)}
+
+
 
       {/* Dynamic Image Banner 2 */}
       {imagebanner2?.sourceUrl?.trim() && (
@@ -365,7 +360,7 @@ export default function HufcorProductLayout({
       {/* Downloads / FAQ / Contact */}
       <DownloadSection downloadData={downloadData} />
       {faqData && faqData.length > 0 && <FaqSection faqData={faqData} />}
-      <ContactUs />
+      {/* <ContactUs /> */}
     </div>
   );
 }

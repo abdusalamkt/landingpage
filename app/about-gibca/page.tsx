@@ -1,12 +1,13 @@
 import { Metadata } from 'next';
-import Header from '../components/Header';
+// import Header from '../components/Header';
 import FloatingSidebar from '../components/FloatingSidebar';
 import HeroSection from './HeroSection';
 import VideoSection from './VideoSection';
 import Timeline from './Timeline';
 
-import ContactUs from '../components/ContactUs';
+// import ContactUs from '../components/ContactUs';
 import SustainabilitySection from './SustainabilitySection';
+import Footer from '../components/Footer';
 
 
 import { GET_ABOUT_US_PAGE_FIELDS } from './graphql/queries';  // Adjust path as needed
@@ -37,7 +38,7 @@ export default async function AboutUsPage() {
 
   return (
     <>
-      <Header />
+      {/* <Header /> */}
       <FloatingSidebar />
       <HeroSection fields={fields} />
       <VideoSection fields={fields} />
@@ -45,7 +46,8 @@ export default async function AboutUsPage() {
       <SustainabilitySection fields={fields} />
 
       <Timeline events={fields?.timelineEvents} />
-      <ContactUs />
+      {/* <ContactUs /> */}
+      <Footer />
     </>
   );
 }

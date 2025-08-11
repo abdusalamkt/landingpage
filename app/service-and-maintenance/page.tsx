@@ -4,7 +4,7 @@ import Hero from './Hero';
 import WhyService from './WhyService';
 import WhatWeOffer from './WhatWeOffer';
 import ServiceProgram from './ServiceProgram';
-import ContactUs from '../components/ContactUs';
+// import ContactUs from '../components/ContactUs';
 import FloatingSidebar from '../components/FloatingSidebar';
 import { GET_SERVICE_PAGE_FIELDS } from './graphql/queries';
 
@@ -27,7 +27,7 @@ export default async function ServicePage() {
 
   return (
     <main>
-      <Header />
+      {/* <Header /> */}
       <Hero
         title={fields?.heroTitle}
         highlight={fields?.heroHighlight}
@@ -41,7 +41,7 @@ export default async function ServicePage() {
 />
 
       <ServiceProgram />
-      <ContactUs />
+      {/* <ContactUs /> */}
       <FloatingSidebar />
     </main>
   );

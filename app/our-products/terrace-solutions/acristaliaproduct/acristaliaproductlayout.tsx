@@ -6,7 +6,7 @@ import { useInView, motion } from "framer-motion";
 import styles from "./acristaliaproduct.module.css";
 import Header from "@/app/components/Header";
 import DownloadSection from "@/app/components/DownloadSection";
-import ContactUs from "@/app/components/ContactUs";
+// import ContactUs from "@/app/components/ContactUs";
 import FaqSection from "@/app/components/FaqSection";
 
 interface MediaItem {
@@ -273,7 +273,7 @@ export default function AcristaliaProductLayout({
       {/* FAQ Section with Acristalia theme */}
       {faqData && <FaqSection faqData={faqData} theme="acristalia" />}
 
-      <ContactUs />
+      {/* <ContactUs /> */}
     </div>
   );
 }

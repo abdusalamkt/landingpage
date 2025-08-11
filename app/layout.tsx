@@ -5,6 +5,7 @@ import { Bebas_Neue, Poppins } from 'next/font/google';
 import Header from './components/Header';
 import PageTransition from './components/PageTransition';
 import SmoothScroll from './components/SmoothScroll'; 
+import Footer from './components/Footer';
 
 const bebasNeue = Bebas_Neue({
   weight: '400',
@@ -32,8 +33,10 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       <body>
         <SmoothScroll /> 
         <Header />
+        
         {/* <PageTransition /> */}
         {children}
+        <Footer />
       </body>
     </html>
   );

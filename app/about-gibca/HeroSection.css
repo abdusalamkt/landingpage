@@ -43,13 +43,13 @@
 
 .hero-text p {
   color: #444;
-  font-size: 1.1rem;
+  font-size: 1rem;
   margin-bottom: 1rem;
   line-height: 37px;
 }
 
 .hero-image .image {
-  width: 100%;
+  width: 90%;
   height: auto;
   border-radius: 12px;
   /* box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); */
@@ -64,6 +64,9 @@
 
 }
 
+.hero-image{
+  padding-bottom: 9rem;;
+}
 /* Reusable CTA Button */
 .cta-button {
   background: linear-gradient(90deg, #1C6544 40%, #11955A);
