@@ -47,7 +47,7 @@ export default async function AboutUsPage() {
 
       <Timeline events={fields?.timelineEvents} />
       {/* <ContactUs /> */}
-      <Footer />
+      {/* <Footer /> */}
     </>
   );
 }
