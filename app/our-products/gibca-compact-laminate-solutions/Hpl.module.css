@@ -38,7 +38,7 @@
 }
 
 .red {
-  background-color: #1898D3;
+  background-color: #109c5d;
   margin-left: 8px;
   padding: 0 15px;
 }
@@ -74,7 +74,7 @@
 .textContainer p {
   font-family: 'Poppins', sans-serif;
   font-weight: 300;
-  font-size: 20px;
+  font-size: 16px;
   line-height: 37px;
   text-align: justify;
 }
@@ -82,18 +82,18 @@
 .productRangeRow {
   display: flex;
   align-items: center;
-
+  
   margin-top: 30px;
 }
 
 .productRangeRow h3 {
-  color: #1898D3;
+  color: #109c5d;
   font-family: 'Bebas Neue', sans-serif;
   font-size: 46.64px;
   font-weight: 400;
   margin: 0;
   white-space: nowrap;
-
+  /* margin-right: 20px; */
 }
 
 .line {
@@ -106,8 +106,9 @@
 /* Update the buttons styles */
 .buttons {
   display: flex;
-  flex-direction: column;
-  gap: 10px;
+  flex-direction: row; /* changed from column */
+  flex-wrap: wrap; /* allow wrapping on smaller screens */
+  gap: 10px; /* space between buttons */
   margin-top: 15px;
   align-items: flex-start;
 }
@@ -122,12 +123,10 @@
   border-radius: 10px;
   transition: all 0.3s ease;
   cursor: pointer;
-  width: auto;
   white-space: nowrap;
 }
-
 .buttons button:hover {
-  background: #1898D3;
+  background: #109c5d;
   color: white;
   transform: scale(1.05);
   box-shadow: 4px 4px 2px rgba(0, 0, 0, 0.329);
@@ -135,17 +134,19 @@
 
 /* Style for "view product" buttons */
 .buttons button.view-product {
-  background: #1898D3;
+  display: block;
+  background: #109c5d;
   color: white;
-  border: 1px solid #1898D3;
+  border: 1px solid #109c5d;
 }
 
 .buttons button.view-product:hover {
   background: white;
-  color: #1898D3;
+  color: #109c5d;
   transform: scale(1.05);
   box-shadow: 4px 4px 2px rgba(0, 0, 0, 0.329);
 }
+
 
 /* Slider Styles */
 .sliderContainer {

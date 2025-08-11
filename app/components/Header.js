@@ -39,7 +39,7 @@ export default function Header() {
     products: [
       
       { name: 'HUFCOR', link: '/our-products/hufcor' },
-      { name: 'HPL', link: '#' },
+      { name: 'HPL', link: '/our-products/gibca-compact-laminate-solutions' },
       { name: 'OPS', link: '#' },
       { name: 'acristalia', link: '/our-products/terrace-solutions' },
       { name: 'Crown', link: '/our-products/crown' },

@@ -19,14 +19,14 @@ export const metadata: Metadata = {
   description: 'Learn about GIBCA’s vision, team, and space management solutions.',
 };
 
-export const revalidate = 3600; 
+export const revalidate = 10; 
 
 async function getPageFields() {
   const res = await fetch(WORDPRESS_API_URL, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ query: GET_ABOUT_US_PAGE_FIELDS }),
-    next: { revalidate: 3600 },
+    next: { revalidate: 10 },
   });
 
   const json = await res.json();
