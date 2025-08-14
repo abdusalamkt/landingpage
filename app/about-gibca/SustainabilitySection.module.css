@@ -91,13 +91,21 @@ vertical-align: middle;
 
 .certifications h3 {
   font-size: 56.42px;
-  margin-bottom: 6rem;
+  /* margin-bottom: 6rem; */
   font-weight: 400;
   font-family: 'Bebas Neue', sans-serif;
   text-align: center;
   color: #3d3d3d;
   padding: 0 20px; 
   /* margin-bottom: 1rem; */
+}
+
+.certifications p{
+  font-size: 16px;
+  color: #3d3d3d;
+  margin-bottom: 40px;
+  padding: 0 20px; /* Add padding for better readability */
+  justify-self: center;
 }
 
 .certGrid {
@@ -145,6 +153,7 @@ max-width: 220px;
   height: 135px;
   object-fit: cover;
   z-index: 2;
+  border-radius: 8px;
 }
 
 .certCard h4 {
@@ -165,7 +174,7 @@ color: #109c5d;
   font-family: Poppins;
 font-weight: 400;
 font-style: Regular;
-font-size: 14px;
+font-size: 11px;
 color: #3d3d3d;
 
 

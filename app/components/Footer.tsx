@@ -14,7 +14,7 @@ const Footer: React.FC = () => {
             We're excited to hear about your project and explore how we can work together.<br />
             Let's start a conversation and turn your vision into reality.
           </p>
-          <form className="contact-form">
+          <form className="form">
             <div className="form-row">
               <input type="text" placeholder="First Name" className="form-input" />
               <input type="text" placeholder="Last Name" className="form-input" />

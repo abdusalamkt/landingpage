@@ -1,0 +1,441 @@
+.hero {
+  display: flex;
+  align-items: center;
+  height: 100vh;
+  margin-top: 50px;
+}
+
+.textContent {
+  width: 60%;
+  padding: 70px 50px;
+}
+
+.heroLogo {
+  max-height: 48px;
+  display: none;
+}
+
+.imageWrapper {
+  width: 45%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.imageWrapper img {
+  max-width: 100%;
+  border-radius: 20px 0 0 20px;
+  border: 1px solid black;
+  height: 80vh;
+  object-fit: cover;
+}
+
+.series {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 5rem;
+  margin: 10px 0;
+}
+
+.red {
+  color: #109c5d;
+  margin-left: 20px;
+}
+
+.description {
+  font-family: Poppins, sans-serif;
+  font-weight: 100;
+  font-size: 1.2rem;
+  line-height: 37px;
+  text-align: justify;
+  color: #3D3D3D;
+  margin-bottom: 50px;
+}
+
+.buttons {
+  display: flex;
+  gap: 30px;
+  flex-wrap: wrap;
+}
+
+.outline {
+  background: transparent;
+  border: 2px solid #3D3D3D;
+  padding: 5px 40px;
+  color: #3D3D3D;
+  font-size: 2rem;
+  font-family: Bebas Neue;
+  cursor: pointer;
+}
+
+.primary {
+  background: linear-gradient(90deg, #1C6544 40%, #11955A);
+  color: white;
+  border: none;
+  padding: 5px 40px;
+  font-family: Bebas Neue;
+  font-size: 2rem;
+  cursor: pointer;
+}
+
+.outline:hover {
+  background: #3D3D3D;
+  color: white;
+  transition: background-color 0.3s ease;
+  transform: translateY(-5px);
+  transition: transform .9s ease-in-out;
+  box-shadow: -4px 4px 0px rgba(0, 0, 0, 0.2);
+}
+
+.primary:hover {
+  background: #3D3D3D;
+  color: white;
+  transition: background-color 0.3s ease;
+  transform: translateY(-5px);
+  transition: transform .9s ease;
+  box-shadow: -4px 4px 0px rgba(0, 0, 0, 0.2);
+}
+
+/* Key Features Section */
+.keyFeatures {
+  padding: 80px 50px;
+  text-align: center;
+}
+
+.sectionHeading {
+  font-family: Bebas Neue, sans-serif;
+  font-size: 3.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 20px;
+  color: #3D3D3D;
+}
+
+.icon {
+  width: 40px;
+  height: auto;
+}
+
+.sectionDescription {
+  max-width: 1100px;
+  margin: 0 auto 40px;
+  font-size: 1.2rem;
+  color: #3D3D3D;
+  font-family: Poppins;
+  font-weight: 300;
+  font-style: Light;
+  font-size: 16px;
+}
+
+.installations span {
+  display: block;
+  margin-bottom: 10px;
+  font-weight: 400;
+  font-family: Bebas Neue;
+  font-weight: 400;
+  font-style: Regular;
+  font-size: 2rem;
+}
+
+.installationButtons {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.installationButtons button {
+  border: 1px solid #3D3D3D;
+  background: transparent;
+  padding: 8px 20px;
+  border-radius: 8px;
+  font-family: Poppins;
+  font-weight: 400;
+  font-style: Regular;
+  font-size: 1rem;
+  text-transform: uppercase;
+}
+
+/* Cubicle Models */
+.cubicleModels {
+  padding: 80px 0px;
+}
+
+/* Updated Grid Layout for Model Cards */
+.modelGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  max-width: 1200px; /* Maximum width to contain 3 cards */
+  margin: 0 auto;
+  gap: 30px;
+  justify-items: center;
+}
+
+/* Special positioning for incomplete last rows */
+.modelGrid .modelCard:nth-child(3n+1):nth-last-child(1) {
+  /* Single card remaining - center it in the middle column */
+  grid-column: 2;
+}
+
+.modelGrid .modelCard:nth-child(3n+1):nth-last-child(2) {
+  /* First of 2 remaining cards - position in column 1 */
+  grid-column: 1;
+}
+
+.modelGrid .modelCard:nth-child(3n+2):nth-last-child(1) {
+  /* Second of 2 remaining cards - position in column 3 */
+  grid-column: 3;
+}
+
+/* Media queries for responsive behavior */
+@media (max-width: 1200px) and (min-width: 801px) {
+  .modelGrid {
+    grid-template-columns: repeat(2, 1fr);
+    max-width: 830px;
+  }
+  
+  /* Reset the 3-column positioning for 2-column layout */
+  .modelGrid .modelCard:nth-child(3n+1):nth-last-child(1),
+  .modelGrid .modelCard:nth-child(3n+1):nth-last-child(2),
+  .modelGrid .modelCard:nth-child(3n+2):nth-last-child(1) {
+    grid-column: auto;
+  }
+  
+  /* Center single remaining card in 2-column layout */
+  .modelGrid .modelCard:nth-child(2n+1):nth-last-child(1) {
+    grid-column: 1 / span 2;
+    justify-self: center;
+  }
+}
+
+@media (max-width: 800px) {
+  .modelGrid {
+    grid-template-columns: 1fr;
+    max-width: 400px;
+  }
+  
+  /* Reset all special positioning for single column layout */
+  .modelGrid .modelCard:nth-child(3n+1):nth-last-child(1),
+  .modelGrid .modelCard:nth-child(3n+1):nth-last-child(2),
+  .modelGrid .modelCard:nth-child(3n+2):nth-last-child(1),
+  .modelGrid .modelCard:nth-child(2n+1):nth-last-child(1) {
+    grid-column: auto;
+    justify-self: center;
+  }
+}
+
+.modelCard {
+  text-align: center;
+  margin-bottom: 25px;
+  width: 100%;
+  max-width: 400px;
+}
+
+.modelCard h3 {
+  font-family: Bebas Neue, sans-serif;
+  font-size: 1.8rem;
+  margin: 15px 0;
+}
+
+.modelCard p {
+  font-size: 1rem;
+  max-width: 300px;
+  color: #3D3D3D;
+  margin: 15px 0px;
+  margin: 20px auto;
+  min-height: 100px;
+}
+
+.modelCard img {
+  width: 100%;
+  height: 250px; /* fixed height for neat grid */
+  object-fit: cover;
+  border: 1px solid #3d3d3d;
+  /* border-radius: 8px; */
+}
+
+.modelButtons {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.modelCard button {
+  background: transparent;
+  border: 1px solid #3D3D3D;
+  padding: 5px 20px;
+  font-family: Bebas Neue, sans-serif;
+  font-size: 1.2rem;
+  cursor: pointer;
+  border-radius: 8px;
+  color: #3D3D3D;
+}
+
+@media (max-width: 1024px) {
+  .hero {
+    flex-direction: column;
+    height: auto;
+  }
+  .textContent {
+    width: 100%;
+    padding: 40px 20px;
+  }
+  .imageWrapper {
+    width: 100%;
+    height: auto;
+  }
+}
+
+.customizationOption {
+  padding: 0px 50px;
+  text-align: center;
+  max-width: 1400px;
+  margin: 0 auto;
+  font-family: Poppins, sans-serif;
+  color: #3d3d3d;
+}
+
+.customizationHeader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 3.5rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+}
+
+.customizationHeader h2 span {
+  color: #109c5d;
+}
+
+.customIconWrapper {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.customIcon {
+  width: 100%;
+  height: auto;
+}
+
+.customDescription {
+  max-width: 1100px;
+  margin: 0 auto 60px;
+  font-size: 1rem;
+  color: #3d3d3d;
+}
+
+/* Step styles */
+.step {
+  display: flex;
+  align-items: flex-start;
+  gap: 30px;
+  margin-bottom: 60px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.step h3 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.8rem;
+  text-transform: uppercase;
+  margin-bottom: -2px;
+  color: #3d3d3d;
+  font-family: Bebas Neue;
+  font-weight: 400;
+  font-style: Regular;
+  font-size: 41px;
+  vertical-align: middle;
+}
+
+.step p {
+  font-size: 0.85rem;
+  /* text-transform: uppercase; */
+  color: #999;
+  margin-bottom: 25px;
+  letter-spacing: 1px;
+}
+
+/* Finishes row */
+.finishes {
+  display: flex;
+  /* gap: 20px; */
+  justify-content: flex-start;
+  flex-wrap: wrap;
+}
+
+.finishes p {
+  font-size: 0.9rem;
+  color: #3d3d3d;
+  /* margin-top: 10px; */
+  font-family: Bebas Neue;
+  margin-bottom: 0px;
+}
+
+.finishCard {
+  width: 100px;
+  /* cursor: pointer; */
+  text-align: center;
+}
+
+.finishImage {
+  width: 90px;
+  height: 140px;
+  object-fit: cover;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  margin-bottom: 8px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+/* Design options row */
+.designOptions {
+  display: flex;
+  gap: 40px;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  margin-top: 50px;
+}
+
+.designOption {
+  max-width: 300px;
+  text-align: center;
+  font-size: 0.9rem;
+}
+
+.designOption img {
+  width: 70px;
+  height: 80px;
+  object-fit: contain; /* keep icon proportions */
+  margin: 0 auto 32px;
+  display: block;
+}
+
+.designOption h4 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.2rem;
+  margin-bottom: 12px;
+  text-transform: uppercase;
+  color: #3d3d3d;
+  font-family: Bebas Neue;
+  font-weight: 400;
+  font-style: Regular;
+  font-size: 24px;
+}
+
+.designOption p {
+  font-weight: 400;
+  color: #3d3d3d;
+  font-family: Poppins;
+  font-weight: 400;
+  font-style: Regular;
+  font-size: 14px;
+}
