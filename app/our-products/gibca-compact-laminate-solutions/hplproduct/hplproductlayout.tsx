@@ -18,10 +18,10 @@ interface Model {
     altText?: string;
   };
   description: string;
-  button?: {
+  button?: Array<{
     buttonLabel: string;
     buttonUrl: string;
-  };
+  }>;
 }
 
 interface Finish {
@@ -177,20 +177,22 @@ export default function HplProductLayout({
                 )}
                 <p>{model.description}</p>
                 <div className={styles.modelButtons}>
-                  {model.button?.buttonUrl && (
-                    <a href={model.button.buttonUrl}>
-                      <button className={styles.outline}>
-                        {model.button.buttonLabel}
-                      </button>
-                    </a>
-                  )}
-                  <button
-                    className={styles.primary}
-                    // you'll need a modal handler
-                  >
-                    Read More
-                  </button>
-                </div>
+  {model.button && model.button.length > 0 && model.button[0].buttonUrl ? (
+    <a href={model.button[0].buttonUrl}>
+      <button className={styles.primary}>
+        {model.button[0].buttonLabel || "Read More"}
+      </button>
+    </a>
+  ) : (
+    <button
+      className={styles.primary}
+      onClick={() => alert(`Read more about ${model.title}`)}
+    >
+      Read More
+    </button>
+  )}
+</div>
+
               </div>
             ))}
           </div>
