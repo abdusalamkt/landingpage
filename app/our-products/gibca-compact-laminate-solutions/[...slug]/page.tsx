@@ -107,6 +107,11 @@ const GET_DOWNLOADS = gql`
   }
 `;
 
+// Local type for route params
+interface HplProductPageProps {
+  params: { slug: string[] };
+}
+
 // Generate static params for SSG
 export async function generateStaticParams() {
   const { data } = await client.query({
@@ -127,13 +132,12 @@ export async function generateStaticParams() {
 }
 
 // Page Component
-export default async function HplProduct({ params }: any) {
-  const slugPath = params.slug.join("/");
+export default async function HplProduct({ params }: { params: string[] | { slug: string[] } }) {
+  const slugPath = Array.isArray(params) ? params.join("/") : params.slug.join("/");
 
-  // Fetch product data
   const { data: productData } = await client.query({
     query: GET_HPL_PRODUCT,
-    variables: { uri: `/${slugPath}/` },
+    variables: { uri: `/${slugPath}/` }, // WordPress URI must match exactly
   });
 
   const { data: faqData } = await client.query({ query: GET_FAQS });
