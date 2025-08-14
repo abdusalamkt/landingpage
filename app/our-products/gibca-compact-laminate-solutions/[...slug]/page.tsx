@@ -132,8 +132,8 @@ export async function generateStaticParams() {
 }
 
 // Page Component
-export default async function HplProduct({ params }: HplProductPageProps) {
-  const slugPath = params.slug.join("/");
+export default async function HplProduct({ params }: { params: string[] | { slug: string[] } }) {
+  const slugPath = Array.isArray(params) ? params.join("/") : params.slug.join("/");
 
   const { data: productData } = await client.query({
     query: GET_HPL_PRODUCT,
