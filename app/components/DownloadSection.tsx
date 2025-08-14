@@ -16,7 +16,7 @@ interface DownloadData {
 
 interface DownloadSectionProps {
   downloadData?: DownloadData[];
-  theme?: 'hufcor' | 'acristalia' | 'default' | 'crown';
+  theme?: 'hufcor' | 'acristalia' | 'default' | 'crown' | 'gibca';
 }
 
 const allTabs = ["Brochures", "Finishes", "Project Reference", "Specification"] as const;
@@ -76,6 +76,7 @@ export default function DownloadSection({ downloadData, theme = 'default' }: Dow
       case 'hufcor': return styles.hufcorTheme;
       case 'acristalia': return styles.acristaliaTheme;
       case 'crown': return styles.crownTheme;
+      case 'gibca': return styles.gibcaTheme;
       default: return styles.defaultTheme;
     }
   };

@@ -139,6 +139,13 @@
   color: #77471c;
 }
 
+.gibcaTheme .faqItem.active {
+  border-left: 3px solid #109c5d;
+}
+
+.gibcaTheme .contact a {
+  color: #109c5d;
+}
 
 .acristaliaTheme .faqItem.active {
   border-left: 3px solid #1898D3;

@@ -146,6 +146,20 @@
   background-color: #77471c;
 }
 
+.gibcaTheme .red {
+  color: #109c5d;
+}
+
+.gibcaTheme .active {
+  background-color: #109c5d;
+  color: #fff;
+}
+
+.gibcaTheme .downloadBtn {
+  background-color: #109c5d;
+}
+
+
 
 
 .acristaliaTheme .red {

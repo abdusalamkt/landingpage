@@ -5,6 +5,8 @@ import Image from 'next/image';
 import styles from './hplproduct.module.css';
 import Header from '@/app/components/Header';
 import WhatSetsUsApart from '@/app/components/WhatSetsUsApart';
+import DownloadSection from '@/app/components/DownloadSection';
+import FaqSection from '@/app/components/FaqSection';
 
 interface Feature {
   featureTitle: string;
@@ -72,10 +74,10 @@ interface FAQ {
   answer: string;
 }
 
-interface Download {
+interface DownloadData {
   fileType: string;
   fileTitle: string;
-  filePdf?: {
+  filePdf: {
     sourceUrl: string;
     title: string;
   };
@@ -85,13 +87,13 @@ interface Download {
 interface HplProductLayoutProps {
   fields: HplFields;
   faqData?: FAQ[];
-  downloadData?: Download[];
+  downloadData?: DownloadData[];
 }
 
 export default function HplProductLayout({
   fields,
-  faqData,
-  downloadData,
+  faqData = [],
+  downloadData = [],
 }: HplProductLayoutProps) {
   const safeFeatures = Array.isArray(fields.features) ? fields.features : [];
 
@@ -148,10 +150,10 @@ export default function HplProductLayout({
         </div>
       </section>
 
-      {/* What Sets Us Apart Section - replacing old Key Features */}
+      {/* What Sets Us Apart Section */}
       <WhatSetsUsApart
         features={safeFeatures}
-        brand="green" // or another color theme if needed
+        brand="green"
         description={fields.description}
       />
 
@@ -164,7 +166,7 @@ export default function HplProductLayout({
           </h2>
 
           <div className={styles.modelGrid}>
-            {fields.models.map((model: Model, idx: number) => (
+            {fields.models.map((model, idx) => (
               <div key={idx} className={styles.modelCard}>
                 <h3>{model.title}</h3>
                 {model.image?.sourceUrl && (
@@ -177,22 +179,21 @@ export default function HplProductLayout({
                 )}
                 <p>{model.description}</p>
                 <div className={styles.modelButtons}>
-  {model.button && model.button.length > 0 && model.button[0].buttonUrl ? (
-    <a href={model.button[0].buttonUrl}>
-      <button className={styles.primary}>
-        {model.button[0].buttonLabel || "Read More"}
-      </button>
-    </a>
-  ) : (
-    <button
-      className={styles.primary}
-      onClick={() => alert(`Read more about ${model.title}`)}
-    >
-      Read More
-    </button>
-  )}
-</div>
-
+                  {model.button && model.button.length > 0 && model.button[0].buttonUrl ? (
+                    <a href={model.button[0].buttonUrl}>
+                      <button className={styles.primary}>
+                        {model.button[0].buttonLabel || 'Read More'}
+                      </button>
+                    </a>
+                  ) : (
+                    <button
+                      className={styles.primary}
+                      onClick={() => alert(`Read more about ${model.title}`)}
+                    >
+                      Read More
+                    </button>
+                  )}
+                </div>
               </div>
             ))}
           </div>
@@ -200,7 +201,7 @@ export default function HplProductLayout({
       )}
 
       {/* Customization Option Section */}
-      {fields.customizationHeading && fields.customizationHeading.trim() !== '' && (
+      {fields.customizationHeading && (
         <section className={styles.customizationOption}>
           <div className={styles.customizationHeader}>
             <div className={styles.customIconWrapper}>
@@ -215,63 +216,63 @@ export default function HplProductLayout({
               <span>{fields.customizationHeading.split(' ').slice(1).join(' ')}</span>
             </h2>
           </div>
-
           <p className={styles.customDescription}>
             {fields.customizationDescription}
           </p>
 
-          {/* Step 1 - Finishes */}
-          {fields.finishes && fields.finishes.length > 0 && (
+          {fields.finishes && (
             <div className={styles.step}>
-              <div>
-                <h3>CHOOSE FROM OUR DIFFERENT FINISHES</h3>
-                <p>CUSTOM FINISHES AVAILABLE UPON REQUEST</p>
-
-                <div className={styles.finishes}>
-                  {fields.finishes.map((finish: Finish, idx: number) => (
-                    <div key={idx} className={styles.finishCard}>
-                      <p>{finish.title}</p>
-                      {finish.image?.sourceUrl && (
-                        <Image
-                          src={finish.image.sourceUrl}
-                          alt={finish.image?.altText || finish.title}
-                          width={200}
-                          height={150}
-                          className={styles.finishImage}
-                        />
-                      )}
-                    </div>
-                  ))}
-                </div>
+              <h3>CHOOSE FROM OUR DIFFERENT FINISHES</h3>
+              <p>CUSTOM FINISHES AVAILABLE UPON REQUEST</p>
+              <div className={styles.finishes}>
+                {fields.finishes.map((finish, idx) => (
+                  <div key={idx} className={styles.finishCard}>
+                    <p>{finish.title}</p>
+                    {finish.image?.sourceUrl && (
+                      <Image
+                        src={finish.image.sourceUrl}
+                        alt={finish.image?.altText || finish.title}
+                        width={200}
+                        height={150}
+                      />
+                    )}
+                  </div>
+                ))}
               </div>
             </div>
           )}
 
-          {/* Step 2 - Design Options */}
-          {fields.designOptions && fields.designOptions.length > 0 && (
+          {fields.designOptions && (
             <div className={styles.step}>
-              <div>
-                <h3>DIFFERENT DESIGN OPTIONS</h3>
-                <p>AVAILABLE IN LARGE RANGE OF DECORS AND TEXTURE</p>
-
-                <div className={styles.designOptions}>
-                  {fields.designOptions.map((opt: DesignOption, idx: number) => (
-                    <div key={idx} className={styles.designOption}>
-                      {opt.icon?.sourceUrl && (
-                        <img
-                          src={opt.icon.sourceUrl}
-                          alt={opt.icon?.altText || opt.title}
-                        />
-                      )}
-                      <h4>{opt.title}</h4>
-                      <p>{opt.description}</p>
-                    </div>
-                  ))}
-                </div>
+              <h3>DIFFERENT DESIGN OPTIONS</h3>
+              <p>AVAILABLE IN LARGE RANGE OF DECORS AND TEXTURE</p>
+              <div className={styles.designOptions}>
+                {fields.designOptions.map((opt, idx) => (
+                  <div key={idx} className={styles.designOption}>
+                    {opt.icon?.sourceUrl && (
+                      <img
+                        src={opt.icon.sourceUrl}
+                        alt={opt.icon?.altText || opt.title}
+                      />
+                    )}
+                    <h4>{opt.title}</h4>
+                    <p>{opt.description}</p>
+                  </div>
+                ))}
               </div>
             </div>
           )}
         </section>
+      )}
+
+      {/* Downloads Section */}
+      {downloadData && downloadData.length > 0 && (
+        <DownloadSection downloadData={downloadData} theme="gibca" />
+      )}
+
+      {/* FAQ Section */}
+      {faqData && faqData.length > 0 && (
+        <FaqSection faqData={faqData} theme="gibca" />
       )}
     </div>
   );

@@ -11,7 +11,7 @@ type DownloadItem = {
 
 type DownloadItemRowProps = {
   item: DownloadItem;
-  theme?: 'default' | 'hufcor' | 'acristalia' | 'crown';
+  theme?: 'default' | 'hufcor' | 'acristalia' | 'crown' | 'gibca';
 };
 
 const UNLOCK_KEY = 'gated_download_access';

@@ -176,28 +176,37 @@ export default async function HplProduct({ params }: HplProductPageProps) {
   });
 
   // Filter related Downloads
-  const relatedDownloads: any[] = [];
-  downloadData?.downloads?.nodes?.forEach((downloadNode: any) => {
-    const relatedPage = downloadNode.downloadFields?.product;
-    const downloads = downloadNode.downloadFields?.productdownloads;
-    if (relatedPage && downloads?.length) {
-      const isMatch =
-        relatedPage.slug === pageSlug ||
-        relatedPage.id === pageId ||
-        relatedPage.uri === productData?.page?.uri;
-      if (isMatch) {
-        downloads.forEach((download: any) => {
+  const relatedDownloads: {
+  fileType: string;
+  fileTitle: string;
+  filePdf: { sourceUrl: string; title: string };
+  gated: boolean;
+}[] = [];
+
+downloadData?.downloads?.nodes?.forEach((downloadNode: any) => {
+  const relatedPage = downloadNode.downloadFields?.product;
+  const downloads = downloadNode.downloadFields?.productdownloads;
+
+  if (relatedPage && downloads?.length) {
+    const isMatch =
+      relatedPage.slug === pageSlug ||
+      relatedPage.id === pageId ||
+      relatedPage.uri === productData?.page?.uri;
+
+    if (isMatch) {
+      downloads.forEach((download: any) => {
+        if (download.filepdf) { // ✅ only include if filePdf exists
           relatedDownloads.push({
             fileType: download.filetype,
             fileTitle: download.filetitle,
             filePdf: download.filepdf,
             gated: download.gated,
           });
-        });
-      }
+        }
+      });
     }
-  });
-
+  }
+});
   return (
     <HplProductLayout
       fields={fields}

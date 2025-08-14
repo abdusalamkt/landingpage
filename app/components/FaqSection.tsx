@@ -11,7 +11,7 @@ interface FaqData {
 
 interface FaqSectionProps {
   faqData?: FaqData[];
-  theme?: 'hufcor' | 'acristalia' | 'default' | 'crown';
+  theme?: 'hufcor' | 'acristalia' | 'default' | 'crown' | 'gibca';
 }
 
 // Default FAQ data as fallback
@@ -62,6 +62,8 @@ export default function FaqSection({ faqData, theme = 'default' }: FaqSectionPro
         return styles.acristaliaTheme;
       case 'crown':
         return styles.crownTheme;
+      case 'gibca':
+        return styles.gibcaTheme;
       default:
         return styles.defaultTheme;
     }
