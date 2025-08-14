@@ -40,7 +40,38 @@ const GET_Hpl_PAGE = `
   }
 `;
 
-async function getHplPageFields() {
+interface Product {
+  productHeading: string;
+  productDescription: string;
+  productRangeTitle: string;
+  buttons: Array<{
+    label: string;
+    url: string;
+  }>;
+  productSlider: Array<{
+    image: {
+      sourceUrl: string;
+      altText: string;
+    };
+    title: string;
+  }>;
+}
+
+interface HplPageFields {
+  logo: {
+    sourceUrl: string;
+    altText: string;
+  };
+  heroHeading: string;
+  heroSubheading: string;
+  heroBanner: {
+    sourceUrl: string;
+    altText: string;
+  };
+  products: Product[];
+}
+
+async function getHplPageFields(): Promise<HplPageFields | null> {
   try {
     const res = await fetch(WORDPRESS_API_URL, {
       method: "POST",
@@ -48,10 +79,20 @@ async function getHplPageFields() {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ query: GET_Hpl_PAGE }),
-      next: { revalidate: 10 }, // cache for 60 days
+      next: { revalidate: 10 }, // cache for 10 seconds
     });
 
+    if (!res.ok) {
+      throw new Error(`HTTP error! status: ${res.status}`);
+    }
+
     const json = await res.json();
+    
+    if (json.errors) {
+      console.error("GraphQL errors:", json.errors);
+      return null;
+    }
+
     return json?.data?.page?.HplPageFields;
   } catch (error) {
     console.error("Error fetching Hpl page data:", error);
@@ -108,7 +149,7 @@ export default async function HplPage() {
       </div>
 
       {/* Product Sections */}
-      {products.map((product: any, index: number) => (
+      {products.map((product: Product, index: number) => (
         <div
           key={index}
           className={`${styles.productSection} ${index % 2 === 0 ? "" : styles.reverse}`}
@@ -116,7 +157,7 @@ export default async function HplPage() {
           <div className={styles.imageContainer}>
             <ImageSlider
               slides={
-                product.productSlider?.map((slide: any) => ({
+                product.productSlider?.map((slide) => ({
                   src: slide.image?.sourceUrl || "",
                   title: slide.title || "",
                 })) || []
@@ -134,7 +175,7 @@ export default async function HplPage() {
             </div>
 
             <div className={styles.buttons}>
-              {product.buttons?.map((btn: any, idx: number) => (
+              {product.buttons?.map((btn, idx: number) => (
                 <Link href={btn.url || "#"} key={idx}>
                   <button
                     className={

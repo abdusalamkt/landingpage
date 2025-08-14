@@ -107,9 +107,13 @@ const GET_DOWNLOADS = gql`
   }
 `;
 
-// Local type for route params
+// Correct type definitions for Next.js 15
+interface PageParams {
+  slug: string[];
+}
+
 interface HplProductPageProps {
-  params: { slug: string[] };
+  params: Promise<PageParams>;
 }
 
 // Generate static params for SSG
@@ -127,13 +131,15 @@ export async function generateStaticParams() {
   });
 
   return data.pages.nodes.map((page: any) => ({
-    slug: page.uri.replace(/\/$/, "").split("/"),
+    slug: page.uri.replace(/\/$/, "").split("/").filter(Boolean),
   }));
 }
 
 // Page Component
-export default async function HplProduct({ params }: { params: string[] | { slug: string[] } }) {
-  const slugPath = Array.isArray(params) ? params.join("/") : params.slug.join("/");
+export default async function HplProduct({ params }: HplProductPageProps) {
+  // Await the params promise
+  const { slug } = await params;
+  const slugPath = slug.join("/");
 
   const { data: productData } = await client.query({
     query: GET_HPL_PRODUCT,
