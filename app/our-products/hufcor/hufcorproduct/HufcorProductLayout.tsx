@@ -215,7 +215,7 @@ export default function HufcorProductLayout({
         </section>
       )}
 
-      {/* Customization Options */}
+      {/* Customization Option */}
       {customizationOptionsDescription && (
         <section className={styles.customization}>
           <h2 className={styles.sectionHeading}>
