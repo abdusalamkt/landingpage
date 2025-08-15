@@ -55,8 +55,8 @@ export default function Header() {
           {
             name: 'Operable Walls',
             items: [
-              { name: '600 Series', link: '/our-products/hufcor/hufcor-600-series' },
-              { name: '7000 Series', link: '/our-products/hufcor/hufcor-7000-series' },
+              { name: '600 Series', link: '/our-products/hufcor/600-series-operable-walls' },
+              { name: '7000 Series', link: '/our-products/hufcor/7000-series-operable-walls' },
             ]
           },
           {
