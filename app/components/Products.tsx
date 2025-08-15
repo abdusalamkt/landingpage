@@ -107,12 +107,14 @@ export default function Products({ description, products = [] }: ProductsProps) 
               onMouseMove={handleMouseMove}
               onMouseEnter={() => setHovered(true)}
               onMouseLeave={() => setHovered(false)}
+               onClick={() => window.location.href = product.link}
             >
               <div className="product-image-container">
                 <motion.img
                   src={product.image.sourceUrl}
                   alt={product.image.altText}
                   className="product-image grayscale"
+                 
                   style={{
                     transformOrigin: `${pos.x}% ${pos.y}%`,
                     transform: hovered ? `scale(1.05)` : `scale(1)`,
