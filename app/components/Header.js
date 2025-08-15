@@ -62,7 +62,7 @@ export default function Header() {
           {
             name: 'Glass Walls',
             items: [
-              { name: 'ACOUSTIC GLASSWALLS', link: '/our-products/hufcor/crystal-clear' },
+              { name: 'ACOUSTIC GLASSWALLS', link: '/our-products/hufcor/acoustic-glass-walls' },
               { name: 'FRAMELESS GLASSWALLS', link: '/our-products/hufcor/frosted-elite' },
               { name: 'WEATHER RESISTANT GLASSWALLS', link: '/our-products/hufcor/smart-glass' },
             ]
