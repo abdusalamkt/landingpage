@@ -200,61 +200,64 @@ export default function HplProductLayout({
         </section>
       )}
 
-      {/* Customization Option Section */}
+      {/* Customization Option Section - Updated Styling */}
       {fields.customizationHeading && (
         <section className={styles.customizationOption}>
           <div className={styles.customizationHeader}>
-            <div className={styles.customIconWrapper}>
-              <img
-                src="/workforce1.png"
-                alt="Customization Icon"
-                className={styles.customIcon}
-              />
-            </div>
-            <h2>
-              {fields.customizationHeading.split(' ')[0]}{' '}
-              <span>{fields.customizationHeading.split(' ').slice(1).join(' ')}</span>
-            </h2>
+            <h2>{fields.customizationHeading}</h2>
           </div>
           <p className={styles.customDescription}>
             {fields.customizationDescription}
           </p>
 
-          {fields.finishes && (
-            <div className={styles.step}>
-              <h3>CHOOSE FROM OUR DIFFERENT FINISHES</h3>
-              <p>CUSTOM FINISHES AVAILABLE UPON REQUEST</p>
+          {/* Finishes Section - Updated Styling */}
+          {fields.finishes && fields.finishes.length > 0 && (
+            <div className={styles.finishesSection}>
+              <div className={styles.customizationHeader}>
+                <h2 style={{ fontSize: '2.5rem',marginBottom:'-20px' }}>CHOOSE FROM OUR DIFFERENT FINISHES</h2>
+              </div>
+              <p className={styles.customDescription}>CUSTOM FINISHES AVAILABLE UPON REQUEST</p>
               <div className={styles.finishes}>
                 {fields.finishes.map((finish, idx) => (
                   <div key={idx} className={styles.finishCard}>
                     <p>{finish.title}</p>
-                    {finish.image?.sourceUrl && (
-                      <Image
-                        src={finish.image.sourceUrl}
-                        alt={finish.image?.altText || finish.title}
-                        width={200}
-                        height={150}
-                      />
-                    )}
+                    <div className={styles.finishImageContainer}>
+                      {finish.image?.sourceUrl && (
+                        <Image
+                          src={finish.image.sourceUrl}
+                          alt={finish.image?.altText || finish.title}
+                          width={200}
+                          height={350}
+                          className={styles.finishImage}
+                        />
+                      )}
+                    </div>
                   </div>
                 ))}
               </div>
             </div>
           )}
 
-          {fields.designOptions && (
-            <div className={styles.step}>
-              <h3>DIFFERENT DESIGN OPTIONS</h3>
-              <p>AVAILABLE IN LARGE RANGE OF DECORS AND TEXTURE</p>
+          {/* Design Options Section - Updated Styling */}
+          {fields.designOptions && fields.designOptions.length > 0 && (
+            <div className={styles.designOptionsSection}>
+              <div className={styles.customizationHeader}>
+                <h2 style={{ fontSize: '2.5rem',marginBottom:'-20px' }}>DIFFERENT DESIGN OPTIONS</h2>
+              </div>
+              <p className={styles.customDescription}>LEVEL UP YOUR CUBICLE WITH OUR SMART OPTIONS</p>
               <div className={styles.designOptions}>
                 {fields.designOptions.map((opt, idx) => (
                   <div key={idx} className={styles.designOption}>
-                    {opt.icon?.sourceUrl && (
-                      <img
-                        src={opt.icon.sourceUrl}
-                        alt={opt.icon?.altText || opt.title}
-                      />
-                    )}
+                    <div className={styles.designOptionIcon}>
+                      {opt.icon?.sourceUrl && (
+                        <Image
+                          src={opt.icon.sourceUrl}
+                          alt={opt.icon?.altText || opt.title}
+                          width={300}
+                          height={300}
+                        />
+                      )}
+                    </div>
                     <h4>{opt.title}</h4>
                     <p>{opt.description}</p>
                   </div>

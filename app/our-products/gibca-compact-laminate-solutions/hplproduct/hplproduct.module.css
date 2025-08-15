@@ -44,8 +44,8 @@
 .description {
   font-family: Poppins, sans-serif;
   font-weight: 100;
-  font-size: 1.2rem;
-  line-height: 37px;
+  font-size: 18px;
+  line-height: 30px;
   text-align: justify;
   color: #3D3D3D;
   margin-bottom: 50px;
@@ -367,9 +367,11 @@
 /* Finishes row */
 .finishes {
   display: flex;
-  /* gap: 20px; */
+  gap: 10px;
   justify-content: flex-start;
   flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 70px;
 }
 
 .finishes p {
@@ -386,9 +388,13 @@
   text-align: center;
 }
 
+.finishCard:hover{
+  transform: scale(1.05);
+  transition: transform 0.8s ease;
+}
 .finishImage {
-  width: 90px;
-  height: 140px;
+  width: 100px;
+  height: 170px;
   object-fit: cover;
   border-radius: 6px;
   border: 1px solid #ccc;
@@ -403,6 +409,8 @@
   justify-content: flex-start;
   flex-wrap: wrap;
   margin-top: 50px;
+  place-self: center;
+  margin-bottom: 80px;
 }
 
 .designOption {

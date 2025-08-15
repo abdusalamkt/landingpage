@@ -50,8 +50,8 @@ height: 80vh;
 .description {
   font-family: Poppins;
 font-weight: 100;
-font-size: 1.2rem;
-line-height: 37px;
+font-size: 16px;
+line-height: 30px;
 letter-spacing: 0%;
 text-align: justify;
 vertical-align: middle;
@@ -126,8 +126,8 @@ font-size: 2rem;
 }
 
 .sectionHeading .icon {
-  width: 28px;
-  margin-right: 12px;
+  width: 78px;
+  margin-right: 24px;
 }
 
 .featureBlock {
@@ -416,7 +416,7 @@ text-transform: uppercase;
   }
 
   .description {
-    font-size: 1.1rem;
+    font-size: 16px;
   }
 
   .outline,
@@ -590,10 +590,10 @@ text-transform: uppercase;
   display: flex;
   align-items: center;
   justify-content: center;
-  /* background-attachment: fixed; */
-  border-top: 5px solid #D72027;
-  border-bottom: 5px solid #D72027;
-  margin-bottom: 5rem;
+  background-attachment: fixed;
+  width: 96%;
+  margin: 40px auto;
+  border-radius: 32px;
 }
 .bannerCaption {
   position: absolute; 

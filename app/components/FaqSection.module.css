@@ -9,6 +9,7 @@
 .left {
   width: 30%;
   margin: 0 auto;
+  align-self: center;
 }
 
 .title {
@@ -130,7 +131,6 @@
   color: #e63946;
 }
 
-
 .crownTheme .faqItem.active {
   border-left: 3px solid #77471c;
 }
@@ -153,6 +153,53 @@
 
 .acristaliaTheme .contact a {
   color: #1898D3;
+}
+
+/* Read More/Less Button Styles */
+.readMoreWrapper {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.readMoreBtn {
+  background-color: transparent;
+  border: 2px solid;
+  padding: 10px 25px;
+  border-radius: 30px;
+  cursor: pointer;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 16px;
+  position: relative;
+  overflow: hidden;
+}
+
+.readMoreBtn:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.readMoreBtn::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: 0.5s;
+}
+
+.readMoreBtn:hover::after {
+  left: 100%;
+}
+
+.arrowIcon {
+  display: flex;
+  align-items: center;
 }
 
 /* Responsive Design */
@@ -206,6 +253,11 @@
   .faqItem {
     padding: 15px 0 15px 15px;
   }
+
+  .readMoreBtn {
+    padding: 8px 20px;
+    font-size: 14px;
+  }
 }
 
 @media (max-width: 480px) {
@@ -230,5 +282,10 @@
     max-width: 200px;
     font-size: 11px;
     line-height: 20px;
+  }
+
+  .readMoreBtn {
+    padding: 6px 15px;
+    font-size: 13px;
   }
 }

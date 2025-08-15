@@ -152,7 +152,7 @@ async function getWashroomCubiclesData(): Promise<WashroomCubiclesField | null> 
 }
 
 // 3D Model component with improved loading and error handling
-function WashroomCubicleModel({ objPath = "/models/model.obj", mtlPath = "/models/model.mtl" }) {
+function WashroomCubicleModel({ objPath = "/cubiclenew.obj", mtlPath = "/cubiclenew.mtl" }) {
   const groupRef = useRef<THREE.Group>(null);
   const [obj, setObj] = useState<THREE.Group | null>(null);
   const [loadingError, setLoadingError] = useState<string | null>(null);
@@ -287,7 +287,7 @@ function NaturelleClientFeatures({ acfData }: { acfData: WashroomCubiclesField }
               {acfData.specification && acfData.specification.map((spec, index) => (
                 <tr key={index} className={styles.specRow}>
                   <td>{spec.spec.trim()}</td>
-                  <td style={{textAlign:'end'}}>{spec.value}</td>
+                  <td>{spec.value}</td>
                 </tr>
               ))}
             </tbody>

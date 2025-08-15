@@ -207,7 +207,7 @@ export default function HufcorProductLayout({
             src={imagebanner1.sourceUrl}
             alt={imagebanner1.altText || "Banner Image 1"}
             fill
-            style={{zIndex: -1 }}
+            style={{zIndex: -1 ,objectFit: "cover"}}
           />
           {typeof imagebanner1Title === "string" && imagebanner1Title.trim() !== "" && (
             <div className={styles.bannerCaption}>{imagebanner1Title}</div>
@@ -219,7 +219,7 @@ export default function HufcorProductLayout({
       {customizationOptionsDescription && (
         <section className={styles.customization}>
           <h2 className={styles.sectionHeading}>
-            <img src="/workforce1.png" alt="icon" className={styles.icon} />
+            <img src="/icon/hufcor/custom.png" alt="icon" className={styles.icon} />
             customization <span className={styles.red}> options</span>
           </h2>
           <p className={styles.sectionDescription}>{customizationOptionsDescription}</p>
@@ -271,9 +271,7 @@ export default function HufcorProductLayout({
             POCKET DOOR <span className={styles.red}>OPTIONS</span>
           </h2>
           <p className={styles.pocketDescription}>
-            Hufcor's pocket doors conceal operable wall storage areas for a clean, refined look.
-            They can match or complement surrounding finishes for seamless design integration.
-          </p>
+Hufcor pocket doors keep operable walls storage out of sight, delivering a clean and refined aesthetic. Designed to match or complement surroundings, they enhance the flow and elegance of any space.          </p>
           <div className={styles.pocketGrid}>
             {safePocketDoors.map((item: any, i: number) => (
               <div key={i} className={styles.pocketCard}>
@@ -301,10 +299,9 @@ export default function HufcorProductLayout({
     <div className="apart-left">
       <div className="apart-bg-number">!</div>
       <h2 className="apart-heading">
-        A CHOICE TO <span className="apart-highlight" style={{ color: "#e60000" }}>ADD</span>
+        Be spoilt for  <span className="apart-highlight" style={{ color: "#e60000" }}>choices!</span>
       </h2>
       <p className="apart-desc">
-        Explore the available configurations and options to customize your setup exactly the way you want.
       </p>
     </div>
 
