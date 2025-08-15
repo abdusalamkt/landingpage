@@ -7,6 +7,7 @@ import AppointmentModal from './AppointmentModal';
 
 export default function Header() {
   const [activeDropdown, setActiveDropdown] = useState(null);
+  const [activeSubmenu, setActiveSubmenu] = useState(null);
   const [showQuoteModal, setShowQuoteModal] = useState(false);
   const [isHeaderHidden, setIsHeaderHidden] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -17,11 +18,21 @@ export default function Header() {
 
   const toggleDropdown = (dropdown) => {
     setActiveDropdown(activeDropdown === dropdown ? null : dropdown);
+    setActiveSubmenu(null); // Reset submenu when changing main dropdown
   };
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen((prev) => !prev);
-    setActiveDropdown(null); // close dropdowns on toggle
+    setActiveDropdown(null);
+    setActiveSubmenu(null);
+  };
+
+  const handleSubmenuEnter = (submenu) => {
+    setActiveSubmenu(submenu);
+  };
+
+  const handleSubmenuLeave = () => {
+    setActiveSubmenu(null);
   };
 
   useEffect(() => {
@@ -37,15 +48,109 @@ export default function Header() {
 
   const dropdownItems = {
     products: [
-      
-      { name: 'HUFCOR', link: '/our-products/hufcor' },
-      { name: 'HPL', link: '/our-products/gibca-compact-laminate-solutions' },
-      { name: 'OPS', link: '#' },
-      { name: 'acristalia', link: '/our-products/terrace-solutions' },
-      { name: 'Crown', link: '/our-products/crown' },
-      { name: 'Pivot Doors', link: '/our-products/pivot-doors' },
-
-    
+      {
+        name: 'HUFCOR movable walls',
+        link: '/our-products/hufcor',
+        submenu: [
+          {
+            name: 'Operable Walls',
+            items: [
+              { name: '600 Series', link: '/our-products/hufcor/hufcor-600-series' },
+              { name: '7000 Series', link: '/our-products/hufcor/hufcor-7000-series' },
+            ]
+          },
+          {
+            name: 'Glass Walls',
+            items: [
+              { name: 'ACOUSTIC GLASSWALLS', link: '/our-products/hufcor/crystal-clear' },
+              { name: 'FRAMELESS GLASSWALLS', link: '/our-products/hufcor/frosted-elite' },
+              { name: 'WEATHER RESISTANT GLASSWALLS', link: '/our-products/hufcor/smart-glass' },
+            ]
+          }
+        ]
+      },
+      {
+  name: 'HPL solutions',
+  link: '/our-products/hpl',
+  submenu: [
+    {
+      items: [
+        { name: 'Washroom cubicles', link: '/our-products/hpl/solid-grade' },
+        { name: 'LOCKER SYSTEMS', link: '/our-products/hpl/decorative' },
+        { name: 'WALL CLADDING', link: '/our-products/hpl/fire-retardant' },
+        { name: 'INTEGRATED PANEL SYSTEMS', link: '/our-products/hpl/antimicrobial' },
+        { name: 'OUTDOOR FURNITURES', link: '/our-products/hpl/weather-resistant' },
+      ]
+    }
+  ]
+},
+      {
+        name: 'Office Partitions & doors',
+        link: '#',
+        // submenu: [
+        //   {
+        //     name: 'Operable Partitions',
+        //     items: [
+        //       { name: 'Single Panel Systems', link: '/our-products/ops/single-panel' },
+        //       { name: 'Multi-Panel Systems', link: '/our-products/ops/multi-panel' },
+        //       { name: 'Bi-Fold Systems', link: '/our-products/ops/bi-fold' },
+        //       { name: 'Top Hung Systems', link: '/our-products/ops/top-hung' },
+        //     ]
+        //   },
+        //   {
+        //     name: 'Specialty Systems',
+        //     items: [
+        //       { name: 'Soundproof Partitions', link: '/our-products/ops/soundproof' },
+        //       { name: 'Fire Rated Systems', link: '/our-products/ops/fire-rated' },
+        //       { name: 'Curved Partitions', link: '/our-products/ops/curved' },
+        //       { name: 'Automated Systems', link: '/our-products/ops/automated' },
+        //     ]
+        //   }
+        // ]
+      },
+      {
+        name: 'terrace solutions',
+        link: '/our-products/terrace-solutions',
+        
+      },
+      {
+        name: 'hydraulic doors',
+        link: '/our-products/crown',
+        submenu: [
+          {
+           
+            items: [
+              { name: 'SST-II Bi-Fold', link: '/our-products/crown/wall-panels' },
+              { name: 'SINGLE SWING', link: '/our-products/crown/ceiling-systems' },
+              { name: '50/50', link: '/our-products/crown/moldings' },
+            ]
+          }
+        ]
+      },
+      {
+        name: 'Pivot Doors',
+        link: '/our-products/pivot-doors',
+        // submenu: [
+        //   {
+        //     name: 'Residential Doors',
+        //     items: [
+        //       { name: 'Entry Doors', link: '/our-products/pivot-doors/entry' },
+        //       { name: 'Interior Doors', link: '/our-products/pivot-doors/interior' },
+        //       { name: 'Patio Doors', link: '/our-products/pivot-doors/patio' },
+        //       { name: 'Security Doors', link: '/our-products/pivot-doors/security' },
+        //     ]
+        //   },
+        //   {
+        //     name: 'Commercial Doors',
+        //     items: [
+        //       { name: 'Office Entry Systems', link: '/our-products/pivot-doors/office-entry' },
+        //       { name: 'Hotel Lobby Doors', link: '/our-products/pivot-doors/hotel-lobby' },
+        //       { name: 'Retail Store Fronts', link: '/our-products/pivot-doors/retail' },
+        //       { name: 'Restaurant Entrances', link: '/our-products/pivot-doors/restaurant' },
+        //     ]
+        //   }
+        // ]
+      }
     ],
     resources: [
       { name: 'Blogs', link: '/blogs' },
@@ -93,9 +198,48 @@ export default function Header() {
               </div>
               <div className={`dropdown-menu ${activeDropdown === 'products' ? 'active' : ''}`}>
                 {dropdownItems.products.map((item, index) => (
-                  <a href={item.link} key={index} onClick={() => setIsMobileMenuOpen(false)} style={{ transitionDelay: `${index * 0.1}s` }}>
-                    {item.name}
-                  </a>
+                  <div
+                    key={index}
+                    className="dropdown-item-with-submenu"
+                    onMouseEnter={() => handleSubmenuEnter(item.name)}
+                    onMouseLeave={handleSubmenuLeave}
+                  >
+                    <a 
+                      href={item.link} 
+                      className="main-dropdown-link"
+                      onClick={() => setIsMobileMenuOpen(false)} 
+                      style={{ transitionDelay: `${index * 0.1}s` }}
+                    >
+                      {item.name}
+                      <span className="submenu-arrow">
+                        <svg width="8" height="12" viewBox="0 0 8 12" fill="none">
+                          <path d="M1 1L6 6L1 11" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+                        </svg>
+                      </span>
+                    </a>
+                    {item.submenu && (
+                      <div className={`submenu ${activeSubmenu === item.name ? 'active' : ''}`}>
+                        {item.submenu.map((subCategory, subIndex) => (
+                          <div key={subIndex} className="submenu-category">
+                            <h4 className="submenu-title">{subCategory.name}</h4>
+                            <div className="submenu-items">
+                              {subCategory.items.map((subItem, itemIndex) => (
+                                <a
+                                  key={itemIndex}
+                                  href={subItem.link}
+                                  className="submenu-item"
+                                  onClick={() => setIsMobileMenuOpen(false)}
+                                  style={{ transitionDelay: `${itemIndex * 0.05}s` }}
+                                >
+                                  {subItem.name}
+                                </a>
+                              ))}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
                 ))}
               </div>
             </li>
@@ -158,8 +302,8 @@ export default function Header() {
       </header>
 
       {showQuoteModal && (
-  <AppointmentModal isOpen={true} onClose={() => setShowQuoteModal(false)} />
-)}
+        <AppointmentModal isOpen={true} onClose={() => setShowQuoteModal(false)} />
+      )}
     </>
   );
 }
