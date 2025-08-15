@@ -71,7 +71,7 @@ export default function Header() {
       },
       {
   name: 'HPL solutions',
-  link: '/our-products/hpl',
+  link: '/our-products/gibca-compact-laminate-solutions',
   submenu: [
     {
       items: [
