@@ -75,10 +75,10 @@ export default function Header() {
   submenu: [
     {
       items: [
-        { name: 'Washroom cubicles', link: '/our-products/hpl/solid-grade' },
+        { name: 'Washroom cubicles', link: '/our-products/gibca-compact-laminate-solutions/washroom-cubicles' },
         { name: 'LOCKER SYSTEMS', link: '/our-products/hpl/decorative' },
         { name: 'WALL CLADDING', link: '/our-products/hpl/fire-retardant' },
-        { name: 'INTEGRATED PANEL SYSTEMS', link: '/our-products/hpl/antimicrobial' },
+        { name: 'INTEGRATED PANEL SYSTEMS', link: '/our-products/gibca-compact-laminate-solutions/integrated-panel-systems' },
         { name: 'OUTDOOR FURNITURES', link: '/our-products/hpl/weather-resistant' },
       ]
     }
