@@ -166,7 +166,7 @@
 .dropdown-menu a:hover {
   background-color: #f8fffe;
   color: #109C5D;
-  transform: translateX(5px);
+  /* transform: translateX(5px); */
   /* box-shadow: 0 2px 8px rgba(16, 156, 93, 0.1); */
   border-left: 3px solid #109C5D;
   padding-left: 25px;
