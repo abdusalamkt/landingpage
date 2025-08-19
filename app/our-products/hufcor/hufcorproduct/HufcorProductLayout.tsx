@@ -266,8 +266,8 @@ export default function HufcorProductLayout({
       {/* Pocket Doors */}
       {safePocketDoors.length > 0 && (
         <section className={styles.pocketSection}>
-          <h2 className={styles.sectionHeading}>
-            <img src="/workforce1.png" alt="icon" className={styles.icon} />
+          <h2 className={styles.sectionHeading} style={{ fontSize: "3.2rem" , marginBottom: "1rem" }}>
+            {/* <img src="/workforce1.png" alt="icon" className={styles.icon} /> */}
             POCKET DOOR <span className={styles.red}>OPTIONS</span>
           </h2>
           <p className={styles.pocketDescription}>
