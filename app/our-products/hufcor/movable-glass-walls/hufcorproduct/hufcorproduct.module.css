@@ -12,7 +12,7 @@
 
 .textContent {
   flex: 1;
-  padding: 70px 50px;
+  padding: 70px 35px;
 }
 
 .imageWrapper {
@@ -44,7 +44,7 @@ height: 80vh;
 
 .red {
   color: #D72027;
-  margin-left: 20px;
+  /* margin-left: 20px; */
 }
 
 .description {
