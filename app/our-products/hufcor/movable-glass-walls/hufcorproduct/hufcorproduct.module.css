@@ -39,7 +39,7 @@ height: 80vh;
 .series {
   font-family: 'Bebas Neue', sans-serif;
   font-size: 8rem;
-  margin: 10px 0;
+  margin: 0px 0;
 }
 
 .red {
@@ -594,6 +594,7 @@ text-transform: uppercase;
   width: 96%;
   margin: 40px auto;
   border-radius: 32px;
+  margin-bottom: 5rem;
 }
 .bannerCaption {
   position: absolute; 
@@ -644,7 +645,10 @@ text-align: center;
   /* background-attachment: fixed; */
   border-top: 5px solid #D72027;
   border-bottom: 5px solid #D72027;
+  margin-bottom: 5rem;
 }
+
+
 
 @keyframes slideFromLeft {
   0% { opacity: 0; transform: translateX(-100%); }
@@ -666,7 +670,7 @@ text-align: center;
 
 /* --- Pocket Door Options Section --- */
 .pocketSection {
-  padding: 80px 20px;
+  padding: 80px 20px 0px;
   background: #fff;
   text-align: center;
 }
@@ -807,7 +811,7 @@ line-height: 100%;
 }
 
 .heroLogoWrapper {
-  margin-bottom: 12px;
+  /* margin-bottom: 12px; */
   display: flex;
   justify-content: flex-start;
 }

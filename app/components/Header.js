@@ -55,15 +55,15 @@ export default function Header() {
           {
             name: 'Operable Walls',
             items: [
-              { name: '600 Series', link: '/our-products/hufcor/600-series-operable-walls' },
-              { name: '7000 Series', link: '/our-products/hufcor/7000-series-operable-walls' },
+              { name: '600 Series', link: '/our-products/hufcor/operable-walls/600-series-operable-walls' },
+              { name: '7000 Series', link: '/our-products/hufcor/operable-walls/7000-series-operable-walls' },
             ]
           },
           {
             name: 'Glass Walls',
             items: [
-              { name: 'ACOUSTIC GLASSWALLS', link: '/our-products/hufcor/acoustic-glass-walls' },
-              { name: 'FRAMELESS GLASSWALLS', link: '/our-products/hufcor/frosted-elite' },
+              { name: 'ACOUSTIC GLASSWALLS', link: '/our-products/hufcor/movable-glass-walls/acoustic-glass-walls' },
+              { name: 'FRAMELESS GLASSWALLS', link: '/our-products/hufcor//movable-glass-walls/frameless-glass-walls' },
               { name: 'WEATHER RESISTANT GLASSWALLS', link: '/our-products/hufcor/smart-glass' },
             ]
           }

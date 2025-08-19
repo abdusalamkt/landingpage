@@ -33,41 +33,48 @@ export default function SustainabilitySection({ fields }: SustainabilitySectionP
   return (
     <section className={styles.sustainabilitySection}>
       <div className={styles.commitment}>
-        <div className={styles.imageWrapper}>
-          {fields?.mainImage?.sourceUrl && (
-            <Image
-              src={fields.mainImage.sourceUrl}
-              alt={fields.mainImage.altText || 'Main image'}
-              width={400}
-              height={400}
-              className={styles.mainImage}
-            />
-          )}
-          {fields?.overlayImage?.sourceUrl && (
-            <Image
-              src={fields.overlayImage.sourceUrl}
-              alt={fields.overlayImage.altText || 'Overlay image'}
-              width={400}
-              height={400}
-              className={styles.overlayImage}
-            />
-          )}
-        </div>
+  <div className={styles.imageWrapper}>
+    {fields?.mainImage?.sourceUrl && (
+      <Image
+        src={fields.mainImage.sourceUrl}
+        alt={fields.mainImage.altText || 'Main image'}
+        width={400}
+        height={400}
+        className={styles.mainImage}
+      />
+    )}
+    {fields?.overlayImage?.sourceUrl && (
+      <Image
+        src={fields.overlayImage.sourceUrl}
+        alt={fields.overlayImage.altText || 'Overlay image'}
+        width={400}
+        height={400}
+        className={styles.overlayImage}
+      />
+    )}
+  </div>
 
-        <div className={styles.textContent}>
-          <h2 className={styles.heading}>
-  {fields.isoHeading
-    .split(' ')
-    .slice(0, -1)
-    .join(' ')}{' '}
-  <span className={styles.lastWord}>
-    {fields.isoHeading.split(' ').slice(-1)}
-  </span>
-</h2>
+  <div className={styles.textContent}>
+    <h2 className={styles.heading}>
+      {fields.isoHeading
+        .split(' ')
+        .slice(0, -1)
+        .join(' ')}{' '}
+      <span className={styles.lastWord}>
+        {fields.isoHeading.split(' ').slice(-1)}
+      </span>
+    </h2>
 
-          <p>{fields.isoDescription}</p>
-        </div>
-      </div>
+    {/* ✅ Render isoDescription as HTML from WYSIWYG */}
+    {fields.isoDescription && (
+      <div
+        className={styles.isoDescription}
+        dangerouslySetInnerHTML={{ __html: fields.isoDescription }}
+      />
+    )}
+  </div>
+</div>
+
 
       {fields.certifications?.length > 0 && (
         <div className={styles.certifications}>
