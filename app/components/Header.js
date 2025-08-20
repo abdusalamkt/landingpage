@@ -89,7 +89,7 @@ export default function Header() {
         link: '#',
         // submenu: [
         //   {
-        //     name: 'Operable Partitions',
+        //     name: 'Operable Partiions',
         //     items: [
         //       { name: 'Single Panel Systems', link: '/our-products/ops/single-panel' },
         //       { name: 'Multi-Panel Systems', link: '/our-products/ops/multi-panel' },
