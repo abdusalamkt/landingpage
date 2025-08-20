@@ -637,14 +637,15 @@ text-align: center;
 .noiseBanner1 {
   position: relative;
   height: 100vh;
-  /* background: url('/hufcor/600.jpg') center/cover no-repeat; */
+  /* background: url('/hufcor/IMG_4659.jpg') center/cover no-repeat; */
   overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
-  /* background-attachment: fixed; */
-  border-top: 5px solid #D72027;
-  border-bottom: 5px solid #D72027;
+  background-attachment: fixed;
+  width: 96%;
+  margin: 40px auto;
+  border-radius: 32px;
   margin-bottom: 5rem;
 }
 

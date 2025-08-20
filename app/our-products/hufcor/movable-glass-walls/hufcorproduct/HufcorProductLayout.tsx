@@ -148,16 +148,7 @@ export default function HufcorProductLayout({
   <section className={styles.hero}>
     <div className={styles.textContent}>
       
-      {/* Logo above title */}
-      <div className={styles.heroLogoWrapper}>
-        <Image
-          src="/hufcorlogo.png" // replace with actual path
-          alt="Hufcor Logo"
-          width={160}
-          height={60}
-          className={styles.heroLogo}
-        />
-      </div>
+      
 
       <h1 className={styles.series}>
         {heroTitle} <span className={styles.red}>{heroHighlight}</span>
