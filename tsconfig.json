@@ -22,6 +22,6 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/gallery/page.js", "app/components/productszoomoncursor", "app/components/TestimonialSlider.jsx", "app/components/TestimonialSlider.js", "app/components/ContactUs.js", "app/components/ContactUs.js", "app/components/ContactUs.js", "app/components/ContactUs.js", "app/components/GetInTouchSection.js", "app/components/Products.js", "app/service-and-maintenance/page.js", "app/service-and-maintenance/page.js"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/gallery/page.js", "app/components/productszoomoncursor", "app/components/TestimonialSlider.tsx", "app/components/TestimonialSlider.js", "app/components/ContactUs.js", "app/components/ContactUs.js", "app/components/ContactUs.js", "app/components/ContactUs.js", "app/components/GetInTouchSection.js", "app/components/Products.js", "app/service-and-maintenance/page.tsx", "app/service-and-maintenance/page.ts, "app/our-products/crown/crownproduct/crownproductlayout.jsx", "app/components/AppointmentModal.js", "app/components/AppointmentModal.js", "app/components/DownloadItemRow.js", "app/components/DownloadItemRow.js", "app/components/DownloadItemRow.js", "app/downloads/page.jsx", "app/components/Header.js", "app/blogs/page.jsx", "app/service-and-maintenance/WhyService.js"x", "app/about-gibca/HeroSection.jsx", "app/service-and-maintenance/WhyService.js", "app/service-and-maintenance/WhyService.js"],
   "exclude": ["node_modules"]
 }
