@@ -290,7 +290,7 @@ Hufcor pocket doors keep operable walls storage out of sight, delivering a clean
     <div className="apart-left">
       <div className="apart-bg-number">!</div>
       <h2 className="apart-heading">
-        Be spoilt for  <span className="apart-highlight" style={{ color: "#e60000" }}>choices!</span>
+        Be spoilt for  <span className="apart-highlight" style={{ color: "#D72027" }}>choices!</span>
       </h2>
       <p className="apart-desc">
       </p>
@@ -304,14 +304,14 @@ Hufcor pocket doors keep operable walls storage out of sight, delivering a clean
           background: "linear-gradient(269.42deg, #d72027 0.16%, #8e1217 99.84%)",
         }}
       >
-        <span className="features-bar" style={{ backgroundColor: "#e60000" }} />
+        <span className="features-bar" style={{ backgroundColor: "#D72027" }} />
         AVAILABLE OPTIONS
       </h3>
      <div className="features-grid" style={{ display: "block" }}>
 
         {safeChoices.map((choice, index) => (
           <div key={index} className="feature-item" style={{ marginBottom: "2rem" }}>
-            <h4 style={{ color: "#e60000" }}>{choice.choiceTitle}</h4>
+            <h4 style={{ color: "#D72027" }}>{choice.choiceTitle}</h4>
             <div className="choice-points-group">
               {choice.choicePoints?.map((pt, i) => (
                 <span key={i} className="choice-point">

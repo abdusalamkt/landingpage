@@ -19,7 +19,7 @@ const WhatSetsUsApart = ({ features = [], brand = 'red', description }: WhatSets
   // Color mapping for different brands
   const colorMap = {
     red: {
-      primary: '#e60000',
+      primary: '#D72027',
       secondary: '#8e1217',
       gradient: 'linear-gradient(269.42deg, #d72027 0.16%, #8e1217 99.84%)'
     },
