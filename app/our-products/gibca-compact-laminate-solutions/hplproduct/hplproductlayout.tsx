@@ -150,12 +150,14 @@ export default function HplProductLayout({
         </div>
       </section>
 
-      {/* What Sets Us Apart Section */}
-      <WhatSetsUsApart
-        features={safeFeatures}
-        brand="green"
-        description={fields.description}
-      />
+           {/* What Sets Us Apart Section */}
+      {safeFeatures.length > 0 && (
+        <WhatSetsUsApart
+          features={safeFeatures}
+          brand="green"
+          description={fields.description}
+        />
+      )}
 
       {/* Cubicle Models Section */}
       {fields.models && fields.models.length > 0 && (
