@@ -63,8 +63,8 @@ export default function Header() {
             name: 'Glass Walls',
             items: [
               { name: 'ACOUSTIC GLASSWALLS', link: '/our-products/hufcor/movable-glass-walls/acoustic-glass-walls' },
-              { name: 'FRAMELESS GLASSWALLS', link: '/our-products/hufcor//movable-glass-walls/frameless-glass-walls' },
-              { name: 'WEATHER RESISTANT GLASSWALLS', link: '/our-products/hufcor/smart-glass' },
+              { name: 'FRAMELESS GLASSWALLS', link: '/our-products/hufcor/movable-glass-walls/frameless-glass-walls' },
+              { name: 'WEATHER RESISTANT GLASSWALLS', link: '/our-products/hufcor/movable-glass-walls/weather-resistant-glass-walls' },
             ]
           }
         ]
