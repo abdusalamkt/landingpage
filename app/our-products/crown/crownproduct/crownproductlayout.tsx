@@ -86,7 +86,7 @@ export default function CrownProductPage({ fields, faqData = [], downloadData = 
             </div>
           )} */}
           <h1 className={styles.series}>
-            {fields.hero_title} <span className={styles.red}>{fields.hero_highlight}</span>
+            {fields.hero_title} <span className={styles.red} style={{marginLeft:"0px"}}>{fields.hero_highlight}</span>
           </h1>
           {fields.hero_description && <p className={styles.description}>{fields.hero_description}</p>}
           <div className={styles.buttons}>

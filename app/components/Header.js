@@ -120,9 +120,9 @@ export default function Header() {
           {
            
             items: [
-              { name: 'SST-II Bi-Fold', link: '/our-products/crown/wall-panels' },
-              { name: 'SINGLE SWING', link: '/our-products/crown/ceiling-systems' },
-              { name: '50/50', link: '/our-products/crown/moldings' },
+              { name: 'SST-II Bi-Fold', link: '/our-products/crown/sst-ii-hydraulic-bi-fold' },
+              { name: 'SINGLE SWING', link: '/our-products/crown/single-swing' },
+              { name: '50/50', link: '/our-products/crown/50-50' },
             ]
           }
         ]
