@@ -44,7 +44,7 @@
 .description {
   font-family: Poppins, sans-serif;
   font-weight: 100;
-  font-size: 18px;
+  font-size: 16px;
   line-height: 30px;
   text-align: justify;
   color: #3D3D3D;
@@ -517,8 +517,8 @@
   display: flex;
   align-items: center;
   opacity: 0;
-  transform: translateX(200px);
-  transition: all .5s ease-in-out;
+  transform: translateX(1200px);
+  transition: all .8s ease-in-out;
   pointer-events: none;
 }
 

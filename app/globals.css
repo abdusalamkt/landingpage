@@ -115,3 +115,6 @@ main {
 .cta-button:hover::after {
   left: 100%;
 }
+p{
+  hyphens: auto;
+}

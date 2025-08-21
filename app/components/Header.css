@@ -276,7 +276,7 @@
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(16, 156, 93, 0.1), transparent);
+  /* background: linear-gradient(90deg, transparent, rgba(16, 156, 93, 0.1), transparent); */
   transition: left 0.5s ease;
 }
 
@@ -301,7 +301,7 @@
   left: -2px;
   right: -2px;
   bottom: -2px;
-  background: linear-gradient(45deg, #109C5D, transparent, #109C5D);
+  /* background: linear-gradient(45deg, #109C5D, transparent, #109C5D); */
   border-radius: 10px;
   opacity: 0;
   transition: opacity 0.3s ease;
@@ -325,12 +325,13 @@
   width: 10rem;
   min-height: 50px;
   background: var(--color-gray, #333);
-  font-weight: 800;
-  font-size: .65rem;
+  /* font-weight: 800; */
+  font-size: 1rem;
   text-decoration: none;
   color: #ffffff;
   border: none;
   cursor: pointer;
+  font-family: 'Bebas Neue', sans-serif;
 }
 
 @keyframes pulse {

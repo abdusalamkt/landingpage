@@ -24,9 +24,9 @@ const WhatSetsUsApart = ({ features = [], brand = 'red', description }: WhatSets
       gradient: 'linear-gradient(269.42deg, #d72027 0.16%, #8e1217 99.84%)'
     },
     brown: {
-      primary: '#8B4513',
+      primary: '#77471C',
       secondary: '#5a3a22',
-      gradient: 'linear-gradient(269.42deg, #8B4513 0.16%, #5a3a22 99.84%)'
+      gradient: 'linear-gradient(269.42deg, #6C421D 0.16%, #7C5F45 99.84%)'
     },
     green: {
       primary: '#2e8b57',

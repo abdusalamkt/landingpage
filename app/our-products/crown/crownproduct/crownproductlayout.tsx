@@ -75,7 +75,7 @@ export default function CrownProductPage({ fields, faqData = [], downloadData = 
       {/* Hero Section */}
       <section className={styles.hero}>
         <div className={styles.textContent}>
-          {fields.logo?.sourceUrl && (
+          {/* {fields.logo?.sourceUrl && (
             <div className={styles.heroLogo}>
               <Image 
                 src={fields.logo.sourceUrl} 
@@ -84,7 +84,7 @@ export default function CrownProductPage({ fields, faqData = [], downloadData = 
                 height={60} 
               />
             </div>
-          )}
+          )} */}
           <h1 className={styles.series}>
             {fields.hero_title} <span className={styles.red}>{fields.hero_highlight}</span>
           </h1>

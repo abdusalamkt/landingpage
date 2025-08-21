@@ -76,7 +76,7 @@ height: 80vh;
   font-family: Poppins;
   font-weight: 100;
   font-size: 1.2rem;
-  line-height: 37px;
+  line-height: 30px;
   letter-spacing: 0%;
   text-align: justify;
   vertical-align: middle;
@@ -445,7 +445,7 @@ text-align: center;
   }
 
   .description {
-    font-size: 1.1rem;
+    font-size: 16px;
   }
 
   .outline,
@@ -688,11 +688,12 @@ box-shadow: 2px 2px 0px rgba(0, 0, 0, 0.877);
 .imageBanner {
   position: relative;
   height: 100vh;
-  width: 100%;
+   width: 96%;
+  margin: 40px auto;
+  border-radius: 32px;
   overflow: hidden;
-  /* margin: 4rem 0; */
-  border-top: solid 4px #77471C;
-  border-bottom: solid 4px #77471C;
+
+
 
 }
 
