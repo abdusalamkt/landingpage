@@ -49,6 +49,17 @@ const GET_HPL_PRODUCT = gql`
           title
           description
         }
+        outdoorProductOptionsTitle
+        carousel {
+          title
+          image { sourceUrl altText }
+          description
+          points {
+            point
+          }
+          buttonLabel
+          buttonUrl
+        }
       }
     }
   }

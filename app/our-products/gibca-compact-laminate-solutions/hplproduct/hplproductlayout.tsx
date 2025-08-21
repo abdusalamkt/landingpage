@@ -1,12 +1,11 @@
-'use client';
-
-import React from 'react';
-import Image from 'next/image';
-import styles from './hplproduct.module.css';
-import Header from '@/app/components/Header';
-import WhatSetsUsApart from '@/app/components/WhatSetsUsApart';
-import DownloadSection from '@/app/components/DownloadSection';
-import FaqSection from '@/app/components/FaqSection';
+'use client'; 
+import React, { useState } from 'react'; 
+import Image from 'next/image'; 
+import styles from './hplproduct.module.css'; 
+import Header from '@/app/components/Header'; 
+import WhatSetsUsApart from '@/app/components/WhatSetsUsApart'; 
+import DownloadSection from '@/app/components/DownloadSection'; 
+import FaqSection from '@/app/components/FaqSection'; 
 
 interface Feature {
   featureTitle: string;
@@ -43,6 +42,21 @@ interface DesignOption {
   description: string;
 }
 
+interface CarouselItem {
+  title: string;
+  image?: {
+    sourceUrl: string;
+    altText?: string;
+  };
+  description: string;
+  points?: Array<{
+    point: string;
+  }>;
+  buttonLabel?: string;
+  buttonUrl?: string;
+}
+
+
 interface HplFields {
   logo?: {
     sourceUrl: string;
@@ -67,6 +81,8 @@ interface HplFields {
   customizationDescription?: string;
   finishes?: Finish[];
   designOptions?: DesignOption[];
+  outdoorProductOptionsTitle ?: string;
+  carousel?: CarouselItem[];
 }
 
 interface FAQ {
@@ -90,28 +106,105 @@ interface HplProductLayoutProps {
   downloadData?: DownloadData[];
 }
 
-export default function HplProductLayout({
-  fields,
-  faqData = [],
-  downloadData = [],
-}: HplProductLayoutProps) {
+// Product Carousel Component
+const ProductCarousel = ({ carouselData, sectionTitle }: { carouselData: CarouselItem[], sectionTitle: string }) => {
+  const [activeTab, setActiveTab] = useState(0);
+  const [hoveredTab, setHoveredTab] = useState<number | null>(null);
+
+  return (
+    <section className={styles.carouselSection}>
+      <div className={styles.carouselContainer}>
+        <h2 className={styles.carouselHeading}>{sectionTitle}</h2>
+        
+        {/* Tabs Navigation - Updated styling */}
+        <div className={styles.carouselTabs}>
+          {carouselData.map((product, index) => (
+            <div key={index} className={styles.tabWrapper}>
+              <button 
+                className={`${styles.tabButton} ${activeTab === index ? styles.activeTab : ''}`}
+                onClick={() => setActiveTab(index)}
+                onMouseEnter={() => setHoveredTab(index)}
+                onMouseLeave={() => setHoveredTab(null)}
+              >
+                {product.title}
+              </button>
+              <div className={styles.underlineContainer}>
+                <div className={`${styles.underline} ${activeTab === index ? styles.activeUnderline : ''} ${hoveredTab === index ? styles.hoveredUnderline : ''}`}></div>
+              </div>
+              {index < carouselData.length - 1 && (
+                <div className={styles.tabSeparator}></div>
+              )}
+            </div>
+          ))}
+        </div>
+
+        {/* Carousel Content - 100vh height */}
+        <div className={styles.carouselContent}>
+          {carouselData.map((product, index) => (
+            <div key={index} className={`${styles.carouselSlide} ${activeTab === index ? styles.activeSlide : ''}`}>
+              <div className={styles.carouselImage}>
+                {product.image?.sourceUrl && (
+                  <Image 
+                    src={product.image.sourceUrl} 
+                    alt={product.image?.altText || product.title} 
+                    width={600} 
+                    height={500} 
+                    priority={index === 0} 
+                  />
+                )}
+              </div>
+              <div className={styles.carouselText}>
+                <p>{product.description}</p>
+                <ul className={styles.featureList}>
+                  {product.points?.map((point, i) => (
+                    <li key={i}>{point.point}</li>
+                  ))}
+                </ul>
+                {product.buttonUrl && (
+  <a href={product.buttonUrl} style={{ alignSelf: 'center' }}>
+    <button className={styles.learnMoreBtn}>
+      {product.buttonLabel || 'Learn More'}
+    </button>
+  </a>
+)}
+
+
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Indicator Dots */}
+        {/* <div className={styles.carouselIndicators}>
+          {carouselData.map((_, index) => (
+            <button
+              key={index}
+              className={`${styles.indicator} ${activeTab === index ? styles.activeIndicator : ''}`}
+              onClick={() => setActiveTab(index)}
+              aria-label={`Show product ${index + 1}`}
+            />
+          ))}
+        </div> */}
+      </div>
+    </section>
+  );
+};
+
+export default function HplProductLayout({ fields, faqData = [], downloadData = [] }: HplProductLayoutProps) {
   const safeFeatures = Array.isArray(fields.features) ? fields.features : [];
+  const carouselData = Array.isArray(fields.carousel) ? fields.carousel : [];
+  const showCarousel = fields.outdoorProductOptionsTitle  && carouselData.length > 0;
 
   return (
     <div>
       <Header />
-
+      
       {/* Hero Section */}
       <section className={styles.hero}>
         <div className={styles.textContent}>
           <div className={styles.heroLogo}>
             {fields.logo?.sourceUrl && (
-              <Image
-                src={fields.logo.sourceUrl}
-                alt={fields.logo?.altText || 'Logo'}
-                width={220}
-                height={48}
-              />
+              <Image src={fields.logo.sourceUrl} alt={fields.logo?.altText || 'Logo'} width={220} height={48} />
             )}
           </div>
           <h1 className={styles.series}>
@@ -136,27 +229,16 @@ export default function HplProductLayout({
             )}
           </div>
         </div>
-
         <div className={styles.imageWrapper}>
           {fields.heroImage?.sourceUrl && (
-            <Image
-              src={fields.heroImage.sourceUrl}
-              alt={fields.heroImage?.altText || 'Hero Image'}
-              width={700}
-              height={500}
-              priority
-            />
+            <Image src={fields.heroImage.sourceUrl} alt={fields.heroImage?.altText || 'Hero Image'} width={700} height={500} priority />
           )}
         </div>
       </section>
 
-           {/* What Sets Us Apart Section */}
+      {/* What Sets Us Apart Section */}
       {safeFeatures.length > 0 && (
-        <WhatSetsUsApart
-          features={safeFeatures}
-          brand="green"
-          description={fields.description}
-        />
+        <WhatSetsUsApart features={safeFeatures} brand="green" description={fields.description} />
       )}
 
       {/* Cubicle Models Section */}
@@ -166,18 +248,12 @@ export default function HplProductLayout({
             <img src="/workforce1.png" alt="icon" className={styles.icon} />
             {fields.modelsHeading}
           </h2>
-
           <div className={styles.modelGrid}>
             {fields.models.map((model, idx) => (
               <div key={idx} className={styles.modelCard}>
                 <h3>{model.title}</h3>
                 {model.image?.sourceUrl && (
-                  <Image
-                    src={model.image.sourceUrl}
-                    alt={model.image?.altText || model.title}
-                    width={400}
-                    height={250}
-                  />
+                  <Image src={model.image.sourceUrl} alt={model.image?.altText || model.title} width={400} height={250} />
                 )}
                 <p>{model.description}</p>
                 <div className={styles.modelButtons}>
@@ -188,10 +264,7 @@ export default function HplProductLayout({
                       </button>
                     </a>
                   ) : (
-                    <button
-                      className={styles.primary}
-                      onClick={() => alert(`Read more about ${model.title}`)}
-                    >
+                    <button className={styles.primary} onClick={() => alert(`Read more about ${model.title}`)}>
                       Read More
                     </button>
                   )}
@@ -225,13 +298,7 @@ export default function HplProductLayout({
                     <p>{finish.title}</p>
                     <div className={styles.finishImageContainer}>
                       {finish.image?.sourceUrl && (
-                        <Image
-                          src={finish.image.sourceUrl}
-                          alt={finish.image?.altText || finish.title}
-                          width={200}
-                          height={350}
-                          className={styles.finishImage}
-                        />
+                        <Image src={finish.image.sourceUrl} alt={finish.image?.altText || finish.title} width={200} height={350} className={styles.finishImage} />
                       )}
                     </div>
                   </div>
@@ -252,12 +319,7 @@ export default function HplProductLayout({
                   <div key={idx} className={styles.designOption}>
                     <div className={styles.designOptionIcon}>
                       {opt.icon?.sourceUrl && (
-                        <Image
-                          src={opt.icon.sourceUrl}
-                          alt={opt.icon?.altText || opt.title}
-                          width={300}
-                          height={300}
-                        />
+                        <Image src={opt.icon.sourceUrl} alt={opt.icon?.altText || opt.title} width={300} height={300} />
                       )}
                     </div>
                     <h4>{opt.title}</h4>
@@ -268,6 +330,14 @@ export default function HplProductLayout({
             </div>
           )}
         </section>
+      )}
+
+      {/* Product Carousel Section */}
+      {showCarousel && (
+        <ProductCarousel 
+          carouselData={carouselData} 
+          sectionTitle={fields.outdoorProductOptionsTitle  || ''} 
+        />
       )}
 
       {/* Downloads Section */}
