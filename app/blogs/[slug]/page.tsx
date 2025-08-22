@@ -68,17 +68,18 @@ export default async function BlogPage({ params }: Props) {
     <div className={styles.blogContainer}>
       {/* Hero Image */}
       <div className={styles.heroImageWrapper}>
-        {blogPostFields.blogImage?.sourceUrl && (
-          <Image
-            src={blogPostFields.blogImage.sourceUrl}
-            alt={blogPostFields.blogImage.altText || post.title}
-            fill
-            priority
-            sizes="100vw"
-            className={styles.heroImage}
-          />
-        )}
-      </div>
+  <div style={{ position: 'relative', width: '100%', height: '75vh' }}>
+    <Image
+      src={blogPostFields.blogImage.sourceUrl}
+      alt={blogPostFields.blogImage.altText || post.title}
+      fill
+      sizes="100vw"
+      style={{ objectFit: 'cover', objectPosition: 'center' }}
+      priority
+    />
+  </div>
+</div>
+
 
       {/* Main Title */}
       <h1 className={styles.mainTitle}>
