@@ -44,13 +44,15 @@ const GET_POST_BY_SLUG = gql`
 `;
 
 interface Props {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }
 
-export const revalidate = 60 * 60; // regenerate every 1 hour
+// Fixed: Use a constant value instead of binary expression
+export const revalidate = 3600; // regenerate every 1 hour (60 * 60 = 3600)
 
 export default async function BlogPage({ params }: Props) {
-  const { slug } = params;
+  // Fixed: Await the params Promise
+  const { slug } = await params;
 
   const { data } = await client.query({
     query: GET_POST_BY_SLUG,
@@ -68,18 +70,17 @@ export default async function BlogPage({ params }: Props) {
     <div className={styles.blogContainer}>
       {/* Hero Image */}
       <div className={styles.heroImageWrapper}>
-  <div style={{ position: 'relative', width: '100%', height: '75vh' }}>
-    <Image
-      src={blogPostFields.blogImage.sourceUrl}
-      alt={blogPostFields.blogImage.altText || post.title}
-      fill
-      sizes="100vw"
-      style={{ objectFit: 'cover', objectPosition: 'center' }}
-      priority
-    />
-  </div>
-</div>
-
+        <div style={{ position: 'relative', width: '100%', height: '75vh' }}>
+          <Image
+            src={blogPostFields.blogImage.sourceUrl}
+            alt={blogPostFields.blogImage.altText || post.title}
+            fill
+            sizes="100vw"
+            style={{ objectFit: 'cover', objectPosition: 'center' }}
+            priority
+          />
+        </div>
+      </div>
 
       {/* Main Title */}
       <h1 className={styles.mainTitle}>
