@@ -220,7 +220,7 @@ export default function HplProductLayout({ fields, faqData = [], downloadData = 
         <WhatSetsUsApart features={safeFeatures} brand="green" description={fields.description} />
       )}
 
-      {/* Models */}
+      {/*Models */}
       {fields.models && fields.models.length > 0 && (
         <section className={styles.cubicleModels}>
           <h2 className={styles.sectionHeading}>
