@@ -52,8 +52,8 @@ export default function BlogsPage() {
   };
 
   // Filter posts by selectedTag
- const filteredPosts = posts
-  .filter((post) => post.blogPostFields.categoryLabel !== 'Press Release') // Exclude Media posts
+  const filteredPosts = posts
+  .filter((post) => post.blogPostFields.categoryLabel == 'Press Release') // Exclude Media posts
   .filter((post) => {
     if (!selectedTag) return true;
     const rawTags = post.blogPostFields?.productTags || '';
@@ -62,6 +62,7 @@ export default function BlogsPage() {
       : rawTags.split(',').map((t: string) => t.trim());
     return tagsArray.some((tag: string) => tag.toLowerCase() === selectedTag.toLowerCase());
   });
+
   // Sort posts
   const sortedPosts = [...filteredPosts].sort((a, b) => {
     const dateA = new Date(a.date).getTime();
@@ -73,9 +74,9 @@ export default function BlogsPage() {
     <div className={styles.container}>
       {/* Hero */}
       <section className={styles.hero}>
-        <h1>BLOGS</h1>
+        <h1>MEDIA</h1>
         <p>
-          Explore our latest insights, stories, and updates. From expert tips to company news, our blog keeps you informed and inspired.
+          Explore our latest insights, stories, and updates. From expert tips to company news, our media keeps you informed and inspired.
         </p>
       </section>
 

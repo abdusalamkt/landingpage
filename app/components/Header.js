@@ -161,6 +161,13 @@ export default function Header() {
 
   return (
     <>
+      {/* Fixed Media Button */}
+      <div className={`media-button-fixed ${isHeaderHidden ? 'hide' : ''}`}>
+        <button className="media-btn" onClick={() => window.open('/media', '_blank')}>
+          <span>MEDIA</span>
+        </button>
+      </div>
+
       <header className={`site-header ${isHeaderHidden ? 'hide' : ''}`}>
         <div className="logo" id="headerLogo">
           <a href="/">
