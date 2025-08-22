@@ -24,16 +24,23 @@ const GET_ACRISTALIA_PRODUCT = gql`
         heroButton2Url
         videoLink
         videoDescription
-        specifications {
-          title
-          points { points }
+        features {
+          featureTitle
+          featureContent
         }
+        description
         keyFeatures {
           imageBanner { sourceUrl altText }
           features {
             icon { sourceUrl altText }
             title
             description
+          }
+        }
+          choices {
+          choiceTitle
+          choicePoints {
+            point
           }
         }
       }

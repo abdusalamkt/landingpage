@@ -8,6 +8,7 @@ import Header from "@/app/components/Header";
 import DownloadSection from "@/app/components/DownloadSection";
 // import ContactUs from "@/app/components/ContactUs";
 import FaqSection from "@/app/components/FaqSection";
+import WhatSetsUsApart from "@/app/components/WhatSetsUsApart";
 
 interface MediaItem {
   sourceUrl: string;
@@ -30,6 +31,14 @@ interface Specification {
   points: { points: string }[];
 }
 
+// Add Choices interface
+interface Choice {
+  choiceTitle: string;
+  choicePoints: Array<{
+    point: string;
+  }>;
+}
+
 interface AcristaliaData {
   logo: MediaItem;
   heroTitle: string;
@@ -42,8 +51,14 @@ interface AcristaliaData {
   heroButton2Url: string;
   videoLink: string;
   videoDescription: string;
-  specifications: Specification[];
   keyFeatures: KeyFeatureGroup[];
+  features?: Array<{
+    featureTitle: string;
+    featureContent: string;
+  }>;
+  description?: string;
+  // Add choices field
+  choices?: Choice[];
 }
 
 interface FAQItem {
@@ -157,7 +172,6 @@ const KeyFeatureGroupComponent = ({ group, groupIndex }: { group: KeyFeatureGrou
             style={{ objectFit: "cover" }}
             priority
           />
-          
         </div>
       )}
       {group.features && group.features.length > 0 && (
@@ -176,14 +190,17 @@ export default function AcristaliaProductLayout({
   faqData = [],
   downloadData = [],
 }: AcristaliaProductLayoutProps) {
-  const safeSpecifications = Array.isArray(fields.specifications) ? fields.specifications : [];
+
   const safeKeyFeatures = Array.isArray(fields.keyFeatures) ? fields.keyFeatures : [];
+  const safeFeatures = Array.isArray(fields.features) ? fields.features : [];
+  const safeChoices = Array.isArray(fields.choices) ? fields.choices : [];
   const embedUrl = getYouTubeEmbedUrl(fields.videoLink);
 
   return (
     <div>
       <Header />
 
+      {/* Hero Section */}
       <section className={styles.hero}>
         <div className={styles.textContent}>
           {fields.logo?.sourceUrl && (
@@ -216,7 +233,7 @@ export default function AcristaliaProductLayout({
         )}
       </section>
 
-      {/* Video Section */}
+        {/* Video Section */}
       {embedUrl && (
         <>
           <div className={styles.fullscreenVideoSection}>
@@ -237,24 +254,19 @@ export default function AcristaliaProductLayout({
         </>
       )}
 
-      {/* Specifications Section */}
-      {safeSpecifications.length > 0 && (
-        <section className={styles.features}>
-          <h2 className={styles.sectionHeading}>
-            <img src="/workforce1.png" alt="icon" className={styles.icon} />
-            SPECIFICATIONS
-          </h2>
-          {safeSpecifications.map((spec, index) => (
-            <SpecificationItem key={index} spec={spec} index={index} />
-          ))}
-        </section>
-      )}
+      {/* ✅ What Sets Us Apart (shared component) */}
+      <WhatSetsUsApart 
+        features={safeFeatures}
+        brand="blue" // You can set brand color for Acristalia
+        description={fields.description}
+      />
 
+      
       {/* Key Features Section */}
       <section className={styles.keyFeaturesSection}>
         <h2 className={styles.sectionHeading}>
-          <img src="/workforce1.png" alt="icon" className={styles.icon} />
-          KEY <span className={styles.red}>FEATURES</span>
+          <img src="/logos/key features.png" alt="icon" className={styles.icon} />
+          KEY <span className={styles.red} style={{marginLeft:"10px"}} >FEATURES</span>
         </h2>
         {safeKeyFeatures.length > 0 ? (
           safeKeyFeatures.map((group, groupIndex) => (
@@ -266,14 +278,56 @@ export default function AcristaliaProductLayout({
           </div>
         )}
       </section>
+      {/* ✅ Choices Section for Acristalia */}
+      {safeChoices.length > 0 && (
+        <section className="apart-section">
+          {/* Left Side */}
+          <div className="apart-left">
+            <div className="apart-bg-number">!</div>
+            <h2 className="apart-heading">
+              Be spoilt for  <span className="apart-highlight" style={{ color: "#0066B3" }}>choices!</span>
+            </h2>
+            <p className="apart-desc">
+            </p>
+          </div>
 
-      {/* Download Section with Acristalia theme */}
+          {/* Right Side */}
+          <div className="apart-right">
+            <h3
+              className="features-title"
+              style={{
+                background: "linear-gradient(269.42deg, #0066B3 0.16%, #004680 99.84%)",
+              }}
+            >
+              <span className="features-bar" style={{ backgroundColor: "#0066B3" }} />
+              AVAILABLE OPTIONS
+            </h3>
+          <div className="features-grid" style={{ display: "block" }}>
+
+              {safeChoices.map((choice, index) => (
+                <div key={index} className="feature-item" style={{ marginBottom: "2rem" }}>
+                  <h4 style={{ color: "#0066B3" }}>{choice.choiceTitle}</h4>
+                  <div className="choice-points-group">
+                    {choice.choicePoints?.map((pt, i) => (
+                      <span key={i} className="choice-point">
+                        {pt.point}
+                        
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+
+      {/* Download Section */}
       {downloadData.length > 0 && <DownloadSection downloadData={downloadData} theme="acristalia" />}
 
-      {/* FAQ Section with Acristalia theme */}
+      {/* FAQ Section */}
       {faqData && <FaqSection faqData={faqData} theme="acristalia" />}
-
-      {/* <ContactUs /> */}
     </div>
   );
 }

@@ -43,38 +43,46 @@ const WhatSetsUsApart = ({ features = [], brand = 'red', description }: WhatSets
   const colors = colorMap[brand];
 
   // Hardcoded fallback description
-  const defaultDescription = "Experience unmatched quality and innovation with our advanced operable wall solutions. Our commitment to excellence ensures superior performance in every installation.";
+  const defaultDescription =
+    "Experience unmatched quality and innovation with our advanced operable wall solutions. Our commitment to excellence ensures superior performance in every installation.";
 
   // Use features from props, or fallback to default features if none provided
-  const displayFeatures = features.length > 0 ? features : [
-    {
-      featureTitle: "ACOUSTIC PERFORMANCE",
-      featureContent: "Deep nesting, interlocking edges, and integrated seals deliver superior acoustic performance up to 56 STC (ASTM E-90)."
-    },
-    {
-      featureTitle: "FINISHES AND COLORS",
-      featureContent: "Standard trim colors include lamb wool, brown, and gray, with custom metal trim colors available."
-    },
-    {
-      featureTitle: "QUICK-SET FEATURES",
-      featureContent: "Mechanical bottom seals for reliable and fast field operation."
-    },
-    {
-      featureTitle: "ADDITIONAL OPTIONS & WARRANTY",
-      featureContent: "Deep tongue-and-groove design with dual vinyl gaskets ensures stable interlock, precise alignment, and superior sound sealing."
-    }
-  ];
+  const displayFeatures =
+    features.length > 0
+      ? features
+      : [
+          {
+            featureTitle: "ACOUSTIC PERFORMANCE",
+            featureContent:
+              "Deep nesting, interlocking edges, and integrated seals deliver superior acoustic performance up to 56 STC (ASTM E-90)."
+          },
+          {
+            featureTitle: "FINISHES AND COLORS",
+            featureContent:
+              "Standard trim colors include lamb wool, brown, and gray, with custom metal trim colors available."
+          },
+          {
+            featureTitle: "QUICK-SET FEATURES",
+            featureContent: "Mechanical bottom seals for reliable and fast field operation."
+          },
+          {
+            featureTitle: "ADDITIONAL OPTIONS & WARRANTY",
+            featureContent:
+              "Deep tongue-and-groove design with dual vinyl gaskets ensures stable interlock, precise alignment, and superior sound sealing."
+          }
+        ];
 
   return (
     <section className="apart-section">
       <div className="apart-left">
         <div className="apart-bg-number">?</div>
         <h2 className="apart-heading">
-          WHAT SETS US <span className="apart-highlight" style={{ color: colors.primary }}>APART?</span>
+          WHAT SETS US{" "}
+          <span className="apart-highlight" style={{ color: colors.primary }}>
+            APART?
+          </span>
         </h2>
-        <p className="apart-desc">
-          {description || defaultDescription}
-        </p>
+        <p className="apart-desc">{description || defaultDescription}</p>
       </div>
 
       <div className="apart-right">
@@ -86,7 +94,16 @@ const WhatSetsUsApart = ({ features = [], brand = 'red', description }: WhatSets
           {displayFeatures.map((feature, index) => (
             <div key={index} className="feature-item">
               <h4 style={{ color: colors.primary }}>{feature.featureTitle}</h4>
-              <p>{feature.featureContent}</p>
+
+              {/* ✅ If brand is Acristalia (blue), render as HTML, else plain text */}
+              {brand === "blue" ? (
+                <div
+                  className="wysiwyg"
+                  dangerouslySetInnerHTML={{ __html: feature.featureContent }}
+                />
+              ) : (
+                <p>{feature.featureContent}</p>
+              )}
             </div>
           ))}
         </div>
