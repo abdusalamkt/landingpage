@@ -224,7 +224,7 @@ export default function HplProductLayout({ fields, faqData = [], downloadData = 
       {fields.models && fields.models.length > 0 && (
         <section className={styles.cubicleModels}>
           <h2 className={styles.sectionHeading}>
-            <img src="/workforce1.png" alt="icon" className={styles.icon} />
+            <img src="/icon/hufcor/custom.png" alt="icon" className={styles.icon} />
             {fields.modelsHeading}
           </h2>
           <div className={styles.modelGrid}>
