@@ -1,5 +1,5 @@
 // app/service-maintenance/Hero.tsx
-'use client'; // Only if needed (e.g. for animations or interactivity)
+'use client'; // Only if needed (e.g for animations or interactivity)
 
 import './hero.css';
 
