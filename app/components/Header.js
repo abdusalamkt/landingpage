@@ -84,9 +84,9 @@ export default function Header() {
     }
   ]
 },
-      {
-        name: 'Office Partitions & doors',
-        link: '#',
+      // {
+      //   name: 'Office Partitions & doors',
+      //   link: '#',
         // submenu: [
         //   {
         //     name: 'Operable Partiions',
@@ -107,7 +107,7 @@ export default function Header() {
         //     ]
         //   }
         // ]
-      },
+      // },
       {
         name: 'terrace solutions',
         link: '/our-products/terrace-solutions',

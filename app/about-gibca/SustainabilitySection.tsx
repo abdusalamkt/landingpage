@@ -79,7 +79,7 @@ export default function SustainabilitySection({ fields }: SustainabilitySectionP
       {fields.certifications?.length > 0 && (
         <div className={styles.certifications}>
           <h3>CERTIFICATIONS</h3>
-          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Unde, eaque natus dignissimos enim veniam nemo harum in aperiam facilis voluptatibus nam sint, distinctio ut dolorem dolores maxime magnam exercitationem odit.</p>
+          {/* <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Unde, eaque natus dignissimos enim veniam nemo harum in aperiam facilis voluptatibus nam sint, distinctio ut dolorem dolores maxime magnam exercitationem odit.</p> */}
           <div className={styles.certGrid}>
             {fields.certifications.map((cert, idx) => (
               <div className={styles.certCard} key={idx}>

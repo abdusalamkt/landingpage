@@ -8,15 +8,15 @@ import RequestServiceModal from "@/app/components/RequestServiceModal";
 const services = [
   {
     number: 3,
-    title: 'TRIANNUAL SERVICE',
+    title: 'QUARTERLY SERVICE',
     subtitle: '3 Maintenance Service Annually',
-    recommended: true
+    recommended: false
   },
   {
     number: 2,
     title: 'HALF YEARLY SERVICE',
     subtitle: '2 Maintenance Service Annually',
-    recommended: false
+    recommended: true
   },
   {
     number: 1,
@@ -48,8 +48,7 @@ export default function ServiceProgram() {
         transition={{ duration: 0.7, delay: 0.2 }}
         viewport={{ once: true }}
       >
-        We're here for you beyond installation, offering customizable Service and Maintenance packages to suit your needs. <br />
-        Whether it's emergency support, part replacements, or aesthetic repairs, we've got you covered.
+        Get expert care of your partitions to get maximum performance and longevity with our Service and Maintenance packages! Whether it's emergency support, part replacements, or aesthetic repairs, Gibca has got you covered. 
       </motion.p>
 
       <div className="service-card-container">
