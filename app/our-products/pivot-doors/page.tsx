@@ -184,9 +184,9 @@ async function getPivotDoorsData() {
   
   const pivotDoorFaq = faqNodes.find(
     (faq) => 
-      faq.title.toLowerCase().includes('pivot door') ||
-      faq.faqItems.relatedProductPage?.slug === 'pivot-door' ||
-      faq.faqItems.relatedProductPage?.uri === '/pivot-door/'
+      faq.title.toLowerCase().includes('pivot doors') ||
+      faq.faqItems.relatedProductPage?.slug === 'pivot-doors' ||
+      faq.faqItems.relatedProductPage?.uri === '/pivot-doors/'
   );
 
   return {

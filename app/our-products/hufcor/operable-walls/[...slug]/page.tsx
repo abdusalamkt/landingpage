@@ -175,30 +175,29 @@ export default async function HufcorProduct({ params }: { params: Promise<{ slug
   if (!fields) return <div>Product not found</div>;
 
   // Process FAQ data
-  let relatedFaqs: any[] = [];
-  if (faqData?.fAQs?.nodes) {
-    faqData.fAQs.nodes.forEach((faqNode: any) => {
-      const relatedPage = faqNode.faqItems?.relatedProductPage;
-      const items = faqNode.faqItems?.faqItems;
+ let relatedFaqs: any[] = [];
+if (faqData?.fAQs?.nodes) {
+  faqData.fAQs.nodes.forEach((faqNode: any) => {
+    const faqItemsArray = faqNode.faqItems?.faqItems || [];
+    const relatedPage = faqNode.faqItems?.relatedProductPage;
 
-      if (relatedPage && items?.length) {
-        const isMatch =
-          relatedPage.slug === pageSlug ||
-          relatedPage.id === pageId ||
-          relatedPage.uri === productData?.page?.uri;
+    if (faqItemsArray.length && relatedPage) {
+      const isMatch =
+        relatedPage.slug === pageSlug ||
+        relatedPage.id === pageId ||
+        relatedPage.uri === productData?.page?.uri;
 
-        if (isMatch) {
-          items.forEach((item: any) => {
-            relatedFaqs.push({
-              question: item.question,
-              answer: item.answer,
-            });
+      if (isMatch) {
+        faqItemsArray.forEach((item: any) => {
+          relatedFaqs.push({
+            question: item.question,
+            answer: item.answer,
           });
-        }
+        });
       }
-    });
-  }
-
+    }
+  });
+}
   // Process Download data
   let relatedDownloads: any[] = [];
   if (downloadData?.downloads?.nodes) {
@@ -229,7 +228,7 @@ export default async function HufcorProduct({ params }: { params: Promise<{ slug
   return (
     <HufcorProductLayout 
       fields={fields} 
-      faqData={relatedFaqs} 
+      faqData={relatedFaqs || []} 
       downloadData={relatedDownloads}
     />
   );
