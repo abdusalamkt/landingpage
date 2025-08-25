@@ -1,4 +1,4 @@
-export const revalidate = 86400;
+export const revalidate = 0;
 export const dynamicParams = true;
 
 import { gql } from "@apollo/client";
@@ -79,8 +79,8 @@ const GET_HUFCOR_PRODUCT = gql`
 `;
 
 const GET_FAQS = gql`
-  query GetFaqs {
-    fAQs {
+  query GetFaqs  {
+    fAQs (first: 100) {
       nodes {
         title
         faqItems {
@@ -149,7 +149,11 @@ export async function generateStaticParams() {
   }));
 }
 
-export default async function HufcorProduct({ params }: { params: Promise<{ slug: string[] }> }) {
+export default async function HufcorProduct({
+  params,
+}: {
+  params: Promise<{ slug: string[] }>;
+}) {
   const resolvedParams = await params;
   const slugPath = resolvedParams.slug.join("/");
 
@@ -171,45 +175,64 @@ export default async function HufcorProduct({ params }: { params: Promise<{ slug
   const fields = productData?.page?.hufcorSeriesFields;
   const pageSlug = productData?.page?.slug;
   const pageId = productData?.page?.id;
+  const pageUri = productData?.page?.uri;
 
   if (!fields) return <div>Product not found</div>;
 
-  // Process FAQ data
- let relatedFaqs: any[] = [];
-if (faqData?.fAQs?.nodes) {
-  faqData.fAQs.nodes.forEach((faqNode: any) => {
-    const faqItemsArray = faqNode.faqItems?.faqItems || [];
-    const relatedPage = faqNode.faqItems?.relatedProductPage;
+  // -------------------------------
+  // ✅ Process FAQ data with logs
+  // -------------------------------
+  let relatedFaqs: any[] = [];
+  if (faqData?.fAQs?.nodes) {
+    console.log("👉 Raw FAQ data from GraphQL:", faqData.fAQs.nodes);
 
-    if (faqItemsArray.length && relatedPage) {
-      const isMatch =
-        relatedPage.slug === pageSlug ||
-        relatedPage.id === pageId ||
-        relatedPage.uri === productData?.page?.uri;
+    faqData.fAQs.nodes.forEach((faqNode: any) => {
+      const faqItemsArray = faqNode?.faqItems?.faqItems ?? [];
+      const relatedPage = faqNode?.faqItems?.relatedProductPage;
 
-      if (isMatch) {
-        faqItemsArray.forEach((item: any) => {
-          relatedFaqs.push({
-            question: item.question,
-            answer: item.answer,
+      console.log("🔍 Checking FAQ node:", {
+        relatedPage,
+        faqItemsArray,
+      });
+
+      if (Array.isArray(faqItemsArray) && relatedPage) {
+        const isMatch =
+          relatedPage?.slug === pageSlug ||
+          relatedPage?.id === pageId ||
+          relatedPage?.uri === pageUri;
+
+        if (isMatch) {
+          faqItemsArray.forEach((item: any) => {
+            if (item?.question && item?.answer) {
+              relatedFaqs.push({
+                question: item.question,
+                answer: item.answer,
+              });
+            }
           });
-        });
+        }
       }
-    }
-  });
-}
-  // Process Download data
+    });
+  }
+
+  console.log("✅ Final relatedFaqs passed to layout:", relatedFaqs);
+
+  // -------------------------------
+  // ✅ Process Download data
+  // -------------------------------
   let relatedDownloads: any[] = [];
   if (downloadData?.downloads?.nodes) {
+    console.log("👉 Raw Downloads data:", downloadData.downloads.nodes);
+
     downloadData.downloads.nodes.forEach((downloadNode: any) => {
       const relatedPage = downloadNode.downloadFields?.product;
       const downloads = downloadNode.downloadFields?.productdownloads;
 
       if (relatedPage && downloads?.length) {
         const isMatch =
-          relatedPage.slug === pageSlug ||
-          relatedPage.id === pageId ||
-          relatedPage.uri === productData?.page?.uri;
+          relatedPage?.slug === pageSlug ||
+          relatedPage?.id === pageId ||
+          relatedPage?.uri === pageUri;
 
         if (isMatch) {
           downloads.forEach((download: any) => {
@@ -225,10 +248,15 @@ if (faqData?.fAQs?.nodes) {
     });
   }
 
+  console.log("✅ Final relatedDownloads passed to layout:", relatedDownloads);
+
+  // -------------------------------
+  // ✅ Render Layout
+  // -------------------------------
   return (
-    <HufcorProductLayout 
-      fields={fields} 
-      faqData={relatedFaqs || []} 
+    <HufcorProductLayout
+      fields={fields}
+      faqData={relatedFaqs}
       downloadData={relatedDownloads}
     />
   );

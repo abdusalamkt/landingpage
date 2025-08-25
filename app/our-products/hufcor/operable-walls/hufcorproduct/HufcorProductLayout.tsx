@@ -350,6 +350,7 @@ Hufcor pocket doors keep operable walls storage out of sight, delivering a clean
       {Array.isArray(faqData) && faqData.length > 0 && (
   <FaqSection faqData={faqData} theme="hufcor" />
 )}
+
       {/* <ContactUs /> */}
     </div>
   );

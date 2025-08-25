@@ -168,56 +168,57 @@ export default async function HplProduct({ params }: HplProductPageProps) {
     return <div>Product not found</div>;
   }
 
-  // Filter related FAQs
-  const relatedFaqs: any[] = [];
-  faqData?.fAQs?.nodes?.forEach((faqNode: any) => {
-    const relatedPage = faqNode.faqItems?.relatedProductPage;
-    const items = faqNode.faqItems?.faqItems;
-    if (relatedPage && items?.length) {
-      const isMatch =
-        relatedPage.slug === pageSlug ||
-        relatedPage.id === pageId ||
-        relatedPage.uri === productData?.page?.uri;
-      if (isMatch) {
-        items.forEach((item: any) => {
-          relatedFaqs.push({ question: item.question, answer: item.answer });
-        });
-      }
-    }
-  });
+  // Filter FAQ - Same logic as Acristalia
+  let relatedFaqs: any[] = [];
+  if (faqData?.fAQs?.nodes) {
+    faqData.fAQs.nodes.forEach((faqNode: any) => {
+      const relatedPage = faqNode.faqItems?.relatedProductPage;
+      const items = faqNode.faqItems?.faqItems;
+      if (relatedPage && items?.length) {
+        const isMatch =
+          relatedPage.slug === pageSlug ||
+          relatedPage.id === pageId ||
+          relatedPage.uri === productData?.page?.uri;
 
-  // Filter related Downloads
-  const relatedDownloads: {
-  fileType: string;
-  fileTitle: string;
-  filePdf: { sourceUrl: string; title: string };
-  gated: boolean;
-}[] = [];
-
-downloadData?.downloads?.nodes?.forEach((downloadNode: any) => {
-  const relatedPage = downloadNode.downloadFields?.product;
-  const downloads = downloadNode.downloadFields?.productdownloads;
-
-  if (relatedPage && downloads?.length) {
-    const isMatch =
-      relatedPage.slug === pageSlug ||
-      relatedPage.id === pageId ||
-      relatedPage.uri === productData?.page?.uri;
-
-    if (isMatch) {
-      downloads.forEach((download: any) => {
-        if (download.filepdf) { // ✅ only include if filePdf exists
-          relatedDownloads.push({
-            fileType: download.filetype,
-            fileTitle: download.filetitle,
-            filePdf: download.filepdf,
-            gated: download.gated,
+        if (isMatch) {
+          items.forEach((item: any) => {
+            relatedFaqs.push({
+              question: item.question,
+              answer: item.answer,
+            });
           });
         }
-      });
-    }
+      }
+    });
   }
-});
+
+  // Filter Downloads - Same logic as Acristalia
+  let relatedDownloads: any[] = [];
+  if (downloadData?.downloads?.nodes) {
+    downloadData.downloads.nodes.forEach((downloadNode: any) => {
+      const relatedPage = downloadNode.downloadFields?.product;
+      const downloads = downloadNode.downloadFields?.productdownloads;
+
+      if (relatedPage && downloads?.length) {
+        const isMatch =
+          relatedPage.slug === pageSlug ||
+          relatedPage.id === pageId ||
+          relatedPage.uri === productData?.page?.uri;
+
+        if (isMatch) {
+          downloads.forEach((download: any) => {
+            relatedDownloads.push({
+              fileType: download.filetype,
+              fileTitle: download.filetitle,
+              filePdf: download.filepdf,
+              gated: download.gated,
+            });
+          });
+        }
+      }
+    });
+  }
+
   return (
     <HplProductLayout
       fields={fields}
