@@ -271,9 +271,10 @@ function PrimeraClientFeatures({ acfData }: { acfData: WashroomCubiclesField }) 
               src={acfData.heroImage.sourceUrl}
               alt={acfData.heroImage.altText || "Washroom Cubicles"}
               className={styles.image}
-              width={acfData.heroImage.mediaDetails?.width || 600}
-              height={acfData.heroImage.mediaDetails?.height || 600}
+              width={acfData.heroImage.mediaDetails?.width || 1200}
+              height={acfData.heroImage.mediaDetails?.height || 1200}
               priority
+              quality={100}
             />
           )}
         </div>

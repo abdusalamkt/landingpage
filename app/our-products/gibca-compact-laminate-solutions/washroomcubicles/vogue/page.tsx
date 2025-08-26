@@ -274,6 +274,7 @@ function VogueClientFeatures({ acfData }: { acfData: WashroomCubiclesField }) {
               width={acfData.heroImage.mediaDetails?.width || 1200}
               height={acfData.heroImage.mediaDetails?.height || 1200}
               priority
+              quality={90}
             />
           )}
         </div>
