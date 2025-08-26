@@ -174,9 +174,10 @@ export default function HufcorProductLayout({
         <Image
           src={heroImage.sourceUrl}
           alt={heroImage.altText || "Product Hero Image"}
-          width={700}
-          height={500}
+          width={1400}
+          height={1400}
           priority
+          quality={100}
           className={styles.heroImage}
         />
       </div>
@@ -198,6 +199,7 @@ export default function HufcorProductLayout({
             src={imagebanner1.sourceUrl}
             alt={imagebanner1.altText || "Banner Image 1"}
             fill
+            quality={100}
             style={{zIndex: -1 ,objectFit: "cover"}}
           />
           {typeof imagebanner1Title === "string" && imagebanner1Title.trim() !== "" && (
@@ -337,6 +339,7 @@ Hufcor pocket doors keep operable walls storage out of sight, delivering a clean
             src={imagebanner2.sourceUrl}
             alt={imagebanner2.altText || "Banner Image 2"}
             fill
+            quality={100}
             style={{ objectFit: "cover", zIndex: -1 }}
           />
           {typeof imagebanner2Title === "string" && imagebanner2Title.trim() !== "" && (

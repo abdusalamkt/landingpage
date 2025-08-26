@@ -53,7 +53,7 @@ async function getHufcorPageFields() {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ query: GET_HUFCOR_PAGE }),
-    next: { revalidate: 3600 }, // cache for 1 hour
+    next: { revalidate: 0 }, // cache for 1 hour
   });
 
   const json = await res.json();

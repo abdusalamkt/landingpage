@@ -15,12 +15,13 @@
   display: none;
 }
 
+
 .imageWrapper {
+  position: relative; /* required for Next.js fill */
   width: 45%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  height: 80vh; /* keep your intended height */
 }
+
 
 .imageWrapper img {
   max-width: 100%;
@@ -531,12 +532,14 @@
 }
 
 .carouselImage {
-  flex: 1;
-  height: 100%;
+
   display: flex;
   justify-content: center;
   align-items: center;
   overflow: hidden;
+  position: relative; /* needed for fill */
+  flex: 1;
+  height: 75vh;
 }
 
 .carouselImage img {
@@ -815,3 +818,25 @@
   margin-top: 20px;
   align-self: center;       /* centers button horizontally only */
 }
+
+/* Alternative approach for 2 cards - using subgrid concept */
+.modelGrid .modelCard:nth-child(3n+1):nth-last-child(2) {
+  grid-column: 2 / 4; /* span columns 2-3 */
+  display: grid;
+  /* grid-template-columns: 2fr 2fr; */
+
+  justify-self: center;
+}
+
+
+
+/* Actually, let's use a simpler flexbox approach for the last row */
+.modelGrid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  max-width: 1400px;
+  margin: 0 auto;
+
+}
+

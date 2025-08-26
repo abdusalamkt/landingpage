@@ -67,7 +67,7 @@ const GET_HPL_PRODUCT = gql`
 
 const GET_FAQS = gql`
   query GetFaqs {
-    fAQs {
+    fAQs (first: 100) {
       nodes {
         title
         faqItems {

@@ -137,12 +137,15 @@ const ProductCarousel = ({ carouselData, sectionTitle }: { carouselData: Carouse
               <div className={styles.carouselImage}>
                 {product.image?.sourceUrl && (
                   <Image
-                    src={product.image.sourceUrl}
-                    alt={product.image?.altText || product.title}
-                    width={600}
-                    height={500}
-                    priority={index === 0}
-                  />
+  src={product.image.sourceUrl}
+  alt={product.image?.altText || product.title}
+  fill
+  quality={90}
+  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 600px"
+  style={{ objectFit: 'cover', borderRadius: '10px' }}
+  priority={index === 0}
+/>
+
                 )}
               </div>
               <div className={styles.carouselText}>
@@ -203,16 +206,18 @@ export default function HplProductLayout({ fields, faqData = [], downloadData = 
           </div>
         </div>
         <div className={styles.imageWrapper}>
-          {fields.heroImage?.sourceUrl && (
-            <Image
-              src={fields.heroImage.sourceUrl}
-              alt={fields.heroImage?.altText || 'Hero Image'}
-              width={700}
-              height={500}
-              priority
-            />
-          )}
-        </div>
+  {fields.heroImage?.sourceUrl && (
+    <Image
+      src={fields.heroImage.sourceUrl}
+      alt={fields.heroImage?.altText || 'Hero Image'}
+      fill
+      priority
+      quality={90}   // 90 is already visually lossless, but smaller file size than 100
+      style={{ objectFit: 'cover', borderRadius: '20px 0 0 20px' }}
+    />
+  )}
+</div>
+
       </section>
 
       {/* Features */}
@@ -235,8 +240,9 @@ export default function HplProductLayout({ fields, faqData = [], downloadData = 
                   <Image
                     src={model.image.sourceUrl}
                     alt={model.image?.altText || model.title}
-                    width={400}
-                    height={250}
+                    width={1200}
+                    height={1250}
+                    quality={100}
                   />
                 )}
                 <p>{model.description}</p>
