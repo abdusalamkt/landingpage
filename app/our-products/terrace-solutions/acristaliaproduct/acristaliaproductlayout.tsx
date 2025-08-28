@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import Image from 'next/image';
 import { useInView, motion } from "framer-motion";
 import styles from "./acristaliaproduct.module.css";
@@ -39,6 +39,16 @@ interface Choice {
   }>;
 }
 
+interface CarouselItem {
+  title: string;
+  image?: { sourceUrl: string; altText?: string };
+  description: string;
+  points?: Array<{ point: string }>;
+  buttonLabel?: string;
+  buttonUrl?: string;
+}
+
+
 interface AcristaliaData {
   logo: MediaItem;
   heroTitle: string;
@@ -59,6 +69,9 @@ interface AcristaliaData {
   description?: string;
   // Add choices field
   choices?: Choice[];
+  glasscurtainproductoptionstitle?: string;
+  carousel?: CarouselItem[];
+
 }
 
 interface FAQItem {
@@ -71,6 +84,79 @@ interface AcristaliaProductLayoutProps {
   faqData?: FAQItem[];
   downloadData?: any[];
 }
+// Carousel moved out but not lazy (keeps interactivity local)
+const ProductCarousel = ({ carouselData, sectionTitle }: { carouselData: CarouselItem[]; sectionTitle: string }) => {
+  const [activeTab, setActiveTab] = useState(0);
+  const [hoveredTab, setHoveredTab] = useState<number | null>(null);
+
+  return (
+    <section className={styles.carouselSection}>
+      <div className={styles.carouselContainer}>
+        <h2 className={styles.carouselHeading}>{sectionTitle}</h2>
+
+        <div className={styles.carouselTabs}>
+          {carouselData.map((product, index) => (
+            <div key={index} className={styles.tabWrapper}>
+              <button
+                className={`${styles.tabButton} ${activeTab === index ? styles.activeTab : ''}`}
+                onClick={() => setActiveTab(index)}
+                onMouseEnter={() => setHoveredTab(index)}
+                onMouseLeave={() => setHoveredTab(null)}
+              >
+                {product.title}
+              </button>
+              <div className={styles.underlineContainer}>
+                <div
+                  className={`${styles.underline} ${activeTab === index ? styles.activeUnderline : ''} ${
+                    hoveredTab === index ? styles.hoveredUnderline : ''
+                  }`}
+                ></div>
+              </div>
+              {index < carouselData.length - 1 && <div className={styles.tabSeparator}></div>}
+            </div>
+          ))}
+        </div>
+
+        <div className={styles.carouselContent}>
+          {carouselData.map((product, index) => (
+            <div
+              key={index}
+              className={`${styles.carouselSlide} ${activeTab === index ? styles.activeSlide : ''}`}
+            >
+              <div className={styles.carouselImage}>
+                {product.image?.sourceUrl && (
+                  <Image
+  src={product.image.sourceUrl}
+  alt={product.image?.altText || product.title}
+  fill
+  quality={90}
+  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 600px"
+  style={{ objectFit: 'cover', borderRadius: '10px' }}
+  priority={index === 0}
+/>
+
+                )}
+              </div>
+              <div className={styles.carouselText}>
+                <p>{product.description}</p>
+                <ul className={styles.featureList}>
+                  {product.points?.map((point, i) => (
+                    <li key={i}>{point.point}</li>
+                  ))}
+                </ul>
+                {product.buttonUrl && (
+                  <a href={product.buttonUrl} style={{ alignSelf: 'center' }}>
+                    <button className={styles.learnMoreBtn}>{product.buttonLabel || 'Learn More'}</button>
+                  </a>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+};
 
 function getYouTubeEmbedUrl(url: string): string {
   if (!url) return '';
@@ -195,6 +281,8 @@ export default function AcristaliaProductLayout({
   const safeFeatures = Array.isArray(fields.features) ? fields.features : [];
   const safeChoices = Array.isArray(fields.choices) ? fields.choices : [];
   const embedUrl = getYouTubeEmbedUrl(fields.videoLink);
+    const carouselData = Array.isArray(fields.carousel) ? fields.carousel : [];
+  const showCarousel = fields.glasscurtainproductoptionstitle && carouselData.length > 0;
 
   return (
     <div>
@@ -253,31 +341,36 @@ export default function AcristaliaProductLayout({
           )}
         </>
       )}
+       {/* Carousel */}
+      {showCarousel && <ProductCarousel carouselData={carouselData} sectionTitle={fields.glasscurtainproductoptionstitle || ''} />}
 
       {/* ✅ What Sets Us Apart (shared component) */}
-      <WhatSetsUsApart 
-        features={safeFeatures}
-        brand="blue" // You can set brand color for Acristalia
-        description={fields.description}
-      />
+       {safeFeatures.length > 0 && (
+        <WhatSetsUsApart 
+          features={safeFeatures}
+          brand="blue" // You can set brand color for Acristalia
+          description={fields.description}
+        />
+      )}
 
       
       {/* Key Features Section */}
-      <section className={styles.keyFeaturesSection}>
-        <h2 className={styles.sectionHeading}>
-          <img src="/logos/key features.png" alt="icon" className={styles.icon} />
-          KEY <span className={styles.red} style={{marginLeft:"10px"}} >FEATURES</span>
-        </h2>
-        {safeKeyFeatures.length > 0 ? (
-          safeKeyFeatures.map((group, groupIndex) => (
-            <KeyFeatureGroupComponent key={groupIndex} group={group} groupIndex={groupIndex} />
-          ))
-        ) : (
-          <div className={styles.noFeaturesMessage}>
-            <p>Key features will be displayed here when available.</p>
-          </div>
-        )}
-      </section>
+       {safeKeyFeatures.length > 0 && (
+        <section className={styles.keyFeaturesSection}>
+          <h2 className={styles.sectionHeading}>
+            <img src="/logos/key features.png" alt="icon" className={styles.icon} />
+            KEY <span className={styles.red} style={{marginLeft:"10px"}} >FEATURES</span>
+          </h2>
+
+          {safeKeyFeatures.map((group, groupIndex) => (
+            <KeyFeatureGroupComponent 
+              key={groupIndex} 
+              group={group} 
+              groupIndex={groupIndex} 
+            />
+          ))}
+        </section>
+      )}
       {/* ✅ Choices Section for Acristalia */}
       {safeChoices.length > 0 && (
         <section className="apart-section">

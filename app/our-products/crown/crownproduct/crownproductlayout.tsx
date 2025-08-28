@@ -108,9 +108,10 @@ export default function CrownProductPage({ fields, faqData = [], downloadData = 
             <Image
               src={fields.hero_image.sourceUrl}
               alt={fields.hero_image.altText || 'Hero Image'}
-              width={700}
-              height={500}
+              width={1200}
+              height={1200}
               priority
+              quality={90}
             />
           </div>
         )}

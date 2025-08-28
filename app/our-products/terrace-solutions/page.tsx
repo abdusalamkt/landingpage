@@ -2,6 +2,7 @@ import Header from "@/app/components/Header";
 import Link from "next/link";
 import ImageSlider from "./ImageSlider";
 import styles from "./acristalia.module.css";
+import { q } from "framer-motion/client";
 
 const WORDPRESS_API_URL = process.env.WORDPRESS_GRAPHQL_ENDPOINT as string;
 
@@ -119,6 +120,7 @@ export default async function AcristaliaPage() {
                 product.productSlider?.map((slide: any) => ({
                   src: slide.image?.sourceUrl || "",
                   title: slide.title || "",
+                  quality: 100,
                 })) || []
               }
               isReverse={index % 2 !== 0}

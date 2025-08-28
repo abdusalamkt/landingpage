@@ -37,11 +37,22 @@ const GET_ACRISTALIA_PRODUCT = gql`
             description
           }
         }
-          choices {
+        choices {
           choiceTitle
           choicePoints {
             point
           }
+        }
+          glasscurtainproductoptionstitle
+          carousel {
+          title
+          image { sourceUrl altText }
+          description
+          points {
+            point
+          }
+          buttonLabel
+          buttonUrl
         }
       }
     }
