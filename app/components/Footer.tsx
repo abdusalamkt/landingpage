@@ -70,9 +70,9 @@ const Footer: React.FC = () => {
             <div className="link-column">
               <h4>COMPANY</h4>
               <ul>
-                <li><a href="#">About Us</a></li>
-                <li><a href="#">Products</a></li>
-                <li><a href="#">Contact Us</a></li>
+                <li><a href="/about-gibca">About Us</a></li>
+                <li><a href="/our-products">Products</a></li>
+                <li><a href="/contact-us">Contact Us</a></li>
                 <li><a href="#">Downloads</a></li>
                 <li><a href="#">Careers</a></li>
               </ul>
@@ -90,11 +90,11 @@ const Footer: React.FC = () => {
               <h4>PRODUCTS</h4>
               <ul>
                 {/* <li><a href="#">Office Partitions</a></li> */}
-                <li><a href="/gibca-compact-laminate-solutions">Compact Laminate Solutions</a></li>
-                <li><a href="#">Pivot Doors</a></li>
-                <li><a href="#">Operable Walls</a></li>
-                <li><a href="#">Glass Walls</a></li>
-                <li><a href="#">Terrace Solutions</a></li>
+                <li><a href="/our-products/gibca-compact-laminate-solutions">Compact Laminate Solutions</a></li>
+                <li><a href="/our-products/pivot-doors">Pivot Doors</a></li>
+                <li><a href="/our-products/hufcor">Operable Walls</a></li>
+                <li><a href="/our-products/crown">Hydraulic Doors</a></li>
+                <li><a href="/our-products/terrace-solutions">Terrace Solutions</a></li>
               </ul>
             </div>
           </div>
