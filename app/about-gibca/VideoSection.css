@@ -1,8 +1,11 @@
 .video-section {
   position: relative;
-  width: 100%;
+  width: 90%;
   height: 100vh;
   overflow: hidden;
+  border-radius: 20px;
+  margin: 0 auto;
+  max-width: 1400px;
 }
 
 .video-bg {

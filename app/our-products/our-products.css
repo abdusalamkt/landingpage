@@ -29,6 +29,7 @@
   margin-right: auto;
   z-index: 2;
   position: relative;
+  justify-self: center;
 }
 
 .products-section {

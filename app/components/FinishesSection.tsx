@@ -104,7 +104,7 @@ export default function FinishesSection({ finishes }: { finishes?: FinishItem[] 
 
       <style jsx>{`
         .finishes-section {
-          padding: 4rem 2rem;
+          padding: 4rem 2rem 0rem;
           background: #fff;
           text-align: center;
         }
@@ -144,8 +144,8 @@ export default function FinishesSection({ finishes }: { finishes?: FinishItem[] 
           display: grid;
           grid-template-columns: 1fr 1fr;
           gap: 2px;
-          align-self: center;
-          max-height: 100vh;
+         
+          max-height: 50vh;
           margin-right: -80px;
         }
 
@@ -165,10 +165,10 @@ export default function FinishesSection({ finishes }: { finishes?: FinishItem[] 
         }
 
         .tile img {
-          width: 93px;
-          height: 160px;
+              width: 80px;
+    height: 130px;
           object-fit: cover;
-          border-radius: 4px;
+          border-radius: 12px;
           padding: 3px;
           transition: all 0.2s;
           border: 1px solid transparent;
@@ -188,14 +188,14 @@ export default function FinishesSection({ finishes }: { finishes?: FinishItem[] 
           margin-top: 0.5rem;
           font-weight: 500;
           color: #333;
-          font-size: 0.9rem;
+          font-size: 0.8rem;
           text-align: center;
           display: flex;
           align-items: center;
         }
 
         .main-image-wrap {
-          max-width: 50vw;
+          max-width: 45vw;
         }
 
         .image-comparison-wrapper {

@@ -47,8 +47,9 @@
   z-index: 1;
   font-weight: 400;
   font-style: Regular;
-  font-size: 18px;
+  font-size: 16px;
   color: #3d3d3d;
+  font-family: 'Poppins', sans-serif;
 }
 
 .apart-right {

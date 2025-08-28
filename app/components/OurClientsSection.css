@@ -17,6 +17,7 @@
   text-align: center;
   margin-bottom: 2rem;
   font-size: clamp(1.5rem, 48px, 48px); /* Responsive font size */
+  color: #3d3d3d;
 }
 
 .highlight {

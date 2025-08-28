@@ -38,6 +38,7 @@ export default function HeroSection({ fields }: { fields?: HeroFields }) {
     target="_blank"
     rel="noopener noreferrer"
     className="cta-button"
+    style={{padding:"5px 32px",gap:"1rem",width:"-webkit-fill-available",justifyContent:"center",marginTop:"1rem"}}
   >
     <span>{fields.heroCtaText}</span>
     <svg

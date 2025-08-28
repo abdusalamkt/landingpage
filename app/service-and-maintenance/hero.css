@@ -52,4 +52,6 @@
 
 .highlight-heading {
   background-color: #109C5D;
+  padding: 0 15px;
+  background:  linear-gradient(90deg, #1C6544 40%, #11955A);
 }

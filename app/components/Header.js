@@ -189,7 +189,7 @@ export default function Header() {
               </a>
             </li>
             <li
-              className="dropdown-parent"
+              className="dropdown-parent" style={{color:"red"}}
               onMouseEnter={() => !isMobileMenuOpen && toggleDropdown('products')}
               onMouseLeave={() => !isMobileMenuOpen && toggleDropdown(null)}
             >

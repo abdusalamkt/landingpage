@@ -42,7 +42,7 @@
   width: 23.438rem; /* 375px */
   border-radius: 8px;
   overflow: hidden;
-  box-shadow: -7px 9px 7px #00000052;
+  box-shadow: -5px 5px 14px #00000052;
 
   transition: all 0.3s ease;
   margin: 0 auto; 

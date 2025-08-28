@@ -32,15 +32,16 @@
 .heading {
   font-family: 'Bebas Neue', sans-serif;
   font-weight: 400;
-  font-size: 7rem;
+  font-size: 5rem;
   line-height: 100%;
   text-align: center;
 }
 
 .red {
   background-color: #109c5d;
-  margin-left: 8px;
+  
   padding: 0 15px;
+  background:  linear-gradient(90deg, #1C6544 40%, #11955A);
 }
 
 /* Product Sections */

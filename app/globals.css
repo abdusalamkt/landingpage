@@ -117,4 +117,5 @@ main {
 }
 p{
   hyphens: auto;
+  /* text-align: justify; */
 }

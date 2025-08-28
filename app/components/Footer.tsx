@@ -37,12 +37,19 @@ const Footer: React.FC = () => {
           {/* Logo Section */}
           <div className="footer-logos">
             <div className="logo-item">
-              <img src="/logowhite.png" alt="eBRCO" className="logo-image" />
+              <img src="/logowhite.png" alt="gibca-logo" className="logo-image" />
             </div>
             {/* <div className="logo-divider"></div> */}
             <div className="logo-item">
-              <img src="/hufcorlogo.png" alt="LINUX" className="logo-image" />
+              <img src="/HUFCOR HIG RES.png" alt="hufcor-logo" className="logo-image" />
             </div>
+            <div className="logo-item">
+              <img src="/crown-doors-logo 1 - WHITE.svg" alt="crown-logo" className="logo-image" />
+            </div>
+            <div className="logo-item">
+              <img src="/acristalialogo.png" alt="acristalia-logo" className="logo-image" style={{height:"50px"}}/>
+            </div>
+            
             {/* <div className="logo-divider"></div> */}
             {/* <div className="logo-item">
               <img src="/hufcor-logo.png" alt="HUFCOR" className="logo-image" />

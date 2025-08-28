@@ -29,7 +29,7 @@
 .subtitle {
   font-size: 14px;
   margin: 20px 0;
-  color: #555;
+  color: #3d3d3d;
   font-family: Poppins;
   font-weight: 300;
   font-style: Light;
@@ -59,7 +59,7 @@
 }
 
 .contact a {
-  color: #e63946;
+  color: #D72027;
   font-weight: 500;
   text-decoration: none;
 }
@@ -70,7 +70,7 @@
 
 .faqItem {
   border-left: 2px solid #ccc;
-  padding: 20px 0 20px 20px;
+  padding: 20px 0 10px 20px;
   margin-bottom: 10px;
   transition: border-color 0.3s ease;
 }
@@ -83,20 +83,21 @@
 }
 
 .question h4 {
-  color: #222;
+  color: #3d3d3d;
   font-family: Poppins;
   font-weight: 500;
   font-style: Medium;
-  font-size: 20px;
+  font-size: 16px;
   line-height: 130%;
   letter-spacing: 0%;
   vertical-align: middle;
+  margin-bottom: 0rem;
 }
 
 .icon {
   font-size: 22px;
   font-weight: 600;
-  color: #000;
+  color: #3d3d3d;
   transition: transform 0.3s ease;
 }
 
@@ -108,7 +109,7 @@
   font-family: Poppins;
   font-weight: 300;
   font-style: Light;
-  font-size: 18px;
+  font-size: 16px;
   line-height: 30px;
   letter-spacing: 0%;
   vertical-align: middle;
@@ -120,15 +121,15 @@
 }
 
 .defaultTheme .contact a {
-  color: #e63946;
+  color: #D72027;
 }
 
 .hufcorTheme .faqItem.active {
-  border-left: 3px solid #e63946;
+  border-left: 3px solid #D72027;
 }
 
 .hufcorTheme .contact a {
-  color: #e63946;
+  color: #D72027;
 }
 
 .crownTheme .faqItem.active {
