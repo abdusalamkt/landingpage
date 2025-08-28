@@ -81,36 +81,6 @@ export default function BlogsPage() {
       </section>
 
       {/* Filters */}
-      <div className={styles.filterRow}>
-        <div className={styles.tags}>
-          <button
-            className={`${styles.tagBtn} ${selectedTag === null ? styles.activeTag : ''}`}
-            onClick={() => setSelectedTag(null)}
-          >
-            All
-          </button>
-          {TAGS.map((tag) => (
-            <button
-              key={tag}
-              className={`${styles.tagBtn} ${selectedTag === tag ? styles.activeTag : ''}`}
-              onClick={() => setSelectedTag(tag)}
-            >
-              {tag}
-            </button>
-          ))}
-        </div>
-        <div className={styles.sortBy}>
-          <label htmlFor="sortSelect">Sort by:</label>
-          <select
-            id="sortSelect"
-            value={sortOrder}
-            onChange={(e) => setSortOrder(e.target.value as 'Newest' | 'Oldest')}
-          >
-            <option value="Newest">Newest</option>
-            <option value="Oldest">Oldest</option>
-          </select>
-        </div>
-      </div>
 
       {/* Blog Grid */}
       <div className={styles.grid}>

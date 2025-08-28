@@ -67,7 +67,7 @@ export default function WhatWeOffer({ offers, heading }: Props) {
                 whileInView={anim.animate}
                 transition={{ duration: 0.6, delay: index * 0.05, ease: 'easeOut' }}
                 viewport={{ once: true }}
-                whileHover={{ scale: 1.05, transition: { duration: 0.1 }, cursor: 'pointer' , boxShadow: '0 4px 20px rgba(0, 0, 0, 0.1)' }}
+                whileHover={{ scale: 1.05, transition: { duration: 0.1 } , boxShadow: '0 4px 20px rgba(0, 0, 0, 0.1)' }}
                 whileTap={{ scale: 0.95, transition: { duration: 0.1 }, boxShadow: '0 2px 10px rgba(0, 0, 0, 0.1)'  }}
               >
                 <h3 className="offer-card-title">{item.title}</h3>
