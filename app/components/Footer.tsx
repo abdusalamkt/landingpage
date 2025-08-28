@@ -89,8 +89,8 @@ const Footer: React.FC = () => {
             <div className="link-column">
               <h4>PRODUCTS</h4>
               <ul>
-                <li><a href="#">Office Partitions</a></li>
-                <li><a href="#">Compact Laminate Solutions</a></li>
+                {/* <li><a href="#">Office Partitions</a></li> */}
+                <li><a href="/gibca-compact-laminate-solutions">Compact Laminate Solutions</a></li>
                 <li><a href="#">Pivot Doors</a></li>
                 <li><a href="#">Operable Walls</a></li>
                 <li><a href="#">Glass Walls</a></li>

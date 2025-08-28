@@ -32,7 +32,7 @@
 .products-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  justify-content: center; /* Center last row if it has fewer than full columns */
+  justify-content: center;
   gap: 2rem;
   margin-bottom: 5rem;
 }
@@ -43,9 +43,8 @@
   border-radius: 8px;
   overflow: hidden;
   box-shadow: -5px 5px 14px #00000052;
-
   transition: all 0.3s ease;
-  margin: 0 auto; 
+  margin: 0 auto;
 }
 
 .product-card:hover {
@@ -88,13 +87,12 @@
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
-      align-self: anchor-center;
-    justify-self: anchor-center;
+  align-self: anchor-center;
+  justify-self: anchor-center;
 }
 
 .product-card:hover .product-overlay {
   /* background: linear-gradient(to top, rgba(0,0,0,0.9), transparent); */
-  
 }
 
 .product-title {
@@ -141,9 +139,49 @@
   }
 }
 
-/* 👇 Center the last card when it's alone in the last row (e.g., 7th item) */
-.products-grid > .product-card:nth-last-child(1):nth-child(3n+1):not(:nth-child(3n+3)) {
-  grid-column: 2 / 3;
+/* Center the last row when it has fewer cards than a full row */
+@media (min-width: 768px) {
+  /* For screens that can fit 3+ cards per row */
+  @media (min-width: 1200px) {
+    .products-grid {
+      grid-template-columns: repeat(3, 1fr);
+      max-width: 1200px;
+      justify-items: center;
+    }
+  }
+  
+  /* For screens that fit 2 cards per row */
+  @media (min-width: 768px) and (max-width: 1199px) {
+    .products-grid {
+      grid-template-columns: repeat(2, 1fr);
+      max-width: 800px;
+      margin: 0 auto 5rem auto;
+      justify-items: center;
+    }
+  }
+}
+
+/* Special handling for incomplete last rows */
+.products-grid {
+  /* When total cards is not divisible by columns, center the last row */
+  justify-content: center;
+  align-content: start;
+}
+
+/* Flexbox alternative for better control of last row centering */
+@supports (display: flex) {
+  .products-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2rem;
+    margin-bottom: 5rem;
+  }
+  
+  .product-card {
+    flex: 0 0 375px; /* Fixed width, no grow/shrink */
+    margin: 0; /* Remove auto margin when using flexbox */
+  }
 }
 
 .filter-toggle {
@@ -182,6 +220,7 @@
   align-items: center;
   gap: 0.5rem;
 }
+
 /* Tag-style filter */
 .sector-tags {
   display: flex;

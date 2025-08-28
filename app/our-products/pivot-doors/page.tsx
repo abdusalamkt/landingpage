@@ -291,7 +291,7 @@ export default async function AutomaticAndManualPage() {
         </div>
 
         {/* Video Background */}
-        <div className={styles.videoContainer}>
+        {/* <div className={styles.videoContainer}>
           <div className={styles.videoBackground}>
             <iframe
               src={`https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&loop=1&controls=0&modestbranding=1&rel=0&showinfo=0&disablekb=1&playlist=${videoId}`}
@@ -302,7 +302,7 @@ export default async function AutomaticAndManualPage() {
               className={styles.videoIframe}
             />
           </div>
-        </div>
+        </div> */}
       </section>
 
       {/* Manual Pivot Door Section */}
