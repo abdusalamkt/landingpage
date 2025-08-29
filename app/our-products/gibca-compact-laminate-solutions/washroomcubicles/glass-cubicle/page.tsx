@@ -1,7 +1,7 @@
 "use client";
 
 import React, { Suspense, useRef, useState, useEffect } from "react";
-import styles from "./NaturellePage.module.css";
+import styles from "./Page.module.css";
 import Image from "next/image";
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls, Environment } from "@react-three/drei";
@@ -69,7 +69,7 @@ interface WashroomCubiclesField {
 // GraphQL query
 const GET_WASHROOM_CUBICLES = `
   query GetWashroomCubicle {
-    page(id: "naturelle", idType: URI) {
+    page(id: "glass-cubicle", idType: URI) {
       washroomCubiclesField {
         heroImage {
           sourceUrl
@@ -156,6 +156,7 @@ function WashroomCubicleModel({ objPath = "/models/model.obj", mtlPath = "/model
   const groupRef = useRef<THREE.Group>(null);
   const [obj, setObj] = useState<THREE.Group | null>(null);
   const [loadingError, setLoadingError] = useState<string | null>(null);
+  const [hasRotated, setHasRotated] = useState(false);
 
   useEffect(() => {
     const loadModel = async () => {
@@ -202,7 +203,7 @@ function WashroomCubicleModel({ objPath = "/models/model.obj", mtlPath = "/model
 
         // Auto scale to fit roughly in [-1,1] cube
         const maxDim = Math.max(size.x, size.y, size.z);
-        const scale = 2 / maxDim; // adjust 2 to change model size in canvas
+        const scale = 2.2 / maxDim; // Increased scale for zoomed-in effect
 
         loadedObj.scale.setScalar(scale);
 
@@ -219,6 +220,8 @@ function WashroomCubicleModel({ objPath = "/models/model.obj", mtlPath = "/model
     loadModel();
   }, [objPath, mtlPath]);
 
+ 
+
   if (loadingError) {
     return (
       <mesh>
@@ -232,7 +235,7 @@ function WashroomCubicleModel({ objPath = "/models/model.obj", mtlPath = "/model
 }
 
 // Client component for interactive features
-function NaturelleClientFeatures({ acfData }: { acfData: WashroomCubiclesField }) {
+function GlassCubicleClientFeatures({ acfData }: { acfData: WashroomCubiclesField }) {
   const canvasContainerRef = useRef<HTMLDivElement>(null);
   const [hoverPosition, setHoverPosition] = useState({ x: 0, y: 0 });
   const [isHovering, setIsHovering] = useState(false);
@@ -274,12 +277,13 @@ function NaturelleClientFeatures({ acfData }: { acfData: WashroomCubiclesField }
               width={acfData.heroImage.mediaDetails?.width || 1200}
               height={acfData.heroImage.mediaDetails?.height || 1200}
               priority
+              quality={100}
             />
           )}
         </div>
 
         <div className={styles.specsWrapper}>
-          <h2 className={styles.title}>{acfData.heading || "NATURELLE"}</h2>
+          <h2 className={styles.title}>{acfData.heading || "GLASS CUBICLE"}</h2>
           <p className={styles.subtitle}>{acfData.subheading || "SPECIFICATIONS"}</p>
 
           <table className={styles.specsTable}>
@@ -326,16 +330,16 @@ function NaturelleClientFeatures({ acfData }: { acfData: WashroomCubiclesField }
           onTouchMove={preventScroll}
           tabIndex={0}
         >
-          <Canvas camera={{ position: [3, 3, 6], fov: 40 }}>
-            <ambientLight intensity={0.4} />
-            <directionalLight position={[5, 5, 5]} intensity={1} />
-            <directionalLight position={[-5, -5, -5]} intensity={0.3} />
-            <Suspense fallback={
-              <mesh>
-                <boxGeometry args={[1, 1, 1]} />
-                <meshStandardMaterial color="#cccccc" />
-              </mesh>
-            }>
+          <Canvas camera={{ position: [1.5, 1.5, 3], fov: 50 }}>
+  <ambientLight intensity={0.9} />
+  <directionalLight position={[50, 0, 50]} intensity={1} />
+  <directionalLight position={[-5, -5, -5]} intensity={0.3} />
+  <Suspense fallback={
+    <mesh>
+      <boxGeometry args={[1, 1, 1]} />
+      <meshStandardMaterial color="#cccccc" />
+    </mesh>
+  }>
               <WashroomCubicleModel />
               <Environment preset="city" />
             </Suspense>
@@ -345,48 +349,60 @@ function NaturelleClientFeatures({ acfData }: { acfData: WashroomCubiclesField }
               enableRotate 
               target={[0, 0, 0]}
               maxPolarAngle={Math.PI / 2}
-              minDistance={2}
-              maxDistance={10}
+              minDistance={1.5} // Closer zoom
+              maxDistance={6}
             />
           </Canvas>
+          
+          {/* 360 Degree Indicator */}
+          <div className={styles.rotationIndicator}>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 4V1L8 5L12 9V6C15.31 6 18 8.69 18 12C18 13.01 17.75 13.97 17.3 14.8L18.76 16.26C19.54 15.03 20 13.57 20 12C20 7.58 16.42 4 12 4ZM12 18C8.69 18 6 15.31 6 12C6 10.99 6.25 10.03 6.7 9.2L5.24 7.74C4.46 8.97 4 10.43 4 12C4 16.42 7.58 20 12 20V23L16 19L12 15V18Z" fill="#333"/>
+            </svg>
+            <span>360°</span>
+          </div>
         </div>
       </div>
 
       {/* Choices Header Section */}
-      <section className={styles.choicesSection}>
-        <div className={styles.choicesHeader}>
-          <h2>{acfData.choicesToAddHeading || "CHOICES TO ADD"}</h2>
-          <p className={styles.choicesDescription}>
-            {acfData.description || "Explore our wide range of premium finishes and customization options to create washroom cubicles that perfectly match your design vision and functional requirements."}
-          </p>
-        </div>
-      </section>
+      {acfData.choicesToAddHeading && acfData.description && (
+  <section className={styles.choicesSection}>
+    <div className={styles.choicesHeader}>
+      <h2>{acfData.choicesToAddHeading}</h2>
+      <p className={styles.choicesDescription}>{acfData.description}</p>
+    </div>
+  </section>
+)}
 
-      {/* Finishes Section */}
-      <section className={styles.customizationOption}>
-        <div className={styles.customizationHeader}>
-          <h2>CHOOSE FROM OUR DIFFERENT FINISHES</h2>
+   {/* Finishes Section */}
+{acfData.finishes && acfData.finishes.length > 0 && (
+  <section className={styles.customizationOption}>
+    <div className={styles.customizationHeader}>
+      <h2>CHOOSE FROM OUR DIFFERENT FINISHES</h2>
+    </div>
+    <p className={styles.customDescription}>
+      CUSTOM FINISHES AVAILABLE UPON REQUEST
+    </p>
+    <div className={styles.finishes}>
+      {acfData.finishes.map((finish, index) => (
+        <div key={index} className={styles.finishCard}>
+          <p>{finish.title}</p>
+          <div className={styles.finishImageContainer}>
+            {finish.image && (
+              <Image
+                src={finish.image.sourceUrl}
+                alt={finish.image.altText || finish.title}
+                width={finish.image.mediaDetails?.width || 200}
+                height={finish.image.mediaDetails?.height || 350}
+                className={styles.finishImage}
+              />
+            )}
+          </div>
         </div>
-        <p className={styles.customDescription}>CUSTOM FINISHES AVAILABLE UPON REQUEST</p>
-        <div className={styles.finishes}>
-          {acfData.finishes && acfData.finishes.map((finish, index) => (
-            <div key={index} className={styles.finishCard}>
-              <p>{finish.title}</p>
-              <div className={styles.finishImageContainer}>
-                {finish.image && (
-                  <Image 
-                    src={finish.image.sourceUrl} 
-                    alt={finish.image.altText || finish.title} 
-                    width={finish.image.mediaDetails?.width || 200} 
-                    height={finish.image.mediaDetails?.height || 350}
-                    className={styles.finishImage}
-                  />
-                )}
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
+      ))}
+    </div>
+  </section>
+)}
 
       {/* Customized Pattern Section */}
       {acfData.customizedPatternImages && acfData.customizedPatternImages.length > 0 && (
@@ -451,45 +467,49 @@ function NaturelleClientFeatures({ acfData }: { acfData: WashroomCubiclesField }
           </div>
         </section>
       )}
+{/* Smart Cubicle Section */}
 
-      {/* Smart Cubicle Section */}
-      <section className={styles.customizationOption}>
-        <div className={styles.customizationHeader}>
-          <h2>{acfData.smartCubicleHeading || "SMART CUBICLE"}</h2>
-        </div>
-        <p className={styles.customDescription}>LEVEL UP YOUR CUBICLE WITH OUR SMART OPTIONS</p>
-        <div className={styles.designOptions}>
-          {acfData.items && acfData.items.map((item, index) => (
-            <div key={index} className={styles.designOption}>
-              <div className={styles.designOptionIcon}>
-                {item.image && (
-                  <Image 
-                    src={item.image.sourceUrl} 
-                    alt={item.image.altText || item.title} 
-                    width={item.image.mediaDetails?.width || 300} 
-                    height={item.image.mediaDetails?.height || 300} 
-                  />
-                )}
-              </div>
-              <h4>{item.title}</h4>
-              <p>{item.description}</p>
-            </div>
-          ))}
-        </div>
-        {acfData.downloadButtonLabel && acfData.downloadButtonUrl && (
-          <div className="cta-button" style={{ width: "25%", margin: "0 auto", marginTop: "50px", padding: "5px" }}>
-            <a href={acfData.downloadButtonUrl} target="_blank" rel="noopener noreferrer">
-              {acfData.downloadButtonLabel}
-            </a>
+      {acfData.smartCubicleHeading && acfData.items && acfData.items.length > 0 && (
+  <section className={styles.customizationOption}>
+    <div className={styles.customizationHeader}>
+      <h2>{acfData.smartCubicleHeading}</h2>
+    </div>
+    <p className={styles.customDescription}>
+      LEVEL UP YOUR CUBICLE WITH OUR SMART OPTIONS
+    </p>
+    <div className={styles.designOptions}>
+      {acfData.items.map((item, index) => (
+        <div key={index} className={styles.designOption}>
+          <div className={styles.designOptionIcon}>
+            {item.image && (
+              <Image
+                src={item.image.sourceUrl}
+                alt={item.image.altText || item.title}
+                width={item.image.mediaDetails?.width || 300}
+                height={item.image.mediaDetails?.height || 300}
+              />
+            )}
           </div>
-        )}
-      </section>
+          <h4>{item.title}</h4>
+          <p>{item.description}</p>
+        </div>
+      ))}
+    </div>
+    {acfData.downloadButtonLabel && acfData.downloadButtonUrl && (
+      <div className="cta-button" style={{ width: "25%", margin: "0 auto", marginTop: "50px", padding: "5px" }}>
+        <a href={acfData.downloadButtonUrl} target="_blank" rel="noopener noreferrer">
+          {acfData.downloadButtonLabel}
+        </a>
+      </div>
+    )}
+  </section>
+)}
     </div>
   );
 }
 
 // Main component
-export default function NaturellePage() {
+export default function GlassCubiclePage() {
   const [acfData, setAcfData] = useState<WashroomCubiclesField | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -521,7 +541,7 @@ export default function NaturellePage() {
           Refresh
         </button>
       </div>
-      {acfData ? <NaturelleClientFeatures acfData={acfData} /> : <div>Failed to load content.</div>}
+      {acfData ? <GlassCubicleClientFeatures acfData={acfData} /> : <div>Failed to load content.</div>}
     </>
   );
 }

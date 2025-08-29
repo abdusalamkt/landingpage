@@ -308,7 +308,7 @@ export default function HplProductLayout({ fields, faqData = [], downloadData = 
               <div className={styles.customizationHeader}>
                 <h2 style={{ fontSize: '2.5rem', marginBottom: '-20px' }}>DIFFERENT DESIGN OPTIONS</h2>
               </div>
-              <p className={styles.customDescription}>LEVEL UP YOUR CUBICLE WITH OUR SMART OPTIONS</p>
+              <p className={styles.customDescription}>LEVEL UP YOUR WASHROOM SYSTEM WITH OUR SMART OPTIONS</p>
               <div className={styles.designOptions}>
                 {fields.designOptions.map((opt, idx) => (
                   <div key={idx} className={styles.designOption}>

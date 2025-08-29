@@ -156,6 +156,7 @@ function WashroomCubicleModel({ objPath = "/models/model.obj", mtlPath = "/model
   const groupRef = useRef<THREE.Group>(null);
   const [obj, setObj] = useState<THREE.Group | null>(null);
   const [loadingError, setLoadingError] = useState<string | null>(null);
+  const [hasRotated, setHasRotated] = useState(false);
 
   useEffect(() => {
     const loadModel = async () => {
@@ -202,7 +203,7 @@ function WashroomCubicleModel({ objPath = "/models/model.obj", mtlPath = "/model
 
         // Auto scale to fit roughly in [-1,1] cube
         const maxDim = Math.max(size.x, size.y, size.z);
-        const scale = 2 / maxDim; // adjust 2 to change model size in canvas
+        const scale = 2.2 / maxDim; // Increased scale for zoomed-in effect
 
         loadedObj.scale.setScalar(scale);
 
@@ -219,6 +220,8 @@ function WashroomCubicleModel({ objPath = "/models/model.obj", mtlPath = "/model
     loadModel();
   }, [objPath, mtlPath]);
 
+ 
+
   if (loadingError) {
     return (
       <mesh>
@@ -232,7 +235,7 @@ function WashroomCubicleModel({ objPath = "/models/model.obj", mtlPath = "/model
 }
 
 // Client component for interactive features
-function ChildrensClientFeatures({ acfData }: { acfData: WashroomCubiclesField }) {
+function ChildrenClientFeatures({ acfData }: { acfData: WashroomCubiclesField }) {
   const canvasContainerRef = useRef<HTMLDivElement>(null);
   const [hoverPosition, setHoverPosition] = useState({ x: 0, y: 0 });
   const [isHovering, setIsHovering] = useState(false);
@@ -274,12 +277,13 @@ function ChildrensClientFeatures({ acfData }: { acfData: WashroomCubiclesField }
               width={acfData.heroImage.mediaDetails?.width || 1200}
               height={acfData.heroImage.mediaDetails?.height || 1200}
               priority
+              quality={100}
             />
           )}
         </div>
 
         <div className={styles.specsWrapper}>
-          <h2 className={styles.title}>{acfData.heading || "CHILDRENS"}</h2>
+          <h2 className={styles.title}>{acfData.heading || "CHILDREN"}</h2>
           <p className={styles.subtitle}>{acfData.subheading || "SPECIFICATIONS"}</p>
 
           <table className={styles.specsTable}>
@@ -326,16 +330,16 @@ function ChildrensClientFeatures({ acfData }: { acfData: WashroomCubiclesField }
           onTouchMove={preventScroll}
           tabIndex={0}
         >
-          <Canvas camera={{ position: [3, 3, 6], fov: 40 }}>
-            <ambientLight intensity={0.4} />
-            <directionalLight position={[5, 5, 5]} intensity={1} />
-            <directionalLight position={[-5, -5, -5]} intensity={0.3} />
-            <Suspense fallback={
-              <mesh>
-                <boxGeometry args={[1, 1, 1]} />
-                <meshStandardMaterial color="#cccccc" />
-              </mesh>
-            }>
+          <Canvas camera={{ position: [1.5, 1.5, 3], fov: 50 }}>
+  <ambientLight intensity={0.9} />
+  <directionalLight position={[50, 0, 50]} intensity={1} />
+  <directionalLight position={[-5, -5, -5]} intensity={0.3} />
+  <Suspense fallback={
+    <mesh>
+      <boxGeometry args={[1, 1, 1]} />
+      <meshStandardMaterial color="#cccccc" />
+    </mesh>
+  }>
               <WashroomCubicleModel />
               <Environment preset="city" />
             </Suspense>
@@ -345,10 +349,18 @@ function ChildrensClientFeatures({ acfData }: { acfData: WashroomCubiclesField }
               enableRotate 
               target={[0, 0, 0]}
               maxPolarAngle={Math.PI / 2}
-              minDistance={2}
-              maxDistance={10}
+              minDistance={1.5} // Closer zoom
+              maxDistance={6}
             />
           </Canvas>
+          
+          {/* 360 Degree Indicator */}
+          <div className={styles.rotationIndicator}>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 4V1L8 5L12 9V6C15.31 6 18 8.69 18 12C18 13.01 17.75 13.97 17.3 14.8L18.76 16.26C19.54 15.03 20 13.57 20 12C20 7.58 16.42 4 12 4ZM12 18C8.69 18 6 15.31 6 12C6 10.99 6.25 10.03 6.7 9.2L5.24 7.74C4.46 8.97 4 10.43 4 12C4 16.42 7.58 20 12 20V23L16 19L12 15V18Z" fill="#333"/>
+            </svg>
+            <span>360°</span>
+          </div>
         </div>
       </div>
 
@@ -521,7 +533,7 @@ export default function ChildrenPage() {
           Refresh
         </button>
       </div>
-      {acfData ? <ChildrensClientFeatures acfData={acfData} /> : <div>Failed to load content.</div>}
+      {acfData ? <ChildrenClientFeatures acfData={acfData} /> : <div>Failed to load content.</div>}
     </>
   );
 }
