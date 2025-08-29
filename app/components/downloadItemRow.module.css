@@ -12,6 +12,10 @@
 
 .title {
   font-weight: 500;
+  font-family: 'Poppins', sans-serif;
+  color: #3d3d3d;
+  text-transform: uppercase;
+
 }
 
 .downloadBtn {
@@ -19,12 +23,19 @@
   border: none;
   cursor: pointer;
   font-size: 18px;
-  transition: transform 0.2s ease;
+  transition: color 0.2s ease;
+  color: #3d3d3d;
+  font-weight: bold;
 }
 
 .downloadBtn:hover {
-  transform: scale(1.2);
+  color: black;
+  transform:scale(1.1) ;
+  animation: transform 1s ease-in-out;
 }
+
+
+
 
 /* Modal Overlay */
 .modalOverlay {
@@ -204,3 +215,4 @@
     font-size: 1.3rem;
   }
 }
+

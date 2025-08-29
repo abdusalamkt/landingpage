@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import styles from './downloadItemRow.module.css';
+import { Lock, Eye } from "lucide-react";
 
 type DownloadItem = {
   title: string;
@@ -16,6 +17,7 @@ type DownloadItemRowProps = {
 
 const UNLOCK_KEY = 'gated_download_access';
 const UNLOCK_DURATION_MS = 1000 * 60 * 60 * 24 * 14; // 14 days
+
 
 export default function DownloadItemRow({ item, theme = 'default' }: DownloadItemRowProps) {
   const [showForm, setShowForm] = useState(false);
@@ -130,11 +132,29 @@ export default function DownloadItemRow({ item, theme = 'default' }: DownloadIte
   return (
     <>
       <div className={rowClassName}>
-        <div className={styles.title}>{item.title || 'Untitled Document'}</div>
+        <div className={styles.title}>
+  {(item.title || 'Untitled Document').replace(/-/g, ' ')}
+</div>
         <div>PDF</div>
-        <button className={styles.downloadBtn} onClick={handleDownload}>
-          {item.gated && !canDownload ? '🔒' : '👁️'}
-        </button>
+      <button className={styles.downloadBtn} onClick={handleDownload}>
+  {item.gated && !canDownload ? (
+    // Lock
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+      <path d="M12 17a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm6-7h-1V7a5 5 0 0 0-10 0v3H6a2 2 0 0 0-2 
+               2v9a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-9a2 2 0 0 
+               0-2-2zm-3 0H9V7a3 3 0 0 1 6 0v3z"/>
+    </svg>
+  ) : (
+    // Eye
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+      <path d="M12 5c-7 0-11 7-11 7s4 7 11 7 11-7 11-7-4-7-11-7zm0 
+               12a5 5 0 1 1 0-10 5 5 0 0 1 0 10zm0-8a3 3 0 1 
+               0 0 6 3 3 0 0 0 0-6z"/>
+    </svg>
+  )}
+</button>
+
+
       </div>
 
       {showForm && (
