@@ -9,6 +9,10 @@
   font-size: 14px;
   transition: all 0.3s ease;
 }
+.row:nth-child(2n){
+  font-weight: 600;
+  background: #f9f9f9;
+}
 
 .title {
   font-weight: 500;
