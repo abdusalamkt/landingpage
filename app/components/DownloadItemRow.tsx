@@ -112,8 +112,9 @@ export default function DownloadItemRow({ item, theme = 'default' }: DownloadIte
     const name = (form.elements.namedItem('name') as HTMLInputElement)?.value.trim();
     const email = (form.elements.namedItem('email') as HTMLInputElement)?.value.trim();
     const phone = (form.elements.namedItem('phone') as HTMLInputElement)?.value.trim();
+    const company = (form.elements.namedItem('company') as HTMLInputElement)?.value.trim();
 
-    if (name && email && phone) {
+    if (name && email && phone && company) {
       localStorage.setItem(UNLOCK_KEY, JSON.stringify({ timestamp: Date.now() }));
       openPdfInBrowser(item.link);
       closeModal();
@@ -176,6 +177,10 @@ export default function DownloadItemRow({ item, theme = 'default' }: DownloadIte
             </div>
             <div className={styles.inputContainer}>
               <input name="email" placeholder="Email" type="email" required className={styles.input} />
+              <span className={styles.inputUnderline}></span>
+            </div>
+            <div className={styles.inputContainer}>
+              <input name="company" placeholder="Company" required className={styles.input} />
               <span className={styles.inputUnderline}></span>
             </div>
             <div className={styles.inputContainer}>

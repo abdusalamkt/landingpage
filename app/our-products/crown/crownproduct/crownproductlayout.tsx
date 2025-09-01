@@ -145,33 +145,46 @@ export default function CrownProductPage({ fields, faqData = [], downloadData = 
 
       {/* Customization Options Section */}
       {safeCustomizationOptions.length > 0 && (
-        <section className={styles.choices}>
-          <div className={styles.choiceIntro}>
-            <h2>Customization 
-              <span className={styles.red}> Options</span> </h2>
-            {customization_heading && (
-              <p className={styles.choiceDescription}>
-                {customization_heading}
-              </p>
-            )}
-          </div>
+        <section className="apart-section">
+    {/* Left Side */}
+    <div className="apart-left">
+      <div className="apart-bg-number">!</div>
+      <h2 className="apart-heading">
+        Be spoilt for  <span className="apart-highlight" style={{ color: "#77471c" }}>choices!</span>
+      </h2>
+      <p className="apart-desc">
+      </p>
+    </div>
 
-          {safeCustomizationOptions.map((option, index) => (
-            <div className={styles.choiceBlock} key={index}>
-              <div className={styles.headingLineWrap}>
-                <h3>{option.title}</h3>
-                <div className={styles.line}></div>
-              </div>
-              <div className={styles.choicePointsWrap}>
-                {option.points.map((opt, i) => (
-                  <div className={styles.choicePoint} key={i}>
-                    {opt.points}
-                  </div>
-                ))}
-              </div>
+    {/* Right Side */}
+    <div className="apart-right">
+      <h3
+        className="features-title"
+        style={{
+          background: "linear-gradient(269.42deg, #6C421D 0.16%, #7C5F45 99.84%)",
+        }}
+      >
+        <span className="features-bar" style={{ backgroundColor: "#77471c" }} />
+        AVAILABLE OPTIONS
+      </h3>
+     <div className="features-grid" style={{ display: "block" }}>
+
+        {safeCustomizationOptions.map((option, index) => (
+          <div key={index} className="feature-item" style={{ marginBottom: "2rem" }}>
+            <h4 style={{ color: "#77471c" }}>{option.title}</h4>
+            <div className="choice-points-group">
+              {option.points.map((opt, i) => (
+                <span key={i} className="choice-point">
+                  {opt.points}
+                  
+                </span>
+              ))}
             </div>
-          ))}
-        </section>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
       )}
 
       {/* Downloads, FAQ, Contact */}

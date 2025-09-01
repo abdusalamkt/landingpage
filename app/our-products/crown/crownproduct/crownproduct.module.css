@@ -121,7 +121,7 @@ height: 80vh;
 }
 
 .primary {
-  background: #77471C;
+  background: linear-gradient(269.42deg, #6C421D 0.16%, #7C5F45 99.84%);
   color: white;
   border: none;
   padding: 5px 40px;

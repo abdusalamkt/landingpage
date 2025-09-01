@@ -32,8 +32,28 @@ export default function DownloadPageClient({ serverData }) {
     );
   });
 
+  // Remove duplicates based on file link (URL) - this prevents same PDF from showing multiple times
+  const uniqueDownloads = parsedDownloads.reduce((acc, current) => {
+    // Skip items without links
+    if (!current.link) return acc;
+    
+    // Check if we already have this file URL
+    const existingItem = acc.find(item => item.link === current.link);
+    
+    if (!existingItem) {
+      // New unique file - add it
+      acc.push(current);
+    } else {
+      // Duplicate file found - we can optionally combine product info
+      // For now, we'll keep the first occurrence and ignore duplicates
+      // If you want to show which products share this file, you could modify this logic
+    }
+    
+    return acc;
+  }, []);
+
   const uniqueValues = (key) =>
-    [...new Set(parsedDownloads.map((item) => item[key]))].filter(Boolean);
+    [...new Set(uniqueDownloads.map((item) => item[key]))].filter(Boolean);
 
   useEffect(() => {
     const createFile = () => {
@@ -75,7 +95,8 @@ export default function DownloadPageClient({ serverData }) {
     return () => clearInterval(animationRef.current);
   }, []);
 
-  const filtered = parsedDownloads.filter((item) => {
+  // Use uniqueDownloads instead of parsedDownloads for filtering
+  const filtered = uniqueDownloads.filter((item) => {
     return (
       (!product || item.product === product) &&
       (!docType || item.type === docType) &&

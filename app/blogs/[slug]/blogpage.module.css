@@ -56,6 +56,9 @@ font-size: 3.5rem;
   text-align: justify;
 
 }
+.intro p{
+  margin-bottom: 10px;
+}
 
 /* Alternating Sections */
 .section {

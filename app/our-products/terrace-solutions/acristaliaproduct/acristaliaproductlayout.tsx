@@ -231,8 +231,8 @@ const FeatureCard = ({ feature, index }: { feature: Feature; index: number }) =>
           <Image
             src={feature.icon.sourceUrl}
             alt={feature.icon.altText || "Feature Icon"}
-            width={64}
-            height={64}
+            width={84}
+            height={84}
           />
         </div>
       )}
