@@ -36,7 +36,7 @@ const defaultDownloadData: Record<Tab, Array<{ title: string; link: string; gate
   Specification: [
     { title: "PARTITION SPEC SHEET", link: "/downloads/spec.pdf", gated: true },
   ],
-
+  "Technical Drawings": [],
 };
 
 export default function DownloadSection({ downloadData, theme = 'default' }: DownloadSectionProps) {
