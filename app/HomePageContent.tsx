@@ -153,9 +153,9 @@ export default function HomePageContent({ fields }: { fields: any }) {
           <OurClientsSection logos={fields.clientLogos || []} />
         </AnimatedSection>
 
-        <AnimatedSection animation="fadeUp" delay={0.5}>
+        {/* <AnimatedSection animation="fadeUp" delay={0.5}>
   <TestimonialSlider testimonials={fields.testimonials || []} />
-</AnimatedSection>
+</AnimatedSection> */}
 
         <GetInTouchSection />
 

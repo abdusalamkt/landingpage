@@ -14,7 +14,7 @@ export default function Header() {
   const pathname = usePathname();
   const lastScrollY = useRef(0);
 
-  const logoUrl = '/Logo.PNG';
+  const logoUrl = '/logos/2025 GIBCA LOGO BLACK.png';
 
   const toggleDropdown = (dropdown) => {
     setActiveDropdown(activeDropdown === dropdown ? null : dropdown);

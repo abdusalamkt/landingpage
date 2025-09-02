@@ -37,11 +37,11 @@ const Footer: React.FC = () => {
           {/* Logo Section */}
           <div className="footer-logos">
             <div className="logo-item">
-              <img src="/logowhite.png" alt="gibca-logo" className="logo-image" />
+              <img src="/logos/2025 GIBCA LOGO WHITE.png" alt="gibca-logo" className="logo-image" />
             </div>
             {/* <div className="logo-divider"></div> */}
             <div className="logo-item">
-              <img src="/HUFCOR HIG RES.png" alt="hufcor-logo" className="logo-image" />
+              <img src="/logos/HUFCOR ALL WHITE.png" alt="hufcor-logo" className="logo-image" />
             </div>
             <div className="logo-item">
               <img src="/crown-doors-logo 1 - WHITE.svg" alt="crown-logo" className="logo-image" />
@@ -61,10 +61,10 @@ const Footer: React.FC = () => {
             <div className="link-column">
               <h4>RESOURCES</h4>
               <ul>
-                <li><a href="#">Case Studies</a></li>
-                <li><a href="#">Blog</a></li>
-                <li><a href="#">Gallery</a></li>
-                <li><a href="#">Downloads</a></li>
+                <li><a href="/case-study">Case Studies</a></li>
+                <li><a href="/blogs">Blog</a></li>
+                <li><a href="/projects">Gallery</a></li>
+                <li><a href="/downloads">Downloads</a></li>
               </ul>
             </div>
             <div className="link-column">
@@ -73,14 +73,14 @@ const Footer: React.FC = () => {
                 <li><a href="/about-gibca">About Us</a></li>
                 <li><a href="/our-products">Products</a></li>
                 <li><a href="/contact-us">Contact Us</a></li>
-                <li><a href="#">Downloads</a></li>
-                <li><a href="#">Careers</a></li>
+                <li><a href="/downloads">Downloads</a></li>
+                <li><a href="/career">Careers</a></li>
               </ul>
             </div>
             <div className="link-column">
               <h4>SOCIALS</h4>
               <ul>
-                <li><a href="#">LinkedIn</a></li>
+                <li><a href="">LinkedIn</a></li>
                 <li><a href="#">Instagram</a></li>
                 <li><a href="#">Facebook</a></li>
                 <li><a href="#">YouTube</a></li>
@@ -115,16 +115,16 @@ const Footer: React.FC = () => {
             <div className="social-section">
               <h4>FOLLOW OUR SOCIALS!</h4>
               <div className="social-icons">
-                <a href="#" className="social-icon">
+                <a href="https://www.facebook.com/GFIUAE/" className="social-icon">
                   <img src="/icon/facebook.png" alt="Facebook" className="social-icon-image" />
                 </a>
-                <a href="#" className="social-icon">
+                <a href="https://www.linkedin.com/company/gibca-furniture-uae" className="social-icon">
                   <img src="/icon/linkedin2.png" alt="Linkedin" className="social-icon-image" />
                 </a>
-                <a href="#" className="social-icon">
+                <a href="https://www.instagram.com/gibcafurniture/" className="social-icon">
                   <img src="/icon/insta.png" alt="Instagram" className="social-icon-image" />
                 </a>
-                <a href="#" className="social-icon">
+                <a href="https://www.youtube.com/@gibcafurnitureindustryuae6400" className="social-icon">
                   <img src="/icon/youtube.png" alt="YouTube" className="social-icon-image" />
                 </a>
               </div>

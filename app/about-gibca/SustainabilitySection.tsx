@@ -85,8 +85,8 @@ export default function SustainabilitySection({ fields }: SustainabilitySectionP
   const hardcodedPdfUrls = [
     "https://test.shopgfiuae.com/wp-content/uploads/2025/09/EMS-14001.pdf",
     "https://test.shopgfiuae.com/wp-content/uploads/2025/09/QMS-9001.pdf",
-    "https://test.shopgfiuae.com/wp-content/uploads/2025/09/GIBCA-HUFCOR-WEATHER-RESISTANT-GLASS-WALLS-SPECIFICATIONS.pdf",
-    "https://test.shopgfiuae.com/wp-content/uploads/2025/09/GIBCA-HUFCOR-WEATHER-RESISTANT-GLASS-WALLS-SPECIFICATIONS.pdf",
+    "https://test.shopgfiuae.com/wp-content/uploads/2025/09/GIBCA_2025_SCS-IAQ-11123_s.pdf",
+    "https://test.shopgfiuae.com/wp-content/uploads/2025/09/GIBCA_2025_SCS-IAQ-11122_s.pdf",
     "https://test.shopgfiuae.com/wp-content/uploads/2025/09/GIBCA-FSC-CERTIFICATE.pdf"
   ];
 

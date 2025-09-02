@@ -208,7 +208,7 @@ export default function ProjectsPage() {
       <FloatingSidebar />
       <div className="projects-gallery-container">
         <h1 className="gallery-title">GALLERY</h1>
-        <div className="description">Gibca Furniture Industry Co. Ltd. (L.L.C) offers operable partitions including walls and doors, upholding global standards. Regular maintenance ensures optimal performance and safety, keeping your partitions functional and secure.</div>
+        <div className="description"></div>
 
         {/* Filter UI */}
         <div className="filter-bar">
