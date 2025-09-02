@@ -6,7 +6,7 @@ import { useInView } from 'framer-motion';
 
 export default function AnimatedSection({
   children,
-  animation = 'fadeUp', // fadeUp | slideLeft | slideRight | fadeIn
+  animation = 'fadeUp', // fadeUp | slideLeft | slideRight |fadeIn
   delay = 0.2,
 }: {
   children: React.ReactNode;
