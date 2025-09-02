@@ -100,7 +100,7 @@ const Footer: React.FC = () => {
           </div>
         </div>
 
-        {/* Vertical Divider */}
+        {/* Vertical Divier */}
         <div className="vertical-divider"></div>
 
         {/* Right Section - 40% */}
