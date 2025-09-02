@@ -83,11 +83,11 @@ export default function SustainabilitySection({ fields }: SustainabilitySectionP
 
   // Hardcoded PDF URLs for testing
   const hardcodedPdfUrls = [
-    "http://test.shopgfiuae.com/wp-content/uploads/2025/09/EMS-14001.pdf",
-    "http://test.shopgfiuae.com/wp-content/uploads/2025/09/QMS-9001.pdf",
+    "https://test.shopgfiuae.com/wp-content/uploads/2025/09/EMS-14001.pdf",
+    "https://test.shopgfiuae.com/wp-content/uploads/2025/09/QMS-9001.pdf",
     "https://test.shopgfiuae.com/wp-content/uploads/2025/09/GIBCA-HUFCOR-WEATHER-RESISTANT-GLASS-WALLS-SPECIFICATIONS.pdf",
     "https://test.shopgfiuae.com/wp-content/uploads/2025/09/GIBCA-HUFCOR-WEATHER-RESISTANT-GLASS-WALLS-SPECIFICATIONS.pdf",
-    "http://test.shopgfiuae.com/wp-content/uploads/2025/09/GIBCA-FSC-CERTIFICATE.pdf"
+    "https://test.shopgfiuae.com/wp-content/uploads/2025/09/GIBCA-FSC-CERTIFICATE.pdf"
   ];
 
   const openPDFModal = (pdfUrl: string, title: string) => {
