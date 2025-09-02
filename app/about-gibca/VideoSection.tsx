@@ -13,7 +13,6 @@ export default function VideoSection({ fields }: { fields: { videoUrl?: string }
         muted
         playsInline
         src={fields.videoUrl}
-        poster="/images/video-poster.jpg"
       />
     </section>
   );
