@@ -19,6 +19,7 @@ export default function DownloadPageClient({ serverData }) {
   const [transferFiles, setTransferFiles] = useState([]);
   const animationRef = useRef();
 
+  // Parse downloads and keep all entries (including duplicates) for proper filtering
   const parsedDownloads = (serverData?.downloads?.nodes || []).flatMap((node) => {
     const productTitle = node.downloadFields?.product?.title || "";
     return (
@@ -30,30 +31,10 @@ export default function DownloadPageClient({ serverData }) {
         gated: item.gated,
       })) || []
     );
-  });
-
-  // Remove duplicates based on file link (URL) - this prevents same PDF from showing multiple times
-  const uniqueDownloads = parsedDownloads.reduce((acc, current) => {
-    // Skip items without links
-    if (!current.link) return acc;
-    
-    // Check if we already have this file URL
-    const existingItem = acc.find(item => item.link === current.link);
-    
-    if (!existingItem) {
-      // New unique file - add it
-      acc.push(current);
-    } else {
-      // Duplicate file found - we can optionally combine product info
-      // For now, we'll keep the first occurrence and ignore duplicates
-      // If you want to show which products share this file, you could modify this logic
-    }
-    
-    return acc;
-  }, []);
+  }).filter(item => item.link); // Only filter out items without links
 
   const uniqueValues = (key) =>
-    [...new Set(uniqueDownloads.map((item) => item[key]))].filter(Boolean);
+    [...new Set(parsedDownloads.map((item) => item[key]))].filter(Boolean);
 
   useEffect(() => {
     const createFile = () => {
@@ -95,14 +76,27 @@ export default function DownloadPageClient({ serverData }) {
     return () => clearInterval(animationRef.current);
   }, []);
 
-  // Use uniqueDownloads instead of parsedDownloads for filtering
-  const filtered = uniqueDownloads.filter((item) => {
+  // Filter the parsed downloads (with duplicates for proper filtering)
+  const filtered = parsedDownloads.filter((item) => {
     return (
       (!product || item.product === product) &&
       (!docType || item.type === docType) &&
       item.title.toLowerCase().includes(searchTerm.toLowerCase())
     );
   });
+
+  // Remove duplicates from filtered results for display (based on link URL)
+  const uniqueFiltered = filtered.reduce((acc, current) => {
+    const existingItem = acc.find(item => item.link === current.link);
+    
+    if (!existingItem) {
+      // New unique file - add it
+      acc.push(current);
+    }
+    // If duplicate exists, keep the first occurrence only
+    
+    return acc;
+  }, []);
 
   return (
     <>
@@ -148,14 +142,14 @@ export default function DownloadPageClient({ serverData }) {
         <select value={product} onChange={(e) => setProduct(e.target.value)}>
           <option value="">Select Product</option>
           {uniqueValues("product").map((p) => (
-            <option key={p}>{p}</option>
+            <option key={p} value={p}>{p}</option>
           ))}
         </select>
 
         <select value={docType} onChange={(e) => setDocType(e.target.value)}>
           <option value="">Type of Document</option>
           {uniqueValues("type").map((t) => (
-            <option key={t}>{t}</option>
+            <option key={t} value={t}>{t}</option>
           ))}
         </select>
 
@@ -176,8 +170,8 @@ export default function DownloadPageClient({ serverData }) {
       </div>
 
       <div className={styles.table}>
-        {filtered.map((item, index) => (
-          <DownloadItemRow key={index} item={item} />
+        {uniqueFiltered.map((item, index) => (
+          <DownloadItemRow key={`${item.link}-${index}`} item={item} />
         ))}
       </div>
     </>

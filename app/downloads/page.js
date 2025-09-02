@@ -5,7 +5,7 @@ import DownloadPageClient from "./DownloadPageClient";
 // Move query outside
 const GET_DOWNLOADS = gql`
   query GetDownloads {
-    downloads (first: 100) {
+    downloads (first: 500) {
       nodes {
         title
         downloadFields {
