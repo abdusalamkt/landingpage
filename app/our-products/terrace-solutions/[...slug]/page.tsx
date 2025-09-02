@@ -85,7 +85,7 @@ const GET_FAQS = gql`
 
 const GET_DOWNLOADS = gql`
   query GetDownloads {
-    downloads {
+    downloads (first: 100){
       nodes {
         title
         downloadFields {

@@ -19,7 +19,7 @@ interface DownloadSectionProps {
   theme?: 'hufcor' | 'acristalia' | 'default' | 'crown' | 'gibca';
 }
 
-const allTabs = ["Brochures", "Finishes", "Project Reference", "Specification"] as const;
+const allTabs = ["Brochures", "Finishes", "Project Reference", "Specification","Technical Drawings"] as const;
 type Tab = typeof allTabs[number];
 
 const defaultDownloadData: Record<Tab, Array<{ title: string; link: string; gated: boolean }>> = {
@@ -36,6 +36,7 @@ const defaultDownloadData: Record<Tab, Array<{ title: string; link: string; gate
   Specification: [
     { title: "PARTITION SPEC SHEET", link: "/downloads/spec.pdf", gated: true },
   ],
+
 };
 
 export default function DownloadSection({ downloadData, theme = 'default' }: DownloadSectionProps) {
@@ -46,6 +47,7 @@ export default function DownloadSection({ downloadData, theme = 'default' }: Dow
     Finishes: [],
     "Project Reference": [],
     Specification: [],
+    "Technical Drawings":[],
   };
 
   if (downloadData && downloadData.length > 0) {
