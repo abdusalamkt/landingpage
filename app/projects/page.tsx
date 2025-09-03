@@ -31,15 +31,22 @@ export default function ProjectsPage() {
   const [projects, setProjects] = useState<Project[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
+  const [modalImage, setModalImage] = useState<{ src: string; alt: string; title: string } | null>(null);
 
-  const [selectedProduct, setSelectedProduct] = useState('');
-  const [selectedSector, setSelectedSector] = useState('');
-  const [filterProduct, setFilterProduct] = useState('');
-  const [filterSector, setFilterSector] = useState('');
+  // Changed to arrays for multi-select
+  const [selectedProducts, setSelectedProducts] = useState<string[]>([]);
+  const [selectedSectors, setSelectedSectors] = useState<string[]>([]);
+  const [filterProducts, setFilterProducts] = useState<string[]>([]);
+  const [filterSectors, setFilterSectors] = useState<string[]>([]);
 
   const [tooltip, setTooltip] = useState({ visible: false, x: 0, y: 0, projectId: '' });
 
   const [displayedCount, setDisplayedCount] = useState(18);
+  const [showProductDropdown, setShowProductDropdown] = useState(false);
+  const [showSectorDropdown, setShowSectorDropdown] = useState(false);
+
+  const productDropdownRef = useRef<HTMLDivElement | null>(null);
+  const sectorDropdownRef = useRef<HTMLDivElement | null>(null);
 
   const GRAPHQL_QUERY = `
     query GetAllProjectImages {
@@ -61,6 +68,28 @@ export default function ProjectsPage() {
       }
     }
   `;
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        productDropdownRef.current &&
+        !productDropdownRef.current.contains(event.target as Node)
+      ) {
+        setShowProductDropdown(false);
+      }
+      if (
+        sectorDropdownRef.current &&
+        !sectorDropdownRef.current.contains(event.target as Node)
+      ) {
+        setShowSectorDropdown(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   useEffect(() => {
     const fetchProjects = async () => {
@@ -86,6 +115,34 @@ export default function ProjectsPage() {
 
     fetchProjects();
   }, []);
+
+  // Modal functionality
+  const openModal = (src: string, alt: string, title: string) => {
+    setModalImage({ src, alt, title });
+    document.body.style.overflow = 'hidden';
+  };
+
+  const closeModal = () => {
+    setModalImage(null);
+    document.body.style.overflow = 'auto';
+  };
+
+  // Handle ESC key to close modal
+  useEffect(() => {
+    const handleEsc = (event: KeyboardEvent) => {
+      if (event.key === 'Escape' && modalImage) {
+        closeModal();
+      }
+    };
+
+    if (modalImage) {
+      document.addEventListener('keydown', handleEsc);
+    }
+
+    return () => {
+      document.removeEventListener('keydown', handleEsc);
+    };
+  }, [modalImage]);
 
   const transformWordPressData = (wpProjects: WordPressProject[]): Project[] => {
     const transformed: Project[] = [];
@@ -120,23 +177,23 @@ export default function ProjectsPage() {
   }, [projects]);
 
   const filteredSectors = useMemo(() => {
-    if (!selectedProduct) {
+    if (!selectedProducts.length) {
       return [...new Set(projects.flatMap(p => p.sectors))];
     }
     return [...new Set(
       projects
-        .filter(p => p.product === selectedProduct)
+        .filter(p => selectedProducts.includes(p.product))
         .flatMap(p => p.sectors)
     )];
-  }, [selectedProduct, projects]);
+  }, [selectedProducts, projects]);
 
   const filteredProjects = useMemo(() => {
     return projects.filter(p => {
-      const productMatch = filterProduct ? p.product === filterProduct : true;
-      const sectorMatch = filterSector ? p.sectors.includes(filterSector) : true;
+      const productMatch = filterProducts.length === 0 || filterProducts.includes(p.product);
+      const sectorMatch = filterSectors.length === 0 || p.sectors.some(sector => filterSectors.includes(sector));
       return productMatch && sectorMatch;
     });
-  }, [projects, filterProduct, filterSector]);
+  }, [projects, filterProducts, filterSectors]);
 
   const displayedProjects = useMemo(() => {
     return filteredProjects.slice(0, displayedCount);
@@ -162,18 +219,67 @@ export default function ProjectsPage() {
     setTooltip({ visible: false, x: 0, y: 0, projectId: '' });
   };
 
+  // Enhanced dropdown handlers
+  const handleProductDropdownToggle = () => {
+    setShowProductDropdown(!showProductDropdown);
+    setShowSectorDropdown(false); // Close sector dropdown when opening product dropdown
+  };
+
+  const handleSectorDropdownToggle = () => {
+    setShowSectorDropdown(!showSectorDropdown);
+    setShowProductDropdown(false); // Close product dropdown when opening sector dropdown
+  };
+
+  const handleProductSelect = (product: string) => {
+    if (product === '') {
+      // "All Products" selected
+      setSelectedProducts([]);
+    } else {
+      setSelectedProducts(prev => {
+        if (prev.includes(product)) {
+          return prev.filter(p => p !== product);
+        } else {
+          return [...prev, product];
+        }
+      });
+    }
+    // Don't close dropdown for multi-select
+  };
+
+  const handleSectorSelect = (sector: string) => {
+    if (sector === '') {
+      // "All Sectors" selected
+      setSelectedSectors([]);
+    } else {
+      setSelectedSectors(prev => {
+        if (prev.includes(sector)) {
+          return prev.filter(s => s !== sector);
+        } else {
+          return [...prev, sector];
+        }
+      });
+    }
+    // Don't close dropdown for multi-select
+  };
+
   const handleApply = () => {
-    setFilterProduct(selectedProduct);
-    setFilterSector(selectedSector);
+    setFilterProducts(selectedProducts);
+    setFilterSectors(selectedSectors);
     setDisplayedCount(18);
+    // Close both dropdowns after applying
+    setShowProductDropdown(false);
+    setShowSectorDropdown(false);
   };
 
   const handleClearFilters = () => {
-    setSelectedProduct('');
-    setSelectedSector('');
-    setFilterProduct('');
-    setFilterSector('');
+    setSelectedProducts([]);
+    setSelectedSectors([]);
+    setFilterProducts([]);
+    setFilterSectors([]);
     setDisplayedCount(18);
+    // Close both dropdowns after clearing
+    setShowProductDropdown(false);
+    setShowSectorDropdown(false);
   };
 
   const handleImageLoad = (id: string) => {
@@ -182,6 +288,23 @@ export default function ProjectsPage() {
         project.id === id ? { ...project, loaded: true } : project
       )
     );
+  };
+
+  const handleImageClick = (project: Project) => {
+    openModal(project.image, project.altText || project.title, project.title);
+  };
+
+  // Helper functions for display text
+  const getProductDisplayText = () => {
+    if (selectedProducts.length === 0) return 'All Products';
+    if (selectedProducts.length === 1) return selectedProducts[0];
+    return `${selectedProducts.length} Products Selected`;
+  };
+
+  const getSectorDisplayText = () => {
+    if (selectedSectors.length === 0) return 'All Sectors';
+    if (selectedSectors.length === 1) return selectedSectors[0];
+    return `${selectedSectors.length} Sectors Selected`;
   };
 
   // Skeleton loader component
@@ -212,21 +335,88 @@ export default function ProjectsPage() {
 
         {/* Filter UI */}
         <div className="filter-bar">
-          <select value={selectedProduct} onChange={e => setSelectedProduct(e.target.value)} className="filter-select">
-            <option value="">All Products</option>
-            {allProducts.map(p => (
-              <option key={p} value={p}>{p}</option>
-            ))}
-          </select>
+          <div className="filter-dropdown-wrapper" ref={productDropdownRef}>
+            <div
+              className={`filter-dropdown ${showProductDropdown ? 'open' : ''}`}
+              onClick={handleProductDropdownToggle}
+            >
+              {getProductDisplayText()}
+              <span className="filter-dropdown-arrow">{showProductDropdown ? '▲' : '▼'}</span>
+            </div>
 
-          <select value={selectedSector} onChange={e => setSelectedSector(e.target.value)} className="filter-select">
-            <option value="">All Sectors</option>
-            {filteredSectors.map(s => (
-              <option key={s} value={s}>{s}</option>
-            ))}
-          </select>
+            {showProductDropdown && (
+              <ul className="filter-dropdown-options">
+                <li
+                  className={selectedProducts.length === 0 ? 'selected' : ''}
+                  onClick={() => handleProductSelect('')}
+                >
+                  <input 
+                    type="checkbox" 
+                    checked={selectedProducts.length === 0}
+                    onChange={() => {}}
+                  />
+                  All Products
+                </li>
+                {allProducts.map(p => (
+                  <li
+                    key={p}
+                    className={selectedProducts.includes(p) ? 'selected' : ''}
+                    onClick={() => handleProductSelect(p)}
+                  >
+                    <input 
+                      type="checkbox" 
+                      checked={selectedProducts.includes(p)}
+                      onChange={() => {}}
+                    />
+                    {p}
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+
+          <div className="filter-dropdown-wrapper" ref={sectorDropdownRef}>
+            <div
+              className={`filter-dropdown ${showSectorDropdown ? 'open' : ''}`}
+              onClick={handleSectorDropdownToggle}
+            >
+              {getSectorDisplayText()}
+              <span className="filter-dropdown-arrow">{showSectorDropdown ? '▲' : '▼'}</span>
+            </div>
+
+            {showSectorDropdown && (
+              <ul className="filter-dropdown-options">
+                <li
+                  className={selectedSectors.length === 0 ? 'selected' : ''}
+                  onClick={() => handleSectorSelect('')}
+                >
+                  <input 
+                    type="checkbox" 
+                    checked={selectedSectors.length === 0}
+                    onChange={() => {}}
+                  />
+                  All Sectors
+                </li>
+                {filteredSectors.map(s => (
+                  <li
+                    key={s}
+                    className={selectedSectors.includes(s) ? 'selected' : ''}
+                    onClick={() => handleSectorSelect(s)}
+                  >
+                    <input 
+                      type="checkbox" 
+                      checked={selectedSectors.includes(s)}
+                      onChange={() => {}}
+                    />
+                    {s}
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
 
           <button onClick={handleApply} className="filter-apply-btn">APPLY</button>
+          <button onClick={handleClearFilters} className="filter-clear-btn">⟲</button>
         </div>
 
         {/* Loading state */}
@@ -246,6 +436,7 @@ export default function ProjectsPage() {
                     className={`gallery-card ${sizeClass} ${project.loaded ? 'loaded' : 'loading'}`}
                     onMouseMove={e => handleMouseMove(e, project.id)}
                     onMouseLeave={handleMouseLeave}
+                    onClick={() => handleImageClick(project)}
                   >
                     {!project.loaded && (
                       <div className="image-loading-overlay">
@@ -263,7 +454,6 @@ export default function ProjectsPage() {
                         priority={index < 6} // Prioritize loading first few images
                       />
                     </div>
-
 
                     {/* Tooltip */}
                     {tooltip.visible && tooltip.projectId === project.id && (
@@ -292,6 +482,32 @@ export default function ProjectsPage() {
             <button onClick={loadMore} className="load-more-btn">
               Load More
             </button>
+          </div>
+        )}
+
+        {/* Fullscreen Modal */}
+        {modalImage && (
+          <div className="fullscreen-modal active">
+            <div className="modal-backdrop" onClick={closeModal}></div>
+            <button className="modal-close" onClick={closeModal} aria-label="Close">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+              </svg>
+            </button>
+            <div className="modal-image-wrapper">
+              <Image
+                src={modalImage.src}
+                alt={modalImage.alt}
+                fill
+                style={{ objectFit: 'contain' }}
+                quality={100}
+                priority
+              />
+            </div>
+            <div className="modal-info">
+              <h3 className="modal-title">{modalImage.title}</h3>
+            </div>
           </div>
         )}
       </div>

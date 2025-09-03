@@ -5,6 +5,7 @@ import Image from 'next/image';
 import dynamic from 'next/dynamic';
 import styles from './hplproduct.module.css';
 import Header from '@/app/components/Header';
+import Footer from '@/app/components/Footer';
 
 // Lazy-loaded sections
 const WhatSetsUsApart = dynamic(() => import('@/app/components/WhatSetsUsApart'), {
@@ -177,7 +178,6 @@ export default function HplProductLayout({ fields, faqData = [], downloadData = 
 
   return (
     <div>
-      <Header />
 
       {/* Hero Section */}
       <section className={styles.hero}>

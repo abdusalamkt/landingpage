@@ -151,7 +151,7 @@ export default function HufcorProductLayout({
       
 
       <h1 className={styles.series}>
-        {heroTitle} <span className={styles.red}>{heroHighlight}</span>
+        {heroTitle} <span className={styles.red} style={{marginLeft:"0px"}}>{heroHighlight}</span>
       </h1>
 
       {heroDescription && <p className={styles.description}>{heroDescription}</p>}

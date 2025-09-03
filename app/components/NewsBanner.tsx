@@ -25,7 +25,9 @@ export default function NewsBanner({
 
         {slug && (
           <Link
-            href={`/news/${slug}`}
+            href={`/blogs/${slug}`}      // ✅ use slug
+            target="_blank"              // ✅ always open in new tab
+            rel="noopener noreferrer"   // ✅ security best practice
             className="know-more-button wave-button"
             aria-label="Know More"
           >
