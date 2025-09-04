@@ -375,7 +375,7 @@ export default function ProjectsPage() {
             )}
           </div>
 
-          <div className="filter-dropdown-wrapper" ref={sectorDropdownRef}>
+          {/* <div className="filter-dropdown-wrapper" ref={sectorDropdownRef}>
             <div
               className={`filter-dropdown ${showSectorDropdown ? 'open' : ''}`}
               onClick={handleSectorDropdownToggle}
@@ -413,10 +413,10 @@ export default function ProjectsPage() {
                 ))}
               </ul>
             )}
-          </div>
+          </div> */}
 
           <button onClick={handleApply} className="filter-apply-btn">APPLY</button>
-          <button onClick={handleClearFilters} className="filter-clear-btn">⟲</button>
+          {/* <button onClick={handleClearFilters} className="filter-clear-btn">↺</button> */}
         </div>
 
         {/* Loading state */}

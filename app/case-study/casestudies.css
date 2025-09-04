@@ -132,6 +132,50 @@
   text-align: center;
   /* margin-top: 15px; */
   background: linear-gradient(to bottom, rgb(0, 0, 0), rgba(0, 0, 0, 0) );
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.scrolling-text {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+.title-text {
+  display: inline-block;
+  white-space: nowrap;
+}
+
+/* Only animate titles with more than 25 characters on hover */
+.scrolling-text.long-title .title-text {
+  animation: scroll-left 4s linear infinite;
+  animation-play-state: paused;
+}
+
+.case-card:hover .scrolling-text.long-title .title-text {
+  animation-play-state: running;
+}
+
+@keyframes scroll-left {
+  0% {
+    transform: translateX(10%);
+  }
+  100% {
+    transform: translateX(-30%);
+  }
+}
+
+/* Check if text overflows and apply animation accordingly */
+.scrolling-text::before {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  visibility: hidden;
+  height: auto;
+  width: auto;
+  white-space: nowrap;
 }
 
 .case-title hr {
@@ -139,7 +183,7 @@
   border-bottom: 2px solid #ddd;
   margin-top: 6px;
   width: 70%;
-  margin: 0 auto;
+  margin: 6px auto 0 auto;
 }
 
 .loading-placeholder {

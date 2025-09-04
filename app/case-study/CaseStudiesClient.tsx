@@ -166,7 +166,9 @@ export default function CaseStudiesClient({ allStudies }: { allStudies: any[] })
               }}
             >
               <div className="case-title">
-                <span>{item.title}</span>
+                <div className={`scrolling-text ${item.title.length > 25 ? 'long-title' : ''}`}>
+                  <span className="title-text">{item.title}</span>
+                </div>
                 <hr />
               </div>
             </Link>
