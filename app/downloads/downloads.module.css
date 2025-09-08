@@ -351,10 +351,6 @@
   transition: transform 0.2s;
 }
 
-/* Global wrapper for custom dropdowns */
-:global(.custom-dropdown-wrapper) {
-  position: relative;
-}
 
 /* Downloads Table */
 .table {
