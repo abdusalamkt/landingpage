@@ -841,3 +841,79 @@
 
 }
 
+
+/* ---------- RESPONSIVE BREAKPOINTS ---------- */
+
+/* Mobile (≤ 480px) */
+@media (max-width: 480px) {
+  .series {
+    font-size: 3rem;
+  }
+  .heroText {
+    font-size: 1rem;
+  }
+  .heroButtons {
+    flex-direction: column;
+  }
+  .carouselImage {
+    height: 220px;
+  }
+}
+
+/* Phones & Small Tablets (≤ 767px) */
+@media (max-width: 767px) {
+  .hero {
+    flex-direction: column;
+    height: auto;
+    margin-top: 20px;
+    text-align: center;
+  }
+  .heroContent {
+    padding: 20px;
+  }
+  .carouselContent {
+    flex-direction: column;
+  }
+  .carouselSlide {
+    flex-direction: column;
+    text-align: center;
+  }
+  .carouselText {
+    align-items: center;
+  }
+}
+
+/* Tablets (768px – 1023px) */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .series {
+    font-size: 4rem;
+  }
+  .carouselImage {
+    height: 400px;
+  }
+}
+
+/* Laptops & Small Desktops (1024px – 1439px) */
+@media (min-width: 1024px) and (max-width: 1439px) {
+  .series {
+    font-size: 5rem;
+  }
+  .modelGrid {
+    max-width: 1000px;
+  }
+}
+
+/* Large Screens (≥ 1440px) */
+@media (min-width: 1440px) {
+  .page {
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+}
+
+/* Ultra Wide Screens (≥ 1920px) */
+@media (min-width: 1920px) {
+  .page {
+    max-width: 1600px;
+  }
+}

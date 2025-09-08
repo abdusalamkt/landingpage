@@ -1,9 +1,10 @@
 .sustainabilitySection {
-  padding: 8rem 6rem 0rem 6rem;
+  padding: 8rem 5rem 0rem 5rem;
   background: white;
   color: #333;
   font-family: sans-serif;
   margin-bottom: 3rem;
+  max-width: 1400px;
 }
 
 .commitment {
@@ -299,4 +300,13 @@ font-family: poppins;
   .modalTitle {
     font-size: 20px;
   }
+}
+
+@media (min-width: 1440px) and (max-width: 1919px) {
+  .sustainabilitySection {
+  padding: 8rem 0rem;
+  max-width: 1400px;
+  margin:0 auto;
+}
+
 }

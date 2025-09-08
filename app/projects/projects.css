@@ -680,3 +680,41 @@ html.modal-open {
   outline: 2px solid rgba(255, 255, 255, 0.5);
   outline-offset: 2px;
 }
+
+/* Inside filter dropdown */
+.selected-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+}
+
+.tag {
+  background: #e8f5e8;
+  color: #007340;
+  font-size: 0.85rem;
+  padding: 4px 8px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.tag-remove {
+  background: transparent;
+  border: none;
+  color: #007340;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 0.9rem;
+  line-height: 1;
+}
+
+.tag-remove:hover {
+  color: #d32f2f;
+}
+
+.placeholder-text {
+  color: #666;
+  font-size: 0.9rem;
+}

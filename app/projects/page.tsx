@@ -294,12 +294,31 @@ export default function ProjectsPage() {
     openModal(project.image, project.altText || project.title, project.title);
   };
 
-  // Helper functions for display text
-  const getProductDisplayText = () => {
-    if (selectedProducts.length === 0) return 'All Products';
-    if (selectedProducts.length === 1) return selectedProducts[0];
-    return `${selectedProducts.length} Products Selected`;
-  };
+// Helper functions for display tags
+const getProductDisplayTags = () => {
+  if (selectedProducts.length === 0) {
+    return <span className="placeholder-text">All Products</span>;
+  }
+  return (
+    <div className="selected-tags">
+      {selectedProducts.map((p) => (
+        <span key={p} className="tag">
+          {p}
+          <button
+            type="button"
+            className="tag-remove"
+            onClick={(e) => {
+              e.stopPropagation(); // prevent dropdown toggle
+              handleProductSelect(p); // removes it
+            }}
+          >
+            ×
+          </button>
+        </span>
+      ))}
+    </div>
+  );
+};
 
   const getSectorDisplayText = () => {
     if (selectedSectors.length === 0) return 'All Sectors';
@@ -337,12 +356,13 @@ export default function ProjectsPage() {
         <div className="filter-bar">
           <div className="filter-dropdown-wrapper" ref={productDropdownRef}>
             <div
-              className={`filter-dropdown ${showProductDropdown ? 'open' : ''}`}
-              onClick={handleProductDropdownToggle}
-            >
-              {getProductDisplayText()}
-              <span className="filter-dropdown-arrow">{showProductDropdown ? '▲' : '▼'}</span>
-            </div>
+  className={`filter-dropdown ${showProductDropdown ? 'open' : ''}`}
+  onClick={handleProductDropdownToggle}
+>
+  {getProductDisplayTags()}
+  <span className="filter-dropdown-arrow">{showProductDropdown ? '▲' : '▼'}</span>
+</div>
+
 
             {showProductDropdown && (
               <ul className="filter-dropdown-options">

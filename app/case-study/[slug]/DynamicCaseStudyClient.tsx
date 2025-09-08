@@ -152,8 +152,9 @@ export default function DynamicCaseStudyClient({
                 <Image
                   src={img.sourceUrl}
                   alt={img.altText || `Gallery ${index + 1}`}
-                  width={600}
-                  height={400}
+                  width={1800}
+                  height={1800}
+                  quality={100}
                 />
               </div>
             ))}
@@ -178,8 +179,9 @@ export default function DynamicCaseStudyClient({
               <Image
                 src={img.sourceUrl}
                 alt={img.altText || `Gallery ${index + 1}`}
-                width={400}
-                height={300}
+                width={1400}
+                height={1200}
+                quality={100}
               />
             </div>
           ))}
@@ -196,8 +198,9 @@ export default function DynamicCaseStudyClient({
               <Image
                 src={img.sourceUrl}
                 alt={img.altText || `Gallery ${index + 4}`}
-                width={600}
-                height={400}
+                width={1400}
+                height={1400}
+                quality={100}
               />
             </div>
           ))}

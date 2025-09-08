@@ -275,6 +275,87 @@
   color: #10b981;
 }
 
+/* Custom Dropdown Styles */
+.customDropdown {
+  padding: 10px 15px;
+  border: 1px solid #e2e8f0;
+  background: white;
+  cursor: pointer;
+  color: #109C5D;
+  font-size: 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 8px;
+  transition: all 0.2s;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  min-width: 200px;
+}
+
+.customDropdown:hover {
+  border-color: #10b981;
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+}
+
+.customOptions {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  width: 300px;
+  max-height: 400px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  z-index: 99;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  margin-top: 2px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+
+  /* 🔑 Make mouse wheel work */
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+}
+
+.customOptions li {
+  padding: 10px 15px;
+  cursor: pointer;
+  transition: background 0.2s;
+  color: #374151;
+  font-size: 14px;
+}
+
+.customOptions li:hover {
+  background-color: #f3f4f6;
+  color: #109C5D;
+}
+
+.clearOption {
+  font-style: italic;
+  color: #6b7280 !important;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.clearOption:hover {
+  background-color: #f9fafb !important;
+  color: #10b981 !important;
+}
+
+.arrow {
+  font-size: 0.8rem;
+  margin-left: 10px;
+  color: #6b7280;
+  transition: transform 0.2s;
+}
+
+/* Global wrapper for custom dropdowns */
+:global(.custom-dropdown-wrapper) {
+  position: relative;
+}
+
 /* Downloads Table */
 .table {
   padding: 0 32px 64px;
@@ -282,5 +363,35 @@
   flex-direction: column;
   gap: 12px;
   position: relative;
-  z-index: 2;
+  z-index: 1;
 }
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .filters {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 16px;
+  }
+
+  .customDropdown {
+    min-width: unset;
+    width: 100%;
+  }
+
+  .filters input {
+    margin-left: 0;
+    min-width: unset;
+    width: 100%;
+  }
+
+  .hero h1 {
+    font-size: 2.5rem;
+  }
+
+  .hero p {
+    font-size: 1rem;
+  }
+}
+
+.customOptions { overscroll-behavior: contain; }

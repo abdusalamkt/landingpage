@@ -87,13 +87,13 @@
     content: '';
     position: absolute;
     inset: 0;
-    background-color: rgba(255, 255, 255, 0.863);
     z-index: 0;
 }
 
+
+
 .second-container {
     flex-direction: row-reverse;
-    /* margin-top: 100px; */
     margin-bottom: 40px;
     background-size: cover;
     background-attachment: fixed;
@@ -103,7 +103,6 @@
     content: '';
     position: absolute;
     inset: 0;
-    background-color: rgba(255, 255, 255, 0.863);
     z-index: 0;
 }
 
@@ -372,4 +371,26 @@
     .content-side {
         text-align: center;
     }
+}
+
+.shared-bg-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.shared-bg-wrapper::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-color: rgba(255, 255, 255, 0.863); /* adjust overlay color */
+  z-index: 0;
+}
+
+/* New wrapper */
+.content-wrapper {
+  position: relative;
+  z-index: 1;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 40px 20px;
 }

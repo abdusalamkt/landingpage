@@ -17,25 +17,35 @@ export default function DownloadPageClient({ serverData }) {
   const [docType, setDocType] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const [transferFiles, setTransferFiles] = useState([]);
+  const [showProductDropdown, setShowProductDropdown] = useState(false);
+  const [showDocTypeDropdown, setShowDocTypeDropdown] = useState(false);
   const animationRef = useRef();
+  const productDropdownRef = useRef();
+  const docTypeDropdownRef = useRef();
 
   // Parse downloads and keep all entries (including duplicates) for proper filtering
-  const parsedDownloads = (serverData?.downloads?.nodes || []).flatMap((node) => {
-    const productTitle = node.downloadFields?.product?.title || "";
-    return (
-      node.downloadFields?.productdownloads?.map((item) => ({
-        title: item.filetitle,
-        type: item.filetype,
-        product: productTitle,
-        link: item.filepdf?.sourceUrl,
-        gated: item.gated,
-      })) || []
-    );
-  }).filter(item => item.link); // Only filter out items without links
+  const parsedDownloads = (serverData?.downloads?.nodes || [])
+    .flatMap((node) => {
+      const productTitle = node.downloadFields?.product?.title || "";
+      return (
+        node.downloadFields?.productdownloads?.map((item) => ({
+          title: item.filetitle,
+          type: item.filetype,
+          product: productTitle,
+          link: item.filepdf?.sourceUrl,
+          gated: item.gated,
+        })) || []
+      );
+    })
+    .filter((item) => item.link); // Only filter out items without links
 
   const uniqueValues = (key) =>
     [...new Set(parsedDownloads.map((item) => item[key]))].filter(Boolean);
 
+  const productOptions = uniqueValues("product");
+  const docTypeOptions = uniqueValues("type");
+
+  // Background animation
   useEffect(() => {
     const createFile = () => {
       const types = Object.keys(fileIcons);
@@ -65,7 +75,7 @@ export default function DownloadPageClient({ serverData }) {
         return files.map((f) => ({
           ...f,
           progress: Math.min(f.progress + f.speed, 100),
-          x: f.x + (Math.random() - 0.1) * 0 * f.direction,
+          x: f.x,
         }));
       });
     };
@@ -75,6 +85,78 @@ export default function DownloadPageClient({ serverData }) {
     animationRef.current = setInterval(updateFiles, 30);
     return () => clearInterval(animationRef.current);
   }, []);
+
+  // Close dropdowns when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (!event.target.closest(".custom-dropdown-wrapper")) {
+        setShowProductDropdown(false);
+        setShowDocTypeDropdown(false);
+      }
+    };
+
+    document.addEventListener("click", handleClickOutside);
+    return () => document.removeEventListener("click", handleClickOutside);
+  }, []);
+
+  // Enhanced wheel event handling for dropdown scrolling
+  useEffect(() => {
+    const handleDropdownWheel = (dropdownRef, isOpen) => {
+      if (!isOpen || !dropdownRef.current) return null;
+
+      const handleWheel = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        
+        const dropdown = dropdownRef.current;
+        const scrollTop = dropdown.scrollTop;
+        const scrollHeight = dropdown.scrollHeight;
+        const clientHeight = dropdown.clientHeight;
+        
+        // Calculate new scroll position
+        const deltaY = e.deltaY;
+        const newScrollTop = Math.max(0, Math.min(scrollHeight - clientHeight, scrollTop + deltaY));
+        
+        // Only scroll if there's somewhere to scroll
+        if (newScrollTop !== scrollTop) {
+          dropdown.scrollTop = newScrollTop;
+        }
+      };
+
+      dropdownRef.current.addEventListener("wheel", handleWheel, { 
+        passive: false,
+        capture: true 
+      });
+
+      return () => {
+        if (dropdownRef.current) {
+          dropdownRef.current.removeEventListener("wheel", handleWheel, { capture: true });
+        }
+      };
+    };
+
+    // Set up wheel handlers for both dropdowns
+    const cleanupProduct = handleDropdownWheel(productDropdownRef, showProductDropdown);
+    const cleanupDocType = handleDropdownWheel(docTypeDropdownRef, showDocTypeDropdown);
+
+    return () => {
+      cleanupProduct?.();
+      cleanupDocType?.();
+    };
+  }, [showProductDropdown, showDocTypeDropdown]);
+
+  // Prevent body scroll when dropdowns are open
+  useEffect(() => {
+    if (showProductDropdown || showDocTypeDropdown) {
+      // Prevent body scroll
+      const originalStyle = window.getComputedStyle(document.body).overflow;
+      document.body.style.overflow = 'hidden';
+      
+      return () => {
+        document.body.style.overflow = originalStyle;
+      };
+    }
+  }, [showProductDropdown, showDocTypeDropdown]);
 
   // Filter the parsed downloads (with duplicates for proper filtering)
   const filtered = parsedDownloads.filter((item) => {
@@ -87,16 +169,20 @@ export default function DownloadPageClient({ serverData }) {
 
   // Remove duplicates from filtered results for display (based on link URL)
   const uniqueFiltered = filtered.reduce((acc, current) => {
-    const existingItem = acc.find(item => item.link === current.link);
-    
+    const existingItem = acc.find((item) => item.link === current.link);
     if (!existingItem) {
-      // New unique file - add it
       acc.push(current);
     }
-    // If duplicate exists, keep the first occurrence only
-    
     return acc;
   }, []);
+
+  const handleClearAll = () => {
+    setProduct("");
+    setDocType("");
+    setSearchTerm("");
+    setShowProductDropdown(false);
+    setShowDocTypeDropdown(false);
+  };
 
   return (
     <>
@@ -139,27 +225,95 @@ export default function DownloadPageClient({ serverData }) {
       </section>
 
       <div className={styles.filters}>
-        <select value={product} onChange={(e) => setProduct(e.target.value)}>
-          <option value="">Select Product</option>
-          {uniqueValues("product").map((p) => (
-            <option key={p} value={p}>{p}</option>
-          ))}
-        </select>
+        {/* Custom Product Dropdown */}
+        <div className="custom-dropdown-wrapper">
+          <div
+            className={styles.customDropdown}
+            onClick={() => {
+              setShowProductDropdown(!showProductDropdown);
+              setShowDocTypeDropdown(false);
+            }}
+          >
+            {product || "Select Product"}
+            <span className={styles.arrow}>
+              {showProductDropdown ? "▲" : "▼"}
+            </span>
+          </div>
 
-        <select value={docType} onChange={(e) => setDocType(e.target.value)}>
-          <option value="">Type of Document</option>
-          {uniqueValues("type").map((t) => (
-            <option key={t} value={t}>{t}</option>
-          ))}
-        </select>
+          {showProductDropdown && (
+            <ul 
+              ref={productDropdownRef}
+              className={`${styles.customOptions} customOptions`}
+            >
+              <li
+                onClick={() => {
+                  setProduct("");
+                  setShowProductDropdown(false);
+                }}
+                className={styles.clearOption}
+              >
+                All Products
+              </li>
+              {productOptions.map((p, i) => (
+                <li
+                  key={i}
+                  onClick={() => {
+                    setProduct(p);
+                    setShowProductDropdown(false);
+                  }}
+                >
+                  {p}
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
 
-        <button onClick={() => {
-          setProduct("");
-          setDocType("");
-          setSearchTerm("");
-        }}>
-          Clear All
-        </button>
+        {/* Custom Document Type Dropdown */}
+        <div className="custom-dropdown-wrapper">
+          <div
+            className={styles.customDropdown}
+            onClick={() => {
+              setShowDocTypeDropdown(!showDocTypeDropdown);
+              setShowProductDropdown(false);
+            }}
+          >
+            {docType || "Type of Document"}
+            <span className={styles.arrow}>
+              {showDocTypeDropdown ? "▲" : "▼"}
+            </span>
+          </div>
+
+          {showDocTypeDropdown && (
+            <ul 
+              ref={docTypeDropdownRef}
+              className={`${styles.customOptions} customOptions`}
+            >
+              <li
+                onClick={() => {
+                  setDocType("");
+                  setShowDocTypeDropdown(false);
+                }}
+                className={styles.clearOption}
+              >
+                All Document Types
+              </li>
+              {docTypeOptions.map((t, i) => (
+                <li
+                  key={i}
+                  onClick={() => {
+                    setDocType(t);
+                    setShowDocTypeDropdown(false);
+                  }}
+                >
+                  {t}
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+
+        <button onClick={handleClearAll}>Clear All</button>
 
         <input
           type="text"

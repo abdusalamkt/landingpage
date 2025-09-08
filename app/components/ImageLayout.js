@@ -65,36 +65,38 @@ const ImageLayout = ({ data }) => {
 
   return (
     <div
-      className="shared-bg-wrapper"
-      style={{
-        backgroundImage: commonBgImage ? `url(${commonBgImage})` : 'none',
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat',
-        // backgroundAttachment: 'fixed',
-      }}
-    >
-      <Section
-        title={fields.section1Title}
-        description={fields.section1Description}
-        buttonLabel={fields.section1ButtonLabel}
-        buttonLink={fields.section1ButtonLink}
-        mainImg={fields.section1ImageMain?.sourceUrl}
-        topRightImg={fields.section1ImageTopRight?.sourceUrl}
-        bottomLeftImg={fields.section1ImageBottomLeft?.sourceUrl}
-        reverse={false}
-      />
-      <Section
-        title={fields.section2Title}
-        description={fields.section2Description}
-        buttonLabel={fields.section2ButtonLabel}
-        buttonLink={fields.section2ButtonLink}
-        mainImg={fields.section2ImageMain?.sourceUrl}
-        topRightImg={fields.section2ImageTopRight?.sourceUrl}
-        bottomLeftImg={fields.section2ImageBottomLeft?.sourceUrl}
-        reverse={true}
-      />
-    </div>
+  className="shared-bg-wrapper"
+  style={{
+    backgroundImage: commonBgImage ? `url(${commonBgImage})` : 'none',
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+    backgroundRepeat: 'no-repeat',
+  }}
+>
+  <div className="content-wrapper">
+    <Section
+      title={fields.section1Title}
+      description={fields.section1Description}
+      buttonLabel={fields.section1ButtonLabel}
+      buttonLink={fields.section1ButtonLink}
+      mainImg={fields.section1ImageMain?.sourceUrl}
+      topRightImg={fields.section1ImageTopRight?.sourceUrl}
+      bottomLeftImg={fields.section1ImageBottomLeft?.sourceUrl}
+      reverse={false}
+    />
+    <Section
+      title={fields.section2Title}
+      description={fields.section2Description}
+      buttonLabel={fields.section2ButtonLabel}
+      buttonLink={fields.section2ButtonLink}
+      mainImg={fields.section2ImageMain?.sourceUrl}
+      topRightImg={fields.section2ImageTopRight?.sourceUrl}
+      bottomLeftImg={fields.section2ImageBottomLeft?.sourceUrl}
+      reverse={true}
+    />
+  </div>
+</div>
+
   );
 };
 
