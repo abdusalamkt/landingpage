@@ -361,7 +361,13 @@
   position: relative;
   /* z-index: 1; */
 }
-
+@media (min-width: 1440px) and (max-width: 2419px){
+  .table {
+  padding:0rem 0rem 4rem;
+  max-width: 1400px;
+  margin:0 auto;
+}
+}
 /* Responsive Design */
 @media (max-width: 768px) {
   .filters {
@@ -391,3 +397,9 @@
 }
 
 .customOptions { overscroll-behavior: contain; }
+@media (min-width: 1440px) and (max-width: 2419px){
+  .filters{
+    max-width: 1400px;
+    margin: auto;
+  }
+}

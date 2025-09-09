@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import Image from "next/image";
 import parse from "html-react-parser";
 import styles from "./casestudy.module.css";
@@ -18,23 +18,43 @@ export default function DynamicCaseStudyClient({
   const openLightbox = (src: string) => {
     setLightboxImage(src);
     setLightboxOpen(true);
+    // Prevent body scroll when lightbox is open
+    document.body.style.overflow = 'hidden';
   };
 
   const closeLightbox = () => {
     setLightboxOpen(false);
     setLightboxImage("");
+    // Restore body scroll when lightbox is closed
+    document.body.style.overflow = 'unset';
   };
+
+  // Handle escape key to close lightbox
+  const handleKeyDown = (e: KeyboardEvent) => {
+    if (e.key === 'Escape' && lightboxOpen) {
+      closeLightbox();
+    }
+  };
+
+  // Add event listener for escape key
+  useEffect(() => {
+    if (lightboxOpen) {
+      document.addEventListener('keydown', handleKeyDown);
+    }
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [lightboxOpen]);
 
   // Converts plain text with newlines into paragraph-wrapped HTML
   const convertNewlinesToParagraphs = (text: string) => {
-  return text
-    .trim()
-    .split(/\n\s*\n+/) // Split by double newlines, ignoring extra space
-    .filter((para) => para.trim() !== "") // Remove empty paragraphs
-    .map((para) => `<p>${para.trim()}</p>`)
-    .join("");
-};
-
+    return text
+      .trim()
+      .split(/\n\s*\n+/) // Split by double newlines, ignoring extra space
+      .filter((para) => para.trim() !== "") // Remove empty paragraphs
+      .map((para) => `<p>${para.trim()}</p>`)
+      .join("");
+  };
 
   return (
     <>
@@ -79,17 +99,17 @@ export default function DynamicCaseStudyClient({
 
       {/* Info Boxes */}
       <section
-  className={styles.infoSection}
-  style={{
-    backgroundImage: fields.infosectionbg?.sourceUrl
-      ? `url(${fields.infosectionbg.sourceUrl})`
-      : "none",
-    backgroundSize: "cover",
-    backgroundPosition: "center",
-    backgroundRepeat: "no-repeat",
-    backgroundAttachment: "fixed",
-  }}
->
+        className={styles.infoSection}
+        style={{
+          backgroundImage: fields.infosectionbg?.sourceUrl
+            ? `url(${fields.infosectionbg.sourceUrl})`
+            : "none",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+          backgroundAttachment: "fixed",
+        }}
+      >
         {fields.infoboxes?.map((box: any, index: number) => (
           <div key={index} className={styles.infoBox}>
             <div className={styles.iconTitleRow}>
@@ -179,9 +199,10 @@ export default function DynamicCaseStudyClient({
               <Image
                 src={img.sourceUrl}
                 alt={img.altText || `Gallery ${index + 1}`}
-                width={1400}
-                height={1200}
-                quality={100}
+                width={600}
+                height={400}
+                quality={75}
+                style={{ objectFit: 'cover' }}
               />
             </div>
           ))}
@@ -198,23 +219,40 @@ export default function DynamicCaseStudyClient({
               <Image
                 src={img.sourceUrl}
                 alt={img.altText || `Gallery ${index + 4}`}
-                width={1400}
-                height={1400}
-                quality={100}
+                width={600}
+                height={400}
+                quality={75}
+                style={{ objectFit: 'cover' }}
               />
             </div>
           ))}
         </div>
       </section>
 
-      {/* Lightbox */}
+      {/* Enhanced Lightbox */}
       {lightboxOpen && (
         <div className={styles.lightboxOverlay} onClick={closeLightbox}>
           <div className={styles.lightboxContent} onClick={(e) => e.stopPropagation()}>
-            <button className={styles.lightboxClose} onClick={closeLightbox}>
+            {/* <button className={styles.lightboxClose} onClick={closeLightbox}>
               ✕
-            </button>
-            <Image src={lightboxImage} alt="Fullscreen" width={1200} height={800} />
+            </button> */}
+            <div className={styles.lightboxImageContainer}>
+              <img
+                src={lightboxImage}
+                alt="Fullscreen"
+                className={styles.lightboxImage}
+                style={{
+                  maxWidth: '98vw',
+                  maxHeight: '95vh',
+                  width: 'auto',
+                  height: 'auto',
+                  objectFit: 'contain'
+                }}
+              />
+            </div>
+            <div className={styles.lightboxHint}>
+              <p>Press ESC or click outside to close</p>
+            </div>
           </div>
         </div>
       )}

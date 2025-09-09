@@ -302,7 +302,7 @@ font-family: poppins;
   }
 }
 
-@media (min-width: 1440px) and (max-width: 1919px) {
+@media (min-width: 1440px) and (max-width: 2419px) {
   .sustainabilitySection {
   padding: 8rem 0rem;
   max-width: 1400px;

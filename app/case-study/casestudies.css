@@ -332,8 +332,8 @@ cursor: pointer;}
 }
 
 .case-card:hover .case-title span {
-  transform: scale(1.05);
-  letter-spacing: 1px;
+  /* transform: scale(1); */
+  letter-spacing: .8px;
 }
 
 .case-title hr {
