@@ -1,88 +1,64 @@
+/* Modal backdrop with proper scrolling prevention */
 .modal-backdrop {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.7);
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.7);
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 1001;
-  overflow: auto; /* allows inner scroll */
-}
-
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.7);
-  z-index: 1000;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.modal-content {
-  background: #fff;
+  overflow: hidden;
   padding: 20px;
-  max-height: 90vh;  /* Important for scroll */
-  overflow-y: auto;  /* Enables inner scroll */
-  border-radius: 10px;
-  width: 90%;
-  max-width: 600px;
-  position: relative;
+  box-sizing: border-box;
 }
+
 .modal-box {
   background: white;
   padding: 30px;
   border-radius: 10px;
-  max-width: 500px;
-  width: 90%;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+  max-width: 600px;
+  width: 100%;
+  max-height: 100vh;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
   position: relative;
   overflow: hidden;
-}
-
-.modal-box h2 {
-  font-size: 1.5rem;
-  margin-bottom: 20px;
-  font-weight: 400;
-
+  overflow-y: auto;
 }
 
 .modal-box h3 {
-  font-size: 1.8rem;
+  font-size: 1.7rem;
   margin-bottom: 20px;
   font-weight: 400;
-
 }
-
-
 
 .modal-box input,
 .modal-box select,
 .modal-box textarea {
   width: 100%;
-  margin-bottom: 15px;
+  margin-bottom: 5px;
   padding: 10px;
-  font-size: 1rem;
+  font-size: .8rem;
   color: #109C5D;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 4px;
 }
 
 .modal-box .close-btn {
-  padding: 10px 20px;
-  font-size: 1rem;
-  background: black;
-  color: white;
+  padding: 0px 15px;
+  font-size: 2rem;
+  background: rgb(255, 255, 255);
+  color: rgb(0, 0, 0);
   border: none;
   cursor: pointer;
   transition: transform 0.2s;
 }
 
 .modal-box button {
+  margin-top: 5px;
   padding: 10px 20px;
   font-size: 1rem;
   background: black;
@@ -90,6 +66,7 @@
   border: none;
   cursor: pointer;
   transition: transform 0.2s;
+  border-radius: 4px;
 }
 
 .modal-box button:hover {
@@ -100,64 +77,31 @@
   position: absolute;
   top: 10px;
   right: 15px;
-  font-size: 1.5rem;
-  background: none;
-  border: none;
-  cursor: pointer;
 }
 
-
-select option {
-  background-color: rgb(255, 255, 255);
-  color: black;
+.close-btn:hover {
+  color: rgb(189, 9, 9);
+  transform: none;
 }
 
-select:focus {
-  border-color: #109C5D;
-  outline: none;
-}
-
-.success-animation {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: white;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  z-index: 10;
-}
-
-.success-msg {
-  color: #109C5D;
-  font-weight: bold;
-  margin-top: 20px;
-  font-size: 1.2rem;
-}
-.modal-box select:hover {
-  
-  color: #3d3d3d;
-  border-color: #109C5D;
-  cursor: pointer;
-}
+/* Enhanced dropdown with proper scrolling */
 .custom-dropdown-wrapper {
   position: relative;
-  margin-bottom: 15px;
+  margin-bottom: 5px;
 }
 
 .custom-dropdown {
   padding: 10px;
   border: 1px solid #ccc;
+  border-radius: 4px;
   background: #fff;
   cursor: pointer;
   color: #109C5D;
-  font-size: 1rem;
+  font-size: .8rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  transition: border-color 0.2s;
 }
 
 .custom-dropdown:hover {
@@ -168,25 +112,48 @@ select:focus {
   position: absolute;
   top: 100%;
   left: 0;
+  right: 0;
   width: 100%;
   max-height: 200px;
-  overflow-y: auto;
   background: white;
   border: 1px solid #ccc;
-  z-index: 99;
+  border-top: none;
+  border-radius: 0 0 4px 4px;
+  z-index: 1000;
   list-style: none;
   padding: 0;
   margin: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  scrollbar-width: thin;
+  scrollbar-color: #109C5D #f1f1f1;
+}
+
+.custom-options::-webkit-scrollbar {
+  width: 6px;
+}
+
+.custom-options::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.custom-options::-webkit-scrollbar-thumb {
+  background: #109C5D;
+  border-radius: 3px;
 }
 
 .custom-options li {
-  padding: 10px;
+  padding: 10px 10px;
   cursor: pointer;
   transition: background 0.2s;
+  border-bottom: 1px solid #f0f0f0;
+  font-size: .8rem;
+  color: #333;
 }
 
 .custom-options li:hover {
-  background-color: #f3f2f2;
+  background-color: #f8f9fa;
   color: #109C5D;
 }
 
@@ -195,43 +162,248 @@ select:focus {
   margin-left: 10px;
 }
 
-
-
-.cta-button {
-  background: linear-gradient(90deg, #1C6544 40%, #11955A);
-  color: white;
-  font-size: 1.5rem;
-  border: solid 1px white;
-  cursor: pointer;
-  transition: all 0.4s ease;
-  text-transform: uppercase;
-  font-family: 'Bebas Neue', sans-serif;
+/* Enhanced success animation */
+.success-animation {
   position: relative;
-  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  padding: 40px 20px;
+  text-align: center;
 }
 
-.cta-button:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 20px rgba(28, 101, 68, 0.4);
-  background: linear-gradient(90deg, #003514, #00572b, #109c5d);
-}
-
-.cta-button::after {
-  content: '';
+/* Confetti animation */
+.confetti {
   position: absolute;
   top: 0;
-  left: -100%;
+  left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(255, 255, 255, 0.4),
-    transparent
-  );
-  transition: 0.5s;
+  pointer-events: none;
+  z-index: 1;
 }
 
-.cta-button:hover::after {
+.confetti-piece {
+  position: absolute;
+  width: 8px;
+  height: 16px;
+  background: #109C5D;
+  top: 0;
+  opacity: 0;
+  animation: confetti 1s ease-in-out forwards;
+}
+
+.confetti-piece:nth-child(1) {
+  left: 10%;
+  animation-delay: 0.1s;
+  background: #109C5D;
+}
+
+.confetti-piece:nth-child(2) {
+  left: 20%;
+  animation-delay: 0.2s;
+  background: #FFD700;
+}
+
+.confetti-piece:nth-child(3) {
+  left: 30%;
+  animation-delay: 0.3s;
+  background: #109C5D;
+}
+
+.confetti-piece:nth-child(4) {
+  left: 40%;
+  animation-delay: 0.4s;
+  background: #FFD700;
+}
+
+.confetti-piece:nth-child(5) {
+  left: 50%;
+  animation-delay: 0.5s;
+  background: #109C5D;
+}
+
+.confetti-piece:nth-child(6) {
+  left: 60%;
+  animation-delay: 0.6s;
+  background: #FFD700;
+}
+
+.confetti-piece:nth-child(7) {
+  left: 70%;
+  animation-delay: 0.7s;
+  background: #109C5D;
+}
+
+.confetti-piece:nth-child(8) {
+  left: 80%;
+  animation-delay: 0.8s;
+  background: #FFD700;
+}
+
+.confetti-piece:nth-child(9) {
+  left: 90%;
+  animation-delay: 0.9s;
+  background: #109C5D;
+}
+
+.confetti-piece:nth-child(10) {
   left: 100%;
+  animation-delay: 1s;
+  background: #FFD700;
+}
+
+@keyframes confetti {
+  0% {
+    opacity: 0;
+    top: 0;
+    transform: rotateZ(0) rotateY(0);
+  }
+  10% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    top: 100%;
+    transform: rotateZ(360deg) rotateY(720deg);
+  }
+}
+
+/* Checkmark animation - Ensuring the tick is visible */
+.checkmark-animation {
+  position: relative;
+  z-index: 2;
+  margin-bottom: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.checkmark {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  display: block;
+  stroke-width: 5;
+  stroke: #fff;
+  stroke-miterlimit: 10;
+  box-shadow: 0 0 20px rgba(16, 156, 93, 0.3);
+  animation: fill .4s ease-in-out .4s forwards, scale .3s ease-in-out .9s both;
+}
+
+.checkmark__circle {
+  stroke-dasharray: 166;
+  stroke-dashoffset: 166;
+  stroke-width: 5;
+  stroke-miterlimit: 10;
+  stroke: #109C5D;
+  fill: none;
+  animation: stroke .6s cubic-bezier(0.650, 0.000, 0.450, 1.000) forwards;
+}
+
+.checkmark__check {
+  transform-origin: 50% 50%;
+  stroke-dasharray: 48;
+  stroke-dashoffset: 48;
+  stroke: #109C5D; /* Ensure the checkmark is white */
+  stroke-width: 5; /* Make sure it's thick enough */
+  animation: stroke .3s cubic-bezier(0.650, 0.000, 0.450, 1.000) .8s forwards;
+}
+
+@keyframes stroke {
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes scale {
+  0%, 100% {
+    transform: none;
+  }
+  50% {
+    transform: scale3d(1.1, 1.1, 1);
+  }
+}
+
+@keyframes fill {
+  100% {
+    box-shadow: 0 0 20px rgba(16, 156, 93, 0.5);
+  }
+}
+
+.success-title {
+  font-size: 2rem;
+  color: #109C5D;
+  margin-bottom: 15px;
+  position: relative;
+  z-index: 2;
+  animation: fadeIn 0.5s ease-in-out 1s both;
+}
+
+.success-message {
+  font-size: 1.1rem;
+  color: #555;
+  position: relative;
+  z-index: 2;
+  animation: fadeIn 0.5s ease-in-out 1.2s both;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .modal-backdrop {
+    padding: 10px;
+  }
+  
+  .modal-box {
+    padding: 20px;
+    max-height: 99vh;
+  }
+  
+  .modal-box h3 {
+    font-size: 1.5rem;
+  }
+  
+  .custom-options {
+    max-height: 150px;
+  }
+  
+  .success-title {
+    font-size: 1.5rem;
+  }
+  
+  .success-message {
+    font-size: 1rem;
+  }
+  
+  .checkmark {
+    width: 80px;
+    height: 80px;
+  }
+}
+
+/* Ensure DatePicker doesn't interfere */
+.react-datepicker-wrapper {
+  width: 100%;
+}
+
+.react-datepicker__input-container input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: .8rem;
+  color: #109C5D;
 }
