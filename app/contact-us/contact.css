@@ -4,11 +4,13 @@
   color: white;
   padding: 4rem 2rem;
   font-family: 'Poppins', sans-serif;
-   padding-top: 170px;
+  padding-top: 170px;
 }
-img{
-    height: 100%;
+
+img {
+  height: 100%;
 }
+
 .contact-header h1 {
   font-size: 7rem;
   font-weight: 400;
@@ -21,10 +23,7 @@ img{
 }
 
 .contact-subtitle {
-    /* position: relative; */
   display: flex;
-  /* margin-bottom: 40px; */
-
   align-items: center;
   gap: 1rem;
   margin-top: 1rem;
@@ -47,16 +46,10 @@ img{
   display: flex;
   flex-wrap: wrap;
   background: white;
-  /* border-radius: 4px; ss*/
   overflow: hidden;
   max-width: 1100px;
   margin: 0 auto;
   border-radius: 12px;
-}
-
-.contact-image {
-  flex: 1;
-  min-width: 300px;
 }
 
 .contact-form {
@@ -69,7 +62,6 @@ img{
 .contact-form h2 {
   text-align: center;
   font-size: 2.5rem;
-  /* font-weight: bold; */
   text-transform: uppercase;
   margin-bottom: 1.5rem;
   color: #3d3d3d;
@@ -101,28 +93,16 @@ img{
   flex: 1;
 }
 
-
-.cta-button{
-    padding: 2px 0rem;
-    border-radius: 8px;
-    border: 1px solid white;
-
-    
-}
-
-.contact-image.slideshow {
-  flex: 1;
-  background-size: cover;
-  /* background-position: center; */
-  /* transition: background-image .5s ease-in; */
+.cta-button {
+  padding: 2px 0rem;
+  border-radius: 8px;
+  border: 1px solid white;
 }
 
 .contact-footer {
   display: flex;
   gap: 2rem;
-  /* margin-top: 4rem; */
   padding-top: 2rem;
-  /* border-top: 1px solid #ddd; */
   justify-content: space-between;
   flex-wrap: wrap;
   max-width: 1200px;
@@ -133,22 +113,91 @@ img{
   flex: 1;
   min-width: 200px;
   text-align: -webkit-center;
-
 }
 
 .footer-column h2 {
   font-size: 3.5rem;
   margin-bottom: 0.5rem;
-  /* color: #333; */
 }
 
 .footer-column p, .footer-column a {
   font-size: 1.2rem;
-  /* color: #555; */
   line-height: 1.6;
   text-decoration: none;
-
 }
+
 .contact-footer .footer-column div {
   white-space: pre-line;
 }
+.contact-image-container {
+          position: relative;
+          flex: 1;
+          min-width: 300px;
+          overflow: hidden;
+          border-radius: 12px 0 0 12px;
+        }
+        
+        .contact-image.slideshow {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  transition: transform 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94), 
+              opacity 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* Base state */
+.contact-image.slideshow.current {
+  z-index: 2;
+  transform: translateX(0);
+  opacity: 1;
+}
+
+.contact-image.slideshow.next {
+  z-index: 1;
+  transform: translateX(100%); /* Always start next from right */
+  opacity: 0;
+}
+
+/* Transition states */
+.contact-image.slideshow.current.slide-out {
+  transform: translateX(-100%); /* Always exit left */
+  opacity: 0;
+}
+
+.contact-image.slideshow.next.slide-in {
+  transform: translateX(0); /* Enter from right */
+  opacity: 1;
+}
+
+        
+        /* Add a subtle gradient overlay */
+        .contact-image.slideshow::after {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: linear-gradient(
+            135deg,
+            rgba(0, 0, 0, 0.1) 0%,
+            rgba(0, 0, 0, 0) 50%,
+            rgba(0, 0, 0, 0.1) 100%
+          );
+          pointer-events: none;
+        }
+        
+        /* Add a soft focus effect during transition */
+        .contact-image.slideshow.current.slide-out {
+          filter: blur(2px);
+        }
+        
+        .contact-image.slideshow.next.slide-in {
+          filter: blur(0);
+        }
+
+        

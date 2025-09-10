@@ -8,10 +8,11 @@ export default function ContactUsClient({ data }: { data: any }) {
   useEffect(() => {
     if (data?.slideshowImages?.length > 1) {
       const interval = setInterval(() => {
-        setCurrentIndex((prev) =>
+        setCurrentIndex((prev) => 
           prev === data.slideshowImages.length - 1 ? 0 : prev + 1
         );
-      }, 4000);
+      }, 8000);
+      
       return () => clearInterval(interval);
     }
   }, [data]);
@@ -27,10 +28,15 @@ export default function ContactUsClient({ data }: { data: any }) {
       </div>
 
       <div className="contact-content">
-        <div
-          className="contact-image slideshow"
-          style={{ backgroundImage: `url(${data.slideshowImages[currentIndex]?.sourceUrl})` }}
-        />
+        <div className="contact-image-container">
+          {data?.slideshowImages?.map((image: any, index: number) => (
+            <div 
+              key={index}
+              className={`contact-image slideshow ${index === currentIndex ? 'active' : ''}`}
+              style={{ backgroundImage: `url(${image?.sourceUrl})` }}
+            />
+          ))}
+        </div>
         <div className="contact-form">
           <h2>{data.formHeading}</h2>
           <form>
@@ -72,6 +78,32 @@ export default function ContactUsClient({ data }: { data: any }) {
           </p>
         </div>
       </div>
+
+      <style jsx>{`
+        .contact-image-container {
+          position: relative;
+          flex: 1;
+          min-width: 300px;
+          overflow: hidden;
+          border-radius: 12px 0 0 12px;
+        }
+        
+        .contact-image.slideshow {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background-size: cover;
+          background-position: center;
+          opacity: 0;
+          transition: opacity 1s ease;
+        }
+        
+        .contact-image.slideshow.active {
+          opacity: 1;
+        }
+      `}</style>
     </div>
   );
 }

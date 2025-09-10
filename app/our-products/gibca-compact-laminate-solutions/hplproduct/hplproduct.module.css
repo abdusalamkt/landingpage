@@ -898,9 +898,9 @@
   .series {
     font-size: 5rem;
   }
-  .modelGrid {
+  /* .modelGrid {
     max-width: 1000px;
-  }
+  } */
 }
 
 /* Large Screens (≥ 1440px) */

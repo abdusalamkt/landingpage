@@ -112,7 +112,7 @@ export default async function HufcorPage() {
 
 
       {/* First Product Section (Image Left) */}
-      <div className={styles.productSection}>
+      <div className={styles.productSection} id="operable">
         <div className={styles.imageContainer}>
           <ImageSlider
             slides={
