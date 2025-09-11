@@ -19,6 +19,7 @@ export default function DownloadPageClient({ serverData }) {
   const [transferFiles, setTransferFiles] = useState([]);
   const [showProductDropdown, setShowProductDropdown] = useState(false);
   const [showDocTypeDropdown, setShowDocTypeDropdown] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const animationRef = useRef();
   const productDropdownRef = useRef();
   const docTypeDropdownRef = useRef();
@@ -44,6 +45,20 @@ export default function DownloadPageClient({ serverData }) {
 
   const productOptions = uniqueValues("product");
   const docTypeOptions = uniqueValues("type");
+
+  // Listen for modal state changes from DownloadItemRow
+  useEffect(() => {
+    const handleModalOpen = () => setIsModalOpen(true);
+    const handleModalClose = () => setIsModalOpen(false);
+
+    window.addEventListener('downloadModalOpen', handleModalOpen);
+    window.addEventListener('downloadModalClose', handleModalClose);
+
+    return () => {
+      window.removeEventListener('downloadModalOpen', handleModalOpen);
+      window.removeEventListener('downloadModalClose', handleModalClose);
+    };
+  }, []);
 
   // Background animation
   useEffect(() => {
@@ -145,10 +160,9 @@ export default function DownloadPageClient({ serverData }) {
     };
   }, [showProductDropdown, showDocTypeDropdown]);
 
-  // Prevent body scroll when dropdowns are open
+  // Prevent body scroll when dropdowns or modal are open
   useEffect(() => {
-    if (showProductDropdown || showDocTypeDropdown) {
-      // Prevent body scroll
+    if (showProductDropdown || showDocTypeDropdown || isModalOpen) {
       const originalStyle = window.getComputedStyle(document.body).overflow;
       document.body.style.overflow = 'hidden';
       
@@ -156,7 +170,7 @@ export default function DownloadPageClient({ serverData }) {
         document.body.style.overflow = originalStyle;
       };
     }
-  }, [showProductDropdown, showDocTypeDropdown]);
+  }, [showProductDropdown, showDocTypeDropdown, isModalOpen]);
 
   // Filter the parsed downloads (with duplicates for proper filtering)
   const filtered = parsedDownloads.filter((item) => {
@@ -185,8 +199,11 @@ export default function DownloadPageClient({ serverData }) {
   };
 
   return (
-    <>
-      <Header />
+    <div className={`${styles.pageContainer} ${isModalOpen ? styles.modalOpen : ''}`}>
+      <div className={`${styles.headerContainer} ${isModalOpen ? styles.hidden : ''}`}>
+        <Header />
+      </div>
+      
       <section className={styles.hero}>
         <div className={styles.animatedBackground}>
           {transferFiles.map((file) => (
@@ -224,7 +241,7 @@ export default function DownloadPageClient({ serverData }) {
         </div>
       </section>
 
-      <div className={styles.filters}>
+      <div className={`${styles.filters} ${(showProductDropdown || showDocTypeDropdown) ? styles.filtersExpanded : ''}`}>
         {/* Custom Product Dropdown */}
         <div className="custom-dropdown-wrapper">
           <div
@@ -269,7 +286,7 @@ export default function DownloadPageClient({ serverData }) {
           )}
         </div>
 
-        {/* Custom Document Type Dropdown */}
+        {/* Custom Document Type */}
         <div className="custom-dropdown-wrapper">
           <div
             className={styles.customDropdown}
@@ -328,6 +345,6 @@ export default function DownloadPageClient({ serverData }) {
           <DownloadItemRow key={`${item.link}-${index}`} item={item} />
         ))}
       </div>
-    </>
+    </div>
   );
 }
