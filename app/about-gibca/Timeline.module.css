@@ -11,6 +11,9 @@
   font-size: 3.5rem;
   font-weight: 400;
   color: #3d3d3d;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp 1s ease forwards 0.5s;
 }
 
 .title span {
@@ -21,6 +24,9 @@
   text-align: center;
   margin: 1rem auto 3rem;
   max-width: 700px;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp 1s ease forwards 0.8s;
 }
 
 .timelineContainer {
@@ -47,7 +53,7 @@
   width: 100%;
   background: #109c5d;
   height: 0;
-  transition: height 1s ease-out;
+  transition: height 0.8s ease-out;
   z-index: 1;
 }
 
@@ -59,40 +65,114 @@
   position: relative;
   z-index: 2;
   text-align: end;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.8s ease-out;
+}
+
+.timelineItem.visible {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .timelineContent {
   flex: 1;
   max-width: 40%;
+  opacity: 0;
+  transform: translateX(-20px);
+  transition: all 0.8s ease-out 0.3s;
+}
+
+.timelineItem.visible .timelineContent {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.timelineItem:nth-child(even) .timelineContent {
+  transform: translateX(20px);
+}
+
+.timelineItem:nth-child(even).visible .timelineContent {
+  transform: translateX(0);
 }
 
 .timelineContent img {
   width: 100%;
   border-radius: 8px;
   max-width: 500px;
-  max-height: 400px;
+  max-height: 280px;
   margin-left: 0rem;
+  opacity: 0;
+  transform: scale(0.95);
+  transition: all 0.8s ease-out 0.5s;
+}
+
+.timelineItem.visible .timelineContent img {
+  opacity: 1;
+  transform: scale(1);
 }
 
 .timelinePoint {
   background: #fff;
-  /* padding: 1rem 1.5rem; */
   max-width: 40%;
   flex: 1;
   position: relative;
   margin: -2rem 5rem;
+  opacity: 0;
+  transform: translateX(20px);
+  transition: all 0.8s ease-out 0.4s;
+}
+
+.timelineItem.visible .timelinePoint {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.timelineItem:nth-child(even) .timelinePoint {
+  transform: translateX(-20px);
+  text-align: left;
+}
+
+.timelineItem:nth-child(even).visible .timelinePoint {
+  transform: translateX(0);
 }
 
 .timelinePoint h3 {
   color: #109c5d;
   font-size: 5rem;
   margin-bottom: 0.5rem;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.8s ease-out 0.5s;
+}
+
+.timelineItem.visible .timelinePoint h3 {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .timelinePoint h4 {
-  /* font-weight: bold; */
   margin-bottom: 0.5rem;
-    font-size: 2rem;
+  font-size: 2rem;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.8s ease-out 0.6s;
+}
+
+.timelineItem.visible .timelinePoint h4 {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.timelinePoint p {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.8s ease-out 0.7s;
+}
+
+.timelineItem.visible .timelinePoint p {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .timelineDot {
@@ -107,7 +187,38 @@
   transform: translate(-50%, -50%);
   z-index: 3;
   box-shadow: 0 0 0 4px #109c5d;
-  transition: transform 0.2s ease-out;
+  transition: transform 0.3s ease-out;
+  opacity: 0;
+  scale: 0.5;
+}
+
+.timelineItem.visible .timelineDot {
+  opacity: 1;
+  scale: 1;
+  animation: pulse 2s infinite;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(16, 156, 93, 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(16, 156, 93, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(16, 156, 93, 0);
+  }
 }
 
 @media (max-width: 768px) {
@@ -120,6 +231,7 @@
   .timelinePoint {
     max-width: 100%;
     text-align: center;
+    margin: 1rem 0 !important;
   }
 
   .timelineLine {
@@ -131,11 +243,15 @@
     left: 20px;
     transform: translateY(-50%);
   }
-}
-.timelineItem:nth-child(even) .timelinePoint {
-  text-align: left;
-}
-
-.timelineItem:nth-child(even) .timelineContent img{
-    margin: 0rem 1rem;
+  
+  .timelineItem:nth-child(even) .timelineContent,
+  .timelineItem:nth-child(even) .timelinePoint {
+    transform: none;
+    text-align: center;
+  }
+  
+  .timelineItem.visible .timelineContent,
+  .timelineItem.visible .timelinePoint {
+    transform: none;
+  }
 }

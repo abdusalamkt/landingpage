@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import styles from "./Timeline.module.css";
 
@@ -18,6 +18,38 @@ type TimelineProps = {
 export default function Timeline({ events }: TimelineProps) {
   const timelineRef = useRef<HTMLDivElement>(null);
   const fillLineRef = useRef<HTMLDivElement>(null);
+  const [visibleItems, setVisibleItems] = useState<number[]>([]);
+  const observerRef = useRef<IntersectionObserver | null>(null);
+
+  useEffect(() => {
+    // Initialize intersection observer
+    if (timelineRef.current && events) {
+      observerRef.current = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            const index = parseInt(entry.target.getAttribute('data-index') || '0', 10);
+            
+            if (entry.isIntersecting) {
+              setVisibleItems(prev => 
+                prev.includes(index) ? prev : [...prev, index]
+              );
+            }
+          });
+        },
+        { threshold: 0.3 }
+      );
+
+      // Observe all timeline items
+      const items = timelineRef.current.querySelectorAll(`.${styles.timelineItem}`);
+      items.forEach((item, index) => {
+        observerRef.current?.observe(item);
+      });
+    }
+
+    return () => {
+      observerRef.current?.disconnect();
+    };
+  }, [events]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -34,6 +66,7 @@ export default function Timeline({ events }: TimelineProps) {
 
     window.addEventListener("scroll", handleScroll);
     handleScroll();
+    
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -54,7 +87,11 @@ export default function Timeline({ events }: TimelineProps) {
         </div>
 
         {events.map((event, idx) => (
-          <div className={styles.timelineItem} key={`${event.year}-${idx}`}>
+          <div 
+            className={`${styles.timelineItem} ${visibleItems.includes(idx) ? styles.visible : ''}`} 
+            key={`${event.year}-${idx}`}
+            data-index={idx}
+          >
             <div className={styles.timelineDot}></div>
 
             {idx % 2 === 0 ? (
@@ -66,21 +103,22 @@ export default function Timeline({ events }: TimelineProps) {
                       alt={event.year || "Timeline image"}
                       width={500}
                       height={300}
+                      className={styles.timelineImage}
                     />
                   )}
                 </div>
                 <div className={styles.timelinePoint}>
-                  <h3>{event.year}</h3>
-                  <h4>{event.title}</h4>
-                  <p>{event.description}</p>
+                  <h3 className={styles.year}>{event.year}</h3>
+                  <h4 className={styles.eventTitle}>{event.title}</h4>
+                  <p className={styles.eventDescription}>{event.description}</p>
                 </div>
               </>
             ) : (
               <>
                 <div className={styles.timelinePoint}>
-                  <h3>{event.year}</h3>
-                  <h4>{event.title}</h4>
-                  <p>{event.description}</p>
+                  <h3 className={styles.year}>{event.year}</h3>
+                  <h4 className={styles.eventTitle}>{event.title}</h4>
+                  <p className={styles.eventDescription}>{event.description}</p>
                 </div>
                 <div className={styles.timelineContent}>
                   {event.image?.sourceUrl && (
@@ -89,6 +127,7 @@ export default function Timeline({ events }: TimelineProps) {
                       alt={event.year || "Timeline image"}
                       width={500}
                       height={300}
+                      className={styles.timelineImage}
                     />
                   )}
                 </div>
