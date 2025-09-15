@@ -44,7 +44,7 @@ height: 80vh;
 
 .red {
   color: #D72027;
-  /* margin-left: 20px; */
+  margin-left: 15px;
 }
 
 .description {
@@ -63,7 +63,7 @@ margin-bottom: 50px;
   display: flex;
   gap: 30px;
   flex-wrap: wrap;
-  /* border-radius: 20px; */
+  /* border-radius: 20px;*/
 }
 
 .outline {
