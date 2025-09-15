@@ -1,0 +1,216 @@
+/* Back button container */
+.back-button-wrap {
+  position: fixed;
+  top: 110px; /* Default position when header is visible */
+  /* left: 1.5rem; */
+  z-index: 999; /* Slightly lower than header's z-index */
+  border-radius: 50%;
+  background: transparent;
+  pointer-events: none;
+  transition: all 400ms cubic-bezier(0.25, 1, 0.5, 1);
+  width: 40px;
+  height: 40px;
+}
+
+/* Position when header is hidden */
+.back-button-wrap.header-hidden {
+  top: 0px;
+}
+
+/* Shadow container */
+.back-button-shadow {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  filter: blur(4px);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.back-button-shadow::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  /* border-radius: 50%; */
+  background: linear-gradient(135deg, rgba(85, 85, 85, 0.082), transparent 70%);
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  transition: all 400ms cubic-bezier(0.25, 1, 0.5, 1);
+  opacity: 0.8;
+}
+
+/* Button styles */
+.glass-back-button {
+  all: unset;
+  cursor: pointer;
+  position: relative;
+  pointer-events: auto;
+  z-index: 2;
+  background: linear-gradient(135deg, #ffffff50, #b4b4b400);
+  /* border-radius: 50%; */
+  box-shadow: 
+    inset 0 2px 4px rgba(255, 255, 255, 0.4),
+    inset 0 -2px 4px rgba(0, 0, 0, 0.2),
+    0 4px 8px rgba(0, 0, 0, 0.15);
+  backdrop-filter: blur(10px);
+  transition: all 400ms cubic-bezier(0.25, 1, 0.5, 1);
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.glass-back-button:hover {
+  transform: scale(0.95);
+  backdrop-filter: blur(12px);
+  box-shadow: 
+    inset 0 2px 6px rgba(255, 255, 255, 0.5),
+    inset 0 -2px 4px rgba(0, 0, 0, 0.25),
+    0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.glass-back-button:active {
+  transform: scale(0.9);
+  box-shadow: 
+    inset 0 2px 8px rgba(255, 255, 255, 0.3),
+    inset 0 -2px 6px rgba(0, 0, 0, 0.3),
+    0 1px 3px rgba(0, 0, 0, 0.15);
+}
+
+/* Icon styles */
+.back-button-icon {
+  width: 16px;
+  height: 18px;
+  transition: transform 0.3s ease;
+  color: rgba(0, 0, 0, 0.9);
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.2));
+}
+
+.glass-back-button:hover .back-button-icon {
+  color: #109c5d;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+  transform: translateX(-3px);
+}
+
+.back-button-icon::after {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  mix-blend-mode: overlay;
+  pointer-events: none;
+  transition: all 500ms cubic-bezier(0.25, 1, 0.5, 1);
+  opacity: 0.7;
+}
+
+.glass-back-button:hover .back-button-icon::after {
+  opacity: 1;
+  background-position: 100% 50%;
+}
+
+.glass-back-button:active .back-button-icon::after {
+  opacity: 0.5;
+  background-position: 0% 50%;
+}
+
+/* Shadow hover effects */
+.back-button-wrap:hover .back-button-shadow {
+  filter: blur(6px);
+}
+
+.back-button-wrap:active {
+  transform: translateY(2px);
+}
+
+/* Animation for page load */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translate(-10px, -10px) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: translate(0, 0) scale(1);
+  }
+}
+
+.back-button-wrap {
+  animation: fadeIn 0.4s ease-out;
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .glass-back-button {
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.1));
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .back-button-icon {
+    color: rgba(255, 255, 255, 0.9);
+  }
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .back-button-wrap {
+    width: 45px;
+    height: 45px;
+    top: 100px; /* Adjusted for mobile */
+    left: 1rem;
+  }
+  
+  .back-button-wrap.header-hidden {
+    top: 15px; /* Adjusted for mobile */
+  }
+  
+  .back-button-icon {
+    width: 18px;
+    height: 18px;
+  }
+}
+/* Tooltip styles */
+.back-tooltip {
+  position: absolute;
+  left: 110%; /* place tooltip on the right */
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0, 0, 0, 0.85);
+  color: #fff;
+  font-size: 10px;
+  font-family: poppins, sans-serif;
+  font-weight: 500;
+  padding: 4px 8px;
+  border-radius: 6px;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+  z-index: 1000;
+}
+
+/* Tooltip arrow */
+.back-tooltip::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: 100%; /* arrow on left side of tooltip */
+  transform: translateY(-50%);
+  border-width: 5px;
+  border-style: solid;
+  border-color: transparent rgba(0,0,0,0.85) transparent transparent;
+}
+
+/* Show tooltip on hover */
+.glass-back-button:hover .back-tooltip {
+  opacity: 1;
+  transform: translateY(-50%) translateX(4px);
+}

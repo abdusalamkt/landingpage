@@ -216,13 +216,13 @@
   gap: 12px;
   overflow-x: auto;
   white-space: nowrap;
-  padding: 10px 24px;
+  padding: 6px 24px;
   background: linear-gradient(to bottom, rgba(0, 0, 0, 0.8) 1%, rgba(0, 0, 0, 0.253));
   position: fixed;
   top: 100px;
   left: 0;
   right: 0;
-  z-index: 999;
+  z-index: 998;
   color: white;
   transition: top 0.3s ease;
   scrollbar-width: none;
