@@ -10,9 +10,9 @@
 
 .resources-heading {
   font-family: 'Bebas Neue', sans-serif;
-  font-size: 3rem;
+  font-size: 3.5rem;
   margin-bottom: 1rem;
-  color: #3d3d3d;
+  /* color: #3d3d3d; */
   z-index: 2;
   position: relative;
 }
@@ -20,8 +20,8 @@
 .resources-description {
   font-family: 'Poppins', sans-serif;
   font-size: 16px;
-  color: #3d3d3d;
-  margin-bottom: 4rem;
+  /* color: #3d3d3d; */
+  margin-bottom: 3rem;
   max-width: 80%;
   margin-left: auto;
   margin-right: auto;
@@ -59,7 +59,7 @@
   max-width: 80%;
   /* padding: 5px 0; */
   /* padding-top: 30px; */
-  font-size: 3.2rem;
+  font-size: 2.6rem;
   /* font-weight: 600; */
   position: relative;
   z-index: 1;
