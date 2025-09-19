@@ -33,7 +33,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
     <html lang="en" className={`${bebasNeue.variable} ${poppins.variable}`}>
       <head>
         <script src="https://cdn.weglot.com/weglot.min.js"></script>
-        {/* ✅ Weglot initialization */}
+        {/* ✅ Weglot initialization*/}
         <script
           dangerouslySetInnerHTML={{
             __html: `
