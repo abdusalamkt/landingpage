@@ -7,7 +7,7 @@ import PageTransition from './components/PageTransition';
 import SmoothScroll from './components/SmoothScroll'; 
 import Footer from './components/Footer';
 import ButtonToTop from './components/ButtonToTop';
-import BackButton from './components/BackButton';
+// import BackButton from './components/BackButton';
 
 
 const bebasNeue = Bebas_Neue({
@@ -36,7 +36,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       <body>
         <SmoothScroll /> 
         <Header />
-        <BackButton />
+        {/* <BackButton /> */}
         {/* <PageTransition /> */}
         {children}
         <Footer />
