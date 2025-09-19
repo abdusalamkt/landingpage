@@ -37,7 +37,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           dangerouslySetInnerHTML={{
             __html: `
               Weglot.initialize({
-                api_key: "YOUR_WEGLOT_API_KEY"
+                api_key: "wg_33caaed335bc7e2d31291513d4e46d4e4"
               });
             `,
           }}
