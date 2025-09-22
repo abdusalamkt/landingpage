@@ -132,6 +132,13 @@ const Footer: React.FC = () => {
           </div>
         </div>
       </div>
+      {/* Bottom Bar */}
+<div className="footer-bottom-bar">
+  <p>
+    &copy; {new Date().getFullYear()} GIBCA. Developed by GIBCA FURNITURE INDUSTRY
+  </p>
+</div>
+
     </footer>
   );
 };

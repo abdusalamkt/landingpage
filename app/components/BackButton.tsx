@@ -6,16 +6,10 @@ import './BackButton.css';
 const BackButton = () => {
   const router = useRouter();
   const pathname = usePathname();
+
+  // ✅ Hooks always run, no matter what
   const [isHeaderHidden, setIsHeaderHidden] = useState(false);
   const [lastScrollY, setLastScrollY] = useState(0);
-
-  const handleGoBack = () => {
-    router.back();
-  };
-
-  if (pathname === '/') {
-    return null;
-  }
 
   useEffect(() => {
     const handleScroll = () => {
@@ -32,31 +26,40 @@ const BackButton = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [lastScrollY]);
 
+  const handleGoBack = () => {
+    router.back();
+  };
+
   return (
-    <div className={`back-button-wrap ${isHeaderHidden ? 'header-hidden' : ''}`}>
-      <button 
-        className="glass-back-button"
-        onClick={handleGoBack}
-        aria-label="Go back"
-      >
-        <svg 
-          className="back-button-icon" 
-          viewBox="0 0 24 24" 
-          fill="none" 
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path 
-            d="M26 12H5M5 12L12 19M5 12L12 5" 
-            stroke="currentColor" 
-            strokeWidth="2" 
-            strokeLinecap="round" 
-            strokeLinejoin="round"
-          />
-        </svg>
-        <span className="back-tooltip">back</span>
-      </button>
-      <div className="back-button-shadow"></div>
-    </div>
+    <>
+      {/* ✅ Conditional rendering instead of skipping hooks */}
+      {pathname !== '/' && (
+        <div className={`back-button-wrap ${isHeaderHidden ? 'header-hidden' : ''}`}>
+          <button 
+            className="glass-back-button"
+            onClick={handleGoBack}
+            aria-label="Go back"
+          >
+            <svg 
+              className="back-button-icon" 
+              viewBox="0 0 24 24" 
+              fill="none" 
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path 
+                d="M26 12H5M5 12L12 19M5 12L12 5" 
+                stroke="currentColor" 
+                strokeWidth="2" 
+                strokeLinecap="round" 
+                strokeLinejoin="round"
+              />
+            </svg>
+            <span className="back-tooltip">back</span>
+          </button>
+          <div className="back-button-shadow"></div>
+        </div>
+      )}
+    </>
   );
 };
 
