@@ -1,11 +1,22 @@
 'use client';
 
 import { useEffect, useState, useRef } from 'react';
+import './contact.css';
+
 
 export default function ContactUsClient({ data }: { data: any }) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [showDropdown, setShowDropdown] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitMessage, setSubmitMessage] = useState('');
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    project: '',
+    message: ''
+  });
   
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -30,8 +41,19 @@ export default function ContactUsClient({ data }: { data: any }) {
     };
 
     if (showDropdown) {
-      document.addEventListener('mousedown', handleClickOutside);
-    }
+    // Save current scroll position
+    const scrollY = window.scrollY;
+    document.body.style.position = 'fixed';
+    document.body.style.top = `-${scrollY}px`;
+    document.body.style.left = '0';
+    document.body.style.right = '0';
+  } else {
+    // Restore scroll position
+    const scrollY = document.body.style.top;
+    document.body.style.position = '';
+    document.body.style.top = '';
+    window.scrollTo(0, parseInt(scrollY || '0') * -1);
+  }
 
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
@@ -41,6 +63,61 @@ export default function ContactUsClient({ data }: { data: any }) {
   // Prevent event bubbling for dropdown scroll
   const handleDropdownScroll = (e: React.UIEvent<HTMLUListElement>) => {
     e.stopPropagation();
+  };
+
+  // Handle form input changes
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  // Handle form submission
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setSubmitMessage('');
+
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone,
+          project: formData.project,
+          product: selectedProduct,
+          message: formData.message,
+        }),
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        setSubmitMessage('Message sent successfully! We will get back to you soon.');
+        // Reset form
+        setFormData({
+          name: '',
+          email: '',
+          phone: '',
+          project: '',
+          message: ''
+        });
+        setSelectedProduct('');
+      } else {
+        setSubmitMessage('Failed to send message. Please try again.');
+      }
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      setSubmitMessage('An error occurred. Please try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -65,13 +142,40 @@ export default function ContactUsClient({ data }: { data: any }) {
         </div>
         <div className="contact-form">
           <h2>{data.formHeading}</h2>
-          <form>
-            <input type="text" placeholder="Name" required />
+          <form onSubmit={handleSubmit}>
+            <input 
+              type="text" 
+              name="name"
+              placeholder="Name" 
+              value={formData.name}
+              onChange={handleInputChange}
+              required 
+            />
             <div className="input-row">
-              <input type="email" placeholder="Email ID" required />
-              <input type="tel" placeholder="Mobile No." required />
+              <input 
+                type="email" 
+                name="email"
+                placeholder="Email ID" 
+                value={formData.email}
+                onChange={handleInputChange}
+                required 
+              />
+              <input 
+                type="tel" 
+                name="phone"
+                placeholder="Mobile No." 
+                value={formData.phone}
+                onChange={handleInputChange}
+                required 
+              />
             </div>
-            <input type="text" placeholder="Project Name & Location" />
+            <input 
+              type="text" 
+              name="project"
+              placeholder="Project Name & Location" 
+              value={formData.project}
+              onChange={handleInputChange}
+            />
             
             {/* Custom Dropdown */}
             <div className="custom-dropdown-wrapper" ref={dropdownRef}>
@@ -89,24 +193,45 @@ export default function ContactUsClient({ data }: { data: any }) {
                   onScroll={handleDropdownScroll}
                   onWheel={handleDropdownScroll}
                 >
-                  {data.products?.map((product: any, i: number) => (
-                    <li
-                      key={i}
-                      onClick={() => {
-                        setSelectedProduct(product.productName);
-                        setShowDropdown(false);
-                      }}
-                    >
-                      {product.productName}
-                    </li>
-                  ))}
+                  {data.products?.length > 0 ? (
+                    data.products.map((product: any, i: number) => (
+                      <li
+                        key={i}
+                        onClick={() => {
+                          setSelectedProduct(product.productName);
+                          setShowDropdown(false);
+                        }}
+                      >
+                        {product.productName}
+                      </li>
+                    ))
+                  ) : (
+                    <li className="no-products">No products available</li>
+                  )}
                 </ul>
               )}
             </div>
 
-            <textarea placeholder="Message" rows={3}></textarea>
-            <button className="cta-button" type="submit">
-              SUBMIT
+            <textarea 
+              name="message"
+              placeholder="Message" 
+              rows={3}
+              value={formData.message}
+              onChange={handleInputChange}
+            />
+            
+            {submitMessage && (
+              <div className={`submit-message ${submitMessage.includes('success') ? 'success' : 'error'}`}>
+                {submitMessage}
+              </div>
+            )}
+            
+            <button 
+              className="cta-button" 
+              type="submit"
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? 'SENDING...' : 'SUBMIT'}
             </button>
           </form>
         </div>
@@ -128,290 +253,6 @@ export default function ContactUsClient({ data }: { data: any }) {
           </p>
         </div>
       </div>
-
-      <style jsx>{`
-        .contact-page {
-          background: linear-gradient(214.96deg, #222222 42.24%, #3D3D3D 101.05%);
-          color: white;
-          padding: 4rem 2rem;
-          font-family: 'Poppins', sans-serif;
-          padding-top: 170px;
-        }
-
-        img {
-          height: 100%;
-        }
-
-        .contact-header h1 {
-          font-size: 7rem;
-          font-weight: 400;
-          line-height: 1;
-          text-transform: uppercase;
-        }
-
-        .highlight {
-          color: #10b981;
-        }
-
-        .contact-subtitle {
-          display: flex;
-          align-items: center;
-          gap: 1rem;
-          margin-top: 1rem;
-          margin-bottom: 3rem;
-        }
-
-        .contact-subtitle span {
-          font-size: 4rem;
-          font-weight: 400;
-          font-family: 'Bebas Neue', sans-serif;
-        }
-
-        .contact-subtitle hr {
-          flex-grow: 1;
-          border: none;
-          border-top: 1px solid #aaa;
-        }
-
-        .contact-content {
-          display: flex;
-          flex-wrap: wrap;
-          background: white;
-          overflow: hidden;
-          max-width: 1100px;
-          margin: 0 auto;
-          border-radius: 12px;
-        }
-
-        .contact-image-container {
-          position: relative;
-          flex: 1;
-          min-width: 300px;
-          overflow: hidden;
-          border-radius: 12px 0 0 12px;
-        }
-
-        .contact-image.slideshow {
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          background-size: cover;
-          background-position: center;
-          opacity: 0;
-          transition: opacity 1s ease;
-        }
-
-        .contact-image.slideshow.active {
-          opacity: 1;
-        }
-
-        .contact-form {
-          flex: 1;
-          padding: 2rem;
-          background: white;
-          color: black;
-        }
-
-        .contact-form h2 {
-          text-align: center;
-          font-size: 2.5rem;
-          text-transform: uppercase;
-          margin-bottom: 1.5rem;
-          color: #3d3d3d;
-        }
-
-        .contact-form form {
-          display: flex;
-          flex-direction: column;
-          gap: 1rem;
-        }
-
-        .contact-form input,
-        .contact-form textarea {
-          padding: 0.75rem 1rem;
-          border: none;
-          border-bottom: 1px solid #ccc;
-          outline: none;
-          font-size: 1rem;
-          background: transparent;
-        }
-
-        .input-row {
-          display: flex;
-          gap: 1rem;
-        }
-
-        .input-row input {
-          flex: 1;
-        }
-
-        /* Custom Dropdown Styles */
-        .custom-dropdown-wrapper {
-          position: relative;
-          margin-bottom: 1rem;
-        }
-
-        .custom-dropdown {
-          padding: 0.75rem 1rem;
-          border: none;
-          border-bottom: 1px solid #ccc;
-          background: transparent;
-          cursor: pointer;
-          color: #333;
-          font-size: 1rem;
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          transition: border-color 0.2s;
-        }
-
-        .custom-dropdown:hover {
-          border-bottom-color: #109C5D;
-        }
-
-        .custom-options {
-          position: absolute;
-          top: 100%;
-          left: 0;
-          right: 0;
-          width: 100%;
-          max-height: 200px;
-          background: white;
-          border: 1px solid #ccc;
-          border-radius: 4px;
-          z-index: 1000;
-          list-style: none;
-          padding: 0;
-          margin: 0;
-          overflow-y: auto;
-          overflow-x: hidden;
-          box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-          scrollbar-width: thin;
-          scrollbar-color: #109C5D #f1f1f1;
-        }
-
-        .custom-options::-webkit-scrollbar {
-          width: 6px;
-        }
-
-        .custom-options::-webkit-scrollbar-track {
-          background: #f1f1f1;
-        }
-
-        .custom-options::-webkit-scrollbar-thumb {
-          background: #109C5D;
-          border-radius: 3px;
-        }
-
-        .custom-options li {
-          padding: 10px 1rem;
-          cursor: pointer;
-          transition: background 0.2s;
-          border-bottom: 1px solid #f0f0f0;
-          font-size: 1rem;
-          color: #333;
-        }
-
-        .custom-options li:hover {
-          background-color: #f8f9fa;
-          color: #109C5D;
-        }
-
-        .no-products {
-          padding: 10px 1rem;
-          color: #999;
-          font-style: italic;
-          cursor: default;
-        }
-
-        .no-products:hover {
-          background-color: transparent;
-          color: #999;
-        }
-
-        .arrow {
-          font-size: 0.8rem;
-          margin-left: 10px;
-          color: #666;
-        }
-
-        .cta-button {
-          padding: 2px 0rem;
-          border-radius: 8px;
-          border: 1px solid white;
-        }
-
-        .contact-footer {
-          display: flex;
-          gap: 2rem;
-          padding-top: 2rem;
-          justify-content: space-between;
-          flex-wrap: wrap;
-          max-width: 1200px;
-          margin: 4rem auto;
-        }
-
-        .footer-column {
-          flex: 1;
-          min-width: 200px;
-          text-align: -webkit-center;
-        }
-
-        .footer-column h2 {
-          font-size: 3.5rem;
-          margin-bottom: 0.5rem;
-        }
-
-        .footer-column p, .footer-column a {
-          font-size: 1.2rem;
-          line-height: 1.6;
-          text-decoration: none;
-        }
-
-        .contact-footer .footer-column div {
-          white-space: pre-line;
-        }
-
-        /* Add a subtle gradient overlay */
-        .contact-image.slideshow::after {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          background: linear-gradient(
-            135deg,
-            rgba(0, 0, 0, 0.1) 0%,
-            rgba(0, 0, 0, 0) 50%,
-            rgba(0, 0, 0, 0.1) 100%
-          );
-          pointer-events: none;
-        }
-
-        /* Add a soft focus effect during transition */
-        .contact-image.slideshow.current.slide-out {
-          filter: blur(2px);
-        }
-
-        .contact-image.slideshow.next.slide-in {
-          filter: blur(0);
-        }
-
-        /* Mobile responsiveness for dropdown */
-        @media (max-width: 768px) {
-          .custom-options {
-            max-height: 150px;
-          }
-          
-          .custom-options li {
-            padding: 8px 1rem;
-            font-size: 0.9rem;
-          }
-        }
-      `}</style>
     </div>
   );
 }
