@@ -1,67 +1,104 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import styles from './career.module.css';
+
+type Detail = {
+  detailTitle: string;
+  detailPoints: string; // HTML content
+};
 
 type Job = {
   title: string;
   type: string;
   experience: string;
   location: string;
-  description: string;
-  responsibilities: string[];
-  requirements: string[];
-  qualifications: string[];
+  description: string; // HTML content
+  details: Detail[];
 };
 
-const jobs: Job[] = [
-  {
-    title: 'Procurement Manager',
-    type: 'Full-time',
-    experience: '5–6 years EXP',
-    location: 'Ajman, UAE',
-    description:
-      'We are seeking a highly motivated and detail-oriented Procurement Manager with a strong engineering background...',
-    responsibilities: [
-      'Develop and implement comprehensive procurement strategies.',
-      'Collaborate with technical teams to understand requirements.',
-      'Ensure adherence to company and client procurement policies.',
-      'Evaluate suppliers and conduct risk assessments.',
-      'Negotiate contracts and pricing.',
-      'Monitor procurement costs and stay within budget.',
-      'Coordinate with departments for procurement timelines.',
-      'Ensure on-time delivery of materials and equipment.',
-      'Manage supply risks and disruptions.',
-      'Ensure compliance with legal and industry standards.',
-    ],
-    requirements: [
-      'Strong understanding of vendor sourcing practices.',
-      'Familiarity with supply chain management software.',
-      'Knowledge of procedures and shipment regulations.',
-      'Excellent communication and collaboration skills.',
-      'Problem-solving and risk assessment ability.',
-    ],
-    qualifications: [
-      'Bachelor’s in Engineering or Supply Chain Management.',
-      '4–6 years of relevant experience.',
-      'Certifications in procurement are a plus.',
-    ],
-  },
-  {
-    title: 'Digital Designer',
-    type: 'Full-time',
-    experience: '2–3 years EXP',
-    location: 'Dubai, UAE',
-    description:
-      'We are looking for a creative and skilled Digital Designer to join our team...',
-    responsibilities: ['Design digital campaigns', 'Work with marketing', 'Ensure UI/UX consistency'],
-    requirements: ['Figma, Adobe Suite skills', 'Communication skills'],
-    qualifications: ['Bachelor in Design or related field'],
-  },
-];
+type HeroBanner = {
+  id: string;
+  sourceUrl: string;
+  altText: string;
+};
 
 export default function CareerPage() {
+  const [jobs, setJobs] = useState<Job[]>([]);
+  const [heroHeading, setHeroHeading] = useState('');
+  const [heroDescription, setHeroDescription] = useState('');
+  const [sectionHeading, setSectionHeading] = useState('');
+  const [sectionDescription, setSectionDescription] = useState('');
+  const [heroBanner, setHeroBanner] = useState<HeroBanner | null>(null);
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
+
+  useEffect(() => {
+    async function fetchCareers() {
+      try {
+        const res = await fetch(process.env.WORDPRESS_GRAPHQL_ENDPOINT as string, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            query: `
+              query GetCareers {
+                careers {
+                  nodes {
+                    careerPageFields {
+                      heroHeading
+                      heroDescription
+                      heroBanner {
+                        id
+                        sourceUrl
+                        altText
+                      }
+                      sectionHeading
+                      sectionDescription
+                      jobs {
+                        jobTitle
+                        jobType
+                        yearsOfExperience
+                        location
+                        jobDescription
+                        details {
+                          detailTitle
+                          detailPoints
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            `,
+          }),
+        });
+
+        const json = await res.json();
+        const careerData = json?.data?.careers?.nodes[0]?.careerPageFields;
+
+        if (careerData) {
+          setHeroHeading(careerData.heroHeading || '');
+          setHeroDescription(careerData.heroDescription || '');
+          setSectionHeading(careerData.sectionHeading || '');
+          setSectionDescription(careerData.sectionDescription || '');
+          setHeroBanner(careerData.heroBanner || null);
+
+          const mappedJobs: Job[] = careerData.jobs.map((job: any) => ({
+            title: job.jobTitle,
+            type: job.jobType,
+            experience: job.yearsOfExperience,
+            location: job.location,
+            description: job.jobDescription,
+            details: job.details || [],
+          }));
+          setJobs(mappedJobs);
+        }
+      } catch (error) {
+        console.error('Error fetching careers:', error);
+      }
+    }
+
+    fetchCareers();
+  }, []);
 
   const toggleExpand = (index: number) => {
     setExpandedIndex(index === expandedIndex ? null : index);
@@ -71,21 +108,23 @@ export default function CareerPage() {
     <main className={styles.container}>
       {/* Meet Our Team Section */}
       <section className={styles.teamSection}>
-        <h1 className={styles.heading}>MEET OUR TEAM</h1>
-        <p className={styles.subtext}>
-          Get to know the passionate people behind our work, a team of dedicated professionals driven by creativity,
-          collaboration, and a shared commitment to excellence.
-        </p>
-        <div className={styles.imagePlaceholder} />
+        <h1 className={styles.heading} dangerouslySetInnerHTML={{ __html: heroHeading }} />
+        <p className={styles.subtext} dangerouslySetInnerHTML={{ __html: heroDescription }} />
+        {heroBanner ? (
+          <img
+            className={styles.imagePlaceholder}
+            src={heroBanner.sourceUrl}
+            alt={heroBanner.altText || 'Hero Banner'}
+          />
+        ) : (
+          <div className={styles.imagePlaceholder} />
+        )}
       </section>
 
       {/* Careers Section */}
       <section className={styles.openingsSection}>
-        <h2 className={styles.openingsHeading}>BE PART OF OUR SUCCESS</h2>
-        <p className={styles.subtext}>
-          Get to know the passionate people behind our work, a team of dedicated professionals driven by creativity,
-          collaboration, and a shared commitment to excellence.
-        </p>
+        <h2 className={styles.openingsHeading} dangerouslySetInnerHTML={{ __html: sectionHeading }} />
+        <p className={styles.subtext} dangerouslySetInnerHTML={{ __html: sectionDescription }} />
         <hr className={styles.divider} />
 
         {jobs.map((job, index) => (
@@ -111,28 +150,16 @@ export default function CareerPage() {
 
             {expandedIndex === index && (
               <div className={styles.jobDetails}>
-                <p>{job.description}</p>
+                {/* Job Description */}
+                <div dangerouslySetInnerHTML={{ __html: job.description }} />
 
-                <h4>Responsibilities:</h4>
-                <ul>
-                  {job.responsibilities.map((res, i) => (
-                    <li key={i}>{res}</li>
-                  ))}
-                </ul>
-
-                <h4>Requirements:</h4>
-                <ul>
-                  {job.requirements.map((req, i) => (
-                    <li key={i}>{req}</li>
-                  ))}
-                </ul>
-
-                <h4>Qualifications & Education:</h4>
-                <ul>
-                  {job.qualifications.map((qual, i) => (
-                    <li key={i}>{qual}</li>
-                  ))}
-                </ul>
+                {/* Job Details from repeater */}
+                {job.details.map((detail, i) => (
+                  <div key={i}>
+                    <h4>{detail.detailTitle}</h4>
+                    <div dangerouslySetInnerHTML={{ __html: detail.detailPoints }} />
+                  </div>
+                ))}
 
                 <button className={styles.closeButton} onClick={() => setExpandedIndex(null)}>
                   Close
