@@ -2,7 +2,7 @@
 import { useState, useEffect, useRef } from 'react';
 import './Header.css';
 import ContactUsModal from './ContactUsModal';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import AppointmentModal from './AppointmentModal';
 
 export default function Header() {
@@ -12,6 +12,7 @@ export default function Header() {
   const [isHeaderHidden, setIsHeaderHidden] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const pathname = usePathname();
+  const router = useRouter();
   const lastScrollY = useRef(0);
 
   const logoUrl = '/logos/2025 GIBCA LOGO BLACK.png';
@@ -35,14 +36,27 @@ export default function Header() {
     setActiveSubmenu(null);
   };
 
+  const handleGoBack = () => {
+    router.back();
+  };
+
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
-      setIsHeaderHidden(currentScrollY > lastScrollY.current && currentScrollY > 100);
+      const scrollDelta = currentScrollY - lastScrollY.current;
+
+      if (currentScrollY > 100 && scrollDelta > 0) {
+        // Scrolling down, hide header
+        setIsHeaderHidden(true);
+      } else if (scrollDelta < -30) { 
+        // Scrolling up more than 30px, show header
+        setIsHeaderHidden(false);
+      }
+
       lastScrollY.current = currentScrollY;
     };
 
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
@@ -70,55 +84,29 @@ export default function Header() {
         ]
       },
       {
-  name: 'HPL solutions',
-  link: '/our-products/gibca-compact-laminate-solutions',
-  submenu: [
-    {
-      items: [
-        { name: 'Washroom cubicles', link: '/our-products/gibca-compact-laminate-solutions/washroom-cubicles' },
-        { name: 'LOCKER SYSTEMS', link: '/our-products/gibca-compact-laminate-solutions/locker-systems' },
-        { name: 'WALL CLADDING', link: '/our-products/gibca-compact-laminate-solutions/internal-wall-cladding' },
-        { name: 'INTEGRATED PANEL SYSTEMS', link: '/our-products/gibca-compact-laminate-solutions/integrated-panel-systems' },
-        { name: 'OUTDOOR FURNITURES', link: '/our-products/gibca-compact-laminate-solutions/outdoor-furniture' },
-      ]
-    }
-  ]
-},
-      // {
-      //   name: 'Office Partitions & doors',
-      //   link: '#',
-        // submenu: [
-        //   {
-        //     name: 'Operable Partiions',
-        //     items: [
-        //       { name: 'Single Panel Systems', link: '/our-products/ops/single-panel' },
-        //       { name: 'Multi-Panel Systems', link: '/our-products/ops/multi-panel' },
-        //       { name: 'Bi-Fold Systems', link: '/our-products/ops/bi-fold' },
-        //       { name: 'Top Hung Systems', link: '/our-products/ops/top-hung' },
-        //     ]
-        //   },
-        //   {
-        //     name: 'Specialty Systems',
-        //     items: [
-        //       { name: 'Soundproof Partitions', link: '/our-products/ops/soundproof' },
-        //       { name: 'Fire Rated Systems', link: '/our-products/ops/fire-rated' },
-        //       { name: 'Curved Partitions', link: '/our-products/ops/curved' },
-        //       { name: 'Automated Systems', link: '/our-products/ops/automated' },
-        //     ]
-        //   }
-        // ]
-      // },
+        name: 'HPL solutions',
+        link: '/our-products/gibca-compact-laminate-solutions',
+        submenu: [
+          {
+            items: [
+              { name: 'Washroom cubicles', link: '/our-products/gibca-compact-laminate-solutions/washroom-cubicles' },
+              { name: 'LOCKER SYSTEMS', link: '/our-products/gibca-compact-laminate-solutions/locker-systems' },
+              { name: 'WALL CLADDING', link: '/our-products/gibca-compact-laminate-solutions/internal-wall-cladding' },
+              { name: 'INTEGRATED PANEL SYSTEMS', link: '/our-products/gibca-compact-laminate-solutions/integrated-panel-systems' },
+              { name: 'OUTDOOR FURNITURES', link: '/our-products/gibca-compact-laminate-solutions/outdoor-furniture' },
+            ]
+          }
+        ]
+      },
       {
         name: 'terrace solutions',
         link: '/our-products/terrace-solutions',
-        
       },
       {
         name: 'hydraulic doors',
         link: '/our-products/crown',
         submenu: [
           {
-           
             items: [
               { name: 'SST-II Bi-Fold', link: '/our-products/crown/sst-ii-hydraulic-bi-fold' },
               { name: 'SINGLE SWING', link: '/our-products/crown/single-swing' },
@@ -130,26 +118,6 @@ export default function Header() {
       {
         name: 'Pivot Doors',
         link: '/our-products/pivot-doors',
-        // submenu: [
-        //   {
-        //     name: 'Residential Doors',
-        //     items: [
-        //       { name: 'Entry Doors', link: '/our-products/pivot-doors/entry' },
-        //       { name: 'Interior Doors', link: '/our-products/pivot-doors/interior' },
-        //       { name: 'Patio Doors', link: '/our-products/pivot-doors/patio' },
-        //       { name: 'Security Doors', link: '/our-products/pivot-doors/security' },
-        //     ]
-        //   },
-        //   {
-        //     name: 'Commercial Doors',
-        //     items: [
-        //       { name: 'Office Entry Systems', link: '/our-products/pivot-doors/office-entry' },
-        //       { name: 'Hotel Lobby Doors', link: '/our-products/pivot-doors/hotel-lobby' },
-        //       { name: 'Retail Store Fronts', link: '/our-products/pivot-doors/retail' },
-        //       { name: 'Restaurant Entrances', link: '/our-products/pivot-doors/restaurant' },
-        //     ]
-        //   }
-        // ]
       }
     ],
     resources: [
@@ -162,11 +130,15 @@ export default function Header() {
   return (
     <>
       {/* Fixed Media Button */}
-      <div className={`media-button-fixed ${isHeaderHidden ? 'hide' : ''}`}>
-        <button className="media-btn" onClick={() => window.open('/media', '_blank')}>
-          <span>MEDIA</span>
-        </button>
-      </div>
+      <div className={`media-career-buttons ${isHeaderHidden ? 'hide' : ''}`}>
+  <button className="media-btn" onClick={() => window.open('/career', '_blank')}>
+    <span>CAREERS</span>
+  </button>
+  <button className="media-btn" onClick={() => window.open('/media', '_blank')}>
+    <span>MEDIA</span>
+  </button>
+</div>
+
 
       <header className={`site-header ${isHeaderHidden ? 'hide' : ''}`}>
         <div className="logo" id="headerLogo">
@@ -189,7 +161,7 @@ export default function Header() {
               </a>
             </li>
             <li
-              className="dropdown-parent" style={{color:"red"}}
+              className="dropdown-parent"
               onMouseEnter={() => !isMobileMenuOpen && toggleDropdown('products')}
               onMouseLeave={() => !isMobileMenuOpen && toggleDropdown(null)}
             >
@@ -218,17 +190,19 @@ export default function Header() {
                       style={{ transitionDelay: `${index * 0.1}s` }}
                     >
                       {item.name}
-                      <span className="submenu-arrow">
-                        <svg width="8" height="12" viewBox="0 0 8 12" fill="none">
-                          <path d="M1 1L6 6L1 11" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-                        </svg>
-                      </span>
+                      {item.submenu && (
+                        <span className="submenu-arrow">
+                          <svg width="8" height="12" viewBox="0 0 8 12" fill="none">
+                            <path d="M1 1L6 6L1 11" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+                          </svg>
+                        </span>
+                      )}
                     </a>
                     {item.submenu && (
                       <div className={`submenu ${activeSubmenu === item.name ? 'active' : ''}`}>
                         {item.submenu.map((subCategory, subIndex) => (
                           <div key={subIndex} className="submenu-category">
-                            <h4 className="submenu-title">{subCategory.name}</h4>
+                            {subCategory.name && <h4 className="submenu-title">{subCategory.name}</h4>}
                             <div className="submenu-items">
                               {subCategory.items.map((subItem, itemIndex) => (
                                 <a
@@ -307,6 +281,33 @@ export default function Header() {
           </ul>
         </nav>
       </header>
+
+      {/* Back Button - Integrated with Header */}
+      {pathname !== '/' && (
+        <div className={`back-button-container ${isHeaderHidden ? 'header-hidden' : ''}`}>
+          <button 
+            className="glass-back-button"
+            onClick={handleGoBack}
+            aria-label="Go back"
+          >
+            <svg 
+              className="back-button-icon" 
+              viewBox="0 0 24 24" 
+              fill="none" 
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path 
+                d="M19 12H5M5 12L12 19M5 12L12 5" 
+                stroke="currentColor" 
+                strokeWidth="2" 
+                strokeLinecap="round" 
+                strokeLinejoin="round"
+              />
+            </svg>
+            <span className="back-tooltip">back</span>
+          </button>
+        </div>
+      )}
 
       {showQuoteModal && (
         <AppointmentModal isOpen={true} onClose={() => setShowQuoteModal(false)} />
