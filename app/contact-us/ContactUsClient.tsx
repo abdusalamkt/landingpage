@@ -182,14 +182,6 @@ export default function ContactUsClient({ data }: { data: any }) {
                 required
               />
             </div>
-            <input
-              type="text"
-              name="project"
-              placeholder="Project Name & Location"
-              value={formData.project}
-              onChange={handleInputChange}
-            />
-
             {/* Custom Dropdown */}
             <div className="custom-dropdown-wrapper" ref={dropdownRef}>
               <div
@@ -223,6 +215,15 @@ export default function ContactUsClient({ data }: { data: any }) {
                 </ul>
               )}
             </div>
+            <input
+              type="text"
+              name="project"
+              placeholder="Project Name & Location"
+              value={formData.project}
+              onChange={handleInputChange}
+            />
+
+            
 
             <textarea
               name="message"
