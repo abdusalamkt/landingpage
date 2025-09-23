@@ -51,19 +51,31 @@ export default function ContactUsClient({ data }: { data: any }) {
     };
   }, [showDropdown]);
 
-  // Allow scroll inside dropdown, but let page scroll if at top/bottom
+  // Fixed dropdown wheel handling
   const handleDropdownWheel = (e: React.WheelEvent<HTMLUListElement>) => {
     const target = e.currentTarget;
-    const isAtTop = target.scrollTop === 0;
-    const isAtBottom = target.scrollHeight - target.scrollTop === target.clientHeight;
-
-    if ((isAtTop && e.deltaY < 0) || (isAtBottom && e.deltaY > 0)) {
-      // let page scroll
-      e.stopPropagation();
-    } else {
-      // scroll inside dropdown
-      e.stopPropagation();
+    const { deltaY } = e;
+    const { scrollTop, scrollHeight, clientHeight } = target;
+    
+    const isScrollingUp = deltaY < 0;
+    const isScrollingDown = deltaY > 0;
+    const isAtTop = scrollTop <= 0;
+    const isAtBottom = scrollTop + clientHeight >= scrollHeight;
+    
+    // Always prevent default and stop propagation when scrolling inside dropdown
+    e.preventDefault();
+    e.stopPropagation();
+    
+    // Only scroll if we're not at the boundaries or we're scrolling away from the boundary
+    if (
+      (!isAtTop && !isAtBottom) || // Not at any boundary
+      (isAtTop && isScrollingDown) || // At top but scrolling down
+      (isAtBottom && isScrollingUp)   // At bottom but scrolling up
+    ) {
+      // Manually scroll the dropdown
+      target.scrollTop += deltaY;
     }
+    // If at boundary and trying to scroll further, do nothing (don't let page scroll)
   };
 
   // Handle form input changes
