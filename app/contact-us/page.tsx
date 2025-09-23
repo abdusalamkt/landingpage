@@ -52,21 +52,20 @@ async function fetchContactPage(): Promise<ContactUsData> {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ query: QUERY }),
-      cache: 'force-cache', // static generation with caching
+      cache: 'force-cache',
     });
-    
+
     if (!res.ok) {
       throw new Error(`HTTP error! status: ${res.status}`);
     }
-    
+
     const json = await res.json();
-    
+
     if (json.errors) {
       console.error('GraphQL errors:', json.errors);
       throw new Error('GraphQL query failed');
     }
-    
-    // Return the contact page fields or provide fallback data
+
     return json.data?.page?.contactUsPageFields || {
       heading: 'Contact Us',
       subtitle: 'Get in touch',
@@ -79,8 +78,7 @@ async function fetchContactPage(): Promise<ContactUsData> {
     };
   } catch (error) {
     console.error('Failed to fetch contact page:', error);
-    
-    // Return fallback data in case of error
+
     return {
       heading: 'Contact Us',
       subtitle: 'Get in touch',
@@ -102,9 +100,12 @@ export default async function ContactUsPage() {
   const data = await fetchContactPage();
 
   return (
-    <>
-      <Header />
+    <div className="contact-page-wrapper">
+      {/* Static Header - only for contact page */}
+      <div className="contact-header-static">
+        <Header />
+      </div>
       <ContactUsClient data={data} />
-    </>
+    </div>
   );
 }
