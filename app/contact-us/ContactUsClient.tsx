@@ -87,50 +87,43 @@ export default function ContactUsClient({ data }: { data: any }) {
     }));
   };
 
-  // Handle form submission
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    setSubmitMessage('');
+// Handle form submission
+const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  e.preventDefault();
+  setIsSubmitting(true);
+  setSubmitMessage("");
 
-    try {
-      const response = await fetch('/api/contact', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          name: formData.name,
-          email: formData.email,
-          phone: formData.phone,
-          project: formData.project,
-          product: selectedProduct,
-          message: formData.message,
-        }),
-      });
+  try {
+    const response = await fetch("/api/contact", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        project: formData.project,
+        product: selectedProduct,
+        message: formData.message,
+      }),
+    });
 
-      const result = await response.json();
+    const result = await response.json();
 
-      if (result.success) {
-        setSubmitMessage('Message sent successfully! We will get back to you soon.');
-        setFormData({
-          name: '',
-          email: '',
-          phone: '',
-          project: '',
-          message: ''
-        });
-        setSelectedProduct('');
-      } else {
-        setSubmitMessage('Failed to send message. Please try again.');
-      }
-    } catch (error) {
-      console.error('Error submitting form:', error);
-      setSubmitMessage('An error occurred. Please try again.');
-    } finally {
-      setIsSubmitting(false);
+    if (result.success) {
+      setSubmitMessage("✅ Message sent successfully! We will get back to you soon.");
+      setFormData({ name: "", email: "", phone: "", project: "", message: "" });
+      setSelectedProduct("");
+    } else {
+      setSubmitMessage("❌ Failed to send message. Please try again.");
     }
-  };
+  } catch (error) {
+    console.error("Error submitting form:", error);
+    setSubmitMessage("⚠️ An error occurred. Please try again.");
+  } finally {
+    setIsSubmitting(false);
+  }
+};
+
 
   return (
     <div className="contact-page">

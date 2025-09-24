@@ -106,23 +106,44 @@ export default function DownloadItemRow({ item, theme = 'default' }: DownloadIte
     }
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const form = e.currentTarget;
-    const name = (form.elements.namedItem('name') as HTMLInputElement)?.value.trim();
-    const email = (form.elements.namedItem('email') as HTMLInputElement)?.value.trim();
-    const phone = (form.elements.namedItem('phone') as HTMLInputElement)?.value.trim();
-    const company = (form.elements.namedItem('company') as HTMLInputElement)?.value.trim();
+const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  e.preventDefault();
+  const form = e.currentTarget;
+  const name = (form.elements.namedItem('name') as HTMLInputElement)?.value.trim();
+  const email = (form.elements.namedItem('email') as HTMLInputElement)?.value.trim();
+  const phone = (form.elements.namedItem('phone') as HTMLInputElement)?.value.trim();
+  const company = (form.elements.namedItem('company') as HTMLInputElement)?.value.trim();
 
-    if (name && email && phone && company) {
-      localStorage.setItem(UNLOCK_KEY, JSON.stringify({ timestamp: Date.now() }));
-      openPdfInBrowser(item.link);
-      closeModal();
+  if (name && email && phone && company) {
+    try {
+      const res = await fetch("/api/gated-download", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name,
+          email,
+          phone,
+          company,
+          item_title: item.title
+        }),
+      });
 
-      // ✅ Trigger event for all rows to unlock
-      window.dispatchEvent(new Event('unlockGatedDownloads'));
+      const result = await res.json();
+      if (result.success) {
+        localStorage.setItem(UNLOCK_KEY, JSON.stringify({ timestamp: Date.now() }));
+        openPdfInBrowser(item.link);
+        closeModal();
+        window.dispatchEvent(new Event('unlockGatedDownloads'));
+      } else {
+        alert("Failed to submit. Please try again.");
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Error submitting form. Please try again.");
     }
-  };
+  }
+};
+
 
   const handleFormClick = (e: React.MouseEvent) => {
     e.stopPropagation();

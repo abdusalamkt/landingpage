@@ -166,7 +166,7 @@ img {
 .custom-dropdown-wrapper {
   position: relative;
   margin-bottom: 1rem;
-  z-index: 10; /* Reduced since header is no longer fixed with high z-index */
+  z-index: 1; /* Reduced since header is no longer fixed with high z-index */
 }
 
 .custom-dropdown {

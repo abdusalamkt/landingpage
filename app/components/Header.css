@@ -434,7 +434,7 @@
 
 /* Hide animation when header is hidden */
 .media-career-buttons.hide {
-  transform: translateX(-50%) translateY(-110%);
+  transform: translateX(-50%) translateY(-120%);
 }
 
 /* Button styles remain the same */

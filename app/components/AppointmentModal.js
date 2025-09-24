@@ -27,7 +27,7 @@ export default function AppointmentModal({ isOpen, onClose, products = [] }) {
   const [form, setForm] = useState({
     name: '',
     email: '',
-    mobile: '',
+    phone: '',
     product: '',
     message: '',
     date: null,
@@ -92,20 +92,38 @@ export default function AppointmentModal({ isOpen, onClose, products = [] }) {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setSubmitting(true);
+  const handleSubmit = async (e) => {
+  e.preventDefault();
+  setSubmitting(true);
 
-    setTimeout(() => {
+  try {
+    const response = await fetch("/api/appointment", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({
+    name: form.name,
+    email: form.email,
+    phone: form.phone,
+    product: form.product,
+    message: form.message,
+    date: form.date ? form.date.toISOString().split("T")[0] : "",
+    time_slot: form.time_slot
+  }),
+});
+
+
+    const result = await response.json();
+
+    if (result.success) {
       setSuccess(true);
       setForm({
         name: '',
         email: '',
-        mobile: '',
+        phone: '',
         product: '',
         message: '',
         date: null,
-        time_slot: '',
+        time_slot: ''
       });
 
       setTimeout(() => {
@@ -113,8 +131,17 @@ export default function AppointmentModal({ isOpen, onClose, products = [] }) {
         setSubmitting(false);
         onClose();
       }, 2500);
-    }, 1000);
-  };
+    } else {
+      alert("Failed to submit. Please try again.");
+      setSubmitting(false);
+    }
+  } catch (err) {
+    console.error(err);
+    alert("Error submitting form. Please try again.");
+    setSubmitting(false);
+  }
+};
+
 
   const isDayBlocked = (date) => {
     const day = date.getDay();
@@ -165,9 +192,9 @@ export default function AppointmentModal({ isOpen, onClose, products = [] }) {
 
               <input
                 type="tel"
-                name="mobile"
-                placeholder="Mobile Number"
-                value={form.mobile}
+                name="phone"
+                placeholder="Phone Number"
+                value={form.phone}
                 onChange={handleChange}
                 required
               />

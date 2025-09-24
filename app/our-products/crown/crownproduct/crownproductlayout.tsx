@@ -145,26 +145,26 @@ export default function CrownProductPage({ fields, faqData = [], downloadData = 
 
       {/* Customization Options Section */}
       {safeCustomizationOptions.length > 0 && (
-        <section className="apart-section">
+        <section className="apart-section-mirror">
     {/* Left Side */}
-    <div className="apart-left">
-      <div className="apart-bg-number">!</div>
-      <h2 className="apart-heading">
+    <div className="apart-left-mirror">
+      <div className="apart-bg-number-mirror">!</div>
+      <h2 className="apart-heading-mirror">
         Be spoilt for  <span className="apart-highlight" style={{ color: "#77471c" }}>choices!</span>
       </h2>
-      <p className="apart-desc">
+      <p className="apart-desc-mirror">
       </p>
     </div>
 
     {/* Right Side */}
-    <div className="apart-right">
+    <div className="apart-right-mirror">
       <h3
-        className="features-title"
+        className="features-title-mirror"
         style={{
           background: "linear-gradient(269.42deg, #6C421D 0.16%, #7C5F45 99.84%)",
         }}
       >
-        <span className="features-bar" style={{ backgroundColor: "#77471c" }} />
+        <span className="features-bar-mirror" style={{ backgroundColor: "#77471c" }} />
         AVAILABLE OPTIONS
       </h3>
      <div className="features-grid" style={{ display: "block" }}>

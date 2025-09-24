@@ -1,7 +1,86 @@
-import React from 'react';
+'use client';
+
+import { useState } from 'react';
 import './Footer.css';
 
 const Footer: React.FC = () => {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    message: '',
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitMessage, setSubmitMessage] = useState('');
+
+    // ✅ Newsletter state
+  const [newsletterEmail, setNewsletterEmail] = useState('');
+  const [newsletterMsg, setNewsletterMsg] = useState('');
+  const [isNewsletterSubmitting, setIsNewsletterSubmitting] = useState(false);
+
+  // Handle input changes
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  // Handle form submit
+const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  e.preventDefault();
+  setIsSubmitting(true);
+  setSubmitMessage("");
+
+  try {
+      const response = await fetch("/api/footer", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+
+    const result = await response.json();
+
+    if (result.success) {
+      setSubmitMessage("✅ Message sent successfully! We will get back to you soon.");
+      setFormData({ name: "", email: "", phone: "", message: "" });
+    } else {
+      setSubmitMessage("❌ Failed to send message. Please try again.");
+    }
+  } catch (error) {
+    console.error("Error submitting footer form:", error);
+    setSubmitMessage("⚠️ An error occurred. Please try again.");
+  } finally {
+    setIsSubmitting(false);
+  }
+};
+
+ // ✅ Handle newsletter submit
+  const handleNewsletterSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setIsNewsletterSubmitting(true);
+    setNewsletterMsg('');
+
+    try {
+      const response = await fetch('/api/newsletter', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: newsletterEmail }),
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        setNewsletterMsg('✅ Subscribed successfully!');
+        setNewsletterEmail('');
+      } else {
+        setNewsletterMsg('❌ Subscription failed. Please try again.');
+      }
+    } catch (error) {
+      console.error('Error subscribing newsletter:', error);
+      setNewsletterMsg('⚠️ An error occurred. Please try again.');
+    } finally {
+      setIsNewsletterSubmitting(false);
+    }
+  };
   return (
     <footer className="footer">
       {/* Contact Form Section */}
@@ -14,17 +93,60 @@ const Footer: React.FC = () => {
             We're excited to hear about your project and explore how we can work together.<br />
             Let's start a conversation and turn your vision into reality.
           </p>
-          <form className="form">
+
+          {/* Updated form with submission logic */}
+          <form className="form" onSubmit={handleSubmit}>
             <div className="form-row">
-              <input type="text" placeholder="First Name" className="form-input" />
-              <input type="text" placeholder="Last Name" className="form-input" />
-              <input type="email" placeholder="Email" className="form-input" />
-              <input type="tel" placeholder="Phone Number" className="form-input" />
+              <input
+              className="form-input"
+                type="text"
+                name="name"
+                placeholder="Full Name"
+                value={formData.name}
+                onChange={handleInputChange}
+                required
+              />
+              <input
+              className="form-input"
+                type="email"
+                name="email"
+                placeholder="Email"
+                value={formData.email}
+                onChange={handleInputChange}
+                required
+              />
+              <input
+              className="form-input"
+                type="tel"
+                name="phone"
+                placeholder="Phone Number"
+                value={formData.phone}
+                onChange={handleInputChange}
+                required
+              />
             </div>
+
             <div className="form-row">
-              <textarea placeholder="Write us a message" className="form-textarea"></textarea>
+              <textarea
+                name="message"
+                placeholder="Write us a message"
+                className="form-textarea"
+                value={formData.message}
+                onChange={handleInputChange}
+              />
             </div>
-            <button type="submit" className="form-submit-btn">SUBMIT</button>
+
+            {submitMessage && (
+              <div
+                className={`submit-message ${submitMessage.includes('✅') ? 'success' : 'error'}`}
+              >
+                {submitMessage}
+              </div>
+            )}
+
+            <button type="submit" className="form-submit-btn" disabled={isSubmitting}>
+              {isSubmitting ? 'SENDING...' : 'SUBMIT'}
+            </button>
           </form>
         </div>
         <div className="form-divider"></div>
@@ -108,10 +230,28 @@ const Footer: React.FC = () => {
           <div className="newsletter-section">
             <h2>HAVE A SPACE <span className="highlight">REVAMP</span></h2>
             <h2>IN MIND?</h2>
-            <div className="newsletter-form">
-              <input type="email" placeholder="Enter your email" />
-              <button type="submit">SUBSCRIBE</button>
-            </div>
+            <form className="newsletter-form" onSubmit={handleNewsletterSubmit}>
+          <input
+            type="email"
+            placeholder="Enter your email"
+            value={newsletterEmail}
+            onChange={(e) => setNewsletterEmail(e.target.value)}
+            required
+          />
+          <button type="submit" disabled={isNewsletterSubmitting}>
+            {isNewsletterSubmitting ? 'SUBSCRIBING...' : 'SUBSCRIBE'}
+          </button>
+        </form>
+        {newsletterMsg && (
+          <div
+            className={`newsletter-message ${
+              newsletterMsg.includes('✅') ? 'success' : 'error'
+            }`}
+          >
+            {newsletterMsg}
+          </div>
+        )}
+
             <div className="social-section">
               <h4>FOLLOW OUR SOCIALS!</h4>
               <div className="social-icons">

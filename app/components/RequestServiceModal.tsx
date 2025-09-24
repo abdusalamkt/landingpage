@@ -95,13 +95,33 @@ export default function RequestServiceModal({ isOpen, onClose }: RequestServiceM
 
   if (!isOpen) return null;
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Handle form submission here
-    console.log('Form submitted');
-    // You can add your form submission logic here
-    onClose();
-  };
+const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  e.preventDefault();
+  const formData = new FormData(e.currentTarget);
+  const values = Object.fromEntries(formData.entries());
+
+  try {
+    const res = await fetch("/api/request-service", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(values),
+    });
+
+    const result = await res.json();
+
+    if (result.success) {
+      alert("✅ Request submitted successfully!");
+      e.currentTarget.reset();
+      onClose();
+    } else {
+      alert("❌ Failed: " + (result.message || "Please try again."));
+    }
+  } catch (err) {
+    console.error("Request Service submit error:", err);
+    alert("⚠️ Something went wrong. Please try again.");
+  }
+};
+
 
   return (
     <div 
