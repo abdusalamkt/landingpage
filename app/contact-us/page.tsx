@@ -1,3 +1,13 @@
+export const metadata = {
+  title: 'Contact Us',
+  description: 'Get in touch with us',
+};
+
+export const viewport = {
+  width: 'device-width',
+  initialScale: 1.0,
+};
+
 import Header from '../components/Header';
 import ContactUsClient from './ContactUsClient';
 import './contact.css';
