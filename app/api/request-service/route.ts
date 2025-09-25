@@ -10,25 +10,26 @@ export async function POST(req: Request) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         ...body,
-        secret: process.env.REQUEST_SERVICE_FORM_SECRET, // secure secret
+        secret: process.env.REQUEST_SERVICE_FORM_SECRET,
       }),
     });
 
-    const data = await res.json();
-
-    if (data.success) {
-      return NextResponse.json({ success: true });
+    let data: any = {};
+    try {
+      data = await res.json();
+    } catch {
+      data = { success: false, message: "Invalid response from Google Apps Script" };
     }
 
-    return NextResponse.json(
-      { success: false, message: data.message || "Failed to submit request" },
-      { status: 400 }
-    );
+    return NextResponse.json({
+      success: !!data.success,
+      message: data.message || (data.success ? "Submitted" : "Failed to submit request"),
+    });
   } catch (err: any) {
     console.error("Request Service API error:", err);
-    return NextResponse.json(
-      { success: false, message: err.message || "Internal Server Error" },
-      { status: 500 }
-    );
+    return NextResponse.json({
+      success: false,
+      message: err.message || "Internal Server Error",
+    });
   }
 }

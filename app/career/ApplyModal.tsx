@@ -90,40 +90,62 @@ export default function ApplyModal({ isOpen, onClose, jobTitle }: ApplyModalProp
     else return `${(size / 1024 / 1024).toFixed(2)} MB`;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!form.firstName || !form.lastName || !form.email || !form.mobile || !form.cv) {
-      setFormErrors('Please fill all required fields and upload your CV.');
-      return;
+  const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
+  if (!form.firstName || !form.lastName || !form.email || !form.mobile || !form.cv) {
+    setFormErrors('Please fill all required fields and upload your CV.');
+    return;
+  }
+
+  setFormErrors(null);
+  setSubmitting(true);
+
+  try {
+    // Convert file to Base64
+    const toBase64 = (file: File): Promise<string> =>
+      new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve((reader.result as string).split(',')[1]);
+        reader.onerror = error => reject(error);
+      });
+
+    const cvBase64 = await toBase64(form.cv);
+
+    // Send to API
+    const res = await fetch('/api/apply', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        firstName: form.firstName,
+        lastName: form.lastName,
+        email: form.email,
+        mobile: form.mobile,
+        jobTitle,
+        cvBase64,
+        cvName: form.cv.name,
+        secret: "1234567890"
+      })
+    });
+
+    const result = await res.json();
+    if (result.success) {
+      setSuccess(true);
+      setForm({ firstName:'', lastName:'', email:'', mobile:'', cv:null });
+      setTimeout(() => {
+        setSuccess(false);
+        onClose();
+      }, 2500);
+    } else {
+      setFormErrors(result.message || 'Submission failed');
     }
-    setFormErrors(null);
-    setSubmitting(true);
-    setUploadProgress(0);
-
-    const fileSize = form.cv.size;
-    const totalTime = Math.min(2000 + fileSize / 1000, 5000);
-    const intervalTime = 50;
-    let elapsed = 0;
-
-    const interval = setInterval(() => {
-      elapsed += intervalTime;
-      const progress = Math.min((elapsed / totalTime) * 100, 100);
-      setUploadProgress(progress);
-      if (progress >= 100) {
-        clearInterval(interval);
-        setTimeout(() => {
-          setSuccess(true);
-          setForm({ firstName: '', lastName: '', email: '', mobile: '', cv: null });
-          setUploadProgress(0);
-          setTimeout(() => {
-            setSuccess(false);
-            setSubmitting(false);
-            onClose();
-          }, 2500);
-        }, 500);
-      }
-    }, intervalTime);
-  };
+  } catch (err) {
+    console.error(err);
+    setFormErrors('Internal Server Error');
+  } finally {
+    setSubmitting(false);
+  }
+};
 
   if (!isOpen) return null;
 

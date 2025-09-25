@@ -1,4 +1,22 @@
 /* RequestServiceModal.module.css */
+
+/* 🔒 Fix Chrome Autofill Background + Text */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0 1000px rgba(255, 0, 0, 0) inset !important;
+  box-shadow: 0 0 0 1000px #3d3d3d inset !important;
+  -webkit-text-fill-color: white !important; 
+  caret-color: #109C5D !important;
+  border-radius: 4px;
+}
+
 .modalOverlay {
   position: fixed;
   top: 0;
@@ -141,6 +159,13 @@
   color: #aaa;
 }
 
+.inputGroup input:disabled,
+.inputGroup select:disabled,
+.inputGroup textarea:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
 .inputGroup textarea {
   resize: none;
   min-height: 100px;
@@ -160,9 +185,8 @@
 }
 
 .submitButton {
-  
   font-family: Bebas Neue;
-  padding: .3rem ;
+  padding: 1rem 2rem;
   background: linear-gradient(90deg, #109c5d, #00572b);
   color: white;
   font-size: 1.5rem;
@@ -178,15 +202,26 @@
   max-width: 250px;
   margin-top: 1rem;
   border: solid 1px white;
-
-  font-family: Bebas Neue;
-
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 60px;
 }
 
-.submitButton:hover {
+.submitButton:not(:disabled):hover {
   transform: translateY(-3px);
   box-shadow: 0 8px 20px rgba(28, 101, 68, 0.4);
   background: linear-gradient(90deg, #00572b, #109c5d);
+}
+
+.submitButton:disabled {
+  cursor: not-allowed;
+  opacity: 0.8;
+}
+
+.submitButton.submitting {
+  background: linear-gradient(90deg, #888, #666);
 }
 
 .submitButton::after {
@@ -200,8 +235,24 @@
   transition: 0.5s;
 }
 
-.submitButton:hover::after {
+.submitButton:not(:disabled):hover::after {
   left: 100%;
+}
+
+/* Loading spinner */
+.spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top-color: white;
+  animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .closeButton {
@@ -223,9 +274,252 @@
   z-index: 10;
 }
 
-.closeButton:hover {
+.closeButton:not(:disabled):hover {
   background: rgba(255, 255, 255, 0.1);
   transform: rotate(90deg);
+}
+
+.closeButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Success Container */
+.successContainer {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 500px;
+  padding: 60px 40px;
+  text-align: center;
+  background: white;
+  border-radius: 12px;
+  margin: 0;
+  width: 100%;
+  box-sizing: border-box;
+  animation: successFadeIn 0.4s ease-in-out forwards;
+}
+
+@keyframes successFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Confetti animation */
+.confetti {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.confettiPiece {
+  position: absolute;
+  width: 8px;
+  height: 16px;
+  top: 0;
+  opacity: 0;
+  animation: confetti 2s ease-in-out forwards;
+}
+
+/* Generate different colors and positions for confetti pieces */
+.confettiPiece:nth-child(1) { left: 10%; animation-delay: 0.1s; background: #109C5D; }
+.confettiPiece:nth-child(2) { left: 20%; animation-delay: 0.2s; background: #FFD700; }
+.confettiPiece:nth-child(3) { left: 30%; animation-delay: 0.3s; background: #FF6B6B; }
+.confettiPiece:nth-child(4) { left: 40%; animation-delay: 0.4s; background: #4ECDC4; }
+.confettiPiece:nth-child(5) { left: 50%; animation-delay: 0.5s; background: #45B7D1; }
+.confettiPiece:nth-child(6) { left: 60%; animation-delay: 0.6s; background: #96CEB4; }
+.confettiPiece:nth-child(7) { left: 70%; animation-delay: 0.7s; background: #FECA57; }
+.confettiPiece:nth-child(8) { left: 80%; animation-delay: 0.8s; background: #FF9FF3; }
+.confettiPiece:nth-child(9) { left: 90%; animation-delay: 0.9s; background: #54A0FF; }
+.confettiPiece:nth-child(10) { left: 15%; animation-delay: 1s; background: #5F27CD; }
+
+/* More confetti pieces with different timings */
+.confettiPiece:nth-child(n+11):nth-child(-n+20) { animation-delay: 0.3s; }
+.confettiPiece:nth-child(n+21):nth-child(-n+30) { animation-delay: 0.6s; }
+.confettiPiece:nth-child(n+31):nth-child(-n+40) { animation-delay: 0.9s; }
+.confettiPiece:nth-child(n+41):nth-child(-n+50) { animation-delay: 1.2s; }
+
+.confettiPiece:nth-child(11) { left: 25%; background: #00d2d3; }
+.confettiPiece:nth-child(12) { left: 35%; background: #ff9f43; }
+.confettiPiece:nth-child(13) { left: 45%; background: #ee5a24; }
+.confettiPiece:nth-child(14) { left: 55%; background: #0984e3; }
+.confettiPiece:nth-child(15) { left: 65%; background: #a29bfe; }
+.confettiPiece:nth-child(16) { left: 75%; background: #fd79a8; }
+.confettiPiece:nth-child(17) { left: 85%; background: #00b894; }
+.confettiPiece:nth-child(18) { left: 95%; background: #fdcb6e; }
+.confettiPiece:nth-child(19) { left: 5%; background: #e84393; }
+.confettiPiece:nth-child(20) { left: 12%; background: #00cec9; }
+
+@keyframes confetti {
+  0% {
+    opacity: 0;
+    top: -10px;
+    transform: rotateZ(0) rotateY(0);
+  }
+  10% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    top: 100%;
+    transform: rotateZ(720deg) rotateY(1080deg);
+  }
+}
+
+/* Checkmark animation */
+.checkmarkAnimation {
+  position: relative;
+  z-index: 2;
+  margin-bottom: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.checkmark {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  display: block;
+  stroke-width: 3;
+  stroke: #109C5D;
+  stroke-miterlimit: 10;
+  box-shadow: 0 0 20px rgba(16, 156, 93, 0.3);
+  animation: checkmarkScale .3s ease-in-out .9s both;
+}
+
+.checkmarkCircle {
+  stroke-dasharray: 166;
+  stroke-dashoffset: 166;
+  stroke-width: 3;
+  stroke-miterlimit: 10;
+  stroke: #109C5D;
+  fill: none;
+  animation: checkmarkStroke .6s cubic-bezier(0.650, 0.000, 0.450, 1.000) forwards;
+}
+
+.checkmarkCheck {
+  transform-origin: 50% 50%;
+  stroke-dasharray: 48;
+  stroke-dashoffset: 48;
+  stroke: #109C5D;
+  stroke-width: 4;
+  animation: checkmarkStroke .3s cubic-bezier(0.650, 0.000, 0.450, 1.000) .8s forwards;
+}
+
+@keyframes checkmarkStroke {
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes checkmarkScale {
+  0%, 100% {
+    transform: none;
+  }
+  50% {
+    transform: scale3d(1.1, 1.1, 1);
+  }
+}
+
+.successTitle {
+  font-size: 2.5rem;
+  color: #109C5D;
+  margin-bottom: 15px;
+  position: relative;
+  z-index: 2;
+  animation: successTextFadeIn 0.5s ease-in-out 1s both;
+  font-weight: bold;
+}
+
+.successMessage {
+  font-size: 1.2rem;
+  color: #666;
+  position: relative;
+  z-index: 2;
+  animation: successTextFadeIn 0.5s ease-in-out 1.2s both;
+}
+
+@keyframes successTextFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Custom Dropdown Styles */
+.customDropdownWrapper {
+  position: relative;
+  margin-bottom: 1rem;
+}
+
+.customDropdown {
+  padding: 0.75rem 1rem;
+  border: none;
+  border-bottom: 2px solid #ccc;
+  background: transparent;
+  cursor: pointer;
+  color: white;
+  font-size: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: border-color 0.2s;
+  user-select: none;
+}
+
+.customDropdown:hover {
+  border-bottom-color: #109C5D;
+}
+
+.customDropdown.disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.arrow {
+  transition: transform 0.2s ease;
+}
+
+.customOptions {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  max-height: 200px;
+  background: #2d2d2d;
+  border-radius: 6px;
+  overflow-y: auto;
+  z-index: 10;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.customOptions li {
+  padding: 0.8rem 1rem;
+  cursor: pointer;
+  transition: background 0.2s;
+  color: white;
+}
+
+.customOptions li:hover {
+  background: #109C5D;
 }
 
 /* Animations */
@@ -274,7 +568,7 @@
   
   .submitButton {
     padding: 0.8rem 1.5rem;
-    font-size: 1rem;
+    font-size: 1.2rem;
   }
   
   .closeButton {
@@ -283,6 +577,19 @@
     font-size: 1.5rem;
     width: 35px;
     height: 35px;
+  }
+
+  .successContainer {
+    min-height: 400px;
+    padding: 40px 20px;
+  }
+
+  .successTitle {
+    font-size: 2rem;
+  }
+
+  .successMessage {
+    font-size: 1rem;
   }
 }
 
@@ -313,5 +620,23 @@
   
   .serviceForm {
     gap: 1rem;
+  }
+
+  .successContainer {
+    min-height: 350px;
+    padding: 30px 15px;
+  }
+
+  .successTitle {
+    font-size: 1.5rem;
+  }
+
+  .successMessage {
+    font-size: 0.9rem;
+  }
+
+  .checkmark {
+    width: 80px;
+    height: 80px;
   }
 }
