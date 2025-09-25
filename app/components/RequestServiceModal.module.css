@@ -1,30 +1,5 @@
 /* RequestServiceModal.module.css */
 
-/* 🔒 Fix Chrome Autofill Background + Text */
-input:-webkit-autofill,
-input:-webkit-autofill:hover,
-input:-webkit-autofill:focus {
-  -webkit-box-shadow: 0 0 0 1000px #3d3d3d inset !important;
-  -webkit-text-fill-color: white !important;
-  caret-color: #109C5D !important;
-}
-
-textarea:-webkit-autofill,
-textarea:-webkit-autofill:hover,
-textarea:-webkit-autofill:focus {
-  -webkit-box-shadow: 0 0 0 1000px #3d3d3d inset !important;
-  -webkit-text-fill-color: white !important;
-  caret-color: #109C5D !important;
-}
-
-select:-webkit-autofill,
-select:-webkit-autofill:hover,
-select:-webkit-autofill:focus {
-  -webkit-box-shadow: 0 0 0 1000px #3d3d3d inset !important;
-  -webkit-text-fill-color: white !important;
-  caret-color: #109C5D !important;
-}
-
 
 .modalOverlay {
   position: fixed;
@@ -45,7 +20,7 @@ select:-webkit-autofill:focus {
 }
 
 .modalContainer {
-  background: #3d3d3d;
+  background: #e8f0fe;
   width: 100%;
   max-width: 800px;
   max-height: 90vh;
@@ -69,20 +44,20 @@ select:-webkit-autofill:focus {
 .modalHeader {
   flex-shrink: 0;
   padding: 2rem 2rem 1rem 2rem;
-  background: #3d3d3d;
+  /* background: #3d3d3d; */
 }
 
 .modalTitle {
   font-size: 2.5rem;
   text-align: center;
-  color: white;
+  color: #3d3d3d;
   margin-bottom: 0.5rem;
 }
 
 .modalSubtitle {
   font-size: 1rem;
   text-align: center;
-  color: #ddd;
+  color: #3d3d3d;
   max-width: 600px;
   margin-left: auto;
   margin-right: auto;
@@ -145,9 +120,9 @@ select:-webkit-autofill:focus {
 .inputGroup select,
 .inputGroup textarea {
   border: none;
-  border-bottom: 2px solid #ccc;
+  border-bottom: 2px solid #868686;
   background: transparent;
-  color: white;
+  color: #3d3d3d;
   padding: 0.8rem 0;
   font-size: 1rem;
   transition: all 0.3s ease;
@@ -165,7 +140,7 @@ select:-webkit-autofill:focus {
 .inputGroup input::placeholder,
 .inputGroup select::placeholder,
 .inputGroup textarea::placeholder {
-  color: #aaa;
+  color: #bbbbbb;
 }
 
 .inputGroup input:disabled,
@@ -178,7 +153,6 @@ select:-webkit-autofill:focus {
 .inputGroup textarea {
   resize: none;
   min-height: 100px;
-  border: 2px solid #ccc;
   border-radius: 8px;
   padding: 1rem;
   margin-top: 0.5rem;
@@ -195,7 +169,7 @@ select:-webkit-autofill:focus {
 
 .submitButton {
   font-family: Bebas Neue;
-  padding: 1rem 2rem;
+  padding: 0rem 2rem;
   background: linear-gradient(90deg, #109c5d, #00572b);
   color: white;
   font-size: 1.5rem;
@@ -271,7 +245,7 @@ select:-webkit-autofill:focus {
   font-size: 1.8rem;
   background: transparent;
   border: none;
-  color: white;
+  color: #3d3d3d;
   cursor: pointer;
   transition: all 0.3s ease;
   width: 40px;
@@ -283,9 +257,11 @@ select:-webkit-autofill:focus {
   z-index: 10;
 }
 
+
 .closeButton:not(:disabled):hover {
   background: rgba(255, 255, 255, 0.1);
   transform: rotate(90deg);
+  color: #109C5D;
 }
 
 .closeButton:disabled {
@@ -485,7 +461,7 @@ select:-webkit-autofill:focus {
   border-bottom: 2px solid #ccc;
   background: transparent;
   cursor: pointer;
-  color: white;
+  color: #bbbbbb;
   font-size: 1rem;
   display: flex;
   justify-content: space-between;
@@ -513,7 +489,7 @@ select:-webkit-autofill:focus {
   left: 0;
   right: 0;
   max-height: 200px;
-  background: #2d2d2d;
+  background: #e8f0fe;
   border-radius: 6px;
   overflow-y: auto;
   z-index: 10;
@@ -521,14 +497,15 @@ select:-webkit-autofill:focus {
 }
 
 .customOptions li {
-  padding: 0.8rem 1rem;
+  padding: 6px 1rem;
   cursor: pointer;
   transition: background 0.2s;
-  color: white;
+  color: #3d3d3d;
 }
 
 .customOptions li:hover {
-  background: #109C5D;
+  background: #d8d8d8;
+  color: #109C5D;
 }
 
 /* Animations */
