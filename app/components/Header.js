@@ -131,7 +131,7 @@ export default function Header() {
     <>
       {/* Fixed Media Button */}
       <div className={`media-career-buttons ${isHeaderHidden ? 'hide' : ''}`}>
-  <button className="media-btn" onClick={() => window.open('/career', '_blank')}>
+  <button className="media-btn" onClick={() => window.open('/careers', '_blank')}>
     <span>CAREERS</span>
   </button>
   <button className="media-btn" onClick={() => window.open('/media', '_blank')}>
