@@ -194,7 +194,7 @@ img {
   left: 0;
   right: 0;
   width: 100%;
-  max-height: 200px;
+  max-height: 250px;
   background: white;
   border: 1px solid #ccc;
   border-radius: 4px;
@@ -223,7 +223,7 @@ img {
 }
 
 .custom-options li {
-  padding: 3px 1rem;
+  padding: 9px 1rem;
   cursor: pointer;
   transition: background 0.2s;
   border-bottom: 1px solid #f0f0f0;
@@ -260,29 +260,9 @@ img {
   transition: transform 0.2s;
 }
 
-.cta-button {
-  padding: 1rem 2rem;
-  border-radius: 8px;
-  border: 2px solid #109C5D;
-  background: #109C5D;
-  color: white;
-  font-size: 1rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  text-transform: uppercase;
-}
 
-.cta-button:hover:not(:disabled) {
-  background: transparent;
-  color: #109C5D;
-}
 
-.cta-button:disabled {
-  background: #ccc;
-  border-color: #ccc;
-  cursor: not-allowed;
-}
+
 
 .submit-message {
   padding: 0.75rem 1rem;
@@ -407,4 +387,173 @@ img {
 .custom-options {
   max-height: 200px;
   overflow-y: auto;
+}
+
+/* Updated CSS for full-width fields and hover tooltips */
+
+.input-with-tooltip {
+  position: relative;
+  margin-bottom: 1.5rem;
+}
+
+/* Full width fields */
+.input-with-tooltip.full-width {
+  width: 100%;
+}
+
+/* Half width fields for email and phone */
+.input-with-tooltip.half-width {
+  flex: 1;
+}
+
+/* Ensure the Name field is full width */
+.contact-form form .input-with-tooltip:first-child {
+  width: 100%;
+}
+
+/* Input row styling */
+.input-row {
+  display: flex;
+  gap: 1rem;
+  width: 100%;
+}
+
+.input-row .input-with-tooltip {
+  margin-bottom: 1.5rem;
+}
+
+/* Error tooltip styling */
+.error-tooltip {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 20;
+  animation: slideDownFadeIn 0.3s ease-out;
+  margin-top: 4px;
+}
+
+.tooltip-text {
+  display: block;
+  background: #ff3860;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  box-shadow: 0 4px 12px rgba(255, 56, 96, 0.3);
+  position: relative;
+  line-height: 1.4;
+  width: max-content;
+  max-width: 100%;
+}
+
+.tooltip-arrow {
+  position: absolute;
+  top: -6px;
+  left: 12px;
+  width: 0;
+  height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-bottom: 6px solid #ff3860;
+}
+
+/* Error field styling */
+.error-field {
+  border-bottom: 2px solid #ff3860 !important;
+  animation: gentleShake 0.4s ease-in-out;
+  background-color: rgba(255, 56, 96, 0.03) !important;
+}
+
+/* Form layout adjustments */
+.contact-form form {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.contact-form input,
+.contact-form textarea {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: none;
+  border-bottom: 1px solid #ccc;
+  outline: none;
+  font-size: 1rem;
+  background: transparent;
+  box-sizing: border-box;
+}
+
+/* Custom dropdown full width */
+.custom-dropdown-wrapper {
+  width: 100%;
+  margin-bottom: 1.5rem;
+}
+
+/* Tooltip animations */
+@keyframes slideDownFadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes gentleShake {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-2px); }
+  50% { transform: translateX(2px); }
+  75% { transform: translateX(-2px); }
+  100% { transform: translateX(0); }
+}
+
+/* Hover effects for inputs */
+.contact-form input:hover,
+.contact-form textarea:hover,
+.custom-dropdown:hover {
+  border-bottom-color: #109C5D;
+  transition: border-color 0.3s ease;
+}
+
+/* Focus effects */
+.contact-form input:focus,
+.contact-form textarea:focus {
+  border-bottom-color: #109C5D;
+  background-color: rgba(16, 156, 93, 0.02);
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .input-row {
+    flex-direction: column;
+    gap: 0;
+  }
+  
+  .input-with-tooltip.half-width {
+    width: 100%;
+  }
+  
+  .error-tooltip {
+    position: relative;
+    margin-top: 8px;
+  }
+  
+  .tooltip-text {
+    width: 100%;
+    font-size: 0.8rem;
+    padding: 6px 10px;
+  }
+  
+  .input-row .input-with-tooltip {
+    margin-bottom: 1rem;
+  }
+}
+
+/* Remove old error styles */
+.error {
+  display: none;
 }

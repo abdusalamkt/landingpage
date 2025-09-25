@@ -422,7 +422,7 @@
 .media-career-buttons {
   position: fixed;
   top: 4px;
-  left: 65%; /* Adjust position as needed */
+  left: 76%; /* Adjust position as needed */
   transform: translateX(-50%);
   display: flex;
   gap: 10px; /* space between buttons */
