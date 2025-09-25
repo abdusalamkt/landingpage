@@ -3,19 +3,28 @@
 /* 🔒 Fix Chrome Autofill Background + Text */
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
-input:-webkit-autofill:focus,
+input:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0 1000px #3d3d3d inset !important;
+  -webkit-text-fill-color: white !important;
+  caret-color: #109C5D !important;
+}
+
 textarea:-webkit-autofill,
 textarea:-webkit-autofill:hover,
-textarea:-webkit-autofill:focus,
+textarea:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0 1000px #3d3d3d inset !important;
+  -webkit-text-fill-color: white !important;
+  caret-color: #109C5D !important;
+}
+
 select:-webkit-autofill,
 select:-webkit-autofill:hover,
 select:-webkit-autofill:focus {
-  -webkit-box-shadow: 0 0 0 1000px rgba(255, 0, 0, 0) inset !important;
-  box-shadow: 0 0 0 1000px #3d3d3d inset !important;
-  -webkit-text-fill-color: white !important; 
+  -webkit-box-shadow: 0 0 0 1000px #3d3d3d inset !important;
+  -webkit-text-fill-color: white !important;
   caret-color: #109C5D !important;
-  border-radius: 4px;
 }
+
 
 .modalOverlay {
   position: fixed;
