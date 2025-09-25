@@ -12,6 +12,7 @@ export default function ContactUsClient({ data }: { data: any }) {
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const [touched, setTouched] = useState<{ [key: string]: boolean }>({});
   const [hoveredField, setHoveredField] = useState<string | null>(null);
+  const [activeElement, setActiveElement] = useState<HTMLElement | null>(null);
 
   const [formData, setFormData] = useState({
     name: '',
@@ -23,6 +24,18 @@ export default function ContactUsClient({ data }: { data: any }) {
 
   const dropdownRef = useRef<HTMLDivElement>(null);
   const inputRefs = useRef<{ [key: string]: HTMLInputElement | HTMLTextAreaElement | null }>({});
+
+  // Track document.activeElement safely on client
+  useEffect(() => {
+    const handleFocusChange = () => setActiveElement(document.activeElement as HTMLElement);
+    document.addEventListener('focusin', handleFocusChange);
+    document.addEventListener('focusout', handleFocusChange);
+
+    return () => {
+      document.removeEventListener('focusin', handleFocusChange);
+      document.removeEventListener('focusout', handleFocusChange);
+    };
+  }, []);
 
   // Slideshow auto-rotation
   useEffect(() => {
@@ -47,13 +60,9 @@ export default function ContactUsClient({ data }: { data: any }) {
 
     if (showDropdown) {
       document.addEventListener('mousedown', handleClickOutside);
-    } else {
-      document.removeEventListener('mousedown', handleClickOutside);
     }
 
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
+    return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [showDropdown]);
 
   // Fixed dropdown wheel handling
@@ -82,101 +91,57 @@ export default function ContactUsClient({ data }: { data: any }) {
   // Validation rules
   const validateField = (name: string, value: string) => {
     let error = '';
-
     if (name === 'name') {
       if (!value.trim()) error = 'Name is required';
       else if (value.trim().length < 4) error = 'Name must be at least 4 letters';
     }
-
     if (name === 'email') {
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (!value.trim()) error = 'Email is required';
       else if (!emailRegex.test(value)) error = 'Invalid email address';
     }
-
     if (name === 'phone') {
-      const phoneRegex = /^\+?\d{7,15}$/; // allows + and digits (7-15 numbers)
+      const phoneRegex = /^\+?\d{7,15}$/;
       if (!value.trim()) error = 'Phone number is required';
       else if (!phoneRegex.test(value)) error = 'Enter a valid phone number';
     }
-
     return error;
   };
 
-  // Handle input changes
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
 
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
-
-    // Clear error when user starts typing (only if field was previously touched)
     if (touched[name] && errors[name]) {
-      setErrors(prev => ({
-        ...prev,
-        [name]: ''
-      }));
+      setErrors(prev => ({ ...prev, [name]: '' }));
     }
   };
 
-  // Handle field blur - validate only when user leaves the field
   const handleInputBlur = (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-    
-    // Mark field as touched
-    setTouched(prev => ({
-      ...prev,
-      [name]: true
-    }));
+    setTouched(prev => ({ ...prev, [name]: true }));
 
-    // Validate on blur
     const fieldError = validateField(name, value);
-    if (fieldError) {
-      setErrors(prev => ({
-        ...prev,
-        [name]: fieldError
-      }));
-    } else {
-      // Clear error if valid
-      setErrors(prev => ({
-        ...prev,
-        [name]: ''
-      }));
-    }
-
-    // Clear hover state when leaving field
+    setErrors(prev => ({ ...prev, [name]: fieldError || '' }));
     setHoveredField(null);
   };
 
-  // Handle field focus
   const handleInputFocus = (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name } = e.target;
-    setHoveredField(name);
+    setHoveredField(e.target.name);
   };
 
-  // Handle field hover
-  const handleInputMouseEnter = (name: string) => {
-    setHoveredField(name);
-  };
+  const handleInputMouseEnter = (name: string) => setHoveredField(name);
+  const handleInputMouseLeave = () => setHoveredField(null);
 
-  // Handle field leave
-  const handleInputMouseLeave = () => {
-    setHoveredField(null);
-  };
-
-  // Set input refs
   const setInputRef = (name: string) => (el: HTMLInputElement | HTMLTextAreaElement | null) => {
     inputRefs.current[name] = el;
   };
 
-  // Validate all before submit
   const validateForm = () => {
     const newErrors: { [key: string]: string } = {};
     const newTouched: { [key: string]: boolean } = {};
 
-    Object.keys(formData).forEach((key) => {
+    Object.keys(formData).forEach(key => {
       newTouched[key] = true;
       const fieldError = validateField(key, (formData as any)[key]);
       if (fieldError) newErrors[key] = fieldError;
@@ -187,20 +152,16 @@ export default function ContactUsClient({ data }: { data: any }) {
     return Object.keys(newErrors).length === 0;
   };
 
-  // Handle form submission
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setSubmitMessage('');
 
     if (!validateForm()) {
       setSubmitMessage("⚠️ Please fix errors before submitting.");
-      
-      // Focus on first error field
       const firstErrorField = Object.keys(errors)[0];
       if (firstErrorField && inputRefs.current[firstErrorField]) {
         inputRefs.current[firstErrorField]?.focus();
       }
-      
       return;
     }
 
@@ -210,14 +171,10 @@ export default function ContactUsClient({ data }: { data: any }) {
       const response = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          ...formData,
-          product: selectedProduct,
-        }),
+        body: JSON.stringify({ ...formData, product: selectedProduct }),
       });
 
       const result = await response.json();
-
       if (result.success) {
         setSubmitMessage("✅ Message sent successfully! We will get back to you soon.");
         setFormData({ name: "", email: "", phone: "", project: "", message: "" });
@@ -236,11 +193,12 @@ export default function ContactUsClient({ data }: { data: any }) {
     }
   };
 
-  // Check if tooltip should be shown
   const shouldShowTooltip = (fieldName: string) => {
-    return (hoveredField === fieldName || document.activeElement === inputRefs.current[fieldName]) && 
-           touched[fieldName] && 
-           errors[fieldName];
+    return (
+      (hoveredField === fieldName || activeElement === inputRefs.current[fieldName]) &&
+      touched[fieldName] &&
+      errors[fieldName]
+    );
   };
 
   return (
@@ -267,7 +225,7 @@ export default function ContactUsClient({ data }: { data: any }) {
         <div className="contact-form">
           <h2>{data.formHeading}</h2>
           <form onSubmit={handleSubmit}>
-            {/* Full-width Name field */}
+            {/* Name */}
             <div className="input-with-tooltip full-width">
               <input
                 ref={setInputRef('name')}
@@ -286,73 +244,48 @@ export default function ContactUsClient({ data }: { data: any }) {
               {shouldShowTooltip('name') && (
                 <div className="error-tooltip">
                   <span className="tooltip-text">{errors.name}</span>
-                  <div className="tooltip-arrow"></div>
+                  <div className="tooltip-arrow" />
                 </div>
               )}
             </div>
 
+            {/* Email & Phone */}
             <div className="input-row">
-              <div className="input-with-tooltip half-width">
-                <input
-                  ref={setInputRef('email')}
-                  type="email"
-                  name="email"
-                  placeholder="Email ID"
-                  value={formData.email}
-                  onChange={handleInputChange}
-                  onBlur={handleInputBlur}
-                  onFocus={handleInputFocus}
-                  onMouseEnter={() => handleInputMouseEnter('email')}
-                  onMouseLeave={handleInputMouseLeave}
-                  className={touched.email && errors.email ? 'error-field' : ''}
-                  required
-                />
-                {shouldShowTooltip('email') && (
-                  <div className="error-tooltip">
-                    <span className="tooltip-text">{errors.email}</span>
-                    <div className="tooltip-arrow"></div>
-                  </div>
-                )}
-              </div>
-              <div className="input-with-tooltip half-width">
-                <input
-                  ref={setInputRef('phone')}
-                  type="tel"
-                  name="phone"
-                  placeholder="Mobile No."
-                  value={formData.phone}
-                  onChange={handleInputChange}
-                  onBlur={handleInputBlur}
-                  onFocus={handleInputFocus}
-                  onMouseEnter={() => handleInputMouseEnter('phone')}
-                  onMouseLeave={handleInputMouseLeave}
-                  className={touched.phone && errors.phone ? 'error-field' : ''}
-                  required
-                />
-                {shouldShowTooltip('phone') && (
-                  <div className="error-tooltip">
-                    <span className="tooltip-text">{errors.phone}</span>
-                    <div className="tooltip-arrow"></div>
-                  </div>
-                )}
-              </div>
+              {['email', 'phone'].map((field) => (
+                <div key={field} className="input-with-tooltip half-width">
+                  <input
+                    ref={setInputRef(field)}
+                    type={field === 'email' ? 'email' : 'tel'}
+                    name={field}
+                    placeholder={field === 'email' ? 'Email ID' : 'Mobile No.'}
+                    value={(formData as any)[field]}
+                    onChange={handleInputChange}
+                    onBlur={handleInputBlur}
+                    onFocus={handleInputFocus}
+                    onMouseEnter={() => handleInputMouseEnter(field)}
+                    onMouseLeave={handleInputMouseLeave}
+                    className={touched[field] && errors[field] ? 'error-field' : ''}
+                    required
+                  />
+                  {shouldShowTooltip(field) && (
+                    <div className="error-tooltip">
+                      <span className="tooltip-text">{errors[field]}</span>
+                      <div className="tooltip-arrow" />
+                    </div>
+                  )}
+                </div>
+              ))}
             </div>
 
-            {/* Custom Dropdown */}
+            {/* Dropdown */}
             <div className="custom-dropdown-wrapper" ref={dropdownRef}>
-              <div
-                className="custom-dropdown"
-                onClick={() => setShowDropdown(!showDropdown)}
-              >
+              <div className="custom-dropdown" onClick={() => setShowDropdown(!showDropdown)}>
                 {selectedProduct || 'Products of Interest'}
                 <span className="arrow">{showDropdown ? '▲' : '▼'}</span>
               </div>
 
               {showDropdown && (
-                <ul
-                  className="custom-options"
-                  onWheel={handleDropdownWheel}
-                >
+                <ul className="custom-options" onWheel={handleDropdownWheel}>
                   {data.products?.length > 0 ? (
                     data.products.map((product: any, i: number) => (
                       <li
@@ -372,6 +305,7 @@ export default function ContactUsClient({ data }: { data: any }) {
               )}
             </div>
 
+            {/* Project */}
             <div className="input-with-tooltip full-width">
               <input
                 type="text"
@@ -386,6 +320,7 @@ export default function ContactUsClient({ data }: { data: any }) {
               />
             </div>
 
+            {/* Message */}
             <div className="input-with-tooltip full-width">
               <textarea
                 name="message"
@@ -408,17 +343,14 @@ export default function ContactUsClient({ data }: { data: any }) {
               </div>
             )}
 
-            <button
-              className="cta-button"
-              type="submit"
-              disabled={isSubmitting}
-            >
+            <button className="cta-button" type="submit" disabled={isSubmitting}>
               {isSubmitting ? 'SENDING...' : 'SUBMIT'}
             </button>
           </form>
         </div>
       </div>
 
+      {/* Footer */}
       <div className="contact-footer">
         <div className="footer-column">
           <h2>ADDRESS</h2>
