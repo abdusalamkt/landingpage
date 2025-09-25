@@ -223,7 +223,7 @@ img {
 }
 
 .custom-options li {
-  padding: 9px 1rem;
+  padding: 6px 1rem;
   cursor: pointer;
   transition: background 0.2s;
   border-bottom: 1px solid #f0f0f0;
