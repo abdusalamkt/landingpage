@@ -1,3 +1,5 @@
+// contact-us/page.tsx
+
 export const metadata = {
   title: 'Contact Us',
   description: 'Get in touch with us',
@@ -53,11 +55,11 @@ interface ContactUsData {
 }
 
 async function fetchContactPage(): Promise<ContactUsData> {
-  try {
-    if (!process.env.WORDPRESS_GRAPHQL_ENDPOINT) {
-      throw new Error('WORDPRESS_GRAPHQL_ENDPOINT environment variable is not set');
-    }
+  if (!process.env.WORDPRESS_GRAPHQL_ENDPOINT) {
+    throw new Error('WORDPRESS_GRAPHQL_ENDPOINT environment variable is not set');
+  }
 
+  try {
     const res = await fetch(process.env.WORDPRESS_GRAPHQL_ENDPOINT, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -65,45 +67,35 @@ async function fetchContactPage(): Promise<ContactUsData> {
       cache: 'force-cache',
     });
 
-    if (!res.ok) {
-      throw new Error(`HTTP error! status: ${res.status}`);
-    }
-
     const json = await res.json();
 
-    if (json.errors) {
+    if (!res.ok || json.errors) {
       console.error('GraphQL errors:', json.errors);
       throw new Error('GraphQL query failed');
     }
 
-    return json.data?.page?.contactUsPageFields || {
-      heading: 'Contact Us',
-      subtitle: 'Get in touch',
-      formHeading: 'Contact Form',
-      slideshowImages: [],
-      products: [],
-      address: 'Address not available',
-      phone: 'Phone not available',
-      email: 'contact@example.com'
-    };
+    return json.data?.page?.contactUsPageFields || getFallbackData();
   } catch (error) {
     console.error('Failed to fetch contact page:', error);
-
-    return {
-      heading: 'Contact Us',
-      subtitle: 'Get in touch',
-      formHeading: 'Contact Form',
-      slideshowImages: [],
-      products: [
-        { productName: 'General Inquiry' },
-        { productName: 'Product Information' },
-        { productName: 'Support' }
-      ],
-      address: 'Address not available',
-      phone: 'Phone not available',
-      email: 'contact@example.com'
-    };
+    return getFallbackData();
   }
+}
+
+function getFallbackData(): ContactUsData {
+  return {
+    heading: 'Contact Us',
+    subtitle: 'Get in touch',
+    formHeading: 'Contact Form',
+    slideshowImages: [],
+    products: [
+      { productName: 'General Inquiry' },
+      { productName: 'Product Information' },
+      { productName: 'Support' }
+    ],
+    address: 'Address not available',
+    phone: 'Phone not available',
+    email: 'contact@example.com'
+  };
 }
 
 export default async function ContactUsPage() {
@@ -115,6 +107,8 @@ export default async function ContactUsPage() {
       <div className="contact-header-static">
         <Header />
       </div>
+
+      {/* Client-side component handles all document/window interactions */}
       <ContactUsClient data={data} />
     </div>
   );
