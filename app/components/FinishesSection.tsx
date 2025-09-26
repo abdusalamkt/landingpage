@@ -16,12 +16,28 @@ interface FinishItem {
 
 export default function FinishesSection({ finishes }: { finishes?: FinishItem[] }) {
   const hasValidFinishes = Array.isArray(finishes) && finishes.length > 0;
+  const [isMobile, setIsMobile] = useState(false);
+  const [isTablet, setIsTablet] = useState(false);
 
   const [currentImage, setCurrentImage] = useState<string>('');
   const [nextImage, setNextImage] = useState('');
   const [revealHeight, setRevealHeight] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(0);
+
+  // Check screen size
+  useEffect(() => {
+    const checkScreenSize = () => {
+      const width = window.innerWidth;
+      setIsMobile(width < 768);
+      setIsTablet(width >= 768 && width < 1024);
+    };
+
+    checkScreenSize();
+    window.addEventListener('resize', checkScreenSize);
+    
+    return () => window.removeEventListener('resize', checkScreenSize);
+  }, []);
 
   useEffect(() => {
     if (hasValidFinishes) {
@@ -54,10 +70,10 @@ export default function FinishesSection({ finishes }: { finishes?: FinishItem[] 
   if (!hasValidFinishes) return null;
 
   return (
-    <section className="finishes-section">
+    <section className={`finishes-section ${isMobile ? 'mobile' : ''} ${isTablet ? 'tablet' : ''}`}>
       <h2 className="heading">
-        CHOOSE FROM OUR <span>DIFFERENT FINISHES!</span>
-        <p className="subheading">Custom colors also available</p>
+        {/* CHOOSE FROM OUR <span>DIFFERENT FINISHES!</span> */}
+        {/* <p className="subheading">Custom colors also available</p> */}
       </h2>
 
       <div className="container">
@@ -104,29 +120,15 @@ export default function FinishesSection({ finishes }: { finishes?: FinishItem[] 
 
       <style jsx>{`
         .finishes-section {
-          padding: 4rem 2rem 0rem;
-          background: #fff;
           text-align: center;
-        }
-
-        .heading {
-          font-family: 'Bebas Neue', sans-serif;
-          font-weight: 400;
-          font-size: 51px;
-          margin: 0;
-        }
-
-        .heading span {
-          color: #cf202f;
         }
 
         .subheading {
           font-family: 'Poppins', sans-serif;
           font-weight: 300;
-          font-size: 19.27px;
+          font-size: 1.1rem;
           text-transform: uppercase;
-          margin-top: 0.5rem;
-          color: #555;
+          color: #3d3d3d;
         }
 
         .container {
@@ -134,26 +136,20 @@ export default function FinishesSection({ finishes }: { finishes?: FinishItem[] 
           justify-content: center;
           align-items: flex-start;
           margin: 0 auto;
-          gap: 4rem;
           flex-wrap: wrap;
-          margin-top: 3rem;
-          margin-right: -80px;
+          align-self: center;
         }
 
         .tiles {
           display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: 2px;
-         
-          max-height: 50vh;
-          margin-right: -80px;
+          grid-template-columns: 1fr 1fr 1fr;
+          align-self: center;
         }
 
         .tile {
           padding: 8px;
           border-radius: 6px;
           cursor: pointer;
-          background: #fdfdfd;
           transition: transform 0.2s;
           display: flex;
           flex-direction: column;
@@ -165,8 +161,8 @@ export default function FinishesSection({ finishes }: { finishes?: FinishItem[] 
         }
 
         .tile img {
-              width: 80px;
-    height: 130px;
+          width: 80px;
+          height: 150px;
           object-fit: cover;
           border-radius: 12px;
           padding: 3px;
@@ -185,17 +181,16 @@ export default function FinishesSection({ finishes }: { finishes?: FinishItem[] 
         }
 
         .tile span {
-          margin-top: 0.5rem;
           font-weight: 500;
-          color: #333;
-          font-size: 0.8rem;
+          color: #3d3d3d;
+          font-size: 0.7rem;
           text-align: center;
           display: flex;
           align-items: center;
         }
 
         .main-image-wrap {
-          max-width: 45vw;
+          max-width: 33vw;
         }
 
         .image-comparison-wrapper {
@@ -222,11 +217,11 @@ export default function FinishesSection({ finishes }: { finishes?: FinishItem[] 
 
         .main-image,
         .main-image-after {
-          width: 100%;
-          height: auto;
+          height: 90vh;
           border-radius: 8px;
-          object-fit: contain;
+          object-fit: cover;
           display: block;
+          margin: -35px auto;
         }
 
         .main-image-after {
@@ -235,14 +230,202 @@ export default function FinishesSection({ finishes }: { finishes?: FinishItem[] 
           left: 0;
         }
 
-        @media (max-width: 768px) {
-          .container {
+        /* Tablet Styles (768px - 1023px) */
+        @media (max-width: 1023px) and (min-width: 768px) {
+          .tablet .container {
             flex-direction: column;
+            gap: 2rem;
+            align-items: center;
+          }
+
+          .tablet .tiles {
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            width: 100%;
+            max-width: 600px;
+          }
+
+          .tablet .tile img {
+            width: 70px;
+            height: 120px;
+          }
+
+          .tablet .tile span {
+            font-size: 0.65rem;
+          }
+
+          .tablet .main-image-wrap {
+            max-width: 70vw;
+          }
+
+          .tablet .main-image,
+          .tablet .main-image-after {
+            height: 60vh;
+            margin: 0 auto;
+          }
+        }
+
+        /* Mobile Styles (below 768px) */
+        @media (max-width: 767px) {
+          .mobile .container {
+            flex-direction: column;
+            gap: 1.5rem;
+            align-items: center;
+          }
+
+          .mobile .tiles {
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.5rem;
+            width: 100%;
+            max-width: 400px;
+          }
+
+          .mobile .tile {
+            padding: 4px;
+          }
+
+          .mobile .tile img {
+            width: 60px;
+            height: 100px;
+            border-radius: 8px;
+            padding: 2px;
+          }
+
+          .mobile .tile span {
+            font-size: 0.6rem;
+            line-height: 1.2;
+          }
+
+          .mobile .main-image-wrap {
+            max-width: 90vw;
+          }
+
+          .mobile .main-image,
+          .mobile .main-image-after {
+            height: 50vh;
+            margin: 0 auto;
+          }
+
+          .mobile .tile:hover {
+            transform: scale(1.02);
+          }
+
+          /* Improve touch targets for mobile */
+          .mobile .tile {
+            min-height: 44px;
+            min-width: 44px;
+          }
+        }
+
+        /* Small Mobile Devices (below 480px) */
+        @media (max-width: 480px) {
+          .mobile .tiles {
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.5rem;
+            max-width: 300px;
+          }
+
+          .mobile .tile img {
+            width: 50px;
+            height: 80px;
+          }
+
+          .mobile .tile span {
+            font-size: 0.55rem;
+          }
+
+          .mobile .main-image,
+          .mobile .main-image-after {
+            height: 40vh;
+          }
+        }
+
+        /* Large Desktop Screens (above 1440px) */
+        @media (min-width: 1440px) {
+          .container {
             gap: 2rem;
           }
 
+          .tile img {
+            width: 100px;
+            height: 180px;
+          }
+
+          .tile span {
+            font-size: 0.8rem;
+          }
+
           .main-image-wrap {
-            max-width: 90vw;
+            max-width: 40vw;
+          }
+        }
+
+        /* Adjust layout for very wide screens */
+        @media (min-width: 1920px) {
+          .tile img {
+            width: 120px;
+            height: 200px;
+          }
+
+          .main-image,
+          .main-image-after {
+            height: 80vh;
+          }
+        }
+
+        /* Ensure proper behavior on orientation change */
+        @media (max-height: 600px) and (orientation: landscape) {
+          .mobile .main-image,
+          .mobile .main-image-after {
+            height: 70vh;
+          }
+
+          .mobile .tiles {
+            grid-template-columns: repeat(4, 1fr);
+            max-width: 350px;
+          }
+
+          .mobile .tile img {
+            width: 50px;
+            height: 70px;
+          }
+        }
+
+        /* Reduce motion for accessibility */
+        @media (prefers-reduced-motion: reduce) {
+          .tile {
+            transition: none;
+          }
+          
+          .tile:hover {
+            transform: none;
+          }
+          
+          .tile img {
+            transition: none;
+          }
+          
+          .after-image {
+            transition: none;
+          }
+        }
+
+        /* High contrast mode support */
+        @media (prefers-contrast: high) {
+          .tile img.selected {
+            border: 3px solid #cf202f;
+            box-shadow: 0 0 15px rgba(207, 32, 47, 0.8);
+          }
+        }
+
+        /* Dark mode support */
+        @media (prefers-color-scheme: dark) {
+          .tile span {
+            color: #ffffff;
+          }
+          
+          .tile img:hover {
+            border: 1px solid #ffffff;
           }
         }
       `}</style>

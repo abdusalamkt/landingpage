@@ -1,3 +1,9 @@
+/* hufcorproduct.module.css */
+
+.container {
+  width: 100%;
+}
+
 .hero {
   display: flex;
   flex-wrap: wrap;
@@ -18,7 +24,7 @@
   border-radius: 20px;
 }
 
-.imageWrapper img {
+.heroImage {
   max-width: 100%;
   border-radius: 20px 0px 0px 20px;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
@@ -75,15 +81,6 @@
   box-shadow: -4px 4px 0px rgba(0, 0, 0, 0.2);
 }
 
-.primary:hover {
-  background: #3D3D3D;
-  color: white;
-  transition: background-color 0.3s ease;
-  transform: translateY(-5px);
-  transition: transform .9s ease;
-  box-shadow: -4px 4px 0px rgba(0, 0, 0, 0.2);
-}
-
 .primary {
   background: linear-gradient(269.42deg, #d72027 .16%, #8e1217 99.84%);
   color: white;
@@ -94,6 +91,15 @@
   font-family: Bebas Neue;
   font-weight: 400;
   font-size: 2rem;
+}
+
+.primary:hover {
+  background: #3D3D3D;
+  color: white;
+  transition: background-color 0.3s ease;
+  transform: translateY(-5px);
+  transition: transform .9s ease;
+  box-shadow: -4px 4px 0px rgba(0, 0, 0, 0.2);
 }
 
 .features {
@@ -256,7 +262,6 @@
   width: 280px;
   flex-shrink: 0;
   border-radius: 12px;
-  /* padding: 20px; */
   text-align: center;
   transition: transform 0.3s ease;
 }
@@ -422,8 +427,6 @@
 }
 
 /* --- Pocket Door Options Section --- */
-
-
 .pocketGrid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -431,8 +434,6 @@
   margin: 0 auto;
   overflow: visible;
 }
-
-
 
 .pocketTitle {
   color: #cc0000;
@@ -451,9 +452,9 @@
   color: #555;
 }
 
-.pocketGrid img {
+.pocketCard img {
   width: 90%;
-  margin:0 auto ;
+  margin: 0 auto;
   height: auto;
   margin-bottom: 20px;
 }
@@ -474,9 +475,6 @@
   max-width: 1200px;
   margin: 0 auto;
 }
-
-
-
 
 .panelImageWrapper {
   position: relative;
@@ -517,7 +515,7 @@
   width: auto;
 }
 
-.choice-points-group {
+.choicePointsGroup {
   display: flex;
   flex-wrap: wrap;
   gap: 0.4rem;
@@ -526,25 +524,25 @@
   color: #3d3d3d;
 }
 
-.choice-point {
+.choicePointItem {
   background: #fafafa;
   border: 1px solid #ddd;
   border-radius: 6px;
   padding: 0.4rem 0.8rem;
 }
 
-.point-separator {
+.pointSeparator {
   margin: 0 0.2rem;
   color: #999;
 }
 
-.features-grid {
+.featuresGrid {
   padding: 50px 20px;
 }
+
 /* Combined Customization Section - Dark Theme */
 .customizationSection {
   padding: 5rem 2rem;
-  /* background: linear-gradient(135deg, #fffffff2 0%, #ffffff 100%); */
   position: relative;
   overflow: hidden;
   isolation: isolate;
@@ -552,7 +550,6 @@
   transform: translateZ(0);
 }
 
-/* Softer animated overlay */
 .customizationSection::before {
   content: '';
   position: absolute;
@@ -568,7 +565,6 @@
   background-size: 200% 200%;
   z-index: -1;
 }
-
 
 @keyframes linesMove {
   0% { background-position: 0% 0%; }
@@ -591,25 +587,8 @@
 }
 
 .sectionHeading {
-  /* color: white; */
   font-size: 3.5rem;
   margin-bottom: 1rem;
-  /* text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5); */
-}
-
-.sectionDescription {
-  /* color: rgba(255, 255, 255, 0.8); */
-  font-size: 1.1rem;
-  margin: 0 auto;
-}
-
-/* Tab Section Styles - Light/White Theme */
-.customizationTabs {
-  max-width: 1400px;
-  margin: 0 auto;
-  border-radius: 20px;
-  overflow: hidden;
-  transform: translateZ(0);
 }
 
 .tabsContainer {
@@ -622,14 +601,11 @@
 /* Tab Sidebar - Light Theme with optimized effects */
 .tabsSidebar {
   width: 280px;
-  /* padding: .5rem .1rem; */
   display: flex;
   flex-direction: column;
   position: relative;
   z-index: 2;
-  /* border-right: 1px solid rgba(0, 0, 0, 0.05); */
   box-shadow: 5px 0 15px rgba(0, 0, 0, 0.1);
-  /* Optimize for performance */
   transform: translateZ(0);
   will-change: auto;
   border-radius: 20px;
@@ -642,18 +618,18 @@
   position: relative;
   background: white;
   border: none;
-  /* padding: .5rem 2rem; */
   text-align: left;
   cursor: pointer;
   transition: all 0.3s ease;
   overflow: hidden;
-  /* Remove 3D transforms for better performance */
   transform: translateZ(0);
-  /* border-radius: 20px; */
-  
+  padding: 1rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 2; /* Ensure buttons are above the indicator */
 }
 
-/* Simplified hover effect */
 .tabButton::before {
   content: '';
   position: absolute;
@@ -661,9 +637,6 @@
   left: -100%;
   width: 100%;
   height: 100%;
-  /* background: linear-gradient(90deg, transparent, rgba(215, 32, 39, 0.08), transparent); */
-
-
   transition: left 0.4s ease;
   transform: translateZ(0);
 }
@@ -674,7 +647,6 @@
 
 .tabButton:hover {
   background: rgba(215, 32, 39, 0.05);
-  /* transform: translateX(3px); */
 }
 
 .tabLabel {
@@ -701,7 +673,7 @@
 }
 
 .tabButton.active {
-    background: linear-gradient(269.42deg, #D72027 0.16%, #8E1217 99.84%);
+  background: linear-gradient(269.42deg, #D72027 0.16%, #8E1217 99.84%);
   transform: translateX(0px);
 }
 
@@ -721,17 +693,14 @@
   position: relative;
   overflow: hidden;
   background: white;
-  /* Remove 3D transforms */
   transform: translateZ(0);
   transition: all 0.3s ease;
-    box-shadow: 5px 0 15px rgba(0, 0, 0, 0.1);
-      border: 2px solid #7C7C7C;
+  box-shadow: 5px 0 15px rgba(0, 0, 0, 0.1);
+  border: 2px solid #7C7C7C;
   border-radius: 20px;
   height: fit-content;
-
 }
 
-/* Simplified background pattern */
 .tabContentWrapper::before {
   content: '';
   position: absolute;
@@ -750,7 +719,6 @@
   position: relative;
   z-index: 2;
   height: 100%;
-  /* padding: 2rem; */
 }
 
 .tabPanel {
@@ -758,9 +726,6 @@
   max-height: none;
   overflow: visible;
 }
-
-/* Optimized Card Grid Styles */
-
 
 .cardImage {
   width: 100%;
@@ -792,7 +757,6 @@
     0 0 0 1px rgba(0, 0, 0, 0.03);
   transition: all 0.3s ease;
   border: 1px solid rgba(0, 0, 0, 0.03);
-  /* Optimize for performance */
   transform: translateZ(0);
   will-change: transform, box-shadow;
   max-height: 220px;
@@ -818,119 +782,6 @@
   font-size: 0.95rem;
 }
 
-/* Responsive Design */
-@media (max-width: 1024px) {
-  .tabsContainer {
-    flex-direction: column;
-    min-height: 100vh;
-  }
-  
-  .tabsSidebar {
-    width: 100%;
-    flex-direction: row;
-    overflow-x: auto;
-    padding: 1rem 0;
-    transform: translateZ(0);
-  }
-  
-  .tabButton {
-    padding: 1rem 1.5rem;
-    min-width: 200px;
-    text-align: center;
-    transform: translateZ(0);
-  }
-  
-  .tabButton:hover {
-    transform: translateY(-2px);
-  }
-  
-  .tabButton.active {
-    transform: translateY(-2px);
-  }
-  
-  .tabHighlight {
-    top: auto;
-    left: 50%;
-    transform: translateX(-50%);
-    bottom: 0;
-    width: 70%;
-    height: 4px;
-    border-radius: 4px 4px 0 0;
-  }
-  
-  .tabButton.active .tabHighlight {
-    width: 70%;
-    height: 4px;
-  }
-  
-  .tabButton.active .tabLabel {
-    padding-left: 0;
-  }
-}
-
-@media (max-width: 768px) {
-  .customizationSection {
-    padding: 3rem 1rem;
-  }
-  
-  .sectionHeading {
-    font-size: 2.5rem;
-  }
-  
-  .cardGrid,
-  .pocketGrid {
-    grid-template-columns: 1fr;
-  }
-  
-  .tabContent {
-    padding: 1rem;
-  }
-  
-  .tabsSidebar {
-    padding: 0.5rem 0;
-  }
-  
-  .tabButton {
-    padding: 0.75rem 1rem;
-    min-width: 160px;
-  }
-}
-
-/* Performance optimizations - removed global selector for CSS modules */
-/* If needed, apply these styles to a local class, e.g. .performanceOptimized */
-.performanceOptimized {
-  -webkit-backface-visibility: hidden;
-  backface-visibility: hidden;
-  -webkit-perspective: 1000;
-  perspective: 1000;
-}
-
-/* Reduce motion for users who prefer it */
-@media (prefers-reduced-motion: reduce) {
-  .customizationSection::before {
-    animation: none;
-  }
-  
-  .tabButton,
-  .card,
-  .pocketCard,
-  .cardImage {
-    transition: none;
-  }
-}
-
-/* Mirror the apart-section */
-.apart-section-mirror {
-  flex-direction: row-reverse; /* swaps left and right */
-}
-
-@media screen and (max-width: 1024px) {
-  .apart-section-mirror {
-    flex-direction: column; /* keep normal stacking on tablet/mobile */
-  }
-}
-/* Add these styles to your existing CSS */
-
 /* Tab arrow animation */
 .tabArrow {
   opacity: 0;
@@ -944,18 +795,6 @@
 .tabButton.active .tabArrow {
   opacity: 1;
   transform: translateX(0);
-}
-
-.tabButton {
-  position: relative;
-  padding: 1rem 2rem;
-  border: none;
-  background: white;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
 }
 
 /* First tab with top rounded corners */
@@ -980,39 +819,441 @@
   color: white;
 }
 
-/* Enhanced Finishes Section 3D effect */
-.enhancedFinishes {
-  position: relative;
-  z-index: 10;
+/* Tab indicator - REMOVED BACKGROUND COLOR */
+.tabIndicator {
+  position: absolute;
+  height: 100%;
+  border-radius: 18px;
+  transition: all 0.3s ease;
+  z-index: 1;
 }
 
-.enhancedFinishes .mainImage {
-  transform: perspective(1000px) rotateY(-5deg) rotateX(5deg) translateZ(30px);
-  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
-  border-radius: 12px;
-  transition: all 0.5s ease;
-  z-index: 20;
-  position: relative;
+/* ===== RESPONSIVE STYLES ===== */
+
+/* Tablet Styles (768px - 1023px) */
+@media (max-width: 1023px) and (min-width: 768px) {
+  .tabletHero {
+    flex-direction: column;
+    height: auto;
+    margin-top: 30px;
+  }
+
+  .tabletHero .textContent {
+    padding: 40px 30px;
+    text-align: center;
+  }
+
+  .tabletHero .series {
+    font-size: 5rem;
+  }
+
+  .tabletHero .description {
+    font-size: 14px;
+    line-height: 24px;
+    text-align: center;
+  }
+
+  .tabletHero .buttons {
+    justify-content: center;
+    gap: 20px;
+  }
+
+  .tabletHero .imageWrapper {
+    width: 90%;
+    margin: 0 auto;
+  }
+
+  .tabletHero .heroImage {
+    border-radius: 20px;
+    height: 50vh;
+  }
+
+  .tabletNoiseBanner,
+  .tabletNoiseBanner1 {
+    height: 60vh;
+    width: 90%;
+    margin: 30px auto;
+  }
+
+  .tabletCustomization {
+    padding: 3rem 1rem;
+  }
+
+  .tabletCustomization .sectionHeading {
+    font-size: 2.8rem;
+  }
+
+  .tabletTabsContainer {
+    flex-direction: column;
+    height: auto;
+    gap: 15px;
+  }
+
+  .tabletTabsSidebar {
+    width: 100%;
+    flex-direction: row;
+    overflow-x: auto;
+    padding: 0.5rem;
+    border-radius: 15px;
+  }
+
+  .tabletTabsSidebar .tabButton {
+    min-width: 200px;
+    padding: 1rem 1.5rem;
+    text-align: center;
+    border-radius: 12px;
+    margin: 0 5px;
+    z-index: 2; /* Ensure clickable on tablet */
+  }
+
+  .tabletTabsSidebar .firstTab,
+  .tabletTabsSidebar .lastTab {
+    border-radius: 12px;
+  }
+
+  .tabletTabContent {
+    min-height: 400px;
+  }
+
+  .tabletCardGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    padding: 1rem;
+  }
+
+  .tabletCard {
+    width: 100%;
+  }
+
+  .tabletPocketGrid {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+
+  .tabletPocketCard {
+    max-height: 180px;
+    padding: 1rem;
+  }
 }
 
-.enhancedFinishes:hover .mainImage {
-  transform: perspective(1000px) rotateY(0deg) rotateX(0deg) translateZ(50px);
-  box-shadow: 0 35px 60px rgba(0, 0, 0, 0.4);
+/* Mobile Styles (below 768px) */
+@media (max-width: 767px) {
+  .mobileHero {
+    flex-direction: column;
+    height: auto;
+    margin-top: 80px;
+    padding: 0 15px;
+  }
+
+  .mobileHero .textContent {
+    padding: 30px 15px;
+    text-align: center;
+  }
+
+  .mobileHero .series {
+    font-size: 3.5rem;
+    line-height: 1.2;
+  }
+
+  .mobileHero .description {
+    font-size: 14px;
+    line-height: 22px;
+    text-align: center;
+    margin-bottom: 30px;
+  }
+
+  .mobileHero .buttons {
+    flex-direction: column;
+    gap: 15px;
+    align-items: center;
+  }
+
+  .mobileHero .outline,
+  .mobileHero .primary {
+    width: 100%;
+    min-width: 200px;
+    max-width: 250px;
+    padding: 8px 20px;
+    font-size: 1.5rem;
+  }
+
+  .mobileHero .imageWrapper {
+    width: 95%;
+    margin: 0 auto;
+    border-radius: 15px;
+  }
+
+  .mobileHero .heroImage {
+    border-radius: 15px;
+    height: 40vh;
+  }
+
+  .mobileNoiseBanner,
+  .mobileNoiseBanner1 {
+    height: 40vh;
+    width: 95%;
+    margin: 20px auto;
+    border-radius: 20px;
+  }
+
+  .bannerCaption {
+    font-size: 16px;
+    bottom: 0.5rem;
+    left: 0.5rem;
+    padding: 0.3rem 0.8rem;
+  }
+
+  .mobileCustomization {
+    padding: 2rem 1rem;
+  }
+
+  .mobileCustomization .customizationHeader {
+    margin-bottom: 1rem;
+  }
+
+  .mobileCustomization .sectionHeading {
+    font-size: 2.2rem;
+    flex-direction: row;
+    /* gap: 10px; */
+  }
+
+  .mobileCustomization .sectionHeading .icon {
+    width: 50px;
+    margin-right: 10px;
+  }
+
+  .mobileCustomization .sectionDescription {
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  .mobileTabsContainer {
+    flex-direction: column;
+    height: auto;
+    gap: 15px;
+  }
+
+  .mobileTabsSidebar {
+    width: 100%;
+    flex-direction: column;
+    border-radius: 15px;
+  }
+
+  .mobileTabsSidebar .tabButton {
+    width: 100%;
+    text-align: center;
+    margin: 0px 0;
+    z-index: 2; /* Ensure clickable on mobile */
+  }
+
+  .mobileTabsSidebar .firstTab {
+    border-radius: 12px  0 0 12px;
+  }
+
+  .mobileTabsSidebar .lastTab {
+    border-radius: 0 12px 12px 0;
+  }
+
+  .mobileTabsSidebar .tabLabel {
+    font-size: 1.3rem;
+  }
+
+  .mobileTabContent {
+    min-height: 300px;
+    border-radius: 15px;
+  }
+
+  .mobileCardGrid {
+    grid-template-columns: 1fr;
+    gap: 15px;
+    padding: 1rem;
+    margin-bottom: 30px;
+  }
+
+  .mobileCard {
+    width: 100%;
+    margin: 0 auto;
+  }
+
+  .mobileCard .cardTitle {
+    font-size: 1.5rem;
+  }
+
+  .mobileCard .cardDesc {
+    font-size: 14px;
+  }
+
+  .mobilePocketGrid {
+    grid-template-columns: 1fr;
+    gap: 15px;
+    padding: 1rem 0;
+  }
+
+  .mobilePocketCard {
+    max-height: none;
+    padding: 1.5rem 1rem;
+    margin: 0 10px;
+  }
+
+  .mobilePocketCard .pocketTitle {
+    font-size: 1.3rem;
+  }
+
+  .mobilePocketCard .pocketSubtitle {
+    font-size: 14px;
+  }
+
+  /* Feature blocks mobile adjustments */
+  .featureBlock h3 {
+    padding: 5px 30px;
+    font-size: 1.5rem;
+    width: 100%;
+    text-align: center;
+  }
+
+  .featureBlock p {
+    margin-left: 20px;
+    margin-right: 20px;
+    font-size: 14px;
+    line-height: 24px;
+  }
+
+  .choicePointsWrap {
+    margin: 10px 20px;
+    gap: 8px;
+  }
+
+  .choicePoint {
+    padding: 8px 15px;
+    font-size: 12px;
+  }
 }
 
-/* Add these to your existing styles */
-.tabsSidebar {
-  position: relative;
-  z-index: 5;
+/* Additional responsive adjustments for tabs on mobile */
+@media (max-width: 1023px) {
+  .tabsContainer {
+    flex-direction: column;
+    min-height: auto;
+  }
+  
+  .tabsSidebar {
+    width: 100%;
+    flex-direction: row;
+    overflow-x: auto;
+    padding: 1rem 0;
+    transform: translateZ(0);
+  }
+  
+  .tabButton {
+    padding: 1rem 1.5rem;
+    min-width: 200px;
+    text-align: center;
+    transform: translateZ(0);
+    z-index: 2; /* Ensure buttons are clickable */
+  }
+  
+  .tabButton:hover {
+    transform: translateY(-2px);
+  }
+  
+  .tabButton.active {
+    /* transform: translateY(-2px); */
+  }
+  
+  .tabHighlight {
+    top: auto;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 0;
+    width: 70%;
+    height: 4px;
+    border-radius: 4px 4px 0 0;
+  }
+  
+  .tabButton.active .tabHighlight {
+    width: 70%;
+    height: 4px;
+  }
+  
+  .tabButton.active .tabLabel {
+    padding-left: 0;
+  }
 }
 
-.tabContentWrapper {
-  position: relative;
-  z-index: 4;
+@media (max-width: 767px) {
+  .customizationSection {
+    padding: 3rem 1rem;
+  }
+  
+  .sectionHeading {
+    font-size: 2.5rem;
+  }
+  
+  .cardGrid,
+  .pocketGrid {
+    grid-template-columns: 1fr;
+  }
+  
+  .tabContent {
+    padding: 1rem;
+  }
+  
+  .tabsSidebar {
+    padding: 0rem 0;
+  }
+  
+  .tabButton {
+    padding: 0.75rem 1rem;
+    min-width: 160px;
+  }
 }
 
-/* Make sure the Finishes section has proper z-index */
-.tabPanel:has(.enhancedFinishes) {
-  overflow: visible;
-  z-index: 10;
+/* Performance optimizations */
+.performanceOptimized {
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  -webkit-perspective: 1000;
+  perspective: 1000;
+}
+
+/* Reduce motion for users who prefer it */
+@media (prefers-reduced-motion: reduce) {
+  .customizationSection::before {
+    animation: none;
+  }
+  
+  .tabButton,
+  .card,
+  .pocketCard,
+  .cardImage {
+    transition: none;
+  }
+}
+
+/* Additional global mobile styles */
+@media (max-width: 767px) {
+  .container {
+    overflow-x: hidden;
+  }
+  
+  /* Improve touch targets */
+  .tabButton,
+  .choicePoint {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  /* Optimize images for mobile */
+  .heroImage,
+  .cardImage {
+    max-width: 100%;
+    height: auto;
+  }
+  
+  /* Improve text readability */
+  .description,
+  .cardDesc,
+  .pocketSubtitle {
+    line-height: 1.5;
+  }
 }

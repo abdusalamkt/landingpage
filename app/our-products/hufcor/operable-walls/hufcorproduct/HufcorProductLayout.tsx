@@ -107,8 +107,23 @@ export default function HufcorProductLayout({
   });
   
   const tabRefs = useRef<Array<HTMLButtonElement | null>>([]);
+  const [isMobile, setIsMobile] = useState(false);
+  const [isTablet, setIsTablet] = useState(false);
+
   useEffect(() => {
     window.scrollTo(0, 0);
+    
+    // Check screen size on mount and resize
+    const checkScreenSize = () => {
+      const width = window.innerWidth;
+      setIsMobile(width < 768);
+      setIsTablet(width >= 768 && width < 1024);
+    };
+
+    checkScreenSize();
+    window.addEventListener('resize', checkScreenSize);
+    
+    return () => window.removeEventListener('resize', checkScreenSize);
   }, [pathname]);
 
   const {
@@ -169,14 +184,14 @@ export default function HufcorProductLayout({
   };
 
   return (
-    <div>
+    <div className={styles.container}>
       <Header />
 
       {/* Hero Section */}
       {(heroTitle || heroHighlight || heroDescription || heroImage?.sourceUrl?.trim()) && (
-        <section className={styles.hero}>
+        <section className={`${styles.hero} ${isMobile ? styles.mobileHero : ''} ${isTablet ? styles.tabletHero : ''}`}>
           <div className={styles.textContent}>
-            <h1 className={styles.series} >
+            <h1 className={styles.series}>
               {heroTitle} <span className={styles.red} style={{marginLeft:"0px"}}>{heroHighlight}</span>
             </h1>
 
@@ -219,7 +234,7 @@ export default function HufcorProductLayout({
 
       {/* Dynamic Image Banner 1 */}
       {imagebanner1?.sourceUrl?.trim() && (
-        <section className={styles.noiseBanner} ref={bannerRef}>
+        <section className={`${styles.noiseBanner} ${isMobile ? styles.mobileNoiseBanner : ''} ${isTablet ? styles.tabletNoiseBanner : ''}`} ref={bannerRef}>
           <div className={styles.noiseOverlay}></div>
           <Image
             src={imagebanner1.sourceUrl}
@@ -236,7 +251,7 @@ export default function HufcorProductLayout({
 
       {/* Customization Option */}
       {customizationOptionsDescription && (
-        <section className={styles.customizationSection}>
+        <section className={`${styles.customizationSection} ${isMobile ? styles.mobileCustomization : ''} ${isTablet ? styles.tabletCustomization : ''}`}>
           <div className={styles.customizationHeader}>
             <h2 className={styles.sectionHeading}>
               <img src="/icon/hufcor/custom.png" alt="icon" className={styles.icon} />
@@ -248,9 +263,9 @@ export default function HufcorProductLayout({
           </div>
 
           <div className={styles.customizationTabs}>
-            <div className={styles.tabsContainer}>
+            <div className={`${styles.tabsContainer} ${isMobile ? styles.mobileTabsContainer : ''} ${isTablet ? styles.tabletTabsContainer : ''}`}>
               {/* Left side - buttons */}
-              <div className={styles.tabsSidebar}>
+              <div className={`${styles.tabsSidebar} ${isMobile ? styles.mobileTabsSidebar : ''} ${isTablet ? styles.tabletTabsSidebar : ''}`}>
                 <div className={styles.tabIndicator} 
                   style={{ 
                     transform: `translateX(${animationState.activeTabPosition}px)`,
@@ -284,7 +299,7 @@ export default function HufcorProductLayout({
               </div>
               
               {/* Right side - content */}
-              <div className={styles.tabContentWrapper}>
+              <div className={`${styles.tabContentWrapper} ${isMobile ? styles.mobileTabContent : ''} ${isTablet ? styles.tabletTabContent : ''}`}>
                 <AnimatePresence mode="wait">
                   <motion.div
                     key={activeTab}
@@ -296,10 +311,10 @@ export default function HufcorProductLayout({
                   >
                     {activeTab === "panel" && safePanelConfig.length > 0 && (
                       <div className={styles.tabPanel}>
-                        <div className={styles.cardGrid}>
+                        <div className={`${styles.cardGrid} ${isMobile ? styles.mobileCardGrid : ''} ${isTablet ? styles.tabletCardGrid : ''}`}>
                           {safePanelConfig.map((item: any, i: number) => (
                             <motion.div 
-                              className={styles.card} 
+                              className={`${styles.card} ${isMobile ? styles.mobileCard : ''}`} 
                               key={i}
                               initial={{ opacity: 0, y: 20 }}
                               animate={{ opacity: 1, y: 0 }}
@@ -336,11 +351,11 @@ export default function HufcorProductLayout({
                     
                     {activeTab === "pocket" && safePocketDoors.length > 0 && (
                       <div className={styles.tabPanel}>
-                        <div className={styles.pocketGrid}>
+                        <div className={`${styles.pocketGrid} ${isMobile ? styles.mobilePocketGrid : ''} ${isTablet ? styles.tabletPocketGrid : ''}`}>
                           {safePocketDoors.map((item: any, i: number) => (
                             <motion.div 
                               key={i} 
-                              className={styles.pocketCard}
+                              className={`${styles.pocketCard} ${isMobile ? styles.mobilePocketCard : ''}`}
                               initial={{ opacity: 0, y: 20 }}
                               animate={{ opacity: 1, y: 0 }}
                               transition={{ delay: i * 0.1 }}
@@ -351,8 +366,8 @@ export default function HufcorProductLayout({
                                 <Image
                                   src={item.image.sourceUrl}
                                   alt={item.image.altText || "Pocket Door"}
-                                  width={180}
-                                  height={120}
+                                  width={isMobile ? 120 : 180}
+                                  height={isMobile ? 80 : 120}
                                 />
                               )}
                             </motion.div>
@@ -367,55 +382,51 @@ export default function HufcorProductLayout({
           </div>
         </section>
       )}
+
       {/* Choices Section */}
+      {safeChoices.length > 0 && (
+        <section className={`apart-section-mirror ${isMobile ? 'mobile-apart-section-mirror' : ''} ${isTablet ? 'tablet-apart-section-mirror' : ''}`}>
+          {/* Left Side */}
+          <div className="apart-left-mirror">
+            <div className="apart-bg-number-mirror">!</div>
+            <h2 className="apart-heading-mirror">
+              Be spoilt for  <span className="apart-highlight" style={{ color: "#D72027" }}>choices!</span>
+            </h2>
+            <p className="apart-desc-mirror"></p>
+          </div>
 
-{safeChoices.length > 0 && (
-  <section className="apart-section-mirror" >
-    {/* Left Side */}
-    <div className="apart-left-mirror">
-      <div className="apart-bg-number-mirror">!</div>
-      <h2 className="apart-heading-mirror">
-        Be spoilt for  <span className="apart-highlight" style={{ color: "#D72027" }}>choices!</span>
-      </h2>
-      <p className="apart-desc-mirror">
-      </p>
-    </div>
-
-    {/* Right Side */}
-    <div className="apart-right-mirror">
-      <h3
-        className="features-title-mirror"
-        style={{
-          background: "linear-gradient(269.42deg, #d72027 0.16%, #8e1217 99.84%)",
-        }}
-      >
-        <span className="features-bar-mirror" style={{ backgroundColor: "#D72027" }} />
-        AVAILABLE OPTIONS
-      </h3>
-     <div className="features-grid-mirror" style={{ display: "block" }}>
-
-        {safeChoices.map((choice, index) => (
-          <div key={index} className="feature-item-mirror" style={{ marginBottom: "2rem" }}>
-            <h4 style={{ color: "#D72027" }}>{choice.choiceTitle}</h4>
-            <div className="choice-points-group-mirror">
-              {choice.choicePoints?.map((pt, i) => (
-                <span key={i} className="choice-point-mirror">
-                  {pt.point}
-                  
-                </span>
+          {/* Right Side */}
+          <div className="apart-right-mirror">
+            <h3
+              className="features-title-mirror"
+              style={{
+                background: "linear-gradient(269.42deg, #d72027 0.16%, #8e1217 99.84%)",
+              }}
+            >
+              <span className="features-bar-mirror" style={{ backgroundColor: "#D72027" }} />
+              AVAILABLE OPTIONS
+            </h3>
+            <div className={`features-grid-mirror ${isMobile ? 'mobile-features-grid-mirror' : ''}`} style={{ display: "block" }}>
+              {safeChoices.map((choice, index) => (
+                <div key={index} className={`feature-item-mirror ${isMobile ? 'mobile-feature-item-mirror' : ''}`} style={{ marginBottom: "2rem" }}>
+                  <h4 style={{ color: "#D72027" }}>{choice.choiceTitle}</h4>
+                  <div className={`choice-points-group-mirror ${isMobile ? 'mobile-choice-points-group' : ''}`}>
+                    {choice.choicePoints?.map((pt, i) => (
+                      <span key={i} className={`choice-point-mirror ${isMobile ? 'mobile-choice-point' : ''}`}>
+                        {pt.point}
+                      </span>
+                    ))}
+                  </div>
+                </div>
               ))}
             </div>
           </div>
-        ))}
-      </div>
-    </div>
-  </section>
-)}
-
+        </section>
+      )}
 
       {/* Dynamic Image Banner 2 */}
       {imagebanner2?.sourceUrl?.trim() && (
-        <section className={styles.noiseBanner1} ref={bannerRef1}>
+        <section className={`${styles.noiseBanner1} ${isMobile ? styles.mobileNoiseBanner : ''} ${isTablet ? styles.tabletNoiseBanner : ''}`} ref={bannerRef1}>
           <div className={styles.noiseOverlay}></div>
           <Image
             src={imagebanner2.sourceUrl}
@@ -427,7 +438,6 @@ export default function HufcorProductLayout({
           {typeof imagebanner2Title === "string" && imagebanner2Title.trim() !== "" && (
             <div className={styles.bannerCaption}>{imagebanner2Title}</div>
           )}
-          
         </section>
       )}
 
