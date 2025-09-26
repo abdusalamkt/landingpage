@@ -108,3 +108,18 @@ margin-bottom: -18px;
 @keyframes blink {
   50% { opacity: 0; }
 }
+
+@media screen and (max-width: 768px) {
+  .banner-content {
+    top: 60%;
+    transform: translate(5%, -40%);
+    padding: 0 20px;
+  }
+
+  .first-line {
+    font-size: 4rem;
+}
+.second-line {
+    font-size: 1.5rem;
+  }
+}

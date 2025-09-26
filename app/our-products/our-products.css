@@ -369,6 +369,9 @@ body {
   .vertical-divider {
     display: none;
   }
+  nav{
+    display: none;
+  }
 }
 
 @media screen and (max-width: 480px) {

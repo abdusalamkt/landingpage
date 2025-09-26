@@ -310,3 +310,13 @@ font-family: poppins;
 }
 
 }
+@media (max-width:768px){
+  .certGrid{
+    gap: 90px;
+  }
+  .mainImage{
+    display: none;}
+  .commitment{
+    gap: 0px;;
+  }
+}

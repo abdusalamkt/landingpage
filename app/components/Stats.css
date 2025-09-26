@@ -88,15 +88,6 @@
   margin-top: -20px; 
 }
 
-@media (max-width: 768px) {
-  .stat-item:not(:last-child)::after {
-    display: none;
-  }
-
-  .stats-container {
-    flex-direction: column;
-  }
-}
 .plus-sign {
   font-weight: bold;
   color: #109C5D;
@@ -217,5 +208,14 @@
 
   .stats-container {
     flex-direction: column;
+    gap: 0rem;
   }
+  .stat-item{
+    /* margin-bottom: 2rem; */
+    width: 100%;
+  }
+  .stat-image img{
+    scale: 1.5;
+  }
+
 }

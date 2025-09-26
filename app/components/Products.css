@@ -141,6 +141,7 @@
 
 /* Center the last row when it has fewer cards than a full row */
 @media (min-width: 768px) {
+
   /* For screens that can fit 3+ cards per row */
   @media (min-width: 1200px) {
     .products-grid {
@@ -160,7 +161,13 @@
     }
   }
 }
-
+@media (max-width: 767px) {
+  /* For mobile screens that fit 1 card per row */
+  .products-section {
+    padding: 1rem 3rem;
+  }
+  
+}
 /* Special handling for incomplete last rows */
 .products-grid {
   /* When total cards is not divisible by columns, center the last row */

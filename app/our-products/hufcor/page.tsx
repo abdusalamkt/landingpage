@@ -99,20 +99,10 @@ export default async function HufcorPage() {
           </h1>
         </div>
       </div>
-{/* Fullscreen YouTube Video Section */}
-{/* <div className={styles.fullscreenVideoSection}>
-  <iframe
-    src="https://www.youtube.com/embed/KitUxtXp2Lw?autoplay=1&loop=1&mute=1&controls=0&playlist=KitUxtXp2Lw&modestbranding=1&showinfo=0&rel=0&vq=hd1080"
-    title="Hufcor video"
-    frameBorder="0"
-    allow="autoplay; fullscreen"
-    allowFullScreen
-  ></iframe>
-</div> */}
 
-
-      {/* First Product Section (Image Left) */}
+      {/* First Product Section (Image Left on Desktop) */}
       <div className={styles.productSection} id="operable">
+        {/* Desktop Image Container */}
         <div className={styles.imageContainer}>
           <ImageSlider
             slides={
@@ -123,8 +113,22 @@ export default async function HufcorPage() {
             }
           />
         </div>
+        
         <div className={styles.textContainer}>
           <h2>{operableHeading}</h2>
+          
+          {/* Mobile Image Container - Shows after h2 on mobile only */}
+          <div className={styles.mobileImageContainer}>
+            <ImageSlider
+              slides={
+                operableslider?.map((slide: any) => ({
+                  src: slide.image?.sourceUrl || "",
+                  title: slide.title || "",
+                })) || []
+              }
+            />
+          </div>
+
           <p>{operableDescription}</p>
 
           <div className={styles.productRangeRow}>
@@ -142,10 +146,23 @@ export default async function HufcorPage() {
         </div>
       </div>
 
-      {/* Second Product Section (Image Right) */}
+      {/* Second Product Section (Image Right on Desktop) */}
       <div className={`${styles.productSection} ${styles.reverse}`}>
         <div className={styles.textContainer}>
           <h2>{glassHeading}</h2>
+          
+          {/* Mobile Image Container - Shows after h2 on mobile only */}
+          <div className={styles.mobileImageContainer}>
+            <ImageSlider
+              slides={
+                glassslider?.map((slide: any) => ({
+                  src: slide.image?.sourceUrl || "",
+                  title: slide.title || "",
+                })) || []
+              }
+            />
+          </div>
+
           <p>{glassDescription}</p>
 
           <div className={styles.productRangeRow}>
@@ -161,6 +178,8 @@ export default async function HufcorPage() {
             ))}
           </div>
         </div>
+        
+        {/* Desktop Image Container */}
         <div className={`${styles.imageContainer} ${styles.glassSlider}`}>
           <ImageSlider
             slides={

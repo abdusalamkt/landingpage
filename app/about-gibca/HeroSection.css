@@ -21,6 +21,14 @@
   }
 }
 
+@media(max-width: 767px){
+  .hero-section{
+    margin: 60px 0px auto;
+    gap: 4rem;
+  padding: 0 2rem;}
+    
+  }
+
 
 .hero-text {
   font-family: 'Poppins', sans-serif;

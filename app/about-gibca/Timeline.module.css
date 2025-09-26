@@ -240,7 +240,7 @@
   }
 
   .timelineDot {
-    left: 20px;
+    left: -18px;
     transform: translateY(-50%);
   }
   

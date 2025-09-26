@@ -18,6 +18,12 @@
   z-index: 0;
 }
 
+@media (max-width: 768px) {
+  .video-section {
+    height: 40vh;
+  }
+}
+
 .video-overlay {
   position: relative;
   z-index: 2;

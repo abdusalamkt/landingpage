@@ -446,7 +446,7 @@ font-size: 1.8rem;
   }
   
   .form-title {
-    font-size: 22px;
+    font-size: 32px;
   }
   
   .form-description {
@@ -507,9 +507,6 @@ font-size: 1.8rem;
 }
 
 @media (max-width: 480px) {
-  .form-title {
-    font-size: 18px;
-  }
   
   .logo-image {
     height: 25px;

@@ -275,7 +275,7 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
       {/* Bottom Bar */}
 <div className="footer-bottom-bar">
   <p>
-    &copy; {new Date().getFullYear()} GIBCA. Developed by GIBCA FURNITURE INDUSTRY
+    &copy; {new Date().getFullYear()} GIBCA Furniture | All rights reserved | <a href="mailto:marketing@gmail.com"><b>marketing@gfiuae.com</b></a> 
   </p>
 </div>
 

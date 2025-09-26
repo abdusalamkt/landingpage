@@ -344,13 +344,37 @@
     .main-container, .second-container {
         flex-direction: column;
         padding: 20px;
-        gap: 40px;
+        gap: 160px;
+    }
+    .main-border, .second-border {
+        display: none;
     }
     
     .image-layout {
         width: 100%;
         max-width: 400px;
         height: 350px;
+    }
+    .main-image{
+        max-width: 360px;
+    }
+    .top-right-image{
+        right: -25px;
+    }
+    .bottom-left-image{
+        bottom: -100px;
+        left: -25px; 
+    }
+    .second-image{
+        max-width: 320px;
+        justify-self: center;
+    }
+    .second-container .bottom-left-image{
+        bottom: -140px;
+        left: -25px;
+    }
+    .second-container .top-right-image{
+        right: -25px;
     }
     
     .second-container .image-layout {
