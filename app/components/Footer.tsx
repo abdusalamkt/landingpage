@@ -159,17 +159,27 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
           {/* Logo Section */}
           <div className="footer-logos">
             <div className="logo-item">
-              <img src="/logos/2025 GIBCA LOGO WHITE.png" alt="gibca-logo" className="logo-image" />
-            </div>
+  <a href="/our-products/gibca-compact-laminate-solutions"> 
+    <img 
+      src="/logos/2025 GIBCA LOGO WHITE.png" 
+      alt="gibca-logo" 
+      className="logo-image" 
+    />
+  </a>
+</div>
+
             {/* <div className="logo-divider"></div> */}
             <div className="logo-item">
-              <img src="/logos/HUFCOR ALL WHITE.png" alt="hufcor-logo" className="logo-image" />
+              <a href="/our-products/hufcor"> 
+              <img src="/logos/HUFCOR ALL WHITE.png" alt="hufcor-logo" className="logo-image" /></a>
             </div>
             <div className="logo-item">
-              <img src="/crown-doors-logo 1 - WHITE.svg" alt="crown-logo" className="logo-image" />
+              <a href="/our-products/crown">
+              <img src="/crown-doors-logo 1 - WHITE.svg" alt="crown-logo" className="logo-image" /></a>
             </div>
             <div className="logo-item">
-              <img src="/acristalialogo.png" alt="acristalia-logo" className="logo-image" style={{height:"50px"}}/>
+              <a href="/our-products/terrace-solutions">
+              <img src="/acristalialogo.png" alt="acristalia-logo" className="logo-image" style={{height:"50px"}}/></a>
             </div>
             
             {/* <div className="logo-divider"></div> */}
@@ -275,7 +285,7 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
       {/* Bottom Bar */}
 <div className="footer-bottom-bar">
   <p>
-    &copy; {new Date().getFullYear()} GIBCA Furniture | All rights reserved | <a href="mailto:marketing@gmail.com"><b>marketing@gfiuae.com</b></a> 
+    &copy; 2025 GIBCA Furniture | All rights reserved | <a href="mailto:marketing@gmail.com"><b>marketing@gfiuae.com</b></a> 
   </p>
 </div>
 
