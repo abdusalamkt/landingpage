@@ -1,6 +1,6 @@
 .stats-section {
   padding: 4rem 2rem;
-  background-color: #fbfbfb;
+  padding-bottom: 25px;
 }
 .products-heading {
   font-size: 3rem;
@@ -97,9 +97,6 @@
   display: inline-block;
 }
 
-.stats-section {
-  padding: 4rem 2rem;
-}
 
 .stats-container {
   display: flex;
