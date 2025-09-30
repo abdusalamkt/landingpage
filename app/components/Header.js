@@ -12,15 +12,20 @@ export default function Header() {
   const [isHeaderHidden, setIsHeaderHidden] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [mobileSubmenuOpen, setMobileSubmenuOpen] = useState({});
+  const [isMobile, setIsMobile] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
+  
   const pathname = usePathname();
   const router = useRouter();
   const lastScrollY = useRef(0);
-   const [isMobile, setIsMobile] = useState(false);
 
   const logoUrl = '/logos/2025 GIBCA LOGO BLACK.png';
 
+  // Safe window check
+  const isClient = typeof window !== 'undefined';
+
   const toggleDropdown = (dropdown) => {
-    if (typeof window !== 'undefined' && window.innerWidth <= 1280)  {
+    if (isClient && window.innerWidth <= 1280) {
       // Mobile behavior
       setActiveDropdown(activeDropdown === dropdown ? null : dropdown);
     } else {
@@ -36,9 +41,13 @@ export default function Header() {
       setActiveDropdown(null);
       setActiveSubmenu(null);
       setMobileSubmenuOpen({});
-      document.body.classList.remove('mobile-menu-open');
+      if (isClient) {
+        document.body.classList.remove('mobile-menu-open');
+      }
     } else {
-      document.body.classList.add('mobile-menu-open');
+      if (isClient) {
+        document.body.classList.add('mobile-menu-open');
+      }
     }
   };
 
@@ -50,13 +59,13 @@ export default function Header() {
   };
 
   const handleSubmenuEnter = (submenu) => {
-    if (window.innerWidth > 1280) {
+    if (isClient && window.innerWidth > 1280) {
       setActiveSubmenu(submenu);
     }
   };
 
   const handleSubmenuLeave = () => {
-    if (window.innerWidth > 1280) {
+    if (isClient && window.innerWidth > 1280) {
       setActiveSubmenu(null);
     }
   };
@@ -70,10 +79,19 @@ export default function Header() {
     setActiveDropdown(null);
     setActiveSubmenu(null);
     setMobileSubmenuOpen({});
-    document.body.classList.remove('mobile-menu-open');
+    if (isClient) {
+      document.body.classList.remove('mobile-menu-open');
+    }
   };
 
+  // Set mounted state to handle SSR
   useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (!isClient) return;
+
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
       const scrollDelta = currentScrollY - lastScrollY.current;
@@ -89,7 +107,7 @@ export default function Header() {
 
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [isClient]);
 
   // Close mobile menu on route change
   useEffect(() => {
@@ -98,6 +116,8 @@ export default function Header() {
 
   // Close mobile menu on window resize to desktop
   useEffect(() => {
+    if (!isClient) return;
+
     const handleResize = () => {
       if (window.innerWidth > 1280 && isMobileMenuOpen) {
         closeMobileMenu();
@@ -106,16 +126,18 @@ export default function Header() {
 
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
-  }, [isMobileMenuOpen]);
+  }, [isMobileMenuOpen, isClient]);
 
-
-   // Track screen size safely
+  // Track screen size safely
   useEffect(() => {
+    if (!isClient) return;
+
     const checkWidth = () => setIsMobile(window.innerWidth <= 1280);
     checkWidth();
     window.addEventListener('resize', checkWidth);
     return () => window.removeEventListener('resize', checkWidth);
-  }, []);
+  }, [isClient]);
+
   const dropdownItems = {
     products: [
       {
@@ -183,6 +205,25 @@ export default function Header() {
     ],
   };
 
+  // Helper function to check if we're on mobile for event handlers
+  const isMobileView = () => {
+    return isClient && window.innerWidth <= 1280;
+  };
+
+  // Don't render anything until mounted to avoid hydration mismatches
+  if (!isMounted) {
+    return (
+      <header className="site-header">
+        <div className="logo" id="headerLogo">
+          <a href="/">
+            <img src={logoUrl} alt="Logo" />
+          </a>
+        </div>
+        {/* Minimal skeleton for SSR */}
+      </header>
+    );
+  }
+
   return (
     <>
       {/* Fixed Media Buttons */}
@@ -217,8 +258,8 @@ export default function Header() {
             </li>
             <li
               className="dropdown-parent"
-              onMouseEnter={() => window.innerWidth > 1280 && toggleDropdown('products')}
-              onMouseLeave={() => window.innerWidth > 1280 && toggleDropdown(null)}
+              onMouseEnter={() => !isMobileView() && toggleDropdown('products')}
+              onMouseLeave={() => !isMobileView() && toggleDropdown(null)}
             >
               <div className="dropdown-trigger" onClick={() => toggleDropdown('products')}>
                 <a href="/our-products" className={pathname === '/our-products' ? 'active' : ''}>
@@ -242,7 +283,7 @@ export default function Header() {
                       href={item.link} 
                       className="main-dropdown-link"
                       onClick={(e) => {
-                        if (window.innerWidth <= 1280 && item.submenu) {
+                        if (isMobileView() && item.submenu) {
                           e.preventDefault();
                           toggleMobileSubmenu(item.name);
                         } else {
@@ -261,7 +302,7 @@ export default function Header() {
                       )}
                     </a>
                     {item.submenu && (
-                      <div className={`submenu ${window.innerWidth <= 1280 ? (mobileSubmenuOpen[item.name] ? 'active' : '') : (activeSubmenu === item.name ? 'active' : '')}`}>
+                      <div className={`submenu ${isMobileView() ? (mobileSubmenuOpen[item.name] ? 'active' : '') : (activeSubmenu === item.name ? 'active' : '')}`}>
                         {item.submenu.map((subCategory, subIndex) => (
                           <div key={subIndex} className="submenu-category">
                             {subCategory.name && <h4 className="submenu-title">{subCategory.name}</h4>}
@@ -294,8 +335,8 @@ export default function Header() {
             </li>
             <li
               className="dropdown-parent"
-              onMouseEnter={() => window.innerWidth > 1280 && toggleDropdown('resources')}
-              onMouseLeave={() => window.innerWidth > 1280 && toggleDropdown(null)}
+              onMouseEnter={() => !isMobileView() && toggleDropdown('resources')}
+              onMouseLeave={() => !isMobileView() && toggleDropdown(null)}
             >
               <div className="dropdown-trigger" onClick={() => toggleDropdown('resources')}>
                 <a href="#">RESOURCES</a>
