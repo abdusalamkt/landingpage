@@ -14,7 +14,7 @@
 .hero-overlay {
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.671);
+  background: #0000007a;
   display: flex;
   align-items: center;
   justify-content: center;

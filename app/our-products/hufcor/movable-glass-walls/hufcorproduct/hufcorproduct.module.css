@@ -843,3 +843,231 @@ line-height: 100%;
 .features-grid{
   padding: 50px 20px;
 }
+
+
+/* Smart Glass Section Styles */
+.smartGlassSection {
+  padding: 5rem 2rem;
+  background: linear-gradient(to bottom, #f9f9f9, #fff);
+}
+
+.smartGlassContainer {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.smartGlassContent {
+  display: grid;
+  grid-template-columns: 0fr 1fr;
+  gap: 2rem;
+  margin-top: 3rem;
+  align-items: center;
+}
+
+/* Realistic Remote Control Styles */
+.remoteColumn {
+  display: flex;
+  justify-content: center;
+}
+
+.remoteControl {
+  background: linear-gradient(145deg, #ffffff, #eeeeee);
+  border-radius: 20px;
+  padding: 1.5rem;
+  box-shadow: 0 15px 35px rgb(255, 255, 255), 
+              0 5px 15px rgba(0, 0, 0, 0.22),
+              inset 0 2px 0 rgba(255, 255, 255, 0.1);
+  text-align: center;
+  width: 260px;
+  color: white;
+  border: 1px solid #444;
+  position: relative;
+  overflow: hidden;
+  height: auto;
+  scale: .75;
+}
+
+.remoteControl::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 5px;
+  background: linear-gradient(90deg, #D72027, #ff5a5f);
+  border-radius: 20px 20px 0 0;
+}
+
+.remoteTop {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+}
+
+.remoteIndicator {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+  color: #aaa;
+}
+
+.indicatorLight {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #444;
+  position: relative;
+}
+
+.indicatorLight.active {
+  background-color: #D72027;
+  box-shadow: 0 0 10px #D72027;
+}
+
+.remoteDisplay {
+  background: linear-gradient(to bottom, #0d0d0d, #1a1a1a);
+  border-radius: 12px;
+  padding: 1.2rem;
+  margin-bottom: 1.5rem;
+  border: 1px solid #333;
+  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.5);
+}
+
+.remoteStatus {
+  font-size: 0.9rem;
+  color: #aaa;
+}
+
+.remoteStatus span {
+  display: block;
+  font-size: 0.8rem;
+  margin-bottom: 0.3rem;
+}
+
+.statusValue {
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: #fff;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+  margin-top: 0.5rem;
+}
+
+.remoteButtons {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.remoteButton {
+  background: linear-gradient(to bottom, #3a3a3a, #2a2a2a);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  padding: 1rem;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 100%;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3), 
+              inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  border: 1px solid #444;
+}
+
+.remoteButton:hover {
+  background: linear-gradient(to bottom, #4a4a4a, #3a3a3a);
+}
+
+.redButton {
+  background: linear-gradient(to bottom, #D72027, #a01a1f);
+}
+
+.redButton:hover {
+  background: linear-gradient(to bottom, #ff2b32, #c51f24);
+}
+
+.buttonIcon {
+  display: flex;
+  align-items: center;
+}
+
+.remoteBottom {
+  border-top: 1px solid #333;
+  padding-top: 1rem;
+}
+
+.brandLogo {
+  font-size: 0.9rem;
+  color: #aaa;
+  font-weight: 300;
+  letter-spacing: 1px;
+}
+
+/* Glass Images Styles */
+.glassColumn {
+  position: relative;
+}
+
+.glassImagesContainer {
+  position: relative;
+  height:100vh;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+}
+
+.glassImageWrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.glassImage {
+  object-fit: cover;
+  transition: opacity 0.01s; /* Almost instant transition */
+}
+
+.glassOverlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+  padding: 1rem;
+  text-align: center;
+  font-weight: 600;
+}
+
+/* Responsive Design */
+@media (max-width: 968px) {
+  .smartGlassContent {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+  
+  .remoteControl {
+    width: 100%;
+    max-width: 280px;
+  }
+  
+  .glassImagesContainer {
+    height: 350px;
+  }
+}
+
+@media (max-width: 480px) {
+  .smartGlassSection {
+    padding: 3rem 1rem;
+  }
+  
+  .glassImagesContainer {
+    height: 300px;
+  }
+}

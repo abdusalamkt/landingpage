@@ -254,12 +254,12 @@
   gap: 30px;
   max-height: calc(100vh - 200px);
   overflow: visible;
-  padding: 2rem;
-  margin-bottom: 50px;
+  padding: 1rem;
+  
 }
 
 .card {
-  width: 280px;
+  width: 260px;
   flex-shrink: 0;
   border-radius: 12px;
   text-align: center;
@@ -548,6 +548,7 @@
   isolation: isolate;
   will-change: auto;
   transform: translateZ(0);
+  padding-bottom: 0px;
 }
 
 .customizationSection::before {
@@ -1040,7 +1041,7 @@
   }
 
   .mobileTabsSidebar .tabButton {
-    width: 100%;
+    /* width: 100%; */
     text-align: center;
     margin: 0px 0;
     z-index: 2; /* Ensure clickable on mobile */
@@ -1055,7 +1056,7 @@
   }
 
   .mobileTabsSidebar .tabLabel {
-    font-size: 1.3rem;
+    font-size: 1rem;
   }
 
   .mobileTabContent {
@@ -1242,12 +1243,19 @@
     min-height: 44px;
     min-width: 44px;
   }
+  .tabArrow{
+    display: none;
+  }
   
   /* Optimize images for mobile */
   .heroImage,
   .cardImage {
     max-width: 100%;
     height: auto;
+    margin: 0 auto;
+  }
+  .cardImage {
+    max-width: 75%; 
   }
   
   /* Improve text readability */
@@ -1255,5 +1263,9 @@
   .cardDesc,
   .pocketSubtitle {
     line-height: 1.5;
+  }
+  .cardGrid{
+    max-height: 1400px;
+    gap: 0px;
   }
 }

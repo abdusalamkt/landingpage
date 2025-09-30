@@ -78,7 +78,7 @@ export default function Timeline({ events }: TimelineProps) {
         Take a look at GIBCA’s <span>History!</span>
       </h2>
       <p className={styles.intro}>
-        There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration...
+        From humble beginnings to becoming a global leader in Space Management, witness our 30+ years journey of how we achieved it all!
       </p>
 
       <div className={styles.timelineContainer} ref={timelineRef}>

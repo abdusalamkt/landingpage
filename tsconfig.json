@@ -22,6 +22,6 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/gallery/page.js", "app/components/productszoomoncursor", "app/components/TestimonialSlider.jsx", "app/components/TestimonialSlider.js", "app/components/ContactUs.js", "app/components/ContactUs.js", "app/components/ContactUs.js", "app/components/ContactUs.js", "app/components/GetInTouchSection.js", "app/components/Products.js", "app/service-and-maintenance/page.js", "app/service-and-maintenance/page.js"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/gallery/page.js", "app/components/productszoomoncursor", "app/components/TestimonialSlider.jsx", "app/components/TestimonialSlider.js", "app/components/ContactUs.js", "app/components/ContactUs.js", "app/components/ContactUs.js", "app/components/ContactUs.js", "app/components/GetInTouchSection.ts", "app/components/Products.js", "app/service-and-maintenance/page.js", "app/service-and-maintenance/page.js"],
   "exclude": ["node_modules"]
 }

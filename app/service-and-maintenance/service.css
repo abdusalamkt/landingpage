@@ -287,7 +287,7 @@
   }
   
   .service-container {
-    padding: 150px 10px;
+    padding: 10px 10px;
   }
   
   .service-center {
@@ -421,3 +421,104 @@
     height: 50vh;
   }
 }
+
+/* -------------------------
+   FORCE SINGLE CENTERED COLUMN
+   Paste at the END of service.css
+   ------------------------- */
+@media (max-width: 900px) {
+  /* make the container a centered column */
+  .service-center {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    position: relative !important;
+    width: 100% !important;
+    min-height: auto !important;
+    height: auto !important;
+    padding: 0 !important;
+  }
+
+  /* hide decorative connection lines on small screens */
+  .connection-lines {
+    display: none !important;
+  }
+
+  /* reset all placement classes so nothing stays absolute */
+  .service-item,
+  .top-center, .left-top, .right-top,
+  .left-center, .right-center,
+  .left-bottom, .right-bottom,
+  .bottom-center {
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    right: auto !important;
+    bottom: auto !important;
+    transform: none !important;
+    margin: 0 auto !important;
+    width: 100% !important;
+    max-width: 420px !important;
+    box-sizing: border-box !important;
+  }
+
+  /* style each item as a centered stacked card */
+  .service-item {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center !important;
+    padding: 14px 18px !important;
+    background: transparent; /* change to white and add shadow if you want card look */
+    border-radius: 8px !important;
+    z-index: 20 !important;
+  }
+
+  /* small visual tweaks for the content */
+  .service-number {
+    position: relative !important;
+    top: 80px !important;
+    left: -60px !important;
+    margin: 0 0 8px 0 !important;
+    font-size: 5.6rem !important;
+    opacity: 0.08 !important;
+    line-height: 1 !important;
+  }
+
+  .service-title {
+    font-size: 24px !important;
+    margin: 6px 0 !important;
+  }
+
+  .service-description {
+    font-size: 0.95rem !important;
+    line-height: 1.4 !important;
+    max-width: 95% !important;
+    margin-bottom: 6px !important;
+  }
+
+  
+}
+
+/* extra safety for very small phones */
+@media (max-width: 480px) {
+  .service-description { font-size: 0.88rem !important; }
+  .image-reveal-container { height: 800px !important;
+  z-index: 9999; }
+}
+@media (max-width: 900px) {
+  /* Move image reveal slider after all service items */
+  .image-reveal-container {
+    position: relative !important; /* remove absolute positioning */
+    top: auto !important;
+    left: auto !important;
+    transform: none !important;
+    margin: 20px auto 0 auto !important; /* spacing from items */
+    width: 50% !important; /* full width for mobile */
+    height: 600px !important; /* adjust height for mobile */
+    z-index: 10 !important;
+    cursor: default !important;
+  }
+}
+

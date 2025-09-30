@@ -6,6 +6,7 @@
   border-radius: 20px;
   margin: 0 auto;
   max-width: 1400px;
+  box-shadow: -5px 5px 8px rgba(0, 0, 0, 0.418);
 }
 
 .video-bg {
@@ -16,6 +17,7 @@
   height: 100%;
   object-fit: cover;
   z-index: 0;
+  pointer-events: none;
 }
 
 @media (max-width: 768px) {

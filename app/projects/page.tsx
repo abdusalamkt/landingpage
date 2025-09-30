@@ -395,7 +395,7 @@ const getProductDisplayTags = () => {
             )}
           </div>
 
-          {/* <div className="filter-dropdown-wrapper" ref={sectorDropdownRef}>
+          <div className="filter-dropdown-wrapper" ref={sectorDropdownRef}>
             <div
               className={`filter-dropdown ${showSectorDropdown ? 'open' : ''}`}
               onClick={handleSectorDropdownToggle}
@@ -433,7 +433,7 @@ const getProductDisplayTags = () => {
                 ))}
               </ul>
             )}
-          </div> */}
+          </div>
 
           <button onClick={handleApply} className="filter-apply-btn">APPLY</button>
           {/* <button onClick={handleClearFilters} className="filter-clear-btn">↺</button> */}

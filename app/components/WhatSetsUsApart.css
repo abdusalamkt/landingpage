@@ -113,7 +113,7 @@
 @media screen and (max-width: 1024px) {
   .apart-section {
     flex-direction: column;
-    padding: 5rem 2rem;
+    padding: 5rem .5rem;
   }
 
   .apart-left,
@@ -207,6 +207,7 @@
   .feature-item p {
     font-size: 13px;
   }
+  
 }
 
 .choice-points-group {
@@ -418,13 +419,21 @@ text-transform: uppercase;
 
         /* Tablet (<= 1024px) */
         @media screen and (max-width: 1024px) {
-            .apart-section {
+            .apart-section,.apart-section-mirror {
                 flex-direction: column;
-                padding: 5rem 2rem;
+                padding: 5rem 1.5rem;
+            }
+            .features-grid-mirror {
+                display: grid;
+                grid-template-columns: 1fr;
+                gap: 2rem;
+                margin-right: 0;
+                /* max-width: 400px; */
             }
 
             .apart-left,
-            .apart-right {
+            .apart-right,.apart-left-mirror,
+            .apart-right-mirror {
                 max-width: 100%;
                 flex: none;
             }
@@ -434,27 +443,35 @@ text-transform: uppercase;
                 top: -100px;
                 right: 0; /* Changed from left to right */
             }
+            .apart-bg-number-mirror{
 
-            .apart-heading {
+              font-size: 14rem;
+              top: -120px;
+              left: 0px; /* Changed from left to right */
+            }
+
+            .apart-heading,.apart-heading-mirror {
                 font-size: 56px;
                 text-align: center; /* Center on mobile */
                 padding-right: 0;
             }
 
-            .apart-desc {
+            .apart-desc,.apart-desc-mirror {
                 font-size: 16px;
                 text-align: center; /* Center on mobile */
                 padding-right: 0;
             }
 
-            .apart-right {
+            .apart-right,.apart-right-mirror {
                 border-right: none;
+                border-left: none;
                 padding-right: 0;
-                border-top: 1px solid #ccc;
+                /* border-top: 1px solid #ccc; */
                 padding-top: 2rem;
+                padding-left: 0px;
             }
 
-            .features-title {
+            .features-title,.features-title-mirror {
                 font-size: 32px;
                 padding: 0.3rem 2rem;
                 margin-right: 0;
@@ -508,16 +525,16 @@ text-transform: uppercase;
 
         /* Extra Small Screens (<= 480px) */
         @media screen and (max-width: 480px) {
-            .apart-heading {
-                font-size: 34px;
+            .apart-heading,.apart-heading-mirror {
+                font-size: 44px;
             }
 
-            .apart-desc {
+            .apart-desc,.apart-desc-mirror {
                 font-size: 14px;
             }
 
-            .features-title {
-                font-size: 22px;
+            .features-title,.features-title-mirror {
+                font-size: 26px;
             }
 
             .feature-item h4 {
@@ -526,6 +543,10 @@ text-transform: uppercase;
             
             .choice-point {
                 padding: 8px 12px;
-                font-size: 14px;
+                font-size: 13px;
+            }
+            .choice-point-mirror{
+                font-size: 12px;
+                padding: 12px;
             }
         }

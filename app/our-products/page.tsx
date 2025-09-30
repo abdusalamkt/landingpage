@@ -577,7 +577,7 @@ function OurProductsContent() {
 
       <nav
         aria-label="Section navigation"
-        className="fixed right-8 top-1/2 -translate-y-1/2 z-50 flex flex-col gap-3"
+        className="fixed right-8 top-1/2 -translate-y-1/2 z-50 flex flex-col gap-3 hidden md:flex"
       >
         {sections.map((_, i) => (
           <button

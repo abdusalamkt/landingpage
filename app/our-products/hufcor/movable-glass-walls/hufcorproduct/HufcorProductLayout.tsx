@@ -11,6 +11,7 @@ import { usePathname } from "next/navigation";
 import FinishesSection from "@/app/components/FinishesSection";
 import FaqSection from "@/app/components/FaqSection";
 import WhatSetsUsApart from "@/app/components/WhatSetsUsApart";
+import SmartGlassSection from "./SmartGlassSection";
 
 interface FaqData {
   question: string;
@@ -287,36 +288,36 @@ Hufcor pocket doors keep operable walls storage out of sight, delivering a clean
       {/* Choices Section */}
 
 {safeChoices.length > 0 && (
-  <section className="apart-section">
+  <section className="apart-section-mirror">
     {/* Left Side */}
-    <div className="apart-left">
-      <div className="apart-bg-number">!</div>
-      <h2 className="apart-heading">
+    <div className="apart-left-mirror">
+      <div className="apart-bg-number-mirror">!</div>
+      <h2 className="apart-heading-mirror">
         Be spoilt for  <span className="apart-highlight" style={{ color: "#D72027" }}>choices!</span>
       </h2>
-      <p className="apart-desc">
+      <p className="apart-desc-mirror">
       </p>
     </div>
 
     {/* Right Side */}
-    <div className="apart-right">
+    <div className="apart-right-mirror">
       <h3
-        className="features-title"
+        className="features-title-mirror"
         style={{
           background: "linear-gradient(269.42deg, #d72027 0.16%, #8e1217 99.84%)",
         }}
       >
-        <span className="features-bar" style={{ backgroundColor: "#D72027" }} />
+        <span className="features-bar-mirror" style={{ backgroundColor: "#D72027" }} />
         AVAILABLE OPTIONS
       </h3>
-     <div className="features-grid" style={{ display: "block" }}>
+     <div className="features-grid-mirror" style={{ display: "block" }}>
 
         {safeChoices.map((choice, index) => (
-          <div key={index} className="feature-item" style={{ marginBottom: "2rem" }}>
+          <div key={index} className="feature-item-mirror" style={{ marginBottom: "2rem" }}>
             <h4 style={{ color: "#D72027" }}>{choice.choiceTitle}</h4>
-            <div className="choice-points-group">
+            <div className="choice-points-group-mirror">
               {choice.choicePoints?.map((pt, i) => (
-                <span key={i} className="choice-point">
+                <span key={i} className="choice-point-mirror">
                   {pt.point}
                   
                 </span>
@@ -347,6 +348,7 @@ Hufcor pocket doors keep operable walls storage out of sight, delivering a clean
           )}
         </section>
       )}
+        <SmartGlassSection />
 
       {/* Downloads / FAQ / Contact */}
       <DownloadSection downloadData={downloadData} />

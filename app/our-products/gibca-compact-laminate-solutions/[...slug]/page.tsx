@@ -224,6 +224,7 @@ export default async function HplProduct({ params }: HplProductPageProps) {
       fields={fields}
       faqData={relatedFaqs}
       downloadData={relatedDownloads}
+      currentSlug={pageSlug}
     />
   );
 }

@@ -3,7 +3,7 @@
   background: white;
   color: #333;
   font-family: sans-serif;
-  margin-bottom: 3rem;
+  /* margin-bottom: 3rem; */
   max-width: 1400px;
 }
 
@@ -76,7 +76,7 @@
   right: 50%;
   margin-left: -50vw;
   margin-right: -50vw;
-  padding: 0rem 0;
+  /* padding: 0rem 0rem 8rem 0rem; */
 }
 
 .certifications h3 {
@@ -85,7 +85,11 @@
   font-family: 'Bebas Neue', sans-serif;
   text-align: center;
   color: #3d3d3d;
-  padding: 0 20px;
+  padding: 10px 20px;
+  background: #fbfbfb;
+  margin-bottom: 0px;
+  padding-top: 40px;
+  
 }
 
 .certifications p {
@@ -95,6 +99,7 @@
   margin-bottom: 40px;
   padding: 0 20px;
   justify-self: center;
+
 }
 
 .certGrid {
@@ -103,7 +108,8 @@
   justify-content: center;
   gap: 30px;
   margin: 0 auto;
-  padding: 90px 20px 0px;
+  padding: 5rem 0rem;
+  background: #fbfbfb;
 }
 
 .certCard {

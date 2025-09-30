@@ -160,7 +160,11 @@
 
 /* Cubicle Models */
 .cubicleModels {
-  padding: 80px 0px 30px;
+      padding: 80px 0 30px;
+    background: #F9F9F9;
+    max-width: 1300px;
+    border-radius: 30px;
+    margin: 0 auto;
 }
 
 /* Updated Grid Layout for Model Cards */
@@ -291,7 +295,7 @@
 }
 
 .customizationOption {
-  padding: 100px 50px;
+  padding: 100px 50px 20px;
   text-align: center;
   max-width: 1400px;
   margin: 0 auto;
@@ -405,6 +409,12 @@
 }
 
 /* Design options row */
+
+.designOptionsSection{
+  background-color:#f9f9f9 ;
+  padding:2rem;
+  border-radius: 30px;
+}
 .designOptions {
   display: flex;
   gap: 40px;
@@ -412,7 +422,7 @@
   flex-wrap: wrap;
   margin-top: 50px;
   place-self: center;
-  margin-bottom: 80px;
+  margin-bottom: 40px;
 }
 
 .designOption {
@@ -916,4 +926,511 @@
   .page {
     max-width: 1600px;
   }
+}
+/* Enhanced Smart Lockers Section */
+.smartLockers {
+  padding: 100px 50px;
+  background: linear-gradient(135deg, #f8f8f8 0%, #ffffff 100%);
+  position: relative;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(50px);
+  transition: all 0.8s ease;
+}
+
+.smartLockers.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.smartLockersContainer {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.smartLockersHeader {
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+.smartLockersHeader h2 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 3.5rem;
+  color: #3D3D3D;
+  margin-bottom: 15px;
+}
+
+.smartLockersHeader p {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.2rem;
+  color: #666;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.smartLockersContent {
+  display: flex;
+  gap: 60px;
+  align-items: center;
+}
+
+.smartLockersVisual {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.lockerDisplay {
+  perspective: 1000px;
+}
+
+.lockerUnit {
+  position: relative;
+  transform-style: preserve-3d;
+  animation: float 6s ease-in-out infinite;
+}
+
+.lockerDoors {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-bottom: 15px;
+}
+
+/* New container for door and interior */
+.lockerDoorContainer {
+  position: relative;
+  width: 80px;
+  height: 120px;
+  transform-style: preserve-3d;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.lockerDoorContainer.hovered {
+  transform: translateY(-5px);
+  z-index: 2;
+}
+
+.lockerDoor {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(145deg, #e6e6e6, #ffffff);
+  border-radius: 5px;
+  box-shadow: 5px 5px 15px rgba(0,0,0,0.1),
+              -5px -5px 15px rgba(255,255,255,0.8);
+  overflow: hidden;
+  transform-origin: left;
+  transition: all 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+  border: 1px solid #ddd;
+  backface-visibility: hidden;
+}
+
+.lockerDoorContainer:nth-child(even) .lockerDoor {
+  background: linear-gradient(145deg, #d4d4d4, #f5f5f5);
+}
+
+.lockerDoorContainer.opened .lockerDoor {
+  transform: rotateY(-85deg);
+  box-shadow: -5px 5px 20px rgba(0,0,0,0.2);
+}
+
+.lockerHandle {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  width: 10px;
+  height: 20px;
+  background: #3D3D3D;
+  border-radius: 3px;
+  transform: translateY(-50%);
+  transition: all 0.3s ease;
+  z-index: 2;
+}
+
+.lockerDoorContainer.hovered .lockerHandle {
+  transform: translateY(-50%) translateX(-2px);
+}
+
+.lockerDoorContainer.opened .lockerHandle {
+  transform: translateY(-50%) translateX(-5px);
+}
+
+.activeIndicator {
+  position: absolute;
+  left: 10px;
+  top: 15px;
+  width: 12px;
+  height: 12px;
+  background: #109c5d;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2;
+}
+
+.pulsingLight {
+  width: 100%;
+  height: 100%;
+  background: #109c5d;
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+}
+
+/* Locker Interior - positioned behind the door */
+.lockerInterior {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to bottom, #a8d1e6, #d9e9f5);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: inset 0 0 10px rgba(0,0,0,0.1);
+  opacity: 0;
+  transform: scale(0.95);
+  transition: all 0.4s ease;
+  z-index: -1;
+}
+
+.lockerDoorContainer.opened .lockerInterior {
+  opacity: 1;
+  transform: scale(1);
+  z-index: 1;
+}
+
+.lockerShelf {
+  height: 5px;
+  background: #8a6d3b;
+  border-radius: 2px;
+  margin: 5px 0;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.lockerItems {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.lockerItem {
+  background: rgba(255, 255, 255, 0.9);
+  padding: 3px 6px;
+  border-radius: 3px;
+  font-size: 0.6rem;
+  text-align: center;
+  font-family: 'Poppins', sans-serif;
+  color: #333;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  animation: itemAppear 0.5s ease forwards;
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+.lockerItem:nth-child(1) { animation-delay: 0.1s; }
+.lockerItem:nth-child(2) { animation-delay: 0.2s; }
+.lockerItem:nth-child(3) { animation-delay: 0.3s; }
+
+@keyframes itemAppear {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.lockerBase {
+  width: 100%;
+  height: 20px;
+  background: #3D3D3D;
+  border-radius: 3px;
+  margin-top: -5px;
+  position: relative;
+  z-index: 1;
+}
+
+.digitalDisplay {
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #000;
+  color: #109c5d;
+  padding: 5px 10px;
+  border-radius: 3px;
+  font-family: monospace;
+  font-size: 0.7rem;
+  animation: glow 1.5s ease-in-out infinite alternate;
+  z-index: 2;
+}
+
+.lockerInstructions {
+  margin-top: 20px;
+  text-align: center;
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.9rem;
+  color: #666;
+  animation: fadeInOut 3s ease-in-out infinite;
+}
+
+@keyframes fadeInOut {
+  0%, 100% { opacity: 0.7; }
+  50% { opacity: 1; }
+}
+
+@keyframes glow {
+  from {
+    box-shadow: 0 0 5px #109c5d, 0 0 10px #109c5d;
+  }
+  to {
+    box-shadow: 0 0 10px #109c5d, 0 0 20px #109c5d;
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-10px) rotate(1deg);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scale(1.1);
+  }
+}
+
+.smartLockersFeatures {
+  flex: 1;
+}
+
+.featureItem {
+  display: flex;
+  align-items: center;
+  margin-bottom: 25px;
+  padding: 15px;
+  border-radius: 10px;
+  transition: all 0.3s ease;
+  opacity: 0.7;
+  transform: translateX(-20px);
+  cursor: pointer;
+}
+
+.featureItem.active {
+  opacity: 1;
+  transform: translateX(0);
+  background: rgba(16, 156, 93, 0.1);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+}
+
+.featureItem:hover {
+  transform: translateX(-10px);
+}
+
+.featureIcon {
+  font-size: 2rem;
+  margin-right: 15px;
+  min-width: 50px;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.featureItem.active .featureIcon {
+  transform: scale(1.2);
+}
+
+.featureText h4 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.5rem;
+  margin-bottom: 5px;
+  color: #3D3D3D;
+  transition: all 0.3s ease;
+}
+
+.featureItem.active .featureText h4 {
+  color: #109c5d;
+}
+
+.featureText p {
+  font-family: 'Poppins', sans-serif;
+  color: #666;
+  margin: 0;
+}
+
+.ctaContainer {
+  display: flex;
+  gap: 15px;
+  margin-top: 30px;
+}
+
+.ctaContainer button {
+  padding: 10px 25px;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.2rem;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.ctaContainer button:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+  transition: all 0.5s ease;
+}
+
+.ctaContainer button:hover:before {
+  left: 100%;
+}
+
+.ctaContainer .primary {
+  background: linear-gradient(90deg, #1C6544 40%, #11955A);
+  color: white;
+  border: none;
+}
+
+.ctaContainer .primary:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(28, 101, 68, 0.4);
+}
+
+.ctaContainer .outline {
+  background: transparent;
+  border: 2px solid #3D3D3D;
+  color: #3D3D3D;
+}
+
+.ctaContainer .outline:hover {
+  background: #3D3D3D;
+  color: white;
+  transform: translateY(-3px);
+}
+.comparisonSection {
+  padding: 60px 20px 0px 20px;
+  background: white;
+  max-width: 1300px;
+  color: #fff;
+  border-radius: 20px;
+  margin: 60px 0;
+  /* box-shadow: 0 10px 30px rgba(0,0,0,0.4); */
+  margin: 0 auto;
+}
+
+.comparisonHeader {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.comparisonHeader h2 {
+  font-size: 48px;
+  /* font-weight: 700; */
+  font-family: 'Bebas Neue', sans-serif;
+  /* background: linear-gradient(90deg, #003514, #109c5d, #00572b); */
+  color: #3d3d3d;
+  /* -webkit-background-clip: text; */
+  /* -webkit-text-fill-color: transparent; */
+  margin-bottom: 0px;
+}
+
+.comparisonHeader p {
+  font-size: 16px;
+  opacity: 0.9;
+  color: #3d3d3d;
+}
+
+.tableWrapper {
+  overflow-x: auto;
+  border-radius: 15px;
+  padding: 20px 0px;
+  box-shadow: 0px 0px 20px 3px #0000001F;
+}
+
+.comparisonTable {
+  width: 100%;
+  border-collapse: collapse;
+  border-radius: 15px;
+  overflow: hidden;
+  
+
+}
+
+.comparisonTable th,
+.comparisonTable td {
+  padding: 8px 40px;
+  text-align: center;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.comparisonTable thead th {
+  background: rgb(255, 255, 255);
+  font-size: 1.4rem;
+  text-transform: uppercase;
+  /* letter-spacing: 1px; */
+  color: #3D3D3D;
+  border-right: 1px solid #A2A2A2;
+  font-family: 'Bebas Neue', sans-serif;
+  font-weight: 400;
+  text-align: center;
+}
+
+.comparisonTable thead th h3:last-child {
+  background: linear-gradient(90deg, #1C6544 0%, #11955A 100%);
+  color: white;
+  margin: 0 auto;
+  max-width: 260px;
+  padding: .3rem ;
+  
+}
+
+.comparisonTable thead th:last-child{
+  border: none;
+}
+
+.comparisonTable tbody tr:nth-child(odd) {
+  background: #D9D9D924;
+}
+
+.featureCol {
+  font-weight: 600;
+  color: #3d3d3d;
+  white-space: nowrap;
+  /* border-right: 1px solid #A2A2A2; */
+}
+
+.traditionalCol {
+  color: #3d3d3d;
+  border-right: 1px solid #A2A2A2;
+}
+
+.ipsCol {
+  color: #1C6544;
+  /* border-right: 1px solid #ff0a0a; */
+}
+
+
+
+.comparisonTable td:nth-child(1) {
+  border-right: 1px solid #A2A2A2;
+  text-align: center;
 }

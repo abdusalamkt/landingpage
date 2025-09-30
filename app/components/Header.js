@@ -11,6 +11,7 @@ export default function Header() {
   const [showQuoteModal, setShowQuoteModal] = useState(false);
   const [isHeaderHidden, setIsHeaderHidden] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [mobileSubmenuOpen, setMobileSubmenuOpen] = useState({});
   const pathname = usePathname();
   const router = useRouter();
   const lastScrollY = useRef(0);
@@ -18,26 +19,57 @@ export default function Header() {
   const logoUrl = '/logos/2025 GIBCA LOGO BLACK.png';
 
   const toggleDropdown = (dropdown) => {
-    setActiveDropdown(activeDropdown === dropdown ? null : dropdown);
-    setActiveSubmenu(null); // Reset submenu when changing main dropdown
+    if (window.innerWidth <= 1280) {
+      // Mobile behavior
+      setActiveDropdown(activeDropdown === dropdown ? null : dropdown);
+    } else {
+      // Desktop behavior
+      setActiveDropdown(activeDropdown === dropdown ? null : dropdown);
+      setActiveSubmenu(null);
+    }
   };
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen((prev) => !prev);
-    setActiveDropdown(null);
-    setActiveSubmenu(null);
+    if (isMobileMenuOpen) {
+      setActiveDropdown(null);
+      setActiveSubmenu(null);
+      setMobileSubmenuOpen({});
+      document.body.classList.remove('mobile-menu-open');
+    } else {
+      document.body.classList.add('mobile-menu-open');
+    }
+  };
+
+  const toggleMobileSubmenu = (itemName) => {
+    setMobileSubmenuOpen(prev => ({
+      ...prev,
+      [itemName]: !prev[itemName]
+    }));
   };
 
   const handleSubmenuEnter = (submenu) => {
-    setActiveSubmenu(submenu);
+    if (window.innerWidth > 1280) {
+      setActiveSubmenu(submenu);
+    }
   };
 
   const handleSubmenuLeave = () => {
-    setActiveSubmenu(null);
+    if (window.innerWidth > 1280) {
+      setActiveSubmenu(null);
+    }
   };
 
   const handleGoBack = () => {
     router.back();
+  };
+
+  const closeMobileMenu = () => {
+    setIsMobileMenuOpen(false);
+    setActiveDropdown(null);
+    setActiveSubmenu(null);
+    setMobileSubmenuOpen({});
+    document.body.classList.remove('mobile-menu-open');
   };
 
   useEffect(() => {
@@ -46,10 +78,8 @@ export default function Header() {
       const scrollDelta = currentScrollY - lastScrollY.current;
 
       if (currentScrollY > 100 && scrollDelta > 0) {
-        // Scrolling down, hide header
         setIsHeaderHidden(true);
       } else if (scrollDelta < -30) { 
-        // Scrolling up more than 30px, show header
         setIsHeaderHidden(false);
       }
 
@@ -59,6 +89,23 @@ export default function Header() {
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  // Close mobile menu on route change
+  useEffect(() => {
+    closeMobileMenu();
+  }, [pathname]);
+
+  // Close mobile menu on window resize to desktop
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth > 1280 && isMobileMenuOpen) {
+        closeMobileMenu();
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, [isMobileMenuOpen]);
 
   const dropdownItems = {
     products: [
@@ -129,16 +176,15 @@ export default function Header() {
 
   return (
     <>
-      {/* Fixed Media Button */}
+      {/* Fixed Media Buttons */}
       <div className={`media-career-buttons ${isHeaderHidden ? 'hide' : ''}`}>
-  <button className="media-btn" onClick={() => window.open('/careers', '_blank')}>
-    <span>CAREERS</span>
-  </button>
-  <button className="media-btn" onClick={() => window.open('/media', '_blank')}>
-    <span>MEDIA</span>
-  </button>
-</div>
-
+        <button className="media-btn" onClick={() => window.open('/careers', '_blank')}>
+          <span>CAREERS</span>
+        </button>
+        <button className="media-btn" onClick={() => window.open('/media', '_blank')}>
+          <span>MEDIA</span>
+        </button>
+      </div>
 
       <header className={`site-header ${isHeaderHidden ? 'hide' : ''}`}>
         <div className="logo" id="headerLogo">
@@ -156,16 +202,16 @@ export default function Header() {
         <nav className={`nav-menu ${isMobileMenuOpen ? 'mobile-open' : ''}`}>
           <ul>
             <li>
-              <a href="/about-gibca" className={pathname === '/about-gibca' ? 'active' : ''} onClick={() => setIsMobileMenuOpen(false)}>
+              <a href="/about-gibca" className={pathname === '/about-gibca' ? 'active' : ''} onClick={closeMobileMenu}>
                 ABOUT US
               </a>
             </li>
             <li
               className="dropdown-parent"
-              onMouseEnter={() => !isMobileMenuOpen && toggleDropdown('products')}
-              onMouseLeave={() => !isMobileMenuOpen && toggleDropdown(null)}
+              onMouseEnter={() => window.innerWidth > 1280 && toggleDropdown('products')}
+              onMouseLeave={() => window.innerWidth > 1280 && toggleDropdown(null)}
             >
-              <div className="dropdown-trigger" onClick={() => isMobileMenuOpen && toggleDropdown('products')}>
+              <div className="dropdown-trigger" onClick={() => toggleDropdown('products')}>
                 <a href="/our-products" className={pathname === '/our-products' ? 'active' : ''}>
                   PRODUCTS
                 </a>
@@ -179,14 +225,21 @@ export default function Header() {
                 {dropdownItems.products.map((item, index) => (
                   <div
                     key={index}
-                    className="dropdown-item-with-submenu"
+                    className={`dropdown-item-with-submenu ${mobileSubmenuOpen[item.name] ? 'submenu-open' : ''}`}
                     onMouseEnter={() => handleSubmenuEnter(item.name)}
                     onMouseLeave={handleSubmenuLeave}
                   >
                     <a 
                       href={item.link} 
                       className="main-dropdown-link"
-                      onClick={() => setIsMobileMenuOpen(false)} 
+                      onClick={(e) => {
+                        if (window.innerWidth <= 1280 && item.submenu) {
+                          e.preventDefault();
+                          toggleMobileSubmenu(item.name);
+                        } else {
+                          closeMobileMenu();
+                        }
+                      }}
                       style={{ transitionDelay: `${index * 0.1}s` }}
                     >
                       {item.name}
@@ -199,7 +252,7 @@ export default function Header() {
                       )}
                     </a>
                     {item.submenu && (
-                      <div className={`submenu ${activeSubmenu === item.name ? 'active' : ''}`}>
+                      <div className={`submenu ${window.innerWidth <= 1280 ? (mobileSubmenuOpen[item.name] ? 'active' : '') : (activeSubmenu === item.name ? 'active' : '')}`}>
                         {item.submenu.map((subCategory, subIndex) => (
                           <div key={subIndex} className="submenu-category">
                             {subCategory.name && <h4 className="submenu-title">{subCategory.name}</h4>}
@@ -209,7 +262,7 @@ export default function Header() {
                                   key={itemIndex}
                                   href={subItem.link}
                                   className="submenu-item"
-                                  onClick={() => setIsMobileMenuOpen(false)}
+                                  onClick={closeMobileMenu}
                                   style={{ transitionDelay: `${itemIndex * 0.05}s` }}
                                 >
                                   {subItem.name}
@@ -224,18 +277,18 @@ export default function Header() {
                 ))}
               </div>
             </li>
-            <li><a href="/service-and-maintenance" className={pathname === '/service-and-maintenance' ? 'active' : ''} onClick={() => setIsMobileMenuOpen(false)}>SERVICE & MAINTENANCE</a></li>
+            <li><a href="/service-and-maintenance" className={pathname === '/service-and-maintenance' ? 'active' : ''} onClick={closeMobileMenu}>SERVICE & MAINTENANCE</a></li>
             <li>
-              <a href="/projects" className={pathname === '/projects' ? 'active' : ''} onClick={() => setIsMobileMenuOpen(false)}>
+              <a href="/projects" className={pathname === '/projects' ? 'active' : ''} onClick={closeMobileMenu}>
                 PROJECTS
               </a>
             </li>
             <li
               className="dropdown-parent"
-              onMouseEnter={() => !isMobileMenuOpen && toggleDropdown('resources')}
-              onMouseLeave={() => !isMobileMenuOpen && toggleDropdown(null)}
+              onMouseEnter={() => window.innerWidth > 1280 && toggleDropdown('resources')}
+              onMouseLeave={() => window.innerWidth > 1280 && toggleDropdown(null)}
             >
-              <div className="dropdown-trigger" onClick={() => isMobileMenuOpen && toggleDropdown('resources')}>
+              <div className="dropdown-trigger" onClick={() => toggleDropdown('resources')}>
                 <a href="#">RESOURCES</a>
                 <span className={`dropdown-arrow ${activeDropdown === 'resources' ? 'active' : ''}`}>
                   <svg width="12" height="8" viewBox="0 0 12 8" fill="none">
@@ -245,19 +298,19 @@ export default function Header() {
               </div>
               <div className={`dropdown-menu ${activeDropdown === 'resources' ? 'active' : ''}`}>
                 {dropdownItems.resources.map((item, index) => (
-                  <a href={item.link} key={index} onClick={() => setIsMobileMenuOpen(false)} style={{ transitionDelay: `${index * 0.1}s` }}>
+                  <a href={item.link} key={index} onClick={closeMobileMenu} style={{ transitionDelay: `${index * 0.1}s` }}>
                     {item.name}
                   </a>
                 ))}
               </div>
             </li>
             <li>
-              <a href="/contact-us" className={pathname === '/contact-us' ? 'active' : ''} onClick={() => setIsMobileMenuOpen(false)}>
+              <a href="/contact-us" className={pathname === '/contact-us' ? 'active' : ''} onClick={closeMobileMenu}>
                 CONTACT US
               </a>
             </li>
             <li>
-              <button className="flashing-arrow-btn" onClick={() => { setShowQuoteModal(true); setIsMobileMenuOpen(false); }}>
+              <button className="flashing-arrow-btn" onClick={() => { setShowQuoteModal(true); closeMobileMenu(); }}>
                 <span className="flashing-arrow-btn__img">
                   <svg width="34" height="24" viewBox="0 0 24 24" fill="none">
                     <defs>

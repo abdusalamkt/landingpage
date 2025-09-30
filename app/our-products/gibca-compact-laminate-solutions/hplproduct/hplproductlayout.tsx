@@ -1,11 +1,252 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import dynamic from 'next/dynamic';
 import styles from './hplproduct.module.css';
 import Header from '@/app/components/Header';
 import Footer from '@/app/components/Footer';
+
+// Comparison Data
+const comparisonData = [
+{
+feature: 'Access',
+traditional: 'Plumbing and electrical are concealed inside the wall and requires breaking or demolishing to access.',
+ips: 'Our Integrated Panels open with hinges, gas lifts, or latches making it quick to access and easy to work on.',
+},
+{
+feature: 'Durability',
+traditional: 'Toilet cubicles are known to be high moisture areas and a traditional wall will succumb to moisture, mold, and cracking over time.',
+ips: 'Our panels core USP is to resist moisture, impact, and daily wear making it far more durable than a traditional wall.',
+},
+{
+feature: 'Finishes & Design',
+traditional: 'Limited to paint, tiles, or cladding and often do not match the interiors of your cubicles.',
+ips: 'Our panels give you a plethora of options to choose from. Be it laminate, glass, steel, acrylic or veneer you are in control of your interiors.',
+},
+{
+feature: 'Installation Time',
+traditional: 'Blockwork, plastering, curing, painting – all time-consuming processes.',
+ips: 'Semi ready modular panels that are manufactured based on your dimensions and assembled & installed faster with minimal disruption.',
+},
+{
+feature: 'Disruption in Busy Areas',
+traditional: 'Repairs or modifications involve noise, dust, and days of downtime which are inconvenient in high-traffic facilities.',
+ips: 'Panels can be removed or adjusted instantly. Even in busy washrooms, hospitals, or offices, work is completed quickly with minimal interruption.',
+},
+{
+feature: 'Flexibility',
+traditional: 'Fixed structure, difficult to modify or upgrade.',
+ips: 'Modular system allows easy reconfiguration and future upgrades.',
+},
+{
+feature: 'Cost Over Time',
+traditional: 'Lower upfront cost, but high maintenance and repair expenses.',
+ips: 'Significantly reduced long-term costs due to durability and ease of maintenance.',
+},
+];
+
+
+const ComparisonSection = () => {
+return (
+<section className={styles.comparisonSection}>
+<div className={styles.comparisonHeader}>
+<h2>Why choose our IPS Panels over traditional walls for your cubicles?</h2>
+<p>
+Below are 7 reasons why you should no longer consider our IPS wall panels to hide your plumbing solution!
+</p>
+</div>
+
+
+<div className={styles.tableWrapper}>
+<table className={styles.comparisonTable}>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Traditional Wall</th>
+<th><h3>Integrated Panel System</h3></th>
+</tr>
+</thead>
+<tbody>
+{comparisonData.map((row, idx) => (
+<tr key={idx}>
+<td className={styles.featureCol}>{row.feature}</td>
+<td className={styles.traditionalCol}>{row.traditional}</td>
+<td className={styles.ipsCol}>{row.ips}</td>
+</tr>
+))}
+</tbody>
+</table>
+</div>
+</section>
+);
+};
+
+// Updated Smart Lockers Component with unique items in each locker
+// const SmartLockersSection = () => {
+//   const [isVisible, setIsVisible] = useState(false);
+//   const [activeFeature, setActiveFeature] = useState(0);
+//   const [hoveredLocker, setHoveredLocker] = useState<number | null>(null);
+//   const [openedLocker, setOpenedLocker] = useState<number | null>(null);
+//   const sectionRef = useRef(null);
+
+//   useEffect(() => {
+//     const observer = new IntersectionObserver(
+//       ([entry]) => {
+//         if (entry.isIntersecting) {
+//           setIsVisible(true);
+//         }
+//       },
+//       { threshold: 0.3 }
+//     );
+
+//     if (sectionRef.current) {
+//       observer.observe(sectionRef.current);
+//     }
+
+//     return () => {
+//       if (sectionRef.current) {
+//         observer.unobserve(sectionRef.current);
+//       }
+//     };
+//   }, []);
+
+//   useEffect(() => {
+//     const interval = setInterval(() => {
+//       setActiveFeature((prev) => (prev + 1) % features.length);
+//     }, 4000);
+    
+//     return () => clearInterval(interval);
+//   }, []);
+
+//   const features = [
+//     {
+//       title: "Secure Access",
+//       description: "RFID and PIN code access for maximum security",
+//       icon: "🔒",
+//     },
+//     {
+//       title: "Mobile Integration",
+//       description: "Control and monitor lockers via smartphone app",
+//       icon: "📱",
+//     },
+//     {
+//       title: "Usage Analytics",
+//       description: "Track locker usage patterns and optimize space",
+//       icon: "📊",
+//     },
+//     {
+//       title: "Remote Management",
+//       description: "Assign and manage lockers from anywhere",
+//       icon: "🌐",
+//     }
+//   ];
+
+//   // Different items for each locker
+//   const lockerItems = [
+//     ["Remote Access"],
+//     ["Secure Access"],
+//     ["WiFi Module"],
+//     ["mobile Integration"],
+//     ["Software integration"],
+//     ["Pin Code Access"]
+//   ];
+
+//   const handleLockerClick = (lockerNumber: number) => {
+//     if (openedLocker === lockerNumber) {
+//       setOpenedLocker(null);
+//     } else {
+//       setOpenedLocker(lockerNumber);
+//     }
+//   };
+
+//   return (
+//     <section 
+//       ref={sectionRef} 
+//       className={`${styles.smartLockers} ${isVisible ? styles.visible : ''}`}
+//     >
+//       <div className={styles.smartLockersContainer}>
+//         <div className={styles.smartLockersHeader}>
+//           <h2>Smart Lockers Integration</h2>
+//           <p>Enhance your space with our intelligent locker solutions</p>
+//         </div>
+        
+//         <div className={styles.smartLockersContent}>
+//           <div className={styles.smartLockersVisual}>
+//             <div className={styles.lockerDisplay}>
+//               <div className={styles.lockerUnit}>
+//                 <div className={styles.lockerDoors}>
+//                   {[1, 2, 3, 4, 5, 6].map((num) => (
+//                     <div 
+//                       key={num} 
+//                       className={`${styles.lockerDoorContainer} 
+//                         ${hoveredLocker === num ? styles.hovered : ''} 
+//                         ${openedLocker === num ? styles.opened : ''}`}
+//                       onMouseEnter={() => setHoveredLocker(num)}
+//                       onMouseLeave={() => setHoveredLocker(null)}
+//                       onClick={() => handleLockerClick(num)}
+//                       style={{ animationDelay: `${num * 0.1}s` }}
+//                     >
+//                       <div className={styles.lockerDoor}>
+//                         <div className={styles.lockerHandle}></div>
+//                         {num === 3 && (
+//                           <div className={styles.activeIndicator}>
+//                             <div className={styles.pulsingLight}></div>
+//                           </div>
+//                         )}
+//                       </div>
+                      
+//                       {/* Locker Interior with unique items for each locker */}
+//                       <div className={styles.lockerInterior}>
+//                         <div className={styles.lockerShelf}></div>
+//                         <div className={styles.lockerItems}>
+//                           {lockerItems[num-1].map((item, idx) => (
+//                             <div key={idx} className={styles.lockerItem}>
+//                               {item}
+//                             </div>
+//                           ))}
+//                         </div>
+//                       </div>
+//                     </div>
+//                   ))}
+//                 </div>
+//                 <div className={styles.lockerBase}></div>
+//                 <div className={styles.digitalDisplay}>
+//                   <span>SMART LOCKER v2.0</span>
+//                 </div>
+//               </div>
+//             </div>
+            
+//             <div className={styles.lockerInstructions}>
+//               <p>Hover over lockers to see details • Click to open/close</p>
+//             </div>
+//           </div>
+          
+//           <div className={styles.smartLockersFeatures}>
+//             {features.map((feature, index) => (
+//               <div 
+//                 key={index}
+//                 className={`${styles.featureItem} ${activeFeature === index ? styles.active : ''}`}
+//                 onMouseEnter={() => setActiveFeature(index)}
+//               >
+//                 <div className={styles.featureIcon}>{feature.icon}</div>
+//                 <div className={styles.featureText}>
+//                   <h4>{feature.title}</h4>
+//                   <p>{feature.description}</p>
+//                 </div>
+//               </div>
+//             ))}
+            
+//             <div className={styles.ctaContainer}>
+//               <button className={styles.primary}>Request Information</button>
+//               <button className={styles.outline}>View Specifications</button>
+//             </div>
+//           </div>
+//         </div>
+//       </div>
+//     </section>
+//   );
+// };
 
 // Lazy-loaded sections
 const WhatSetsUsApart = dynamic(() => import('@/app/components/WhatSetsUsApart'), {
@@ -94,6 +335,7 @@ interface HplProductLayoutProps {
   fields: HplFields;
   faqData?: FAQ[];
   downloadData?: DownloadData[];
+  currentSlug?: string;
 }
 
 // Carousel moved out but not lazy (keeps interactivity local)
@@ -138,15 +380,14 @@ const ProductCarousel = ({ carouselData, sectionTitle }: { carouselData: Carouse
               <div className={styles.carouselImage}>
                 {product.image?.sourceUrl && (
                   <Image
-  src={product.image.sourceUrl}
-  alt={product.image?.altText || product.title}
-  fill
-  quality={90}
-  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 600px"
-  style={{ objectFit: 'cover', borderRadius: '10px' }}
-  priority={index === 0}
-/>
-
+                    src={product.image.sourceUrl}
+                    alt={product.image?.altText || product.title}
+                    fill
+                    quality={90}
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 600px"
+                    style={{ objectFit: 'cover', borderRadius: '10px' }}
+                    priority={index === 0}
+                  />
                 )}
               </div>
               <div className={styles.carouselText}>
@@ -171,7 +412,7 @@ const ProductCarousel = ({ carouselData, sectionTitle }: { carouselData: Carouse
 };
 
 // Main layout
-export default function HplProductLayout({ fields, faqData = [], downloadData = [] }: HplProductLayoutProps) {
+export default function HplProductLayout({ fields, faqData = [], downloadData = [], currentSlug }: HplProductLayoutProps) {
   const safeFeatures = Array.isArray(fields.features) ? fields.features : [];
   const carouselData = Array.isArray(fields.carousel) ? fields.carousel : [];
   const showCarousel = fields.outdoorProductOptionsTitle && carouselData.length > 0;
@@ -206,18 +447,17 @@ export default function HplProductLayout({ fields, faqData = [], downloadData = 
           </div>
         </div>
         <div className={styles.imageWrapper}>
-  {fields.heroImage?.sourceUrl && (
-    <Image
-      src={fields.heroImage.sourceUrl}
-      alt={fields.heroImage?.altText || 'Hero Image'}
-      fill
-      priority
-      quality={90}   // 90 is already visually lossless, but smaller file size than 100
-      style={{ objectFit: 'cover', borderRadius: '20px 0 0 20px' }}
-    />
-  )}
-</div>
-
+          {fields.heroImage?.sourceUrl && (
+            <Image
+              src={fields.heroImage.sourceUrl}
+              alt={fields.heroImage?.altText || 'Hero Image'}
+              fill
+              priority
+              quality={90}
+              style={{ objectFit: 'cover', borderRadius: '20px 0 0 20px' }}
+            />
+          )}
+        </div>
       </section>
 
       {/* Features */}
@@ -265,6 +505,7 @@ export default function HplProductLayout({ fields, faqData = [], downloadData = 
           </div>
         </section>
       )}
+      {currentSlug === 'integrated-panel-systems' && <ComparisonSection />}
 
       {/* Customization Options */}
       {fields.customizationHeading && (
@@ -308,7 +549,7 @@ export default function HplProductLayout({ fields, faqData = [], downloadData = 
               <div className={styles.customizationHeader}>
                 <h2 style={{ fontSize: '2.5rem', marginBottom: '-20px' }}>DIFFERENT DESIGN OPTIONS</h2>
               </div>
-              <p className={styles.customDescription}>LEVEL UP YOUR WASHROOM SYSTEM WITH OUR SMART OPTIONS</p>
+              {/* <p className={styles.customDescription}>LEVEL UP YOUR WASHROOM SYSTEM WITH OUR SMART OPTIONS</p> */}
               <div className={styles.designOptions}>
                 {fields.designOptions.map((opt, idx) => (
                   <div key={idx} className={styles.designOption}>
@@ -331,6 +572,9 @@ export default function HplProductLayout({ fields, faqData = [], downloadData = 
           )}
         </section>
       )}
+
+      {/* Smart Lockers Section */}
+      {/* <SmartLockersSection /> */}
 
       {/* Carousel */}
       {showCarousel && <ProductCarousel carouselData={carouselData} sectionTitle={fields.outdoorProductOptionsTitle || ''} />}
