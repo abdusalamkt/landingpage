@@ -98,6 +98,17 @@ export const GET_LANDING_PAGE = gql`
           starRating
         }  
       }
+         seo {
+        title
+        metaDesc
+        canonical
+        opengraphTitle
+        opengraphDescription
+        opengraphImage { sourceUrl }
+        twitterTitle
+        twitterDescription
+        twitterImage { sourceUrl }
+      }
       id
       databaseId
       title
