@@ -15,11 +15,12 @@ export default function Header() {
   const pathname = usePathname();
   const router = useRouter();
   const lastScrollY = useRef(0);
+   const [isMobile, setIsMobile] = useState(false);
 
   const logoUrl = '/logos/2025 GIBCA LOGO BLACK.png';
 
   const toggleDropdown = (dropdown) => {
-    if (window.innerWidth <= 1280) {
+    if (typeof window !== 'undefined' && window.innerWidth <= 1280)  {
       // Mobile behavior
       setActiveDropdown(activeDropdown === dropdown ? null : dropdown);
     } else {
@@ -107,6 +108,14 @@ export default function Header() {
     return () => window.removeEventListener('resize', handleResize);
   }, [isMobileMenuOpen]);
 
+
+   // Track screen size safely
+  useEffect(() => {
+    const checkWidth = () => setIsMobile(window.innerWidth <= 1280);
+    checkWidth();
+    window.addEventListener('resize', checkWidth);
+    return () => window.removeEventListener('resize', checkWidth);
+  }, []);
   const dropdownItems = {
     products: [
       {
