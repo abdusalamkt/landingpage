@@ -28,6 +28,15 @@ export const metadata = {
   title: 'GFI UAE',
   description: 'Leaders in Space Management Solutions',
   viewport: 'width=device-width, initial-scale=1', // ✅ VERY IMPORTANT
+  icons: {
+    icon: [
+      { url: '/favicon.ico', type: 'image/x-icon', sizes: 'any' },
+      { url: '/favicon-16x16.png', type: 'image/png', sizes: '16x16' },
+      { url: '/favicon-32x32.png', type: 'image/png', sizes: '32x32' },
+      { url: '/favicon.png', type: 'image/png', sizes: '512x512' },
+    ],
+    apple: '/favicon.png',
+  },
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
