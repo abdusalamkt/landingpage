@@ -27,13 +27,12 @@ type Product = {
 };
 
 export default function HomePageContent({ fields }: { fields: any }) {
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      window.history.scrollRestoration = 'manual';
-      window.scrollTo(0, 0);
-      document.documentElement.scrollTop = 0;
-      document.body.scrollTop = 0;
-    }
+ useEffect(() => {
+  if (typeof window !== 'undefined') {
+    window.history.scrollRestoration = 'manual';
+    window.scrollTo(0, 0);
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
 
     const handleBeforeUnload = () => {
       window.scrollTo(0, 0);
@@ -41,7 +40,9 @@ export default function HomePageContent({ fields }: { fields: any }) {
 
     window.addEventListener('beforeunload', handleBeforeUnload);
     return () => window.removeEventListener('beforeunload', handleBeforeUnload);
-  }, []);
+  }
+}, []);
+
 
   // Normalize image data: handle if image is string or object
   const normalizeImage = (img: any): ProductImage => {
