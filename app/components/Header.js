@@ -38,12 +38,7 @@ export default function Header() {
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen((prev) => !prev);
     if (isMobileMenuOpen) {
-      setActiveDropdown(null);
-      setActiveSubmenu(null);
-      setMobileSubmenuOpen({});
-      if (isClient) {
-        document.body.classList.remove('mobile-menu-open');
-      }
+      closeMobileMenu();
     } else {
       if (isClient) {
         document.body.classList.add('mobile-menu-open');
@@ -122,9 +117,14 @@ export default function Header() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [isClient, pathname]);
 
-  // Close mobile menu on route change
+  // Close mobile menu on route change - BUT NOT for products subpages
   useEffect(() => {
-    closeMobileMenu();
+    // Only close menu if we're navigating to a completely different section
+    // Don't close when navigating within products dropdown
+    const isProductsNavigation = pathname.startsWith('/our-products');
+    if (!isProductsNavigation) {
+      closeMobileMenu();
+    }
   }, [pathname]);
 
   // Close mobile menu on window resize to desktop
@@ -275,7 +275,7 @@ export default function Header() {
               onMouseLeave={() => !isMobileView() && toggleDropdown(null)}
             >
               <div className="dropdown-trigger" onClick={() => toggleDropdown('products')}>
-                <a href="/our-products" className={pathname === '/our-products' ? 'active' : ''}>
+                <a href="/our-products" className={pathname.startsWith('/our-products') ? 'active' : ''}>
                   PRODUCTS
                 </a>
                 <span className={`dropdown-arrow ${activeDropdown === 'products' ? 'active' : ''}`}>
@@ -300,7 +300,10 @@ export default function Header() {
                           e.preventDefault();
                           toggleMobileSubmenu(item.name);
                         } else {
-                          closeMobileMenu();
+                          // Don't close menu for products navigation
+                          if (!item.link.startsWith('/our-products')) {
+                            closeMobileMenu();
+                          }
                         }
                       }}
                       style={{ transitionDelay: `${index * 0.1}s` }}
@@ -325,7 +328,12 @@ export default function Header() {
                                   key={itemIndex}
                                   href={subItem.link}
                                   className="submenu-item"
-                                  onClick={closeMobileMenu}
+                                  onClick={() => {
+                                    // Only close menu if not navigating within products
+                                    if (!subItem.link.startsWith('/our-products')) {
+                                      closeMobileMenu();
+                                    }
+                                  }}
                                   style={{ transitionDelay: `${itemIndex * 0.05}s` }}
                                 >
                                   {subItem.name}

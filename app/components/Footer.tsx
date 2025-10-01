@@ -212,10 +212,14 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
             <div className="link-column">
               <h4>SOCIALS</h4>
               <ul>
-                <li><a href="">LinkedIn</a></li>
-                <li><a href="#">Instagram</a></li>
-                <li><a href="#">Facebook</a></li>
-                <li><a href="#">YouTube</a></li>
+                <li><a href="https://www.linkedin.com/company/gibca-furniture-uae"  target="_blank" 
+  rel="noopener noreferrer">LinkedIn</a></li>
+                <li><a href="https://www.instagram.com/gibcafurniture/"  target="_blank" 
+  rel="noopener noreferrer">Instagram</a></li>
+                <li><a href="https://www.facebook.com/GFIUAE/"  target="_blank" 
+  rel="noopener noreferrer">Facebook</a></li>
+                <li><a href="https://www.youtube.com/@gibcafurnitureindustryuae6400"  target="_blank" 
+  rel="noopener noreferrer">YouTube</a></li>
               </ul>
             </div>
             <div className="link-column">
@@ -265,16 +269,20 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
             <div className="social-section">
               <h4>FOLLOW OUR SOCIALS!</h4>
               <div className="social-icons">
-                <a href="https://www.facebook.com/GFIUAE/" className="social-icon">
+                <a href="https://www.facebook.com/GFIUAE/" className="social-icon" target="_blank" 
+  rel="noopener noreferrer">
                   <img src="/icon/facebook.png" alt="Facebook" className="social-icon-image" />
                 </a>
-                <a href="https://www.linkedin.com/company/gibca-furniture-uae" className="social-icon">
+                <a href="https://www.linkedin.com/company/gibca-furniture-uae" className="social-icon" target="_blank" 
+  rel="noopener noreferrer">
                   <img src="/icon/linkedin2.png" alt="Linkedin" className="social-icon-image" />
                 </a>
-                <a href="https://www.instagram.com/gibcafurniture/" className="social-icon">
+                <a href="https://www.instagram.com/gibcafurniture/" className="social-icon" target="_blank" 
+  rel="noopener noreferrer">
                   <img src="/icon/insta.png" alt="Instagram" className="social-icon-image" />
                 </a>
-                <a href="https://www.youtube.com/@gibcafurnitureindustryuae6400" className="social-icon">
+                <a href="https://www.youtube.com/@gibcafurnitureindustryuae6400" className="social-icon" target="_blank" 
+  rel="noopener noreferrer">
                   <img src="/icon/youtube.png" alt="YouTube" className="social-icon-image" />
                 </a>
               </div>

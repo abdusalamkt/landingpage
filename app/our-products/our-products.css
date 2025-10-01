@@ -369,9 +369,7 @@ body {
   .vertical-divider {
     display: none;
   }
-  nav{
-    display: none;
-  }
+ 
 }
 
 @media screen and (max-width: 480px) {
@@ -409,6 +407,13 @@ body {
     background-size: cover;
     background-position: center center;
     background-repeat: no-repeat;
+  }
+  .scroll-navigation.with-header {
+    top: 85px;
+  }
+  .products-wrapper {
+    min-height: 80vh;
+    /* margin-top: 50px; */
   }
 }
 
