@@ -41,8 +41,6 @@ export default async function ServicePage() {
 />
 
       <ServiceProgram />
-      {/* <ContactUs /> */}
-      <FloatingSidebar />
     </main>
   );
 }

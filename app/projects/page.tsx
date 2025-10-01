@@ -3,8 +3,6 @@
 import { useEffect, useMemo, useState, useRef } from 'react';
 import Image from 'next/image';
 import './projects.css';
-import Header from '../components/Header';
-import FloatingSidebar from '../components/FloatingSidebar';
 
 // Types
 type WordPressImage = { sourceUrl: string; altText: string };
@@ -356,8 +354,6 @@ export default function ProjectsPage() {
 
   return (
     <>
-      <Header />
-      <FloatingSidebar />
       <div className="projects-gallery-container">
         <h1 className="gallery-title">GALLERY</h1>
         <div className="description"></div>

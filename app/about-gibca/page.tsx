@@ -1,6 +1,4 @@
 import { Metadata } from 'next';
-// import Header from '../components/Header';
-import FloatingSidebar from '../components/FloatingSidebar';
 import HeroSection from './HeroSection';
 import VideoSection from './VideoSection';
 import Timeline from './Timeline';
@@ -38,8 +36,6 @@ export default async function AboutUsPage() {
 
   return (
     <>
-      {/* <Header /> */}
-      <FloatingSidebar />
       <HeroSection fields={fields} />
       <VideoSection fields={fields} />
 

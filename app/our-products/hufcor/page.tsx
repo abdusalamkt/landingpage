@@ -138,7 +138,7 @@ export default async function HufcorPage() {
 
           <div className={styles.buttons}>
             {operableButtons?.map((btn: any, idx: number) => (
-              <Link href={btn.url} key={idx}>
+              <Link href={btn.url}  key={idx} target="_blank" rel="noopener noreferrer">
                 <button>{btn.label}</button>
               </Link>
             ))}
@@ -172,7 +172,7 @@ export default async function HufcorPage() {
 
           <div className={styles.buttons}>
             {glassButtons?.map((btn: any, idx: number) => (
-              <Link href={btn.url} key={idx}>
+              <Link href={btn.url} key={idx} target="_blank" rel="noopener noreferrer">
                 <button>{btn.label}</button>
               </Link>
             ))}

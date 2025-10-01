@@ -64,7 +64,7 @@ export default function HomePageContent({ fields }: { fields: any }) {
   return (
     <main>
       {/* <Header /> */}
-      <FloatingSidebar />
+      {/* <FloatingSidebar /> */}
 
       <AnimatedSection animation="fadeUp" delay={0.2}>
         <Banner heading={fields.bannerHeading} images={fields.bannerImages} />
