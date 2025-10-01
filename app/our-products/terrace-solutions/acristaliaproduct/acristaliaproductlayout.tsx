@@ -138,7 +138,7 @@ const ProductCarousel = ({ carouselData, sectionTitle }: { carouselData: Carouse
                 )}
               </div>
               <div className={styles.carouselText}>
-                <p>{product.description}</p>
+                {/* <p>{product.description}</p> */}
                 <ul className={styles.featureList}>
                   {product.points?.map((point, i) => (
                     <li key={i}>{point.point}</li>
