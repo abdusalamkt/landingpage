@@ -4,6 +4,7 @@ import './Header.css';
 import ContactUsModal from './ContactUsModal';
 import { usePathname, useRouter } from 'next/navigation';
 import AppointmentModal from './AppointmentModal';
+import Link from 'next/link';
 
 export default function Header() {
   const [activeDropdown, setActiveDropdown] = useState(null);
@@ -256,7 +257,11 @@ export default function Header() {
           </a>
         </div>
 
-        <button className="mobile-menu-toggle" onClick={toggleMobileMenu} aria-label="Toggle menu">
+        <button 
+  className={`mobile-menu-toggle ${isMobileMenuOpen ? 'active' : ''}`} 
+  onClick={toggleMobileMenu} 
+  aria-label="Toggle menu"
+>
           <span className="bar"></span>
           <span className="bar"></span>
           <span className="bar"></span>
@@ -265,9 +270,9 @@ export default function Header() {
         <nav className={`nav-menu ${isMobileMenuOpen ? 'mobile-open' : ''}`}>
           <ul>
             <li>
-              <a href="/about-gibca" className={pathname === '/about-gibca' ? 'active' : ''} onClick={closeMobileMenu}>
+              <Link href="/about-gibca" className={pathname === '/about-gibca' ? 'active' : ''} onClick={closeMobileMenu}>
                 ABOUT US
-              </a>
+              </Link>
             </li>
             <li
               className="dropdown-parent"
@@ -275,9 +280,9 @@ export default function Header() {
               onMouseLeave={() => !isMobileView() && toggleDropdown(null)}
             >
               <div className="dropdown-trigger" onClick={() => toggleDropdown('products')}>
-                <a href="/our-products" className={pathname.startsWith('/our-products') ? 'active' : ''}>
+                <Link href="/our-products" className={pathname.startsWith('/our-products') ? 'active' : ''}>
                   PRODUCTS
-                </a>
+                </Link>
                 <span className={`dropdown-arrow ${activeDropdown === 'products' ? 'active' : ''}`}>
                   <svg width="12" height="8" viewBox="0 0 12 8" fill="none">
                     <path d="M1 1L6 6L11 1" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
@@ -348,11 +353,11 @@ export default function Header() {
                 ))}
               </div>
             </li>
-            <li><a href="/service-and-maintenance" className={pathname === '/service-and-maintenance' ? 'active' : ''} onClick={closeMobileMenu}>SERVICE & MAINTENANCE</a></li>
+            <li><Link href="/service-and-maintenance" className={pathname === '/service-and-maintenance' ? 'active' : ''} onClick={closeMobileMenu}>SERVICE & MAINTENANCE</Link></li>
             <li>
-              <a href="/projects" className={pathname === '/projects' ? 'active' : ''} onClick={closeMobileMenu}>
+              <Link href="/projects" className={pathname === '/projects' ? 'active' : ''} onClick={closeMobileMenu}>
                 PROJECTS
-              </a>
+              </Link>
             </li>
             <li
               className="dropdown-parent"
@@ -360,7 +365,10 @@ export default function Header() {
               onMouseLeave={() => !isMobileView() && toggleDropdown(null)}
             >
               <div className="dropdown-trigger" onClick={() => toggleDropdown('resources')}>
-                <a href="#">RESOURCES</a>
+                <Link href="#" role="button" onClick={(e) => { e.preventDefault(); toggleDropdown('resources'); }}>
+  RESOURCES
+</Link>
+
                 <span className={`dropdown-arrow ${activeDropdown === 'resources' ? 'active' : ''}`}>
                   <svg width="12" height="8" viewBox="0 0 12 8" fill="none">
                     <path d="M1 1L6 6L11 1" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
@@ -376,9 +384,9 @@ export default function Header() {
               </div>
             </li>
             <li>
-              <a href="/contact-us" className={pathname === '/contact-us' ? 'active' : ''} onClick={closeMobileMenu}>
+              <Link href="/contact-us" className={pathname === '/contact-us' ? 'active' : ''} onClick={closeMobileMenu}>
                 CONTACT US
-              </a>
+              </Link>
             </li>
             <li>
               <button className="flashing-arrow-btn" onClick={() => { setShowQuoteModal(true); closeMobileMenu(); }}>

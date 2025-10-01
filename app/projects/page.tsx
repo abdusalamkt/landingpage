@@ -178,7 +178,7 @@ export default function ProjectsPage() {
 
   const filteredSectors = useMemo(() => {
     if (!selectedProducts.length) {
-      return [...new Set(projects.flatMap(p => p.sectors))];
+      return []; // Don't show any sectors if no product is selected
     }
     return [...new Set(
       projects
@@ -226,24 +226,32 @@ export default function ProjectsPage() {
   };
 
   const handleSectorDropdownToggle = () => {
-    setShowSectorDropdown(!showSectorDropdown);
-    setShowProductDropdown(false); // Close product dropdown when opening sector dropdown
+    // Only allow sector dropdown to open if at least one product is selected
+    if (selectedProducts.length > 0) {
+      setShowSectorDropdown(!showSectorDropdown);
+      setShowProductDropdown(false); // Close product dropdown when opening sector dropdown
+    }
   };
 
   const handleProductSelect = (product: string) => {
     if (product === '') {
-      // "All Products" selected
+      // "All Products" selected - reset both products and sectors
       setSelectedProducts([]);
+      setSelectedSectors([]); // Reset sectors when "All Products" is selected
     } else {
       setSelectedProducts(prev => {
         if (prev.includes(product)) {
-          return prev.filter(p => p !== product);
+          // If product is being unselected, reset sectors
+          const newProducts = prev.filter(p => p !== product);
+          if (newProducts.length === 0) {
+            setSelectedSectors([]); // Reset sectors if no products left
+          }
+          return newProducts;
         } else {
           return [...prev, product];
         }
       });
     }
-    // Don't close dropdown for multi-select
   };
 
   const handleSectorSelect = (sector: string) => {
@@ -259,7 +267,6 @@ export default function ProjectsPage() {
         }
       });
     }
-    // Don't close dropdown for multi-select
   };
 
   const handleApply = () => {
@@ -294,34 +301,37 @@ export default function ProjectsPage() {
     openModal(project.image, project.altText || project.title, project.title);
   };
 
-// Helper functions for display tags
-const getProductDisplayTags = () => {
-  if (selectedProducts.length === 0) {
-    return <span className="placeholder-text">All Products</span>;
-  }
-  return (
-    <div className="selected-tags">
-      {selectedProducts.map((p) => (
-        <span key={p} className="tag">
-          {p}
-          <button
-            type="button"
-            className="tag-remove"
-            onClick={(e) => {
-              e.stopPropagation(); // prevent dropdown toggle
-              handleProductSelect(p); // removes it
-            }}
-          >
-            ×
-          </button>
-        </span>
-      ))}
-    </div>
-  );
-};
+  // Helper functions for display tags
+  const getProductDisplayTags = () => {
+    if (selectedProducts.length === 0) {
+      return <span className="placeholder-text">All Products</span>;
+    }
+    return (
+      <div className="selected-tags">
+        {selectedProducts.map((p) => (
+          <span key={p} className="tag">
+            {p}
+            <button
+              type="button"
+              className="tag-remove"
+              onClick={(e) => {
+                e.stopPropagation(); // prevent dropdown toggle
+                handleProductSelect(p); // removes it
+              }}
+            >
+              ×
+            </button>
+          </span>
+        ))}
+      </div>
+    );
+  };
 
   const getSectorDisplayText = () => {
-    if (selectedSectors.length === 0) return 'All Sectors';
+    if (selectedProducts.length === 0) {
+      return 'Select Product First';
+    }
+    if (selectedSectors.length === 0) return 'All Sub Products';
     if (selectedSectors.length === 1) return selectedSectors[0];
     return `${selectedSectors.length} Sectors Selected`;
   };
@@ -356,13 +366,12 @@ const getProductDisplayTags = () => {
         <div className="filter-bar">
           <div className="filter-dropdown-wrapper" ref={productDropdownRef}>
             <div
-  className={`filter-dropdown ${showProductDropdown ? 'open' : ''}`}
-  onClick={handleProductDropdownToggle}
->
-  {getProductDisplayTags()}
-  <span className="filter-dropdown-arrow">{showProductDropdown ? '▲' : '▼'}</span>
-</div>
-
+              className={`filter-dropdown ${showProductDropdown ? 'open' : ''}`}
+              onClick={handleProductDropdownToggle}
+            >
+              {getProductDisplayTags()}
+              <span className="filter-dropdown-arrow">{showProductDropdown ? '▲' : '▼'}</span>
+            </div>
 
             {showProductDropdown && (
               <ul className="filter-dropdown-options">
@@ -397,14 +406,18 @@ const getProductDisplayTags = () => {
 
           <div className="filter-dropdown-wrapper" ref={sectorDropdownRef}>
             <div
-              className={`filter-dropdown ${showSectorDropdown ? 'open' : ''}`}
+              className={`filter-dropdown ${showSectorDropdown ? 'open' : ''} ${
+                selectedProducts.length === 0 ? 'disabled' : ''
+              }`}
               onClick={handleSectorDropdownToggle}
             >
               {getSectorDisplayText()}
-              <span className="filter-dropdown-arrow">{showSectorDropdown ? '▲' : '▼'}</span>
+              <span className="filter-dropdown-arrow">
+                {selectedProducts.length > 0 ? (showSectorDropdown ? '▲' : '▼') : '▼'}
+              </span>
             </div>
 
-            {showSectorDropdown && (
+            {showSectorDropdown && selectedProducts.length > 0 && (
               <ul className="filter-dropdown-options">
                 <li
                   className={selectedSectors.length === 0 ? 'selected' : ''}
@@ -415,7 +428,7 @@ const getProductDisplayTags = () => {
                     checked={selectedSectors.length === 0}
                     onChange={() => {}}
                   />
-                  All Sectors
+                  All Sub Products
                 </li>
                 {filteredSectors.map(s => (
                   <li
@@ -436,7 +449,7 @@ const getProductDisplayTags = () => {
           </div>
 
           <button onClick={handleApply} className="filter-apply-btn">APPLY</button>
-          {/* <button onClick={handleClearFilters} className="filter-clear-btn">↺</button> */}
+          <button onClick={handleClearFilters} className="filter-clear-btn">↺</button>
         </div>
 
         {/* Loading state */}
@@ -459,9 +472,7 @@ const getProductDisplayTags = () => {
                     onClick={() => handleImageClick(project)}
                   >
                     {!project.loaded && (
-                      <div className="image-loading-overlay">
-                      
-                      </div>
+                      <div className="image-loading-overlay"></div>
                     )}
                     <div className="image-wrapper">
                       <Image

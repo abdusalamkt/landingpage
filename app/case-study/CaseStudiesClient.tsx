@@ -161,7 +161,7 @@ export default function CaseStudiesClient({ allStudies }: { allStudies: any[] })
         </div>
 
         {/* Sector Filter */}
-        <div className="filter-group">
+        {/* <div className="filter-group">
           <div className="filter-heading-box" onClick={() => setShowSectors(!showSectors)}>
             <h4>SECTOR</h4>
             <span className="toggle-icon">{showSectors ? "-" : "+"}</span>
@@ -183,7 +183,7 @@ export default function CaseStudiesClient({ allStudies }: { allStudies: any[] })
               <p style={{ paddingLeft: "10px", fontStyle: "italic" }}>No sectors available</p>
             )}
           </div>
-        </div>
+        </div> */}
 
         {/* Region Filter */}
         {/* <div className="filter-group">

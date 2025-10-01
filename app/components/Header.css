@@ -610,6 +610,9 @@
     height: 55px;
     width: 165px;
   }
+  .back-button-container{
+    top: 85px !important;
+  }
 
   /* Hide media buttons by default on mobile */
   .media-career-buttons {
@@ -1009,4 +1012,5 @@
     padding: 10px 16px;
     gap: 10px;
   }
+  
 }

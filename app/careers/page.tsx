@@ -143,17 +143,17 @@ const [selectedJob, setSelectedJob] = useState<string>('');
               </div>
 
               <div className={styles.jobActions}>
-                <a
-                  className={styles.applyButton}
-                  href="#"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    setSelectedJob(job.title);
-                    setModalOpen(true);
-                  }}
-                >
-                  APPLY
-                </a>
+                <button
+  type="button"
+  className={styles.applyButton}
+  onClick={() => {
+    setSelectedJob(job.title);
+    setModalOpen(true);
+  }}
+>
+  APPLY
+</button>
+
 
                 <button
                   className={styles.viewDetails}

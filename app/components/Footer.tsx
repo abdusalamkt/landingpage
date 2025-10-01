@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import './Footer.css';
+import Link from 'next/link';
 
 const Footer: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -159,27 +160,27 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
           {/* Logo Section */}
           <div className="footer-logos">
             <div className="logo-item">
-  <a href="/our-products/gibca-compact-laminate-solutions"> 
+  <Link href="/our-products/gibca-compact-laminate-solutions"> 
     <img 
       src="/logos/2025 GIBCA LOGO WHITE.png" 
       alt="gibca-logo" 
       className="logo-image" 
     />
-  </a>
+  </Link>
 </div>
 
             {/* <div className="logo-divider"></div> */}
             <div className="logo-item">
-              <a href="/our-products/hufcor"> 
-              <img src="/logos/HUFCOR ALL WHITE.png" alt="hufcor-logo" className="logo-image" /></a>
+              <Link href="/our-products/hufcor"> 
+              <img src="/logos/HUFCOR ALL WHITE.png" alt="hufcor-logo" className="logo-image" /></Link>
             </div>
             <div className="logo-item">
-              <a href="/our-products/crown">
-              <img src="/crown-doors-logo 1 - WHITE.svg" alt="crown-logo" className="logo-image" /></a>
+              <Link href="/our-products/crown">
+              <img src="/crown-doors-logo 1 - WHITE.svg" alt="crown-logo" className="logo-image" /></Link>
             </div>
             <div className="logo-item">
-              <a href="/our-products/terrace-solutions">
-              <img src="/acristalialogo.png" alt="acristalia-logo" className="logo-image" style={{height:"50px"}}/></a>
+              <Link href="/our-products/terrace-solutions">
+              <img src="/acristalialogo.png" alt="acristalia-logo" className="logo-image" style={{height:"50px"}}/></Link>
             </div>
             
             {/* <div className="logo-divider"></div> */}
@@ -193,20 +194,20 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
             <div className="link-column">
               <h4>RESOURCES</h4>
               <ul>
-                <li><a href="/case-study">Case Studies</a></li>
-                <li><a href="/blogs">Blog</a></li>
-                <li><a href="/projects">Gallery</a></li>
-                <li><a href="/downloads">Downloads</a></li>
+                <li><Link href="/case-study">Case Studies</Link></li>
+                <li><Link href="/blogs">Blog</Link></li>
+                <li><Link href="/projects">Gallery</Link></li>
+                <li><Link href="/downloads">Downloads</Link></li>
               </ul>
             </div>
             <div className="link-column">
               <h4>COMPANY</h4>
               <ul>
-                <li><a href="/about-gibca">About Us</a></li>
-                <li><a href="/our-products">Products</a></li>
-                <li><a href="/contact-us">Contact Us</a></li>
-                <li><a href="/downloads">Downloads</a></li>
-                <li><a href="/career">Careers</a></li>
+                <li><Link href="/about-gibca">About Us</Link></li>
+                <li><Link href="/our-products">Products</Link></li>
+                <li><Link href="/contact-us">Contact Us</Link></li>
+                <li><Link href="/downloads">Downloads</Link></li>
+                <li><Link href="/career">Careers</Link></li>
               </ul>
             </div>
             <div className="link-column">
@@ -226,11 +227,11 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
               <h4>PRODUCTS</h4>
               <ul>
                 {/* <li><a href="#">Office Partitions</a></li> */}
-                <li><a href="/our-products/gibca-compact-laminate-solutions">Compact Laminate Solutions</a></li>
-                <li><a href="/our-products/pivot-doors">Pivot Doors</a></li>
-                <li><a href="/our-products/hufcor">Operable Walls</a></li>
-                <li><a href="/our-products/crown">Hydraulic Doors</a></li>
-                <li><a href="/our-products/terrace-solutions">Terrace Solutions</a></li>
+                <li><Link href="/our-products/gibca-compact-laminate-solutions">Compact Laminate Solutions</Link></li>
+                <li><Link href="/our-products/pivot-doors">Pivot Doors</Link></li>
+                <li><Link href="/our-products/hufcor">Operable Walls</Link></li>
+                <li><Link href="/our-products/crown">Hydraulic Doors</Link></li>
+                <li><Link href="/our-products/terrace-solutions">Terrace Solutions</Link></li>
               </ul>
             </div>
           </div>
@@ -293,7 +294,7 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
       {/* Bottom Bar */}
 <div className="footer-bottom-bar">
   <p>
-    &copy; 2025 GIBCA Furniture | All rights reserved | <a href="mailto:marketing@gmail.com"><b>marketing@gfiuae.com</b></a> 
+    &copy; 2025 GIBCA Furniture | All rights reserved | <a href="mailto:marketing@gfiuae.com"><b>marketing@gfiuae.com</b></a> 
   </p>
 </div>
 
