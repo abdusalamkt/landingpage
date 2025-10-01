@@ -14,7 +14,6 @@
   position: absolute;
   inset: 0;
   background: linear-gradient(90.11deg, #000000 -5.46%, rgba(61, 61, 61, 0) 105.15%);
-
   z-index: 1;
 }
 
@@ -24,7 +23,6 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  /* max-width: 1200px; */
   width: 100%;
   padding: 0 80px;
   margin: 0 auto;
@@ -34,15 +32,13 @@
   font-size: 3.5rem;
   color: white;
   line-height: 1;
-  /* font-weight: bold; */
 }
+
 .highlight {
   color: #109C5D;
-
 }
 
 .right-form {
-  /* max-width: 500px; */
   width: 50%;
 }
 
@@ -54,61 +50,195 @@
 
 .email-input {
   padding: 16px 20px;
-  /* min-width: 50%; */
   width: 100%;
   border: 1px solid #ccc;
-background: white;
+  background: white;
   font-size: 16px;
 }
 
+/* Message Styles */
+.submit-message {
+  margin-top: 15px;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  animation: slideInUp 0.4s ease-out;
+}
 
+.submit-message.success {
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.308), rgba(0, 85, 42, 0.288));
+  color: white;
+  background: blur(10px);
+}
+
+.submit-message.error {
+  background: linear-gradient(135deg, rgba(220, 38, 38, 0.95), rgba(153, 27, 27, 0.95));
+  color: white;
+}
+
+.message-content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 20px;
+  position: relative;
+}
+
+.success-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.success-icon svg {
+  color: #4ADE80;
+}
+
+.submit-message.success .message-content span {
+  flex: 1;
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.submit-message.error .message-content span {
+  flex: 1;
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.close-button {
+  background: none;
+  border: none;
+  color: currentColor;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  opacity: 0.7;
+  transition: opacity 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.close-button:hover {
+  opacity: 1;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.message-timer {
+  height: 3px;
+  background: rgba(255, 255, 255, 0.3);
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+.submit-message.success .message-timer::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.8);
+  animation: timerProgress 5s linear forwards;
+}
+
+.submit-message.error .message-timer::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.8);
+  animation: timerProgress 5s linear forwards;
+}
+
+@keyframes timerProgress {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(0%);
+  }
+}
+
+@keyframes slideInUp {
+  0% {
+    transform: translateY(10px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.cta-button {
+  background: linear-gradient(90deg, #109c5d, #00572b, #003514);
+  color: white;
+  font-size: 1.5rem;
+  border: solid 1px white;
+  cursor: pointer;
+  transition: all 0.4s ease;
+  text-transform: uppercase;
+  font-family: 'Bebas Neue', sans-serif;
+  position: relative;
+  overflow: hidden;
+  padding: 4px 20px;
+}
+
+.cta-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(28, 101, 68, 0.4);
+  background: linear-gradient(90deg, #003514, #00572b, #109c5d);
+}
+
+.cta-button::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+  transition: 0.5s;
+}
+
+.cta-button:hover::after {
+  left: 100%;
+}
 
 @media (max-width: 768px) {
   .get-in-touch-section .content-wrapper {
     flex-direction: column;
     text-align: center;
+    padding: 0 20px;
   }
 
   .left-title {
     margin-bottom: 20px;
   }
+  
   .left-title h2 {
     font-size: 2.5rem;
     padding-top: 1rem;
   }
+  
   .right-form {
     width: 100%;
   }
+  
+  .message-content {
+    padding: 14px 16px;
+  }
+  
+  .submit-message.success .message-content span,
+  .submit-message.error .message-content span {
+    font-size: 13px;
+  }
 }
-
-.cta-button {
-            background: linear-gradient(90deg, #109c5d, #00572b,#003514);
-            color: white;
-            font-size: 1.5rem;
-            border: solid 1px white;
-            cursor: pointer;
-            transition: all 0.4s ease;
-            text-transform: uppercase;
-            font-family: 'Bebas Neue', sans-serif;
-        }
-
-        .cta-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(28, 101, 68, 0.4);
-            background: linear-gradient(90deg,#003514, #00572b,#109c5d );
-        }
-
-        .cta-button::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
-            transition: 0.5s;
-        }
-
-        .cta-button:hover::after {
-            left: 100%;
-        }

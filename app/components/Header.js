@@ -96,10 +96,23 @@ export default function Header() {
       const currentScrollY = window.scrollY;
       const scrollDelta = currentScrollY - lastScrollY.current;
 
-      if (currentScrollY > 100 && scrollDelta > 0) {
-        setIsHeaderHidden(true);
-      } else if (scrollDelta < -30) { 
-        setIsHeaderHidden(false);
+      // Check if we're on the /our-products page
+      const isProductsPage = pathname === '/our-products';
+
+      if (isProductsPage) {
+        // Instant hide/show for products page
+        if (currentScrollY > 100 && scrollDelta > 0) {
+          setIsHeaderHidden(true);
+        } else if (scrollDelta < 0) {
+          setIsHeaderHidden(false);
+        }
+      } else {
+        // Default behavior for other pages
+        if (currentScrollY > 100 && scrollDelta > 0) {
+          setIsHeaderHidden(true);
+        } else if (scrollDelta < -30) { 
+          setIsHeaderHidden(false);
+        }
       }
 
       lastScrollY.current = currentScrollY;
@@ -107,7 +120,7 @@ export default function Header() {
 
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [isClient]);
+  }, [isClient, pathname]);
 
   // Close mobile menu on route change
   useEffect(() => {
