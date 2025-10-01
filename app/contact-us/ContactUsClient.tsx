@@ -44,7 +44,7 @@ export default function ContactUsClient({ data }: { data: any }) {
         setCurrentIndex((prev) =>
           prev === data.slideshowImages.length - 1 ? 0 : prev + 1
         );
-      }, 8000);
+      }, 3000);
 
       return () => clearInterval(interval);
     }
