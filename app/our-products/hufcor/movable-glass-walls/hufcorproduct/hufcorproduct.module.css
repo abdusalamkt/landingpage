@@ -1030,8 +1030,8 @@ line-height: 100%;
 }
 
 .glassImage {
-  object-fit: cover;
-  transition: opacity 0.01s; /* Almost instant transition */
+  object-fit: fill;
+  transition: opacity 0.01s;
 }
 
 .glassOverlay {

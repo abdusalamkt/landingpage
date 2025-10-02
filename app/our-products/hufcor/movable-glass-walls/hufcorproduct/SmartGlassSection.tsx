@@ -12,8 +12,8 @@ const SmartGlassSection = () => {
 
   // Define image sets for each page
   const acousticImages = {
-    transparent: "/hufcor/smartglass/acoustic-transparent.png",
-    opaque: "/hufcor/smartglass/acoustic-opaque.png",
+    transparent: "/hufcor/smartglass/acoustic-transparent.webp",
+    opaque: "/hufcor/smartglass/acoustic-opaque.webp",
   };
 
   const framelessImages = {
