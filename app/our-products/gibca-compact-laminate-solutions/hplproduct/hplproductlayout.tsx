@@ -6,6 +6,108 @@ import dynamic from 'next/dynamic';
 import styles from './hplproduct.module.css';
 import Header from '@/app/components/Header';
 import Footer from '@/app/components/Footer';
+import SandwichPanelsComparison from './whySandwich';
+
+// Add this component after the imports and before the main layout
+const LockingOptionsSection = () => {
+  const [activeCategory, setActiveCategory] = useState<'mechanical' | 'smart'>('mechanical');
+
+  const mechanicalLocks = [
+    {
+      type: 'Key Cylinder Lock',
+      description: 'Simple and reliable',
+      icon: '🔑'
+    },
+    {
+      type: 'Hasp Lock',
+      description: 'Use with padlock for personal security',
+      icon: '🔒'
+    },
+    {
+      type: 'Combination Lock (Dial or Mechanical)',
+      description: 'Keyless convenience',
+      icon: '⌨️'
+    },
+    {
+      type: 'Battery-Operated Digital Lock (Touch or Keypad)',
+      description: 'Programmable codes, no wiring needed',
+      icon: '🔋'
+    }
+  ];
+
+  const smartLocks = [
+    {
+      type: 'Network / Wired Smart Locks',
+      description: 'Cloud-connected, real-time monitoring & centralized control',
+      icon: '🌐'
+    },
+    {
+      type: 'Bluetooth Smart Locks',
+      description: 'Unlock via mobile app, ideal for standalone or limited connectivity setups',
+      icon: '📱'
+    }
+  ];
+
+  return (
+    <section className={styles.lockingOptionsSection}>
+      <div className={styles.lockingHeader}>
+        <div className={styles.headerWithIcon}>
+          <svg className={styles.lockIcon} width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+            <path d="M2 17l10 5 10-5M2 12l10 5 10-5"/>
+          </svg>
+          <h2>SELECT YOUR <span className={styles.greenText}>LOCKING</span> OPTION</h2>
+        </div>
+        <p className={styles.lockingSubtitle}>ADDITIONAL LOCK OPTIONS AVAILABLE UPON REQUEST</p>
+      </div>
+
+      <div className={styles.lockingContentWrapper}>
+        <div className={styles.lockingImageSection}>
+          <div className={styles.lockingImage}>
+            <Image
+              src="/hpl/smartlocker.jpg"
+              alt="Locker Systems with different lock options"
+              width={1200}
+              height={800}
+              quality={90}
+              style={{ objectFit: 'cover', width: '100%', height: '90vh', borderRadius: '12px' }}
+            />
+          </div>
+        </div>
+
+        <div className={styles.lockingOptionsContent}>
+          <div className={styles.lockingCategorySection}>
+            <h3 className={styles.categoryTitle}>MECHANICAL & BATTERY LOCK OPTIONS</h3>
+            <ul className={styles.optionsList}>
+              <li><strong>Key Cylinder Lock</strong> - Simple and reliable.</li>
+              <li><strong>Hasp Lock</strong> - Use with padlock for personal security.</li>
+              <li><strong>Combination Lock (Dial or Mechanical)</strong> - Keyless convenience.</li>
+              <li><strong>Battery-Operated Digital Lock (Touch or Keypad)</strong> - Programmable codes, no wiring needed.</li>
+            </ul>
+          </div>
+
+          <div className={styles.lockingCategorySection}>
+            <h3 className={styles.categoryTitle}>SMART LOCK OPTIONS</h3>
+            <div className={styles.smartLockItem}>
+             <b>Network / Wired Smart Locks</b> 
+              <ul className={styles.optionsList}>
+                <li>Cloud-connected</li>
+                <li>Real-time monitoring & centralized control</li>
+              </ul>
+            </div>
+            <div className={styles.smartLockItem}>
+              <b>Bluetooth Smart Locks</b>
+              <ul className={styles.optionsList}>
+                <li>Unlock via mobile app</li>
+                <li>Ideal for standalone or limited connectivity setups</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
 
 // Comparison Data
 const comparisonData = [
@@ -82,173 +184,6 @@ Below are 7 reasons why you should no longer consider our IPS wall panels to hid
 );
 };
 
-// Updated Smart Lockers Component with unique items in each locker
-// const SmartLockersSection = () => {
-//   const [isVisible, setIsVisible] = useState(false);
-//   const [activeFeature, setActiveFeature] = useState(0);
-//   const [hoveredLocker, setHoveredLocker] = useState<number | null>(null);
-//   const [openedLocker, setOpenedLocker] = useState<number | null>(null);
-//   const sectionRef = useRef(null);
-
-//   useEffect(() => {
-//     const observer = new IntersectionObserver(
-//       ([entry]) => {
-//         if (entry.isIntersecting) {
-//           setIsVisible(true);
-//         }
-//       },
-//       { threshold: 0.3 }
-//     );
-
-//     if (sectionRef.current) {
-//       observer.observe(sectionRef.current);
-//     }
-
-//     return () => {
-//       if (sectionRef.current) {
-//         observer.unobserve(sectionRef.current);
-//       }
-//     };
-//   }, []);
-
-//   useEffect(() => {
-//     const interval = setInterval(() => {
-//       setActiveFeature((prev) => (prev + 1) % features.length);
-//     }, 4000);
-    
-//     return () => clearInterval(interval);
-//   }, []);
-
-//   const features = [
-//     {
-//       title: "Secure Access",
-//       description: "RFID and PIN code access for maximum security",
-//       icon: "🔒",
-//     },
-//     {
-//       title: "Mobile Integration",
-//       description: "Control and monitor lockers via smartphone app",
-//       icon: "📱",
-//     },
-//     {
-//       title: "Usage Analytics",
-//       description: "Track locker usage patterns and optimize space",
-//       icon: "📊",
-//     },
-//     {
-//       title: "Remote Management",
-//       description: "Assign and manage lockers from anywhere",
-//       icon: "🌐",
-//     }
-//   ];
-
-//   // Different items for each locker
-//   const lockerItems = [
-//     ["Remote Access"],
-//     ["Secure Access"],
-//     ["WiFi Module"],
-//     ["mobile Integration"],
-//     ["Software integration"],
-//     ["Pin Code Access"]
-//   ];
-
-//   const handleLockerClick = (lockerNumber: number) => {
-//     if (openedLocker === lockerNumber) {
-//       setOpenedLocker(null);
-//     } else {
-//       setOpenedLocker(lockerNumber);
-//     }
-//   };
-
-//   return (
-//     <section 
-//       ref={sectionRef} 
-//       className={`${styles.smartLockers} ${isVisible ? styles.visible : ''}`}
-//     >
-//       <div className={styles.smartLockersContainer}>
-//         <div className={styles.smartLockersHeader}>
-//           <h2>Smart Lockers Integration</h2>
-//           <p>Enhance your space with our intelligent locker solutions</p>
-//         </div>
-        
-//         <div className={styles.smartLockersContent}>
-//           <div className={styles.smartLockersVisual}>
-//             <div className={styles.lockerDisplay}>
-//               <div className={styles.lockerUnit}>
-//                 <div className={styles.lockerDoors}>
-//                   {[1, 2, 3, 4, 5, 6].map((num) => (
-//                     <div 
-//                       key={num} 
-//                       className={`${styles.lockerDoorContainer} 
-//                         ${hoveredLocker === num ? styles.hovered : ''} 
-//                         ${openedLocker === num ? styles.opened : ''}`}
-//                       onMouseEnter={() => setHoveredLocker(num)}
-//                       onMouseLeave={() => setHoveredLocker(null)}
-//                       onClick={() => handleLockerClick(num)}
-//                       style={{ animationDelay: `${num * 0.1}s` }}
-//                     >
-//                       <div className={styles.lockerDoor}>
-//                         <div className={styles.lockerHandle}></div>
-//                         {num === 3 && (
-//                           <div className={styles.activeIndicator}>
-//                             <div className={styles.pulsingLight}></div>
-//                           </div>
-//                         )}
-//                       </div>
-                      
-//                       {/* Locker Interior with unique items for each locker */}
-//                       <div className={styles.lockerInterior}>
-//                         <div className={styles.lockerShelf}></div>
-//                         <div className={styles.lockerItems}>
-//                           {lockerItems[num-1].map((item, idx) => (
-//                             <div key={idx} className={styles.lockerItem}>
-//                               {item}
-//                             </div>
-//                           ))}
-//                         </div>
-//                       </div>
-//                     </div>
-//                   ))}
-//                 </div>
-//                 <div className={styles.lockerBase}></div>
-//                 <div className={styles.digitalDisplay}>
-//                   <span>SMART LOCKER v2.0</span>
-//                 </div>
-//               </div>
-//             </div>
-            
-//             <div className={styles.lockerInstructions}>
-//               <p>Hover over lockers to see details • Click to open/close</p>
-//             </div>
-//           </div>
-          
-//           <div className={styles.smartLockersFeatures}>
-//             {features.map((feature, index) => (
-//               <div 
-//                 key={index}
-//                 className={`${styles.featureItem} ${activeFeature === index ? styles.active : ''}`}
-//                 onMouseEnter={() => setActiveFeature(index)}
-//               >
-//                 <div className={styles.featureIcon}>{feature.icon}</div>
-//                 <div className={styles.featureText}>
-//                   <h4>{feature.title}</h4>
-//                   <p>{feature.description}</p>
-//                 </div>
-//               </div>
-//             ))}
-            
-//             <div className={styles.ctaContainer}>
-//               <button className={styles.primary}>Request Information</button>
-//               <button className={styles.outline}>View Specifications</button>
-//             </div>
-//           </div>
-//         </div>
-//       </div>
-//     </section>
-//   );
-// };
-
-// Lazy-loaded sections
 const WhatSetsUsApart = dynamic(() => import('@/app/components/WhatSetsUsApart'), {
   ssr: false,
   loading: () => <div style={{ minHeight: 100 }}>Loading features...</div>,
@@ -506,6 +441,8 @@ export default function HplProductLayout({ fields, faqData = [], downloadData = 
         </section>
       )}
       {currentSlug === 'integrated-panel-systems' && <ComparisonSection />}
+      {currentSlug === 'locker-systems' && <LockingOptionsSection />}
+      
 
       {/* Customization Options */}
       {fields.customizationHeading && (
@@ -573,12 +510,10 @@ export default function HplProductLayout({ fields, faqData = [], downloadData = 
         </section>
       )}
 
-      {/* Smart Lockers Section */}
-      {/* <SmartLockersSection /> */}
 
       {/* Carousel */}
       {showCarousel && <ProductCarousel carouselData={carouselData} sectionTitle={fields.outdoorProductOptionsTitle || ''} />}
-
+      {/* <SandwichPanelsComparison/> */}
       {/* Downloads */}
       {downloadData && downloadData.length > 0 && <DownloadSection downloadData={downloadData} theme="gibca" />}
 

@@ -2,13 +2,29 @@
 
 import styles from './FloatingSidebar.module.css';
 import { FaLinkedinIn, FaPhoneAlt, FaEnvelope, FaWhatsapp, FaChevronLeft, FaChevronRight } from 'react-icons/fa';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 const FloatingSidebar = () => {
-  const [isVisible, setIsVisible] = useState(true);
+  const [isVisible, setIsVisible] = useState(false);
+  const [isClient, setIsClient] = useState(false);
+
+  // Handle client-side mounting
+  useEffect(() => {
+    setIsClient(true);
+    // Load the saved state from localStorage
+    const savedState = localStorage.getItem('sidebarVisible');
+    if (savedState !== null) {
+      setIsVisible(savedState === 'true');
+    }
+  }, []);
 
   const toggleSidebar = () => {
-    setIsVisible(!isVisible);
+    const newState = !isVisible;
+    setIsVisible(newState);
+    // Save the state to localStorage
+    if (isClient) {
+      localStorage.setItem('sidebarVisible', newState.toString());
+    }
   };
 
   return (
