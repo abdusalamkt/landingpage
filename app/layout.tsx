@@ -9,6 +9,7 @@ import Footer from './components/Footer';
 import ButtonToTop from './components/ButtonToTop';
 import { Float } from '@react-three/drei';
 import FloatingSidebar from './components/FloatingSidebar';
+import { SpeedInsights } from "@vercel/speed-insights/next"
 
 const bebasNeue = Bebas_Neue({
   weight: '400',
@@ -48,6 +49,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <FloatingSidebar />
         {/* <PageTransition /> */}
         {children}
+        <SpeedInsights />
         <Footer />
         <ButtonToTop />
       </body>
