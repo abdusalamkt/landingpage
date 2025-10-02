@@ -1,4 +1,5 @@
-export const revalidate = 0;
+// ✅ Enable static generation with long revalidation
+export const revalidate = 86400; // Revalidate once per day (24 hours)
 export const dynamicParams = true;
 
 import { gql } from "@apollo/client";
@@ -157,43 +158,48 @@ export default async function HufcorProduct({
   const resolvedParams = await params;
   const slugPath = resolvedParams.slug.join("/");
 
-  const { data: productData } = await client.query({
-    query: GET_HUFCOR_PRODUCT,
-    variables: {
-      uri: `/${slugPath}/`,
-    },
-  });
+  // ✅ Run all queries in parallel for faster loading
+  const [productResult, faqResult, downloadResult] = await Promise.all([
+    client.query({
+      query: GET_HUFCOR_PRODUCT,
+      variables: { uri: `/${slugPath}/` },
+      context: {
+        fetchOptions: {
+          next: { revalidate: 86400 }, // Cache for 24 hours
+        },
+      },
+    }),
+    client.query({
+      query: GET_FAQS,
+      context: {
+        fetchOptions: {
+          next: { revalidate: 86400 },
+        },
+      },
+    }),
+    client.query({
+      query: GET_DOWNLOADS,
+      context: {
+        fetchOptions: {
+          next: { revalidate: 86400 },
+        },
+      },
+    }),
+  ]);
 
-  const { data: faqData } = await client.query({
-    query: GET_FAQS,
-  });
-
-  const { data: downloadData } = await client.query({
-    query: GET_DOWNLOADS,
-  });
-
-  const fields = productData?.page?.hufcorSeriesFields;
-  const pageSlug = productData?.page?.slug;
-  const pageId = productData?.page?.id;
-  const pageUri = productData?.page?.uri;
+  const fields = productResult.data?.page?.hufcorSeriesFields;
+  const pageSlug = productResult.data?.page?.slug;
+  const pageId = productResult.data?.page?.id;
+  const pageUri = productResult.data?.page?.uri;
 
   if (!fields) return <div>Product not found</div>;
 
-  // -------------------------------
-  // ✅ Process FAQ data with logs
-  // -------------------------------
+  // Process FAQ data
   let relatedFaqs: any[] = [];
-  if (faqData?.fAQs?.nodes) {
-    console.log("👉 Raw FAQ data from GraphQL:", faqData.fAQs.nodes);
-
-    faqData.fAQs.nodes.forEach((faqNode: any) => {
+  if (faqResult.data?.fAQs?.nodes) {
+    faqResult.data.fAQs.nodes.forEach((faqNode: any) => {
       const faqItemsArray = faqNode?.faqItems?.faqItems ?? [];
       const relatedPage = faqNode?.faqItems?.relatedProductPage;
-
-      console.log("🔍 Checking FAQ node:", {
-        relatedPage,
-        faqItemsArray,
-      });
 
       if (Array.isArray(faqItemsArray) && relatedPage) {
         const isMatch =
@@ -215,16 +221,10 @@ export default async function HufcorProduct({
     });
   }
 
-  console.log("✅ Final relatedFaqs passed to layout:", relatedFaqs);
-
-  // -------------------------------
-  // ✅ Process Download data
-  // -------------------------------
+  // Process Download data
   let relatedDownloads: any[] = [];
-  if (downloadData?.downloads?.nodes) {
-    console.log("👉 Raw Downloads data:", downloadData.downloads.nodes);
-
-    downloadData.downloads.nodes.forEach((downloadNode: any) => {
+  if (downloadResult.data?.downloads?.nodes) {
+    downloadResult.data.downloads.nodes.forEach((downloadNode: any) => {
       const relatedPage = downloadNode.downloadFields?.product;
       const downloads = downloadNode.downloadFields?.productdownloads;
 
@@ -248,11 +248,6 @@ export default async function HufcorProduct({
     });
   }
 
-  console.log("✅ Final relatedDownloads passed to layout:", relatedDownloads);
-
-  // -------------------------------
-  // ✅ Render Layout
-  // -------------------------------
   return (
     <HufcorProductLayout
       fields={fields}
