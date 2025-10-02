@@ -40,7 +40,7 @@ const SmartGlassSection = () => {
     <section className={styles.smartGlassSection}>
       <div className={styles.smartGlassContainer}>
         <h2 className={styles.sectionHeading}>
-          <span className={styles.red}>Smart Glass</span> Technology
+          Smart Glass<span className={styles.red}>Technology</span>
         </h2>
 
         <p className={styles.sectionDescription}>

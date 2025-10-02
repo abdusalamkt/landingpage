@@ -45,6 +45,15 @@ export default function ProjectsPage() {
 
   const productDropdownRef = useRef<HTMLDivElement | null>(null);
   const sectorDropdownRef = useRef<HTMLDivElement | null>(null);
+  const shuffleArray = <T,>(array: T[]): T[] => {
+  const newArray = [...array];
+  for (let i = newArray.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+  }
+  return newArray;
+};
+
 
   const GRAPHQL_QUERY = `
     query GetAllProjectImages {
@@ -101,8 +110,9 @@ export default function ProjectsPage() {
 
         const result: GraphQLResponse = await response.json();
         if (!result.data?.projects?.nodes) throw new Error('No data returned');
-        const transformed = transformWordPressData(result.data.projects.nodes);
-        setProjects(transformed);
+        const transformed = shuffleArray(transformWordPressData(result.data.projects.nodes));
+setProjects(transformed);
+
       } catch (err) {
         console.error(err);
         setError((err as Error).message);
