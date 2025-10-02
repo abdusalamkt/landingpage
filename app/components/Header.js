@@ -26,7 +26,7 @@ export default function Header() {
   const isClient = typeof window !== 'undefined';
 
   const toggleDropdown = (dropdown) => {
-    if (isClient && window.innerWidth <= 1280) {
+    if (isClient && window.innerWidth <= 1200) {
       // Mobile behavior
       setActiveDropdown(activeDropdown === dropdown ? null : dropdown);
     } else {
@@ -55,13 +55,13 @@ export default function Header() {
   };
 
   const handleSubmenuEnter = (submenu) => {
-    if (isClient && window.innerWidth > 1280) {
+    if (isClient && window.innerWidth > 1200) {
       setActiveSubmenu(submenu);
     }
   };
 
   const handleSubmenuLeave = () => {
-    if (isClient && window.innerWidth > 1280) {
+    if (isClient && window.innerWidth > 1200) {
       setActiveSubmenu(null);
     }
   };
@@ -133,7 +133,7 @@ export default function Header() {
     if (!isClient) return;
 
     const handleResize = () => {
-      if (window.innerWidth > 1280 && isMobileMenuOpen) {
+      if (window.innerWidth > 1200 && isMobileMenuOpen) {
         closeMobileMenu();
       }
     };
@@ -146,7 +146,7 @@ export default function Header() {
   useEffect(() => {
     if (!isClient) return;
 
-    const checkWidth = () => setIsMobile(window.innerWidth <= 1280);
+    const checkWidth = () => setIsMobile(window.innerWidth <= 1200);
     checkWidth();
     window.addEventListener('resize', checkWidth);
     return () => window.removeEventListener('resize', checkWidth);
@@ -221,7 +221,7 @@ export default function Header() {
 
   // Helper function to check if we're on mobile for event handlers
   const isMobileView = () => {
-    return isClient && window.innerWidth <= 1280;
+    return isClient && window.innerWidth <= 1200;
   };
 
   // Don't render anything until mounted to avoid hydration mismatches
