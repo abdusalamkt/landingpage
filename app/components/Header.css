@@ -958,7 +958,7 @@
     /* bottom: 30px; */
     left: 50%;
     transform: translateX(-50%);
-    top: 0px;
+    top: 20px;
     z-index: 10001;
     background: white;
     padding: 12px 20px;
