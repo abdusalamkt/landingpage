@@ -2,6 +2,7 @@ import { Metadata } from 'next';
 import HeroSection from './HeroSection';
 import VideoSection from './VideoSection';
 import Timeline from './Timeline';
+import Header from '../components/Header';
 
 // import ContactUs from '../components/ContactUs';
 import SustainabilitySection from './SustainabilitySection';
@@ -36,6 +37,7 @@ export default async function AboutUsPage() {
 
   return (
     <>
+    <Header />
       <HeroSection fields={fields} />
       <VideoSection fields={fields} />
 

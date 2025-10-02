@@ -17,7 +17,6 @@
 @media (min-width: 768px) {
   .hero-container {
     grid-template-columns: 60% 40%;
-    /* padding: 0 3rem; */
   }
 }
 
@@ -25,10 +24,9 @@
   .hero-section{
     margin: 60px 0px auto;
     gap: 4rem;
-  padding: 0 2rem;}
-    
+    padding: 0 2rem;
   }
-
+}
 
 .hero-text {
   font-family: 'Poppins', sans-serif;
@@ -38,7 +36,6 @@
 
 .hero-heading {
   font-size: 3.5rem;
-  /* font-weight: bold; */
   line-height: .9;
   margin-bottom: 1.5rem;
   color: #3d3d3d;
@@ -56,25 +53,55 @@
   line-height: 30px;
 }
 
-.hero-image .image {
-  width: 90%;
-  height: auto;
+/* Fixed hero image container with higher specificity */
+.hero-section .hero-image {
+  padding-bottom: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Wrapper with fixed aspect ratio to prevent layout shift */
+
+
+/* Higher specificity for Next.js Image component */
+.hero-section .hero-image .image-wrapper .image {
+  width: 100% !important;
+  height: 100% !important;
+  position: relative !important;
   border-radius: 12px;
-  /* box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); */
   object-fit: cover;
   filter: grayscale(1);
-  /* transition: filter 0.3s ease; */
-
-}
-.image:hover {
-  filter: grayscale(0);
   transition: filter 0.7s ease;
-
+  max-width: none !important;
+  box-shadow: none;
 }
 
-.hero-image{
-  padding-bottom: 2rem;
+/* Target Next.js Image wrapper span */
+.hero-section .hero-image .image-wrapper > span {
+  width: 100% !important;
+  height: 100% !important;
+  position: relative !important;
+  display: block !important;
 }
+
+/* Target the actual img element inside Next.js Image */
+.hero-section .hero-image .image-wrapper img {
+  width: 100% !important;
+  height: 100% !important;
+  position: relative !important;
+  border-radius: 12px;
+  object-fit: cover !important;
+  filter: grayscale(1);
+  transition: filter 0.7s ease;
+}
+
+.hero-section .hero-image .image-wrapper:hover .image,
+.hero-section .hero-image .image-wrapper:hover img {
+  filter: grayscale(0);
+  box-shadow: none;
+}
+
 /* Reusable CTA Button */
 .cta-button {
   background: linear-gradient(90deg, #1C6544 40%, #11955A);
@@ -92,8 +119,6 @@
   align-items: center;
   text-decoration: none;
   gap: 1.5rem;
-
-
 }
 
 .cta-button:hover {
@@ -115,4 +140,22 @@
 
 .cta-button:hover::after {
   left: 100%;
+}
+@media (max-width: 768px) {
+  .hero-heading {
+    font-size: 2.5rem;
+    line-height: 1.1;
+  }
+
+  .green-text {
+    font-size: 3rem;
+  }
+
+  .hero-text p {
+    font-size: 0.9rem;
+    line-height: 28px;
+  }
+  .image-wrapper {
+    height: 300px !important;
+  }
 }

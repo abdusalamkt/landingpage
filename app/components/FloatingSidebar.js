@@ -16,8 +16,8 @@ const FloatingSidebar = () => {
       <div className={`${styles.sidebar} ${isVisible ? styles.visible : styles.hidden}`}>
         <button className={`${styles.toggleButton} ${isVisible ? styles.visible : styles.hidden}`} onClick={toggleSidebar}>
           <span className={styles.arrowWrapper}>
-            <FaChevronLeft className={`${styles.arrow} ${styles.arrowUp}`} />
-            <FaChevronRight className={`${styles.arrow} ${styles.arrowDown}`} />
+            <FaChevronRight className={`${styles.arrow} ${styles.arrowUp}`} />
+            <FaChevronLeft className={`${styles.arrow} ${styles.arrowDown}`} />
           </span>
         </button>
         <ul>
