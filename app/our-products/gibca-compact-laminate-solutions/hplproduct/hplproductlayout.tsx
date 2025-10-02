@@ -6,7 +6,7 @@ import dynamic from 'next/dynamic';
 import styles from './hplproduct.module.css';
 import Header from '@/app/components/Header';
 import Footer from '@/app/components/Footer';
-import SandwichPanelsComparison from './whySandwich';
+// import SandwichPanelsComparison from './whySandwich';
 
 // Add this component after the imports and before the main layout
 const LockingOptionsSection = () => {
