@@ -736,6 +736,7 @@ line-height: 100%;
   max-width: 1100px;
   margin: 0 auto;
   margin-bottom: 3rem;
+  text-align: center;
 }
 
 .panelConfig {
