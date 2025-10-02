@@ -955,10 +955,10 @@
   body.mobile-menu-open .media-career-buttons {
     display: flex;
     position: fixed;
-    bottom: 30px;
+    /* bottom: 30px; */
     left: 50%;
     transform: translateX(-50%);
-    top: auto;
+    top: 0px;
     z-index: 10001;
     background: white;
     padding: 12px 20px;

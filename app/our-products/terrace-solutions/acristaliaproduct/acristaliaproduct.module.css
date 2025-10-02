@@ -235,14 +235,12 @@ height: 80vh;
   position: relative;
   width: 90vw;
   margin: 0 auto;
-  height: 80vh;
+  height: 90vh;
   border-radius: 20px;
   overflow: hidden;
   background-color: white;
   z-index: 1;
-  /* border-bottom-left-radius: 30px;
-  border-bottom-right-radius: 30px; */
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+  /* box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08); */
 }
 
 /* Use same iframe class so you get consistent styling */
@@ -251,7 +249,7 @@ height: 80vh;
   top: 50%;
   left: 50%;
   width: max(100vw, calc(100vh * 16 / 9));
-  height: max(90vh, calc(90vw * 9 / 16));
+  height: max(90vh, calc(40vw * 9 / 16));
   transform: translate(-50%, -50%);
   pointer-events: none;
   border: none;

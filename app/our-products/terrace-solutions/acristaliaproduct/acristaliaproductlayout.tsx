@@ -126,15 +126,14 @@ const ProductCarousel = ({ carouselData, sectionTitle }: { carouselData: Carouse
               <div className={styles.carouselImage}>
                 {product.image?.sourceUrl && (
                   <Image
-  src={product.image.sourceUrl}
-  alt={product.image?.altText || product.title}
-  fill
-  quality={90}
-  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 600px"
-  style={{ objectFit: 'cover', borderRadius: '10px' }}
-  priority={index === 0}
-/>
-
+                    src={product.image.sourceUrl}
+                    alt={product.image?.altText || product.title}
+                    fill
+                    quality={90}
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 600px"
+                    style={{ objectFit: 'cover', borderRadius: '10px' }}
+                    priority={index === 0}
+                  />
                 )}
               </div>
               <div className={styles.carouselText}>
@@ -157,6 +156,11 @@ const ProductCarousel = ({ carouselData, sectionTitle }: { carouselData: Carouse
     </section>
   );
 };
+
+function isYouTubeUrl(url: string): boolean {
+  if (!url) return false;
+  return url.includes('youtube.com') || url.includes('youtu.be');
+}
 
 function getYouTubeEmbedUrl(url: string): string {
   if (!url) return '';
@@ -280,8 +284,9 @@ export default function AcristaliaProductLayout({
   const safeKeyFeatures = Array.isArray(fields.keyFeatures) ? fields.keyFeatures : [];
   const safeFeatures = Array.isArray(fields.features) ? fields.features : [];
   const safeChoices = Array.isArray(fields.choices) ? fields.choices : [];
-  const embedUrl = getYouTubeEmbedUrl(fields.videoLink);
-    const carouselData = Array.isArray(fields.carousel) ? fields.carousel : [];
+  const isYouTube = isYouTubeUrl(fields.videoLink);
+  const embedUrl = isYouTube ? getYouTubeEmbedUrl(fields.videoLink) : fields.videoLink;
+  const carouselData = Array.isArray(fields.carousel) ? fields.carousel : [];
   const showCarousel = fields.glasscurtainproductoptionstitle && carouselData.length > 0;
 
   return (
@@ -321,18 +326,32 @@ export default function AcristaliaProductLayout({
         )}
       </section>
 
-        {/* Video Section */}
+      {/* Video Section */}
       {embedUrl && (
         <>
           <div className={styles.fullscreenVideoSection}>
-            <iframe
-              src={`${embedUrl}&vq=hd720`}
-              title="Acristalia Video"
-              frameBorder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-              className={styles.videoIframe}
-            />
+            {isYouTube ? (
+              <iframe
+                src={`${embedUrl}&vq=hd720`}
+                title="Acristalia Video"
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                className={styles.videoIframe}
+              />
+            ) : (
+              <video
+                src={embedUrl}
+                className={styles.videoIframe}
+                autoPlay
+                muted
+                loop
+                playsInline
+                // controls
+              >
+                Your browser does not support the video tag.
+              </video>
+            )}
           </div>
           {fields.videoDescription && (
             <div className={styles.videoDescription}>
