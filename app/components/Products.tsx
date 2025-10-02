@@ -64,7 +64,7 @@ export default function Products({ description, products = [] }: ProductsProps) 
       ref={ref}
     >
       <motion.h1
-        className="products-heading"
+        className="product-heading"
         initial={{ opacity: 0, y: 50 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
@@ -75,7 +75,7 @@ export default function Products({ description, products = [] }: ProductsProps) 
 
       {description && (
         <motion.div
-          className="products-description"
+          className="product-description"
           dangerouslySetInnerHTML={{ __html: description }}
           initial={{ opacity: 0, scale: 0.9 }}
           whileInView={{ opacity: 1, scale: 1 }}

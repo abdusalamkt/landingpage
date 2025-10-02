@@ -79,7 +79,7 @@ export default function Stats({ experience, clients, totalworkforce, totalprojec
 
   return (
     <section className="stats-section">
-      <h1 className="products-heading">
+      <h1 className="stats-heading">
         GIBCA BY THE<span className="Highlight_Header"> NUMBERS</span>
       </h1>
       <div className="stats-container">
