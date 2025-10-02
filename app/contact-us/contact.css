@@ -378,7 +378,7 @@ img {
     z-index: 11;
   }
 
-  /* Make sure static header works on mobile */
+  /* Make sure static header works on mobile. */
   .contact-header-static .site-header {
     position: relative !important;
     transform: none !important;
