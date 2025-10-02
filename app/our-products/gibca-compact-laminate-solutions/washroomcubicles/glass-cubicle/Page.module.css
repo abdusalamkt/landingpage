@@ -447,11 +447,14 @@
   align-items: center;
   justify-content: center;
   overflow: hidden;
+  border-radius: 10px;
 }
 
 .designOptionIcon img {
   height: inherit;
   max-width: 300px;
+  object-fit: cover;
+  border-radius: 10px;
 }
 
 .designOption p {
