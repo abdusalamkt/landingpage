@@ -1,0 +1,482 @@
+/* Main page wrapper */
+.sandwich-page {
+  width: 100%;
+  min-height: 100vh;
+}
+
+/* Header Section */
+.sandwich-header {
+  padding: 90px 50px 20px 50px;
+}
+
+.sandwich-heading-wrapper {
+  text-align: center;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.sandwich-heading {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 3.5rem;
+  font-weight: 400;
+  margin-bottom: 0px;
+  color: #3d3d3d;
+  line-height: 1.1;
+}
+
+.highlight-green {
+  color: #109c5d;
+}
+
+.sandwich-subheading {
+  font-family: 'Poppins', sans-serif;
+  font-size: 16px;
+  color: #3d3d3d;
+  line-height: 1.6;
+  max-width: 1300px;
+  margin: 0 auto;
+}
+
+/* sandwich diagram container */
+.sandwich-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start; 
+  padding: 200px 50px 0px 50px; 
+  min-height: 100vh;
+  position: relative;
+  height: auto; 
+  flex-direction: column; 
+}
+
+.sandwich-center {
+  position: relative;
+  width: 1200px;
+  min-height: 1000px; 
+  max-width: 100%;
+  margin: auto;
+}
+
+.sandwich-image {
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+  border-radius: 10px;
+}
+
+/* sandwich-connection Lines SVG */
+.sandwich-connection-lines {
+  position: absolute;
+  top: 50px;
+  left: 0;
+  width: 100%;
+  height: 70%;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.sandwich-connection-lines circle {
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+}
+
+.sandwich-connection-lines line {
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1));
+}
+
+/* sandwich Items */
+.sandwich-item {
+  position: absolute;
+  width: 350px;
+  text-align: left;
+  font-weight: 400;
+  z-index: 15;
+  padding: 20px;
+  cursor: default;
+  transform-origin: center;
+  will-change: transform, opacity;
+  
+}
+
+.sandwich-item:hover .sandwich-title {
+  color: #109c5d;
+  transition: color 0.3s ease;
+}
+
+.sandwich-number {
+  font-size: 10rem;
+  font-weight: 900;
+  position: absolute;
+  top: -30px;
+  left: 20px;
+  z-index: 0;
+  opacity: 0.1;
+  user-select: none;
+  color: #000;
+  font-family: 'Bebas Neue', sans-serif;
+  line-height: 140%;
+  text-align: center;
+  vertical-align: middle;
+  pointer-events: none;
+}
+
+.sandwich-content {
+  position: relative;
+  z-index: 2;
+}
+
+.sandwich-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-weight: 400;
+  font-size: 32px;
+  line-height: 100%;
+  /* letter-spacing: 0%; */
+  text-align: center;
+  vertical-align: middle;
+  margin-bottom: 10px;
+  transition: color 0.3s ease;
+}
+
+.sandwich-description {
+  font-size: 14px;
+  color: #3d3d3d;
+  line-height: 1.5;
+  margin: 0;
+  /* text-align: center; */
+}
+
+/* Specific positions around the image */
+.top-center {
+  bottom: 95%;
+  left: 40%;
+  transform: translateX(-50%);
+}
+
+.left-top {
+  top: 0px;
+  right: 75%;
+}
+
+.right-top {
+  top: 0px;
+  left: 75%;
+}
+
+.left-center {
+  top: 25%;
+  right: 75%;
+  transform: translateY(-50%);
+}
+
+.right-center {
+  top: 25%;
+  left: 75%;
+  transform: translateY(-50%);
+}
+
+.left-bottom {
+  top: 55%;
+  right: 75%;
+}
+
+.right-bottom {
+  top: 55%;
+  left: 75%;
+}
+
+.bottom-center {
+  bottom: 15%;
+  left: 40%;
+  transform: translateX(-50%);
+}
+
+/* Responsive Design */
+@media (max-width: 1400px) {
+  
+  .sandwich-item {
+    padding: 15px;
+  }
+  
+  .left-top, .left-center, .left-bottom {
+    left: 0px;
+  }
+  
+  .right-top, .right-center, .right-bottom {
+    right: 30px;
+  }
+}
+
+@media (max-width: 1200px) {
+  .sandwich-heading {
+    font-size: 48px;
+  }
+  
+  .sandwich-subheading {
+    font-size: 1rem;
+  }
+  
+  .sandwich-center {
+    width: 800px;
+    height: 600px;
+  }
+  
+  .sandwich-item {
+    width: 200px;
+    padding: 12px;
+  }
+  
+  .sandwich-title {
+    font-size: 0.95rem;
+  }
+  
+  .sandwich-description {
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 900px) {
+  .sandwich-header {
+    padding: 60px 30px 40px 30px;
+  }
+  
+  .sandwich-heading {
+    font-size: 40px;
+  }
+  
+  .sandwich-center {
+    width: 600px;
+    height: 500px;
+  }
+  
+  .sandwich-item {
+    width: 160px;
+    padding: 10px;
+  }
+  
+  .left-top, .left-center, .left-bottom {
+    left: 10px;
+  }
+  
+  .right-top, .right-center, .right-bottom {
+    right: 10px;
+  }
+}
+
+@media (max-width: 768px) {
+  .sandwich-header {
+    padding: 40px 20px 30px 20px;
+  }
+  
+  .sandwich-heading {
+    font-size: 32px;
+  }
+  
+  .sandwich-subheading {
+    font-size: 0.9rem;
+  }
+  
+  .sandwich-container {
+    padding: 10px 10px;
+  }
+  
+  .sandwich-center {
+    width: 100%;
+    height: 400px;
+  }
+  
+  .sandwich-item {
+    width: 140px;
+    padding: 8px;
+    font-size: 0.8rem;
+  }
+  
+  .sandwich-title {
+    font-size: 0.8rem;
+    margin-bottom: 5px;
+  }
+  
+  .sandwich-description {
+    font-size: 0.7rem;
+  }
+  
+  .sandwich-number {
+    font-size: 2.5rem;
+  }
+  
+  .sandwich-image {
+    width: 50vw;
+    height: 50vh;
+  }
+  
+  .sandwich-connection-lines {
+    display: none; /* Hide lines on mobile for clarity */
+  }
+}
+
+/* Image Reveal Slider Styles */
+.sandwich-image-reveal-container {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 60%;
+  height: 640px;
+  /* border-radius: 10px; */
+  overflow: hidden;
+  z-index: 10;
+  touch-action: none;
+}
+
+.sandwich-image-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+ height: 80%;
+}
+
+.sandwich-mask-layer {
+  z-index: 2;
+  overflow: hidden;
+  /* transition: clip-path 0.2s ease; */
+}
+
+.sandwich-image-fill {
+  object-fit: cover;
+}
+
+.sandwich-image-reveal-slider {
+  position: absolute;
+  top: 0;
+  width: 4px;
+  height: 100%;
+  background: white;
+  z-index: 333;
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+  .sandwich-image-reveal-container {
+    width: 250px;
+    height: 500px;
+  }
+}
+
+@media (max-width: 900px) {
+  .sandwich-image-reveal-container {
+    width: 200px;
+    height: 400px;
+  }
+}
+
+@media (max-width: 768px) {
+  .sandwich-image-reveal-container {
+    width: 50vw;
+    height: 50vh;
+  }
+}
+
+/* -------------------------
+   FORCE SINGLE CENTERED COLUMN
+   Paste at the END of sandwich.css
+   ------------------------- */
+@media (max-width: 900px) {
+  /* make the container a centered column */
+  .sandwich-center {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    position: relative !important;
+    width: 100% !important;
+    min-height: auto !important;
+    height: auto !important;
+    padding: 0 !important;
+  }
+
+  /* hide decorative sandwich-connection lines on small screens */
+  .sandwich-connection-lines {
+    display: none !important;
+  }
+
+  /* reset all placement classes so nothing stays absolute */
+  .sandwich-item,
+  .top-center, .left-top, .right-top,
+  .left-center, .right-center,
+  .left-bottom, .right-bottom,
+  .bottom-center {
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    right: auto !important;
+    bottom: auto !important;
+    transform: none !important;
+    margin: 0 auto !important;
+    width: 100% !important;
+    max-width: 420px !important;
+    box-sizing: border-box !important;
+  }
+
+  /* style each item as a centered stacked card */
+  .sandwich-item {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center !important;
+    padding: 14px 18px !important;
+    background: transparent; /* change to white and add shadow if you want card look */
+    border-radius: 8px !important;
+    z-index: 20 !important;
+  }
+
+  /* small visual tweaks for the content */
+  .sandwich-number {
+    position: relative !important;
+    top: 80px !important;
+    left: -60px !important;
+    margin: 0 0 8px 0 !important;
+    font-size: 5.6rem !important;
+    opacity: 0.08 !important;
+    line-height: 1 !important;
+  }
+
+  .sandwich-title {
+    font-size: 24px !important;
+    margin: 6px 0 !important;
+  }
+
+  .sandwich-description {
+    font-size: 0.95rem !important;
+    line-height: 1.4 !important;
+    max-width: 95% !important;
+    margin-bottom: 6px !important;
+  }
+
+  
+}
+
+/* extra safety for very small phones */
+@media (max-width: 480px) {
+  .sandwich-description { font-size: 0.88rem !important; }
+  .image-reveal-container { height: 800px !important;
+  z-index: 9999; }
+}
+@media (max-width: 900px) {
+  /* Move image reveal slider after all sandwich items */
+  .image-reveal-container {
+    position: relative !important; /* remove absolute positioning */
+    top: auto !important;
+    left: auto !important;
+    transform: none !important;
+    margin: 20px auto 0 auto !important; /* spacing from items */
+    width: 50% !important; /* full width for mobile */
+    height: 600px !important; /* adjust height for mobile */
+    z-index: 10 !important;
+    cursor: default !important;
+  }
+}
+

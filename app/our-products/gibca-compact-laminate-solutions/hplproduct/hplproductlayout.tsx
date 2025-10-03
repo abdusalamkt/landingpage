@@ -6,7 +6,7 @@ import dynamic from 'next/dynamic';
 import styles from './hplproduct.module.css';
 import Header from '@/app/components/Header';
 import Footer from '@/app/components/Footer';
-// import SandwichPanelsComparison from './whySandwich';
+import SandwichPanelsComparison from './whySandwich';
 
 // Add this component after the imports and before the main layout
 const LockingOptionsSection = () => {
@@ -438,6 +438,8 @@ export default function HplProductLayout({ fields, faqData = [], downloadData = 
       )}
       {currentSlug === 'integrated-panel-systems' && <ComparisonSection />}
       {currentSlug === 'locker-systems' && <LockingOptionsSection />}
+      {currentSlug === 'washroom-cubicles' && <SandwichPanelsComparison />}
+
       
 
       {/* Customization Options */}
@@ -505,8 +507,6 @@ export default function HplProductLayout({ fields, faqData = [], downloadData = 
           )}
         </section>
       )}
-
-
       {/* Carousel */}
       {showCarousel && <ProductCarousel carouselData={carouselData} sectionTitle={fields.outdoorProductOptionsTitle || ''} />}
       {/* <SandwichPanelsComparison/> */}

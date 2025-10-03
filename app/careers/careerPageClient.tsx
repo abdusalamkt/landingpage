@@ -234,7 +234,7 @@ export default function CareerPageClient({ data }: CareerPageProps) {
                       <p className={styles.dropText}>
                         <span className={styles.browseText}>Browse files</span> or drag and drop your CV here *
                       </p>
-                      <p className={styles.fileTypes}>PDF, DOC, DOCX, TXT (Max 5MB)</p>
+                      <p className={styles.fileTypes}>PDF, DOC, DOCX, TXT (Max 2MB)</p>
                     </>
                   ) : (
                     <div className={styles.filePreview}>
