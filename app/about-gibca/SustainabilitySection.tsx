@@ -171,8 +171,9 @@ export default function SustainabilitySection({ fields }: SustainabilitySectionP
                       <Image
                         src={cert.isoImage.sourceUrl}
                         alt={cert.isoImage.altText || cert.title}
-                        width={400}
-                        height={400}
+                        width={800}
+                        height={800}
+                        quality={90}
                         className={styles.certCardImage}
                       />
                     )}
