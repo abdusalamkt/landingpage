@@ -87,9 +87,7 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
       {/* Contact Form Section */}
       <div className="contact-form-section">
         <div className="contact-form-container">
-          <h2 className="form-title">
-            BUILD <span className="highlight">WITH A DIFFERENCE.</span>
-          </h2>
+          <h2 className="form-title">HAVE A SPACE <span className="highlight">REVAMP</span>IN MIND?</h2>
           <p className="form-description">
             We're excited to hear about your project and explore how we can work together.<br />
             Let's start a conversation and turn your vision into reality.
@@ -243,8 +241,7 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         {/* Right Section - 40% */}
         <div className="footer-right">
           <div className="newsletter-section">
-            <h2>HAVE A SPACE <span className="highlight">REVAMP</span></h2>
-            <h2>IN MIND?</h2>
+            <h2>BUILD WITH A <span className="highlight">DIFFERENCE.</span></h2>
             <form className="newsletter-form" onSubmit={handleNewsletterSubmit}>
           <input
             type="email"
