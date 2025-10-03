@@ -10,7 +10,7 @@ import { OBJLoader } from "three/examples/jsm/loaders/OBJLoader.js";
 import { useLoader } from "@react-three/fiber";
 import * as THREE from "three";
 
-const WORDPRESS_API_URL = process.env.NEXT_PUBLIC_WORDPRESS_GRAPHQL_URL || 'https://test.shopgfiuae.com/graphql';
+const WORDPRESS_API_URL = process.env.WORDPRESS_GRAPHQL_ENDPOINT as string;
 
 // Types for ACF data structure
 interface MediaDetails {

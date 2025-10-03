@@ -53,7 +53,7 @@ export default function BlogsPage() {
 
   // Filter posts by selectedTag
   const filteredPosts = posts
-  .filter((post) => post.blogPostFields.categoryLabel == 'Press Release') // Exclude Media posts
+  .filter((post) => post.blogPostFields?.categoryLabel === 'Press Release') // Use strict equality
   .filter((post) => {
     if (!selectedTag) return true;
     const rawTags = post.blogPostFields?.productTags || '';
@@ -114,6 +114,7 @@ export default function BlogsPage() {
                         onLoad={() => handleImageLoad(post.id)}
                         placeholder="blur"
                         blurDataURL="/placeholder.jpg"
+                        quality={90}
                       />
                     )}
                     <div className={styles.overlayTags}>

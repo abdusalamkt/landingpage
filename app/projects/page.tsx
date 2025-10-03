@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState, useRef } from 'react';
 import Image from 'next/image';
-import './projects.css';
+import styles from './projects.module.css';
 
 // Types
 type WordPressImage = { sourceUrl: string; altText: string };
@@ -29,7 +29,7 @@ export default function ProjectsPage() {
   const [projects, setProjects] = useState<Project[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
-  const [modalImage, setModalImage] = useState<{ src: string; alt: string; title: string } | null>(null);
+  const [modalImage, setModalImage] = useState<{ src: string; alt: string; title: string; index: number } | null>(null);
 
   // Changed to arrays for multi-select
   const [selectedProducts, setSelectedProducts] = useState<string[]>([]);
@@ -45,15 +45,15 @@ export default function ProjectsPage() {
 
   const productDropdownRef = useRef<HTMLDivElement | null>(null);
   const sectorDropdownRef = useRef<HTMLDivElement | null>(null);
-  const shuffleArray = <T,>(array: T[]): T[] => {
-  const newArray = [...array];
-  for (let i = newArray.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
-  }
-  return newArray;
-};
 
+  const shuffleArray = <T,>(array: T[]): T[] => {
+    const newArray = [...array];
+    for (let i = newArray.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+    }
+    return newArray;
+  };
 
   const GRAPHQL_QUERY = `
     query GetAllProjectImages {
@@ -75,6 +75,100 @@ export default function ProjectsPage() {
       }
     }
   `;
+
+  const transformWordPressData = (wpProjects: WordPressProject[]): Project[] => {
+    const transformed: Project[] = [];
+
+    wpProjects.forEach((wpProject, projectIndex) => {
+      const title = wpProject.title;
+      const sections = wpProject.projectGalleryFields?.gallerySections || [];
+
+      sections.forEach((section, sectionIndex) => {
+        const sectorNames = section.sector?.map(s => s.name) || [];
+
+        section.images?.forEach((image, imageIndex) => {
+          const uniqueId = `${title}-${projectIndex}-${sectionIndex}-${imageIndex}`;
+          transformed.push({
+            id: uniqueId,
+            title,
+            image: image.sourceUrl,
+            sectors: sectorNames,
+            product: title,
+            altText: image.altText || title,
+            loaded: false
+          });
+        });
+      });
+    });
+
+    return transformed;
+  };
+
+  const allProducts = useMemo(() => {
+    return [...new Set(projects.map(p => p.product))];
+  }, [projects]);
+
+  const filteredSectors = useMemo(() => {
+    if (!selectedProducts.length) {
+      return [];
+    }
+    return [...new Set(
+      projects
+        .filter(p => selectedProducts.includes(p.product))
+        .flatMap(p => p.sectors)
+    )];
+  }, [selectedProducts, projects]);
+
+  const filteredProjects = useMemo(() => {
+    return projects.filter(p => {
+      const productMatch = filterProducts.length === 0 || filterProducts.includes(p.product);
+      const sectorMatch = filterSectors.length === 0 || p.sectors.some(sector => filterSectors.includes(sector));
+      return productMatch && sectorMatch;
+    });
+  }, [projects, filterProducts, filterSectors]);
+
+  const displayedProjects = useMemo(() => {
+    return filteredProjects.slice(0, displayedCount);
+  }, [filteredProjects, displayedCount]);
+
+  const hasMore = displayedCount < filteredProjects.length;
+
+  // Modal functionality
+  const openModal = (src: string, alt: string, title: string, index: number) => {
+    setModalImage({ src, alt, title, index });
+    document.body.style.overflow = 'hidden';
+  };
+
+  const closeModal = () => {
+    setModalImage(null);
+    document.body.style.overflow = 'auto';
+  };
+
+  const navigatePrevious = () => {
+    if (modalImage && modalImage.index > 0) {
+      const prevIndex = modalImage.index - 1;
+      const prevProject = displayedProjects[prevIndex];
+      setModalImage({
+        src: prevProject.image,
+        alt: prevProject.altText || prevProject.title,
+        title: prevProject.title,
+        index: prevIndex
+      });
+    }
+  };
+
+  const navigateNext = () => {
+    if (modalImage && modalImage.index < displayedProjects.length - 1) {
+      const nextIndex = modalImage.index + 1;
+      const nextProject = displayedProjects[nextIndex];
+      setModalImage({
+        src: nextProject.image,
+        alt: nextProject.altText || nextProject.title,
+        title: nextProject.title,
+        index: nextIndex
+      });
+    }
+  };
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -111,7 +205,7 @@ export default function ProjectsPage() {
         const result: GraphQLResponse = await response.json();
         if (!result.data?.projects?.nodes) throw new Error('No data returned');
         const transformed = shuffleArray(transformWordPressData(result.data.projects.nodes));
-setProjects(transformed);
+        setProjects(transformed);
 
       } catch (err) {
         console.error(err);
@@ -124,90 +218,27 @@ setProjects(transformed);
     fetchProjects();
   }, []);
 
-  // Modal functionality
-  const openModal = (src: string, alt: string, title: string) => {
-    setModalImage({ src, alt, title });
-    document.body.style.overflow = 'hidden';
-  };
-
-  const closeModal = () => {
-    setModalImage(null);
-    document.body.style.overflow = 'auto';
-  };
-
-  // Handle ESC key to close modal
   useEffect(() => {
-    const handleEsc = (event: KeyboardEvent) => {
-      if (event.key === 'Escape' && modalImage) {
+    const handleKeyPress = (event: KeyboardEvent) => {
+      if (!modalImage) return;
+
+      if (event.key === 'Escape') {
         closeModal();
+      } else if (event.key === 'ArrowLeft') {
+        navigatePrevious();
+      } else if (event.key === 'ArrowRight') {
+        navigateNext();
       }
     };
 
     if (modalImage) {
-      document.addEventListener('keydown', handleEsc);
+      document.addEventListener('keydown', handleKeyPress);
     }
 
     return () => {
-      document.removeEventListener('keydown', handleEsc);
+      document.removeEventListener('keydown', handleKeyPress);
     };
-  }, [modalImage]);
-
-  const transformWordPressData = (wpProjects: WordPressProject[]): Project[] => {
-    const transformed: Project[] = [];
-
-    wpProjects.forEach((wpProject, projectIndex) => {
-      const title = wpProject.title;
-      const sections = wpProject.projectGalleryFields?.gallerySections || [];
-
-      sections.forEach((section, sectionIndex) => {
-        const sectorNames = section.sector?.map(s => s.name) || [];
-
-        section.images?.forEach((image, imageIndex) => {
-          const uniqueId = `${title}-${projectIndex}-${sectionIndex}-${imageIndex}`;
-          transformed.push({
-            id: uniqueId,
-            title,
-            image: image.sourceUrl,
-            sectors: sectorNames,
-            product: title,
-            altText: image.altText || title,
-            loaded: false
-          });
-        });
-      });
-    });
-
-    return transformed;
-  };
-
-  const allProducts = useMemo(() => {
-    return [...new Set(projects.map(p => p.product))];
-  }, [projects]);
-
-  const filteredSectors = useMemo(() => {
-    if (!selectedProducts.length) {
-      return []; // Don't show any sectors if no product is selected
-    }
-    return [...new Set(
-      projects
-        .filter(p => selectedProducts.includes(p.product))
-        .flatMap(p => p.sectors)
-    )];
-  }, [selectedProducts, projects]);
-
-  const filteredProjects = useMemo(() => {
-    return projects.filter(p => {
-      const productMatch = filterProducts.length === 0 || filterProducts.includes(p.product);
-      const sectorMatch = filterSectors.length === 0 || p.sectors.some(sector => filterSectors.includes(sector));
-      return productMatch && sectorMatch;
-    });
-  }, [projects, filterProducts, filterSectors]);
-
-  const displayedProjects = useMemo(() => {
-    return filteredProjects.slice(0, displayedCount);
-  }, [filteredProjects, displayedCount]);
-
-  const hasMore = displayedCount < filteredProjects.length;
+  }, [modalImage, displayedProjects]);
 
   const loadMore = () => {
     setDisplayedCount(prev => prev + 18);
@@ -227,32 +258,28 @@ setProjects(transformed);
     setTooltip({ visible: false, x: 0, y: 0, projectId: '' });
   };
 
-  // Enhanced dropdown handlers
   const handleProductDropdownToggle = () => {
     setShowProductDropdown(!showProductDropdown);
-    setShowSectorDropdown(false); // Close sector dropdown when opening product dropdown
+    setShowSectorDropdown(false);
   };
 
   const handleSectorDropdownToggle = () => {
-    // Only allow sector dropdown to open if at least one product is selected
     if (selectedProducts.length > 0) {
       setShowSectorDropdown(!showSectorDropdown);
-      setShowProductDropdown(false); // Close product dropdown when opening sector dropdown
+      setShowProductDropdown(false);
     }
   };
 
   const handleProductSelect = (product: string) => {
     if (product === '') {
-      // "All Products" selected - reset both products and sectors
       setSelectedProducts([]);
-      setSelectedSectors([]); // Reset sectors when "All Products" is selected
+      setSelectedSectors([]);
     } else {
       setSelectedProducts(prev => {
         if (prev.includes(product)) {
-          // If product is being unselected, reset sectors
           const newProducts = prev.filter(p => p !== product);
           if (newProducts.length === 0) {
-            setSelectedSectors([]); // Reset sectors if no products left
+            setSelectedSectors([]);
           }
           return newProducts;
         } else {
@@ -264,7 +291,6 @@ setProjects(transformed);
 
   const handleSectorSelect = (sector: string) => {
     if (sector === '') {
-      // "All Sectors" selected
       setSelectedSectors([]);
     } else {
       setSelectedSectors(prev => {
@@ -281,7 +307,6 @@ setProjects(transformed);
     setFilterProducts(selectedProducts);
     setFilterSectors(selectedSectors);
     setDisplayedCount(18);
-    // Close both dropdowns after applying
     setShowProductDropdown(false);
     setShowSectorDropdown(false);
   };
@@ -292,7 +317,6 @@ setProjects(transformed);
     setFilterProducts([]);
     setFilterSectors([]);
     setDisplayedCount(18);
-    // Close both dropdowns after clearing
     setShowProductDropdown(false);
     setShowSectorDropdown(false);
   };
@@ -305,26 +329,25 @@ setProjects(transformed);
     );
   };
 
-  const handleImageClick = (project: Project) => {
-    openModal(project.image, project.altText || project.title, project.title);
+  const handleImageClick = (project: Project, index: number) => {
+    openModal(project.image, project.altText || project.title, project.title, index);
   };
 
-  // Helper functions for display tags
   const getProductDisplayTags = () => {
     if (selectedProducts.length === 0) {
-      return <span className="placeholder-text">All Products</span>;
+      return <span className={styles['placeholder-text']}>All Products</span>;
     }
     return (
-      <div className="selected-tags">
+      <div className={styles['selected-tags']}>
         {selectedProducts.map((p) => (
-          <span key={p} className="tag">
+          <span key={p} className={styles.tag}>
             {p}
             <button
               type="button"
-              className="tag-remove"
+              className={styles['tag-remove']}
               onClick={(e) => {
-                e.stopPropagation(); // prevent dropdown toggle
-                handleProductSelect(p); // removes it
+                e.stopPropagation();
+                handleProductSelect(p);
               }}
             >
               ×
@@ -344,17 +367,16 @@ setProjects(transformed);
     return `${selectedSectors.length} Sectors Selected`;
   };
 
-  // Skeleton loader component
   const SkeletonLoader = ({ count = 18 }: { count?: number }) => {
     return (
-      <div className="gallery-grid">
+      <div className={styles['gallery-grid']}>
         {Array.from({ length: count }).map((_, index) => {
           const sizeVariants = ['wide', 'tall', 'big', ''];
           const sizeClass = sizeVariants[index % sizeVariants.length];
           
           return (
-            <div key={`skeleton-${index}`} className={`gallery-card ${sizeClass} skeleton-card`}>
-              <div className="skeleton-animation"></div>
+            <div key={`skeleton-${index}`} className={`${styles['gallery-card']} ${styles[sizeClass]} ${styles['skeleton-card']}`}>
+              <div className={styles['skeleton-animation']}></div>
             </div>
           );
         })}
@@ -364,25 +386,25 @@ setProjects(transformed);
 
   return (
     <>
-      <div className="projects-gallery-container">
-        <h1 className="gallery-title">GALLERY</h1>
-        <div className="description"></div>
+      <div className={styles['projects-gallery-container']}>
+        <h1 className={styles['gallery-title']}>GALLERY</h1>
+        <div className={styles.description}></div>
 
         {/* Filter UI */}
-        <div className="filter-bar">
-          <div className="filter-dropdown-wrapper" ref={productDropdownRef}>
+        <div className={styles['filter-bar']}>
+          <div className={styles['filter-dropdown-wrapper']} ref={productDropdownRef}>
             <div
-              className={`filter-dropdown ${showProductDropdown ? 'open' : ''}`}
+              className={`${styles['filter-dropdown']} ${showProductDropdown ? styles.open : ''}`}
               onClick={handleProductDropdownToggle}
             >
               {getProductDisplayTags()}
-              <span className="filter-dropdown-arrow">{showProductDropdown ? '▲' : '▼'}</span>
+              <span className={styles['filter-dropdown-arrow']}>{showProductDropdown ? '▲' : '▼'}</span>
             </div>
 
             {showProductDropdown && (
-              <ul className="filter-dropdown-options">
+              <ul className={styles['filter-dropdown-options']}>
                 <li
-                  className={selectedProducts.length === 0 ? 'selected' : ''}
+                  className={selectedProducts.length === 0 ? styles.selected : ''}
                   onClick={() => handleProductSelect('')}
                 >
                   <input 
@@ -395,7 +417,7 @@ setProjects(transformed);
                 {allProducts.map(p => (
                   <li
                     key={p}
-                    className={selectedProducts.includes(p) ? 'selected' : ''}
+                    className={selectedProducts.includes(p) ? styles.selected : ''}
                     onClick={() => handleProductSelect(p)}
                   >
                     <input 
@@ -410,23 +432,23 @@ setProjects(transformed);
             )}
           </div>
 
-          <div className="filter-dropdown-wrapper" ref={sectorDropdownRef}>
+          <div className={styles['filter-dropdown-wrapper']} ref={sectorDropdownRef}>
             <div
-              className={`filter-dropdown ${showSectorDropdown ? 'open' : ''} ${
-                selectedProducts.length === 0 ? 'disabled' : ''
+              className={`${styles['filter-dropdown']} ${showSectorDropdown ? styles.open : ''} ${
+                selectedProducts.length === 0 ? styles.disabled : ''
               }`}
               onClick={handleSectorDropdownToggle}
             >
               {getSectorDisplayText()}
-              <span className="filter-dropdown-arrow">
+              <span className={styles['filter-dropdown-arrow']}>
                 {selectedProducts.length > 0 ? (showSectorDropdown ? '▲' : '▼') : '▼'}
               </span>
             </div>
 
             {showSectorDropdown && selectedProducts.length > 0 && (
-              <ul className="filter-dropdown-options">
+              <ul className={styles['filter-dropdown-options']}>
                 <li
-                  className={selectedSectors.length === 0 ? 'selected' : ''}
+                  className={selectedSectors.length === 0 ? styles.selected : ''}
                   onClick={() => handleSectorSelect('')}
                 >
                   <input 
@@ -439,7 +461,7 @@ setProjects(transformed);
                 {filteredSectors.map(s => (
                   <li
                     key={s}
-                    className={selectedSectors.includes(s) ? 'selected' : ''}
+                    className={selectedSectors.includes(s) ? styles.selected : ''}
                     onClick={() => handleSectorSelect(s)}
                   >
                     <input 
@@ -454,8 +476,8 @@ setProjects(transformed);
             )}
           </div>
 
-          <button onClick={handleApply} className="filter-apply-btn">APPLY</button>
-          <button onClick={handleClearFilters} className="filter-clear-btn">↺</button>
+          <button onClick={handleApply} className={styles['filter-apply-btn']}>APPLY</button>
+          <button onClick={handleClearFilters} className={styles['filter-clear-btn']}>↺</button>
         </div>
 
         {/* Loading state */}
@@ -463,7 +485,7 @@ setProjects(transformed);
 
         {/* Gallery Grid */}
         {!loading && (
-          <div className="gallery-grid">
+          <div className={styles['gallery-grid']}>
             {displayedProjects.length ? (
               displayedProjects.map((project, index) => {
                 const sizeVariants = ['wide', 'tall', 'big', ''];
@@ -472,15 +494,15 @@ setProjects(transformed);
                 return (
                   <div
                     key={project.id}
-                    className={`gallery-card ${sizeClass} ${project.loaded ? 'loaded' : 'loading'}`}
+                    className={`${styles['gallery-card']} ${styles[sizeClass]} ${project.loaded ? styles.loaded : styles.loading}`}
                     onMouseMove={e => handleMouseMove(e, project.id)}
                     onMouseLeave={handleMouseLeave}
-                    onClick={() => handleImageClick(project)}
+                    onClick={() => handleImageClick(project, index)}
                   >
                     {!project.loaded && (
-                      <div className="image-loading-overlay"></div>
+                      <div className={styles['image-loading-overlay']}></div>
                     )}
-                    <div className="image-wrapper">
+                    <div className={styles['image-wrapper']}>
                       <Image
                         src={project.image}
                         alt={project.altText || project.title}
@@ -488,18 +510,18 @@ setProjects(transformed);
                         style={{ objectFit: 'cover' }}
                         quality={80}
                         onLoadingComplete={() => handleImageLoad(project.id)}
-                        priority={index < 6} // Prioritize loading first few images
+                        priority={index < 6}
                       />
                     </div>
 
                     {/* Tooltip */}
                     {tooltip.visible && tooltip.projectId === project.id && (
                       <div
-                        className="cursor-tooltip"
+                        className={styles['cursor-tooltip']}
                         style={{ left: tooltip.x - 60, top: tooltip.y, position: 'absolute', zIndex: 1000 }}
                       >
-                        <div className="tooltip-content">
-                          <h3 className="tooltip-title">{project.title}</h3>
+                        <div className={styles['tooltip-content']}>
+                          <h3 className={styles['tooltip-title']}>{project.title}</h3>
                           <p>{project.sectors.join(', ')}</p>
                         </div>
                       </div>
@@ -515,35 +537,60 @@ setProjects(transformed);
 
         {/* Load More */}
         {hasMore && !loading && (
-          <div className="load-more-container">
-            <button onClick={loadMore} className="load-more-btn">
+          <div className={styles['load-more-container']}>
+            <button onClick={loadMore} className={styles['load-more-btn']}>
               Load More
             </button>
           </div>
         )}
 
-        {/* Fullscreen Modal */}
+        {/* Fullscreen Modal with Navigation */}
         {modalImage && (
-          <div className="fullscreen-modal active">
-            <div className="modal-backdrop" onClick={closeModal}></div>
-            <button className="modal-close" onClick={closeModal} aria-label="Close">
+          <div className={`${styles['fullscreen-modal']} ${styles.active}`}>
+            <div className={styles['modal-backdrop']} onClick={closeModal}></div>
+            
+            <button className={styles['modal-close']} onClick={closeModal} aria-label="Close">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <line x1="18" y1="6" x2="6" y2="18"></line>
                 <line x1="6" y1="6" x2="18" y2="18"></line>
               </svg>
             </button>
-            <div className="modal-image-wrapper">
+
+            {/* Previous Button */}
+            {modalImage.index > 0 && (
+              <button 
+                className={`${styles['modal-nav-btn']} ${styles['modal-prev-btn']}`} 
+                onClick={navigatePrevious}
+                aria-label="Previous image"
+              >
+                ❮
+              </button>
+            )}
+
+            {/* Next Button */}
+            {modalImage.index < displayedProjects.length - 1 && (
+              <button 
+                className={`${styles['modal-nav-btn']} ${styles['modal-next-btn']}`} 
+                onClick={navigateNext}
+                aria-label="Next image"
+              >
+                ❯
+              </button>
+            )}
+
+            <div className={styles['modal-content']}>
               <Image
                 src={modalImage.src}
                 alt={modalImage.alt}
                 fill
                 style={{ objectFit: 'contain' }}
-                quality={100}
-                priority
+                quality={90}
+                sizes="90vw"
               />
-            </div>
-            <div className="modal-info">
-              <h3 className="modal-title">{modalImage.title}</h3>
+              <div className={styles['modal-caption']}>
+                <h3>{modalImage.title}</h3>
+                <p>{modalImage.alt}</p>
+              </div>
             </div>
           </div>
         )}

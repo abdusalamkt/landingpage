@@ -1,7 +1,6 @@
-// app/service-maintenance/Hero.tsx
-'use client'; // Only if needed (e.g for animations or interactivity)
+'use client';
 
-import './hero.css';
+import styles from './Hero.module.css';
 
 interface HeroProps {
   title?: string;
@@ -13,15 +12,15 @@ interface HeroProps {
 export default function Hero({ title, highlight, description, bgImage }: HeroProps) {
   return (
     <section
-      className="hero-container"
+      className={styles.heroContainer}
       style={{ backgroundImage: `url(${bgImage})` }}
     >
-      <div className="hero-overlay">
-        <div className="hero-content">
-          <h1 className="hero-title">
-            {title} <span className="highlight-heading">{highlight}</span>
+      <div className={styles.heroOverlay}>
+        <div className={styles.heroContent}>
+          <h1 className={styles.heroTitle}>
+            {title} <span className={styles.highlightHeading}>{highlight}</span>
           </h1>
-          <p className="hero-description">{description}</p>
+          <p className={styles.heroDescription}>{description}</p>
         </div>
       </div>
     </section>

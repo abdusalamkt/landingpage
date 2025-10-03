@@ -52,10 +52,6 @@ const LockingOptionsSection = () => {
     <section className={styles.lockingOptionsSection}>
       <div className={styles.lockingHeader}>
         <div className={styles.headerWithIcon}>
-          <svg className={styles.lockIcon} width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
-            <path d="M2 17l10 5 10-5M2 12l10 5 10-5"/>
-          </svg>
           <h2>SELECT YOUR <span className={styles.greenText}>LOCKING</span> OPTION</h2>
         </div>
         <p className={styles.lockingSubtitle}>ADDITIONAL LOCK OPTIONS AVAILABLE UPON REQUEST</p>
