@@ -151,7 +151,7 @@ return (
 <div className={styles.comparisonHeader}>
 <h2>Why choose our IPS Panels over traditional walls for your cubicles?</h2>
 <p>
-Below are 7 reasons why you should no longer consider our IPS wall panels to hide your plumbing solution!
+Below are 7 reasons why you should consider our IPS wall panels to hide your plumbing solution!
 </p>
 </div>
 
