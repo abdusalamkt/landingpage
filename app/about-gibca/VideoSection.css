@@ -6,7 +6,7 @@
   border-radius: 20px;
   margin: 0 auto;
   max-width: 1400px;
-  box-shadow: -5px 5px 8px rgba(0, 0, 0, 0.418);
+
   background-color: #000; /* Prevent white flash */
 }
 

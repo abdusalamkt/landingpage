@@ -3,7 +3,7 @@
 ;
     flex-direction: row;
     justify-content: space-between;
-    padding: 6rem 4rem 1rem;
+    padding: 6rem 8rem 4rem;
     background-color: #fff;
     gap: 2rem;
     overflow: hidden;
@@ -11,7 +11,7 @@
     max-width: 1400px;
     margin: 0 auto;
     box-shadow: 0 5px 15px #0000000d;
-    border-radius: 8px;
+    border-radius: 32px;
 }
 
 .apart-left {
@@ -275,7 +275,7 @@ text-transform: uppercase;
             display: flex;
             flex-direction: row-reverse; /* This mirrors the layout */
             justify-content: space-between;
-            padding: 6rem 4rem 1rem 4rem;
+            padding: 6rem 8rem 4rem;
             background-color: #fff;
             gap: 2rem;
             overflow: hidden;
@@ -283,7 +283,7 @@ text-transform: uppercase;
             max-width: 1400px;
             margin: 0 auto;
             box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-            border-radius: 8px;
+            border-radius: 32px;
         }
 
         .apart-left-mirror {

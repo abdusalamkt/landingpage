@@ -22,8 +22,8 @@ const hardcodedFields = {
     sourceUrl: "/placeholder-hero.jpg",
     altText: "Hero background"
   },
-  whysandwichTitle: "why sandwich panels are an ideal choice for your space!",
-  whysandwichDescription: "our sandwich panels open up new possibilities, giving architects, designers, and clients a stronger and smarter choice that 13mm panels cannot match. ",
+  whysandwichTitle: "why sandwich panels are an ideal choice for your space?",
+  whysandwichDescription: "Our sandwich panels open up new possibilities, giving architects, designers, and clients a stronger and smarter choice that 13mm panels cannot match. ",
   whysandwichImageBefore: {
     sourceUrl: "/finishes/SANDWHICH.png", 
     altText: "Before sandwich"
@@ -73,7 +73,7 @@ const hardcodedFields = {
     },
     {
       title: "Quick & Clean Installation",
-      description: "Even with the added strength, the system is designed for efficiency. Panels install faster with fewer visible joints, keeping projects on track",
+      description: "Even with the added strength, the system is designed for efficiency. Panels install faster with fewer visible joints, keeping projects on track.",
       position: "bottom-center",
       level: 3
     }

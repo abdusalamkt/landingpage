@@ -542,7 +542,7 @@
 
 /* Combined Customization Section - Dark Theme */
 .customizationSection {
-  padding: 5rem 2rem;
+  padding: 3rem 2rem;
   position: relative;
   overflow: hidden;
   isolation: isolate;
@@ -595,7 +595,8 @@
 .tabsContainer {
   display: flex;
   transform: translateZ(0);
-  height: 85vh;
+  /* height: 85vh; */
+  padding-bottom: 40px;
   gap: 20px;
 }
 

@@ -122,6 +122,9 @@
   transform: translateX(20px);
   transition: all 0.8s ease-out 0.4s;
 }
+.timelinePoint p{
+  hyphens: none;
+}
 
 .timelineItem.visible .timelinePoint {
   opacity: 1;
