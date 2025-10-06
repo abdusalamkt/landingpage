@@ -50,10 +50,24 @@ const FloatingSidebar = () => {
             </a>
           </li>
           <li>
-            <a href="mailto:marketing@gfiuae.com">
-              <span className={styles.tooltip}>Email</span>
-              <FaEnvelope className={styles.icon} />
-            </a>
+            <a
+  href="mailto:marketing@gfiuae.com"
+  onClick={(e) => {
+    e.preventDefault();
+    const link = "mailto:marketing@gfiuae.com";
+    const outlookWeb = "https://outlook.office.com/mail/deeplink/compose?to=marketing@gfiuae.com";
+    const opened = window.open(link);
+    setTimeout(() => {
+      if (!opened || opened.closed || typeof opened.closed === "undefined") {
+        window.open(outlookWeb, "_blank");
+      }
+    }, 600);
+  }}
+>
+  <span className={styles.tooltip}>Email</span>
+  <FaEnvelope className={styles.icon} />
+</a>
+
           </li>
           <li>
             <a href="https://wa.me/971566822479" target="_blank" rel="noopener noreferrer">

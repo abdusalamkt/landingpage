@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import './serviceProgram.css';
+import styles from "./ServiceProgram.module.css";
 import RequestServiceModal from "@/app/components/RequestServiceModal";
 
 const services = [
@@ -30,9 +30,9 @@ export default function ServiceProgram() {
   const [modalOpen, setModalOpen] = useState(false);
 
   return (
-    <section className="service-program-wrapper">
+    <section className={styles.serviceProgramWrapper}>
       <motion.h2
-        className="service-program-title"
+        className={styles.serviceProgramTitle}
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
@@ -42,7 +42,7 @@ export default function ServiceProgram() {
       </motion.h2>
 
       <motion.p
-        className="service-program-description"
+        className={styles.serviceProgramDescription}
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.7, delay: 0.2 }}
@@ -51,7 +51,7 @@ export default function ServiceProgram() {
         Get expert care of your partitions to get maximum performance and longevity with our Service and Maintenance packages! Whether it's emergency support, part replacements, or aesthetic repairs, Gibca has got you covered. 
       </motion.p>
 
-      <div className="service-card-container">
+      <div className={styles.serviceCardContainer}>
         {services.map((item, index) => {
           const variants = {
             hidden:
@@ -69,7 +69,7 @@ export default function ServiceProgram() {
           return (
             <motion.div
               key={index}
-              className="service-card"
+              className={styles.serviceCard}
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true }}
@@ -77,12 +77,12 @@ export default function ServiceProgram() {
               variants={variants}
             >
               {item.recommended && (
-                <div className="ribbon">
+                <div className={styles.ribbon}>
                   <span>RECOMMENDED</span>
                 </div>
               )}
-              <div className="program-number">{item.number}</div>
-              <div className="service-card-content">
+              <div className={styles.programNumber}>{item.number}</div>
+              <div className={styles.serviceCardContent}>
                 <h3>{item.title}</h3>
                 <p>{item.subtitle}</p>
               </div>
@@ -92,16 +92,21 @@ export default function ServiceProgram() {
       </div>
 
       <motion.div
-        className="service-button-group"
+        className={styles.serviceButtonGroup}
         initial={{ opacity: 0, y: 40 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.7 }}
         viewport={{ once: true }}
       >
-        <button className="cta-button service-button" onClick={() => setModalOpen(true)}>
+        <button className="cta-button serviceButton" onClick={() => setModalOpen(true)}>
           REQUEST SERVICE
         </button>
-        <button className="cta-button service-button">DOWNLOAD BROCHURE</button>
+        <button
+  className="cta-button serviceButton"
+  onClick={() => window.location.href = '/contact-us'}
+>
+  SEND INQUIRY
+</button>
       </motion.div>
 
       {/* Render Modal */}

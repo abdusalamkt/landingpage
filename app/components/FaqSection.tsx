@@ -72,7 +72,7 @@ export default function FaqSection({ faqData, theme = 'default' }: FaqSectionPro
           </div>
           <div>
             <span>WhatsApp | </span>
-            <a href="https://wa.me/97167436888">971-6-7436888</a>
+            <a href="https://wa.me/971566822479">971 56 6822479</a>
           </div>
         </div>
       </div>
