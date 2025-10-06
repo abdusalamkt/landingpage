@@ -132,7 +132,7 @@ const GET_WASHROOM_CUBICLES = `
   }
 `;
 
-// Server-side data fetching function
+// Server-side data fetch function
 async function getWashroomCubiclesData(): Promise<WashroomCubiclesField | null> {
   try {
     const res = await fetch(WORDPRESS_API_URL, {
