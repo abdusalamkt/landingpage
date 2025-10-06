@@ -213,6 +213,7 @@ function AnimatedServiceItem({ item, index }: { item: any; index: number }) {
         delay: index * 0.1,
       }}
       whileHover={{
+        cursor: 'default',
         scale: 1.05,
         y: -5,
         transition: { 
