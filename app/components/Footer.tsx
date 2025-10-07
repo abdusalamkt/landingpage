@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import './Footer.css';
 import Link from 'next/link';
+import { PanelBottom } from 'lucide-react';
 
 const Footer: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -87,7 +88,7 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
       {/* Contact Form Section */}
       <div className="contact-form-section">
         <div className="contact-form-container">
-          <h2 className="form-title">HAVE A SPACE <span className="highlight">REVAMP</span>IN MIND?</h2>
+          <h2 className="form-title">HAVE A SPACE <span className="highlight">REVAMP </span>IN MIND?</h2>
           <p className="form-description">
             We're excited to hear about your project and explore how we can work together.<br />
             Let's start a conversation and turn your vision into reality.
