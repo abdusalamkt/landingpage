@@ -3,7 +3,7 @@
 import React, { Suspense, useRef, useState, useEffect } from "react";
 import styles from "./Page.module.css";
 import Image from "next/image";
-import { Canvas } from "@react-three/fiber";
+import { Canvas, useFrame } from "@react-three/fiber";
 import { OrbitControls, Environment } from "@react-three/drei";
 import { MTLLoader } from "three/examples/jsm/loaders/MTLLoader.js";
 import { OBJLoader } from "three/examples/jsm/loaders/OBJLoader.js";
@@ -11,6 +11,7 @@ import { useLoader } from "@react-three/fiber";
 import * as THREE from "three";
 
 const WORDPRESS_API_URL = process.env.WORDPRESS_GRAPHQL_ENDPOINT as string;
+
 // Types for ACF data structure
 interface MediaDetails {
   width: number;
@@ -132,7 +133,7 @@ const GET_WASHROOM_CUBICLES = `
   }
 `;
 
-// Server-side data fetch function
+// Server-side data fetching function
 async function getWashroomCubiclesData(): Promise<WashroomCubiclesField | null> {
   try {
     const res = await fetch(WORDPRESS_API_URL, {
@@ -365,136 +366,18 @@ function ChildrenClientFeatures({ acfData }: { acfData: WashroomCubiclesField })
 
       {/* Choices Header Section */}
       <section className={styles.choicesSection}>
-        <div className={styles.choicesHeader}>
-          <h2>{acfData.choicesToAddHeading || "CHOICES TO ADD"}</h2>
-          <p className={styles.choicesDescription}>
-            {acfData.description || "Explore our wide range of premium finishes and customization options to create washroom cubicles that perfectly match your design vision and functional requirements."}
-          </p>
-        </div>
-      </section>
+  <div className={styles.choicesHeader}>
+    <h2> Endless Customization Options</h2>
+    <p className={styles.choicesDescription}>
+    From design to functionality — we offer a wide range of custom solutions tailored to your needs. Get in touch with our team to discuss your perfect fit.
+    </p>
+    <a href="/contact-us" className={styles.contactButton}>
+      Contact Our Team
+    </a>
+  </div>
+</section>
 
-      {/* Finishes Section */}
-      <section className={styles.customizationOption}>
-        <div className={styles.customizationHeader}>
-          <h2>CHOOSE FROM OUR DIFFERENT FINISHES</h2>
-        </div>
-        <p className={styles.customDescription}>CUSTOM FINISHES AVAILABLE UPON REQUEST</p>
-        <div className={styles.finishes}>
-          {acfData.finishes && acfData.finishes.map((finish, index) => (
-            <div key={index} className={styles.finishCard}>
-              <p>{finish.title}</p>
-              <div className={styles.finishImageContainer}>
-                {finish.image && (
-                  <Image 
-                    src={finish.image.sourceUrl} 
-                    alt={finish.image.altText || finish.title} 
-                    width={finish.image.mediaDetails?.width || 200} 
-                    height={finish.image.mediaDetails?.height || 350}
-                    className={styles.finishImage}
-                  />
-                )}
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
 
-      {/* Customized Pattern Section */}
-      {acfData.customizedPatternImages && acfData.customizedPatternImages.length > 0 && (
-        <section className={styles.customPatternSection}>
-          <div className={styles.customizationHeader}>
-            <h2>CUSTOMIZED PATTERN</h2>
-          </div>
-          <p className={styles.customPatternDescription}>PATTERN CAN BE CUSTOMIZED UPON REQUEST</p>
-          <div className={styles.customPatternContainer}>
-            <div className={styles.sliderContainer}>
-              <div 
-                className={styles.customPatternImageWrapper}
-                ref={imageRef}
-                onMouseMove={handleMouseMove}
-                onMouseEnter={() => setIsHovering(true)}
-                onMouseLeave={() => setIsHovering(false)}
-              >
-                {currentImage && (
-                  <>
-                    <Image
-                      src={currentImage.patterns.sourceUrl}
-                      alt={currentImage.patterns.altText || "Pattern"}
-                      className={styles.customPatternImage}
-                      width={currentImage.patterns.mediaDetails?.width || 500}
-                      height={currentImage.patterns.mediaDetails?.height || 400}
-                      style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                    />
-                    {isHovering && (
-                      <div 
-                        className={styles.zoomCircle}
-                        style={{
-                          left: `${hoverPosition.x}px`,
-                          top: `${hoverPosition.y}px`,
-                          backgroundImage: `url(${currentImage.patterns.sourceUrl})`,
-                          backgroundSize: `${500 * 2}px ${400 * 2}px`, // Fixed zoom scale
-                          backgroundPositionX: `-${hoverPosition.x * 2 - 75}px`, // 75 is half of zoom circle size
-                          backgroundPositionY: `-${hoverPosition.y * 2 - 75}px`,
-                        }}
-                      />
-                    )}
-                  </>
-                )}
-              </div>
-              <div className={styles.sliderControls}>
-                <div className={styles.sliderDots}>
-                  {acfData.customizedPatternImages.map((_, index) => (
-                    <button
-                      key={index}
-                      className={`${styles.dot} ${currentImageIndex === index ? styles.activeDot : ''}`}
-                      onClick={() => setCurrentImageIndex(index)}
-                      aria-label={`Go to pattern ${index + 1}`}
-                    />
-                  ))}
-                </div>
-              </div>
-            </div>
-
-            <div className={styles.customPatternText}>
-              <h3>{acfData.patternTitle || "CUSTOM PATTERN"}</h3>
-              <p>{acfData.patternDescription || "Each door leaf is a work of art. We offer a wide range of customization options."}</p>
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* Smart Cubicle Section */}
-      <section className={styles.customizationOption}>
-        <div className={styles.customizationHeader}>
-          <h2>{acfData.smartCubicleHeading || "SMART CUBICLE"}</h2>
-        </div>
-        <p className={styles.customDescription}>LEVEL UP YOUR CUBICLE WITH OUR SMART OPTIONS</p>
-        <div className={styles.designOptions}>
-          {acfData.items && acfData.items.map((item, index) => (
-            <div key={index} className={styles.designOption}>
-              <div className={styles.designOptionIcon}>
-                {item.image && (
-                  <Image 
-                    src={item.image.sourceUrl} 
-                    alt={item.image.altText || item.title} 
-                    width={item.image.mediaDetails?.width || 300} 
-                    height={item.image.mediaDetails?.height || 300} 
-                  />
-                )}
-              </div>
-              <h4>{item.title}</h4>
-              <p>{item.description}</p>
-            </div>
-          ))}
-        </div>
-        {acfData.downloadButtonLabel && acfData.downloadButtonUrl && (
-          <div className="cta-button" style={{ width: "25%", margin: "0 auto", marginTop: "50px", padding: "5px" }}>
-            <a href={acfData.downloadButtonUrl} target="_blank" rel="noopener noreferrer">
-              {acfData.downloadButtonLabel}
-            </a>
-          </div>
-        )}
-      </section>
     </div>
   );
 }
