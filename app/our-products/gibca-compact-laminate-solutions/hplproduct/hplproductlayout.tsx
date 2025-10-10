@@ -66,7 +66,6 @@ const LockingOptionsSection = () => {
               width={1200}
               height={800}
               quality={90}
-              style={{ objectFit: 'cover', width: '100%', height: '90vh', borderRadius: '12px' }}
             />
           </div>
         </div>
@@ -453,7 +452,7 @@ export default function HplProductLayout({ fields, faqData = [], downloadData = 
           {/* Finishes */}
           {fields.finishes && fields.finishes.length > 0 && (
             <div className={styles.finishesSection}>
-              <div className={styles.customizationHeader}>
+              <div className={styles.customizationHeaderFinishes}>
                 <h2 style={{ fontSize: '2.5rem', marginBottom: '-20px' }}>CHOOSE FROM OUR DIFFERENT FINISHES</h2>
               </div>
               <p className={styles.customDescription}>CUSTOM FINISHES AVAILABLE UPON REQUEST</p>

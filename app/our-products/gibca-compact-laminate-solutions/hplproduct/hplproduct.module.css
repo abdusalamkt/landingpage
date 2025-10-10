@@ -84,7 +84,7 @@
   transition: background-color 0.3s ease;
   transform: translateY(-5px);
   transition: transform .9s ease-in-out;
-  box-shadow: -4px 4px 0px rgba(0, 0, 0, 0.2);
+  /* box-shadow: -4px 4px 0px rgba(0, 0, 0, 0.2); */
 }
 
 .primary:hover {
@@ -93,7 +93,7 @@
   transition: background-color 0.3s ease;
   transform: translateY(-5px);
   transition: transform .9s ease;
-  box-shadow: -4px 4px 0px rgba(0, 0, 0, 0.2);
+  /* box-shadow: -2px 2px 5px rgba(0, 0, 0, 0.2); */
 }
 
 /* Key Features Section */
@@ -257,9 +257,14 @@
   width: 100%;
   height: 250px; /* fixed height for neat grid */
   object-fit: cover;
-  border: 1px solid #3d3d3d;
-  /* border-radius: 8px; */
+  /* border: 1px solid #3d3d3d; */
+  border-radius: 15px;
+  transition: border-radius 0.4s ease-out;
 }
+/* .modelCard:hover img{
+  border-radius: 0px;
+} */
+
 
 .modelButtons {
   display: flex;
@@ -303,7 +308,7 @@
   color: #3d3d3d;
 }
 
-.customizationHeader {
+.customizationHeader,.customizationHeaderFinishes {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -314,6 +319,7 @@
   margin-bottom: 10px;
   text-transform: uppercase;
 }
+
 
 .customizationHeader h2 span {
   color: #109c5d;
@@ -856,17 +862,36 @@
 
 /* Mobile (≤ 480px) */
 @media (max-width: 480px) {
+  .textContent {
+    padding: 70px 25px;
+  }
   .series {
-    font-size: 3rem;
+    font-size: 56px;
   }
   .heroText {
     font-size: 1rem;
   }
-  .heroButtons {
-    flex-direction: column;
-  }
+  
   .carouselImage {
     height: 220px;
+  }
+  .buttons {
+    flex-direction: row;
+    gap: 15px;
+    justify-content: center;
+  }
+  .buttons button {
+    font-size: 1.5rem;
+    padding: 5px 20px;
+  }
+  .sectionHeading {
+    font-size: 44px;
+  }
+  .sectionHeading img {
+    width: 60px;
+  }
+  .modelCard h3{
+    font-size: 2.3rem;
   }
 }
 
@@ -1435,6 +1460,195 @@
   text-align: center;
 }
 
+/* -------- MOBILE RESPONSIVE (Stacked Layout) -------- */
+@media screen and (max-width: 968px) {
+  .comparisonSection {
+    padding: 40px 15px 0px 15px;
+    margin: 40px auto;
+  }
+  
+  .comparisonHeader h2 {
+    font-size: 2.2rem;
+    line-height: 1.2;
+  }
+  
+  .comparisonHeader p {
+    font-size: 14px;
+    padding: 0 10px;
+  }
+  
+  .tableWrapper {
+    padding: 0;
+    border-radius: 12px;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+  }
+  
+  .comparisonTable {
+    min-width: 100%;
+    display: block;
+  }
+  
+  .comparisonTable thead {
+    display: none;
+  }
+  
+  .comparisonTable tbody {
+    display: block;
+    width: 100%;
+  }
+  
+  .comparisonTable tr {
+    display: block;
+    width: 100%;
+    margin-bottom: 20px;
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    padding: 0;
+    background: #fff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+  }
+  
+  .comparisonTable td {
+    display: block;
+    width: 100%;
+    text-align: left;
+    border: none;
+    padding: 20px;
+    position: relative;
+    box-sizing: border-box;
+  }
+  
+  .comparisonTable td:nth-child(1) {
+    font-weight: 700;
+    color: #1c6544;
+    background: #f8f9fa;
+    border-bottom: 2px solid #e9ecef;
+    font-size: 1.1rem;
+    padding: 20px;
+    text-align: center;
+    width: 100%;
+  }
+  
+  .comparisonTable td:nth-child(2),
+  .comparisonTable td:nth-child(3) {
+    padding-left: 50px;
+    position: relative;
+    border-bottom: 1px solid #f0f0f0;
+  }
+  
+  .comparisonTable td:nth-child(2):last-child,
+  .comparisonTable td:nth-child(3):last-child {
+    border-bottom: none;
+  }
+  
+  .comparisonTable td::before {
+    content: attr(data-label);
+    font-weight: 700;
+    color: #333;
+    display: block;
+    margin-bottom: 8px;
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  
+  /* Add colored labels for traditional and IPS columns */
+  .comparisonTable td:nth-child(2)::before {
+    content: "Traditional Wall";
+    color: #666;
+    background: #f8f8f8;
+    padding: 5px 10px;
+    border-radius: 4px;
+    display: inline-block;
+    margin-bottom: 12px;
+  }
+  
+  .comparisonTable td:nth-child(3)::before {
+    content: "Integrated Panel System";
+    color: #1c6544;
+    background: rgba(16, 156, 93, 0.1);
+    padding: 5px 10px;
+    border-radius: 4px;
+    display: inline-block;
+    margin-bottom: 12px;
+  }
+  
+  /* Remove the default data-label and use our custom ones */
+  .comparisonTable td[data-label]::before {
+    content: attr(data-label);
+  }
+}
+
+/* -------- SMALL MOBILE ENHANCEMENTS -------- */
+@media screen and (max-width: 480px) {
+  .comparisonSection {
+    padding: 30px 10px 0px 10px;
+  }
+  
+  .comparisonHeader h2 {
+    font-size: 38px;
+  }
+  
+  .comparisonHeader p {
+    font-size: 13px;
+  }
+  
+  .comparisonTable td {
+    padding: 15px;
+  }
+  
+  .comparisonTable td:nth-child(1) {
+    padding: 15px;
+    font-size: 1rem;
+  }
+  
+  .comparisonTable td:nth-child(2),
+  .comparisonTable td:nth-child(3) {
+    padding-left: 40px;
+  }
+  
+  .comparisonTable td::before {
+    font-size: 0.9rem;
+  }
+}
+
+/* -------- TABLET OPTIMIZATION -------- */
+@media screen and (min-width: 769px) and (max-width: 968px) {
+  .comparisonTable {
+    min-width: 700px;
+  }
+  
+  .comparisonTable th,
+  .comparisonTable td {
+    padding: 15px 20px;
+    font-size: 13px;
+  }
+  
+  .comparisonTable thead th {
+    font-size: 1.2rem;
+    padding: 20px 15px;
+  }
+}
+
+/* -------- ACCESSIBILITY ENHANCEMENTS -------- */
+@media (prefers-reduced-motion: reduce) {
+  .tableWrapper {
+    scroll-behavior: auto;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .comparisonTable tbody tr:nth-child(odd) {
+    background: #f0f0f0;
+  }
+  
+  .comparisonTable td:nth-child(1) {
+    background: #e8e8e8;
+  }
+}
+
 /* Locking Options Section */
 .lockingOptionsSection {
   padding: 80px 5%;
@@ -1502,8 +1716,37 @@
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
   background: #e8e8e8;
 }
-
-
+.lockingImage img {
+object-fit: cover; width: 100%; height: 90vh; border-radius: 12px;
+}
+@media (max-width: 1200px) {
+  .lockingImage img {
+    height: 70vh;
+  }
+}
+@media (max-width: 768px) {
+  .lockingImage img {
+    height: 50vh;
+  }
+  .customizationHeader {
+    font-size: 44px;
+  }
+  .customizationHeaderFinishes {
+    font-size: 36px;
+  }
+  .customizationOption {
+    font-size: .1rem;
+  }
+}
+@media (max-width: 480px) {
+ .customDescription {
+    font-size: 14px;
+    margin-bottom: 30px;
+  }
+  .finishImage {
+    height: auto;
+    width: 80px;}
+}
 
 .lockingOptionsContent {
   display: flex;

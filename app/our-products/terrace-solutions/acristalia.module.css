@@ -97,12 +97,7 @@
 
 }
 
-.line {
-  flex: 1;
-  height: 2px;
-  background-color: #aaa;
-  margin-top: 5px;
-}
+
 
 /* Update the buttons styles */
 .buttons {
@@ -292,6 +287,7 @@
   }
 }
 
+
 /* Add these styles to your existing CSS */
 
 /* Default product section (image left) */
@@ -337,3 +333,35 @@
     border-radius: 20px !important;
   }
 }
+
+@media  screen and (min-width: 1400px) {
+  .productSection {
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+  .sliderImageWrapper {
+    height: 90%;
+    border-radius: 20px;
+  }
+  .sliderContainer {
+    height: 80vh;
+  }
+  /* Reverse layout styles */
+.reverse .imageContainer .sliderImageWrapper {
+  border-radius: 20px !important;
+}
+
+.reverse .imageContainer .sliderImage {
+  border-radius: 20px !important;
+}
+
+
+  
+}
+@media (max-width: 480px) {
+.buttons button{
+    font-size: 1.2rem;
+    padding: 5px 40px;
+  width: 200px;
+}
+  }

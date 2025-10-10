@@ -467,19 +467,16 @@ text-align: center;
   }
 
   .textContent {
-    padding: 40px 20px;
+    padding: 80px 20px;
     text-align: center;
   }
 
-  .imageWrapper {
-    border-radius: 20px;
-    margin-top: 20px;
-  }
-
-  .heroImage {
+  .imageWrapper img{
     border-radius: 20px;
     height: auto;
+
   }
+
 
   .series {
     font-size: 5rem;
@@ -549,6 +546,7 @@ text-align: center;
   .featureDescription {
     font-size: 0.9rem;
   }
+  
 }
 
 @media (max-width: 480px) {
@@ -732,4 +730,26 @@ vertical-align: middle;
   margin: 0;
   font-size: 1.5rem;
   font-weight: 500;
+}
+@media (max-width: 768px) {
+  .choicePointsWrap {
+    width: 100%;
+    justify-content: center; /* Center items on smaller screens */
+    padding: 0 20px;
+  }
+
+  .choicePoint {
+    font-size: 14px;
+    padding: 10px 16px;
+  }
+
+  .imageBanner {
+    height: 50vh;
+  }
+
+  .imageBannerCaption {
+    font-size: 1rem;
+    bottom: 0.5rem;
+    left: 0.5rem;
+  }
 }

@@ -424,7 +424,7 @@ function OurProductsContent() {
     <>
       <Head>
         {allUniqueImages.map((src, i) => (
-          <link key={i} rel="preload" as="image" href={src} />
+          <link key={i} as="image" href={src} />
         ))}
       </Head>
 

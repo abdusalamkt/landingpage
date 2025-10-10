@@ -449,11 +449,11 @@
   }
   /* Reverse layout styles */
 .reverse .imageContainer .sliderImageWrapper {
-  border-radius: 20px 0px 0px 20px !important;
+  border-radius: 20px !important;
 }
 
 .reverse .imageContainer .sliderImage {
-  border-radius: 20px 0px 0px 20px !important;
+  border-radius: 20px !important;
 }
 
 

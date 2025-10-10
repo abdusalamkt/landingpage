@@ -488,3 +488,24 @@
     height: calc(100vw * 9/16);
   }
 }
+@media  screen and (min-width: 1400px) {
+  .productSection {
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+  .sliderImageWrapper {
+    height: 100%;
+    border-radius: 20px;
+  }
+  /* Reverse layout styles */
+.reverse .imageContainer .sliderImageWrapper {
+  border-radius: 20px !important;
+}
+
+.reverse .imageContainer .sliderImage {
+  border-radius: 20px !important;
+}
+
+
+  
+}

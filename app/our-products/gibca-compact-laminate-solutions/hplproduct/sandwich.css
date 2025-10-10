@@ -479,3 +479,28 @@
   }
 }
 
+@media (max-width: 968px) {
+  .sandwich-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 20px;
+  }
+
+  .sandwich-center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .sandwich-image-reveal-container {
+    order: -1; /* Move image above the points */
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    transform: none !important;
+    width: 80vw !important;
+    height: 50vh !important;
+    /* margin-bottom: 25px; */
+  }
+}

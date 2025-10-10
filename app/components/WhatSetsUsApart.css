@@ -186,29 +186,6 @@
   }
 }
 
-/* Extra Small Screens (<= 480px) */
-@media screen and (max-width: 480px) {
-  .apart-heading {
-    font-size: 34px;
-  }
-
-  .apart-desc {
-    font-size: 14px;
-  }
-
-  .features-title {
-    font-size: 22px;
-  }
-
-  .feature-item h4 {
-    font-size: 18px;
-  }
-
-  .feature-item p {
-    font-size: 13px;
-  }
-  
-}
 
 .choice-points-group {
   display: flex;
@@ -534,16 +511,26 @@ text-transform: uppercase;
             }
 
             .features-title,.features-title-mirror {
-                font-size: 26px;
+                font-size: 28px;
             }
 
             .feature-item h4 {
-                font-size: 18px;
+                font-size: 24px;
             }
+            .feature-item p,li{
+                font-size: 14px;
+            }
+            .feature-item-mirror p,li{
+                font-size: 14px;
+            }
+            .feature-item li{
+              text-align: left;
+            }
+            
             
             .choice-point {
                 padding: 8px 12px;
-                font-size: 13px;
+                font-size: 14px;
             }
             .choice-point-mirror{
                 font-size: 12px;

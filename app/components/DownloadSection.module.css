@@ -235,10 +235,11 @@
 @media (max-width: 480px) {
   .downloadSection {
     padding: 20px 10px;
+    margin-bottom: 120px;
   }
 
   .heading {
-    font-size: 1.8rem;
+    font-size: 44px;
   }
 
   .tabButton {

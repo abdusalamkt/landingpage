@@ -130,7 +130,6 @@ export default async function CrownPage() {
 
             <div className={styles.productRangeRow}>
               <h3>{product.productRangeTitle}</h3>
-              <div className={styles.line}></div>
             </div>
 
             <div className={styles.buttons}>

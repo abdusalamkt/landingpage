@@ -50,7 +50,7 @@ const SmartGlassSection = () => {
         </p>
 
         <div className={styles.smartGlassContent}>
-          {/* Left Column - Remote Control */}
+          {/* Remote Control - Now on top for mobile */}
           <div className={styles.remoteColumn}>
             <motion.div
               className={styles.remoteControl}
@@ -162,7 +162,7 @@ const SmartGlassSection = () => {
             </motion.div>
           </div>
 
-          {/* Right Column - Glass Images */}
+          {/* Glass Images - Now below remote for mobile */}
           <div className={styles.glassColumn}>
             <div className={styles.glassImagesContainer}>
               <div
@@ -174,6 +174,7 @@ const SmartGlassSection = () => {
                   alt="Transparent Smart Glass"
                   fill
                   className={styles.glassImage}
+                  priority
                 />
               </div>
 
@@ -186,6 +187,7 @@ const SmartGlassSection = () => {
                   alt="Opaque Smart Glass"
                   fill
                   className={styles.glassImage}
+                  priority
                 />
               </div>
             </div>

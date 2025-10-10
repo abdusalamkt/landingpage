@@ -264,10 +264,11 @@
 @media (max-width: 480px) {
   .faqSection {
     padding: 20px 15px;
+    margin-bottom: 80px;
   }
 
   .title {
-    font-size: 28px;
+    font-size: 44px;
   }
 
   .question h4 {

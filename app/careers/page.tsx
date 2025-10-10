@@ -48,13 +48,14 @@ async function fetchCareers() {
   }));
 
   return {
-    heroHeading: careerData.heroHeading,
-    heroDescription: careerData.heroDescription,
-    heroBanner: careerData.heroBanner || null,
-    sectionHeading: careerData.sectionHeading,
-    sectionDescription: careerData.sectionDescription,
-    jobs,
-  };
+  heroHeading: careerData.heroHeading || '',
+  heroDescription: careerData.heroDescription || '',
+  heroBanner: careerData.heroBanner || null,
+  sectionHeading: careerData.sectionHeading || '',
+  sectionDescription: careerData.sectionDescription || '',
+  jobs,
+};
+
 }
 
 export default async function CareerPage() {

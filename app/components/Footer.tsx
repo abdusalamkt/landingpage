@@ -206,7 +206,7 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
                 <li><Link href="/our-products">Products</Link></li>
                 <li><Link href="/contact-us">Contact Us</Link></li>
                 <li><Link href="/downloads">Downloads</Link></li>
-                <li><Link href="/career">Careers</Link></li>
+                <li><Link href="/careers">Careers</Link></li>
               </ul>
             </div>
             <div className="link-column">

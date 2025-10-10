@@ -259,7 +259,6 @@
   }
 
   .buttons button {
-    width: 80%;
     font-size: 1.5rem;
     text-align: center;
   }
@@ -336,4 +335,28 @@
   .reverse .sliderImageWrapper {
     border-radius: 20px !important;
   }
+}
+@media  screen and (min-width: 1400px) {
+  .productSection {
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+  .sliderImageWrapper {
+    height: 90%;
+    border-radius: 20px;
+  }
+  .sliderContainer {
+    height: 80vh;
+  }
+  /* Reverse layout styles */
+.reverse .imageContainer .sliderImageWrapper {
+  border-radius: 20px !important;
+}
+
+.reverse .imageContainer .sliderImage {
+  border-radius: 20px !important;
+}
+
+
+  
 }

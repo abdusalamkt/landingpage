@@ -165,7 +165,6 @@ export default function SustainabilitySection({ fields }: SustainabilitySectionP
                   <div 
                     className={`${styles.certCard} ${styles.clickable}`}
                     key={idx}
-                    onClick={() => openPDFModal(pdfUrl, cert.title)}
                   >
                     {cert.isoImage?.sourceUrl && (
                       <Image
@@ -179,9 +178,9 @@ export default function SustainabilitySection({ fields }: SustainabilitySectionP
                     )}
                     <h4>{cert.title}</h4>
                     <p>{cert.description}</p>
-                    <div className={styles.viewCertificate}>
+                    {/* <div className={styles.viewCertificate}>
                       <span>View Document</span>
-                    </div>
+                    </div> */}
                   </div>
                 );
               })}
