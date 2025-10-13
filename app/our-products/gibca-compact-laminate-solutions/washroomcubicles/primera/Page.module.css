@@ -781,4 +781,11 @@
     width: 10px;
     height: 10px;
   }
+  .featuresRight{
+    height: 50vh;
+    flex: none;
+  }
+  .featuresSection{
+    flex-direction: column;  
+  }
 }

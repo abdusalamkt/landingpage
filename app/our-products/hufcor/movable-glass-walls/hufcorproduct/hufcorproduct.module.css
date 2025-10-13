@@ -1042,8 +1042,6 @@ line-height: 100%;
 .glassImagesContainer {
   position: relative;
   height: 50vh;
-  min-height: 300px;
-  max-height: 500px;
   border-radius: 12px;
   overflow: hidden;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
@@ -1056,7 +1054,7 @@ line-height: 100%;
 }
 
 .glassImage {
-  object-fit: cover;
+  object-fit: fill;
   transition: opacity 0.3s ease;
 }
 
@@ -1076,7 +1074,6 @@ line-height: 100%;
   
   .smartGlassContent {
     flex-direction: row;
-    gap: 3rem;
     margin-top: 3rem;
   }
   
@@ -1099,16 +1096,15 @@ line-height: 100%;
 @media (min-width: 1024px) {
   .smartGlassContent {
     grid-template-columns: auto 1fr;
-    gap: 4rem;
   }
   
   .remoteControl {
-    width: 280px;
+    width: 230px;
+    scale: .7;
   }
   
   .glassImagesContainer {
-    height: 70vh;
-    max-height: 600px;
+    height: 90vh;
   }
   
   .sectionHeading {
