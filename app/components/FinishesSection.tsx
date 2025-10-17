@@ -77,45 +77,56 @@ export default function FinishesSection({ finishes }: { finishes?: FinishItem[] 
       </h2>
 
       <div className="container">
-        <div className="tiles">
-          {finishes.map((item, idx) => (
-            <div
-              key={idx}
-              className="tile"
-              onClick={() => handleImageChange(item.panel.sourceUrl, idx)}
-            >
-              <span>{item.label}</span>
-              <img
-                src={item.thumbnail.sourceUrl}
-                alt={item.thumbnail.altText || item.label}
-                className={selectedIndex === idx ? 'selected' : ''}
-              />
-            </div>
-          ))}
-        </div>
+        <div className="tiles-and-points">
+  <div className="tiles">
+    {finishes.map((item, idx) => (
+      <div
+        key={idx}
+        className="tile"
+        onClick={() => handleImageChange(item.panel.sourceUrl, idx)}
+      >
+        <span>{item.label}</span>
+        <img
+          src={item.thumbnail.sourceUrl}
+          alt={item.thumbnail.altText || item.label}
+          className={selectedIndex === idx ? 'selected' : ''}
+        />
+      </div>
+    ))}
+  </div>
 
-        <div className="main-image-wrap">
-          <div className="image-comparison-wrapper">
-            <div className="before-image">
-              <img
-                src={currentImage}
-                alt="Current panel"
-                className="main-image"
-              />
-            </div>
+  {/* 3 points below tiles */}
+  <div className="finishes-points">
+    <h2 className='finishes-points-title'>more finishes:</h2>
+    <p>• Inset or full height dry erase steel marker boards</p>
+    <p>• Inset porcelain enamel steel dry marker or chalkboard</p>
+    <p>• Eraser pocket or tack boards</p>
+  </div>
+</div>
 
-            {nextImage && (
-              <div className="after-image" style={{ height: `${revealHeight}%` }}>
-                <img
-                  src={nextImage}
-                  alt="Next panel"
-                  className="main-image-after"
-                  onLoad={handleImageLoad}
-                />
-              </div>
-            )}
-          </div>
-        </div>
+<div className="main-image-wrap">
+  <div className="image-comparison-wrapper">
+    <div className="before-image">
+      <img
+        src={currentImage}
+        alt="Current panel"
+        className="main-image"
+      />
+    </div>
+
+    {nextImage && (
+      <div className="after-image" style={{ height: `${revealHeight}%` }}>
+        <img
+          src={nextImage}
+          alt="Next panel"
+          className="main-image-after"
+          onLoad={handleImageLoad}
+        />
+      </div>
+    )}
+  </div>
+</div>
+
       </div>
 
       <style jsx>{`
@@ -428,6 +439,36 @@ export default function FinishesSection({ finishes }: { finishes?: FinishItem[] 
             border: 1px solid #ffffff;
           }
         }
+          .tiles-and-points {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+  .finishes-points {
+  margin: 1.5rem;
+  text-align: center;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 400;
+  font-size: 0.9rem;
+  color: #3d3d3d;
+  line-height: 1.5;
+  text-align:left;
+}
+  .finishes-points p{
+   font-size:.8rem;
+   font-family:'poppins';
+  }
+  .finishes-points-title{
+        color: #3d3d3d;
+    margin-bottom: 1rem;
+    text-align: left;
+    border-left: groove;
+    padding-left: 1rem;
+    font-size: 1.3rem;
+    font-family: 'bebas neue';
+  }
+
+
       `}</style>
     </section>
   );

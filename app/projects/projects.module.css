@@ -379,13 +379,13 @@
   color: white;
   border: none;
   font-size: 1rem;
-  font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
   min-width: 140px;
   justify-content: center;
+  font-family: 'bebas neue' ;
 }
 
 .load-more-btn:hover:not(:disabled) {

@@ -280,7 +280,7 @@
 
 /* CARD DESCRIPTION */
 .cardDesc {
-  font-size: 1rem;
+  font-size: 14px;
   color: #333;
   margin-bottom: 20px;
   line-height: 1.5;
@@ -658,7 +658,6 @@
   font-size: 1.5rem;
   color: #6c757d;
   transition: all 0.3s ease;
-  letter-spacing: 1px;
 }
 
 .tabHighlight {
@@ -721,6 +720,8 @@
   position: relative;
   z-index: 2;
   height: 100%;
+  padding: .5rem 1rem;
+
 }
 
 .tabPanel {
@@ -1268,5 +1269,235 @@
   .cardGrid{
     max-height: 1400px;
     gap: 0px;
+  }
+}
+/* Performance optimizations */
+.performanceOptimized {
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  -webkit-perspective: 1000;
+  perspective: 1000;
+}
+
+/* Pass Door Nested Tabs Styles */
+
+
+.passTabsHeader {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  border-bottom: 2px solid #e0e0e0;
+  padding-bottom: 0;
+}
+
+.passTab {
+  background: transparent;
+  border: none;
+  padding: 0.6rem 2rem;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.3rem;
+  color: #6c757d;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  border-bottom: 3px solid transparent;
+}
+
+.passTab:hover {
+  color: #D72027;
+}
+
+.passTabActive {
+  color: #D72027;
+  border-bottom: 3px solid #D72027;
+}
+
+
+
+
+.passContentTitle {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 2rem;
+  color: #D72027;
+  margin-bottom: 1rem;
+}
+
+.passContentDesc {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1rem;
+  color: #555;
+  line-height: 1.6;
+  margin-bottom: 2rem;
+}
+
+.passFeatureGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+}
+
+.passFeature {
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+}
+
+.passFeature:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 12px rgba(215, 32, 39, 0.15);
+}
+
+.passFeature h4 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.3rem;
+  color: #3d3d3d;
+  margin-bottom: 0.5rem;
+}
+
+.passFeature p {
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.95rem;
+  color: #666;
+  margin: 0;
+}
+
+/* Mobile Pass Door Styles */
+@media (max-width: 767px) {
+  .passTabsWrapper {
+    padding: 1rem;
+  }
+
+  .passTabsHeader {
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .passTab {
+    padding: 0.75rem 1rem;
+    font-size: 1.1rem;
+    border-bottom: 2px solid #e0e0e0;
+    border-left: 3px solid transparent;
+  }
+
+  .passTabActive {
+    border-bottom: 2px solid #e0e0e0;
+    border-left: 3px solid #D72027;
+  }
+
+  .passContentTitle {
+    font-size: 1.5rem;
+  }
+
+  .passContentDesc {
+    font-size: 14px;
+  }
+
+  .mobilePassFeatureGrid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .passFeature {
+    padding: 1rem;
+  }
+
+  .passFeature h4 {
+    font-size: 1.1rem;
+  }
+
+  .passFeature p {
+    font-size: 13px;
+  }
+}
+
+/* Tablet Pass Door Styles */
+@media (max-width: 1023px) and (min-width: 768px) {
+  .passFeatureGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+/* Image area for single & double */
+.passImageContainer {
+  width: 100%;
+  height: 350px;
+  overflow: hidden;
+  border-radius: 12px;
+  margin-bottom: 1.5rem;
+}
+
+.passImageContainer img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.passImageContainer:hover img {
+  transform: scale(1.05);
+}
+
+/* Accessories Section */
+.accessoriesWrapper {
+  padding: .5rem 2rem 2rem;
+}
+
+.accessoryGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
+.accessoryCard {
+  background: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+  display: flex;
+  flex-direction: column-reverse;
+  border: 2px;
+}
+
+.accessoryCard:hover {
+  transform: translateY(-5px);
+  pointer-events: none;
+}
+
+.accessoryImage {
+  width: 100%;
+  height: 180px;
+  background-size: cover;
+  background-position: center;
+  transition: transform 0.4s ease;
+}
+
+.accessoryCard:hover .accessoryImage {
+  transform: scale(1.05);
+}
+
+.accessoryText {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.2rem;
+  color: #333;
+  text-align: center;
+  padding: 0.4rem 0.5rem;
+  background: #fff;
+  border-top: 1px solid #eee;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1023px) {
+  .accessoryGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 767px) {
+  .accessoryGrid {
+    grid-template-columns: 1fr;
   }
 }

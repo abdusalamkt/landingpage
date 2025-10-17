@@ -100,6 +100,7 @@ export default function HufcorProductLayout({
 }: HufcorProductLayoutProps) {
   const pathname = usePathname();
   const [activeTab, setActiveTab] = useState("panel");
+  const [passTab, setPassTab] = useState("single");
   const [animationState, setAnimationState] = useState({
     activeTabPosition: 0,
     activeTabWidth: 0,
@@ -290,8 +291,16 @@ export default function HufcorProductLayout({
                 </button>
                 <button 
                   ref={el => { tabRefs.current[2] = el; }}
+                  className={`${styles.tabButton} ${activeTab === "passdoor" ? styles.active : ""}`}
+                  onClick={() => handleTabChange("passdoor", 2)}
+                >
+                  <span className={styles.tabLabel}>Pass Door</span>
+                  <span className={styles.tabArrow}>&gt;</span>
+                </button>
+                <button 
+                  ref={el => { tabRefs.current[3] = el; }}
                   className={`${styles.tabButton} ${activeTab === "pocket" ? styles.active : ""} ${styles.lastTab}`}
-                  onClick={() => handleTabChange("pocket", 2)}
+                  onClick={() => handleTabChange("pocket", 3)}
                 >
                   <span className={styles.tabLabel}>Pocket Doors</span>
                   <span className={styles.tabArrow}>&gt;</span>
@@ -349,6 +358,105 @@ export default function HufcorProductLayout({
                       </div>
                     )}
                     
+                   {activeTab === "passdoor" && (
+  <div className={styles.tabPanel}>
+    <div className={styles.passTabsWrapper}>
+      <div className={styles.passTabsHeader}>
+        <button
+          className={`${styles.passTab} ${passTab === "single" ? styles.passTabActive : ""}`}
+          onClick={() => setPassTab("single")}
+        >
+          Single Leaf
+        </button>
+        <button
+          className={`${styles.passTab} ${passTab === "double" ? styles.passTabActive : ""}`}
+          onClick={() => setPassTab("double")}
+        >
+          Double Leaf
+        </button>
+        <button
+          className={`${styles.passTab} ${passTab === "accessories" ? styles.passTabActive : ""}`}
+          onClick={() => setPassTab("accessories")}
+        >
+          Accessories
+        </button>
+      </div>
+
+      <div className={styles.passTabContent}>
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={passTab}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.2 }}
+          >
+            {/* --- Single Leaf --- */}
+            {passTab === "single" && (
+              <div className={styles.passContentArea}>
+                <div className={styles.passImageContainer}>
+                  <img src="/hufcor/passdoor/singleleaf.webp" alt="Single Leaf Pass Door" />
+                </div>
+                {/* <h3 className={styles.passContentTitle}>Single Pass Door Configuration</h3> */}
+                <p className={styles.passContentDesc}>
+                  Compact, elegant, and efficient — our single pass doors offer seamless access 
+                  without compromising the aesthetics of your partition system.
+                </p>
+
+               
+              </div>
+            )}
+
+            {/* --- Double Leaf --- */}
+            {passTab === "double" && (
+              <div className={styles.passContentArea}>
+                <div className={styles.passImageContainer}>
+                  <img src="/hufcor/passdoor/doubleleaf.webp" alt="Double Leaf Pass Door" />
+                </div>
+                {/* <h3 className={styles.passContentTitle}>Double Pass Door Configuration</h3> */}
+                <p className={styles.passContentDesc}>
+                  Double pass doors provide a wider and more flexible entryway, ideal for high-traffic 
+                  areas with synchronized leaf movement for a grander feel.
+                </p>
+              </div>
+            )}
+
+            {/* --- Accessories --- */}
+            {passTab === "accessories" && (
+              <div className={styles.accessoriesWrapper}>
+                {/* <h3 className={styles.passContentTitle}>Pass Door Accessories</h3> */}
+                {/* <p className={styles.passContentDesc}>
+                  Enhance your pass door functionality and aesthetics with our premium accessories.
+                </p> */}
+
+                <div className={styles.accessoryGrid}>
+                  {[
+                    { title: "EXIT SIGNS", img: "" },
+                    { title: "FRAME", img: "/images/accessories/kick-plate.jpg" },
+                    // { title: "PEEP VIEWER", img: "/images/accessories/vision-panel.jpg" },
+                    { title: "FRAME AND PREP FOR A WINDOW", img: "/images/accessories/auto-closer.jpg" },
+                    { title: "AUTOMATIC DOOR CLOSERS", img: "/images/accessories/threshold.jpg" },
+                    { title: "PANIC HARDWARE", img: "/images/accessories/acoustic-seal.jpg" },
+                    { title: "LOCKS", img: "/images/accessories/custom-finish.jpg" },
+                  ].map((item, idx) => (
+                    <div key={idx} className={styles.accessoryCard}>
+                      <div className={styles.accessoryText}>{item.title}</div>
+                      <div
+                        className={styles.accessoryImage}
+                        style={{ backgroundImage: `url(${item.img})` }}
+                      ></div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </motion.div>
+        </AnimatePresence>
+      </div>
+    </div>
+  </div>
+)}
+
                     {activeTab === "pocket" && safePocketDoors.length > 0 && (
                       <div className={styles.tabPanel}>
                         <div className={`${styles.pocketGrid} ${isMobile ? styles.mobilePocketGrid : ''} ${isTablet ? styles.tabletPocketGrid : ''}`}>
@@ -383,46 +491,7 @@ export default function HufcorProductLayout({
         </section>
       )}
 
-      {/* Choices Section */}
-      {safeChoices.length > 0 && (
-        <section className={`apart-section-mirror ${isMobile ? 'mobile-apart-section-mirror' : ''} ${isTablet ? 'tablet-apart-section-mirror' : ''}`}>
-          {/* Left Side */}
-          <div className="apart-left-mirror">
-            <div className="apart-bg-number-mirror">!</div>
-            <h2 className="apart-heading-mirror">
-              Be spoilt for  <span className="apart-highlight" style={{ color: "#D72027" }}>choices!</span>
-            </h2>
-            <p className="apart-desc-mirror"></p>
-          </div>
-
-          {/* Right Side */}
-          <div className="apart-right-mirror">
-            <h3
-              className="features-title-mirror"
-              style={{
-                background: "linear-gradient(269.42deg, #d72027 0.16%, #8e1217 99.84%)",
-              }}
-            >
-              <span className="features-bar-mirror" style={{ backgroundColor: "#D72027" }} />
-              AVAILABLE OPTIONS
-            </h3>
-            <div className={`features-grid-mirror ${isMobile ? 'mobile-features-grid-mirror' : ''}`} style={{ display: "block" }}>
-              {safeChoices.map((choice, index) => (
-                <div key={index} className={`feature-item-mirror ${isMobile ? 'mobile-feature-item-mirror' : ''}`} style={{ marginBottom: "2rem" }}>
-                  <h4 style={{ color: "#D72027" }}>{choice.choiceTitle}</h4>
-                  <div className={`choice-points-group-mirror ${isMobile ? 'mobile-choice-points-group' : ''}`}>
-                    {choice.choicePoints?.map((pt, i) => (
-                      <span key={i} className={`choice-point-mirror ${isMobile ? 'mobile-choice-point' : ''}`}>
-                        {pt.point}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
+      
 
       {/* Dynamic Image Banner 2 */}
       {imagebanner2?.sourceUrl?.trim() && (
