@@ -20,7 +20,8 @@
     width: 32px;
     height: 32px;
   }
-}.hero {
+}
+.hero {
   display: flex;
   flex-wrap: wrap;
   
@@ -586,6 +587,15 @@ font-size: 4rem;
     font-size: 12px;
     padding: 6px 12px;
   }
+  .textContent h3{
+    font-size: 1.5rem;
+  }
+  .series{
+    font-size: 3rem;
+  }
+  .textContent p{
+    line-height: 1.5;
+  }
 }
 
 /* Responsive */
@@ -610,4 +620,27 @@ font-size: 4rem;
     width: 32px;
     height: 32px;
   }
+  .hero{
+    flex-wrap: nowrap;
+    flex-direction: column;
+  }
+  .series{
+    font: 2rem;
+  }
+  .textContent{
+    margin-top:30rem;
+  }
+  .hero .buttons{
+    justify-content: center;
+  }
+  .primary,.outline{
+    width: 280px;
+  }
+  .imageWrapper{
+    min-height: 70vh;
+  }
+  .imageWrapper img{
+    height: auto;
+  }
+
 }

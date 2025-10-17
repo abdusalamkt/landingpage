@@ -172,6 +172,7 @@ font-size: 2rem;
 @media (max-width: 768px) {
   .series {
     font-size: 3.5rem;
+    padding: 0rem 2rem;
   }
 
   .description {
@@ -182,6 +183,7 @@ font-size: 2rem;
   .sectionHeading {
     font-size: 2.5rem;
   }
+  
 
   
 }
@@ -437,9 +439,7 @@ line-height: 30px;
     padding: 1.5rem;
   }
   
-  .manualImageWrapper {
-    min-height: 350px;
-  }
+  
 }
 
 @media (max-width: 768px) {
@@ -454,7 +454,7 @@ line-height: 30px;
   }
   
   .manualImageWrapper {
-    min-height: 300px;
+    max-height: max-content;
     width: 100%;
   }
   
@@ -465,7 +465,7 @@ line-height: 30px;
 
 @media (max-width: 480px) {
   .manualImageWrapper {
-    min-height: 250px;
+    max-height: max-content;
   }
   
   .systemBlock {
@@ -512,4 +512,15 @@ line-height: 30px;
   .videoContainer {
     padding: 0 1rem;
   }
+  .textContent{
+    padding-top: 5rem;
+  }
+  .sectionHeader h2{
+    font-size: 2.2rem;
+  }
+  .sectionHeading .icon {
+  width: 58px;
+  margin-right: 24px;
+}
+
 }

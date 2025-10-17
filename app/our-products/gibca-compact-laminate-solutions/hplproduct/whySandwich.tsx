@@ -28,6 +28,12 @@ const hardcodedFields = {
     sourceUrl: "/finishes/SANDWHICH.png", 
     altText: "Before sandwich"
   },
+   whysandwichImages: [
+    { color: '#bfbfbf', src: '/finishes/grey.png', alt: 'Grey Finish' },
+    { color: '#b87d4a', src: '/finishes/wood.png', alt: 'Wood Finish' },
+    { color: '#2d2d2d', src: '/finishes/black.png', alt: 'Black Finish' },
+    { color: '#ffffff', src: '/finishes/white.png', alt: 'White Finish' },
+  ],
   whysandwichItems: [
     {
       title: "BUILT FOR HEIGHT",
@@ -89,6 +95,7 @@ export default function SandwichPanelsComparison() {
     position: item.position,
     level: item.level,
   }));
+  
 
   const beforeImage = {
     sourceUrl: hardcodedFields.whysandwichImageBefore.sourceUrl,
@@ -152,44 +159,14 @@ function ImageRevealSlider({ beforeImage }: {
 }) {
   const [sliderPosition, setSliderPosition] = useState(50);
   const containerRef = useRef<HTMLDivElement>(null);
-  const [isDragging, setIsDragging] = useState(false);
 
-  const handleMouseDown = () => setIsDragging(true);
-  const handleMouseUp = () => setIsDragging(false);
 
-  const handleMouseMove = (e: MouseEvent) => {
-    if (!isDragging || !containerRef.current) return;
-    const rect = containerRef.current.getBoundingClientRect();
-    const x = ((e.clientX - rect.left) / rect.width) * 100;
-    setSliderPosition(Math.max(0, Math.min(100, x)));
-  };
 
-  const handleTouchMove = (e: TouchEvent) => {
-    if (!isDragging || !containerRef.current) return;
-    const rect = containerRef.current.getBoundingClientRect();
-    const x = ((e.touches[0].clientX - rect.left) / rect.width) * 100;
-    setSliderPosition(Math.max(0, Math.min(100, x)));
-  };
-
-  useEffect(() => {
-    window.addEventListener("mousemove", handleMouseMove);
-    window.addEventListener("mouseup", handleMouseUp);
-    window.addEventListener("touchmove", handleTouchMove);
-    window.addEventListener("touchend", handleMouseUp);
-    return () => {
-      window.removeEventListener("mousemove", handleMouseMove);
-      window.removeEventListener("mouseup", handleMouseUp);
-      window.removeEventListener("touchmove", handleTouchMove);
-      window.removeEventListener("touchend", handleMouseUp);
-    };
-  }, [isDragging]);
 
   return (
     <div
       ref={containerRef}
       className="sandwich-image-reveal-container"
-      onMouseDown={handleMouseDown}
-      onTouchStart={() => setIsDragging(true)}
     >
       {/* BEFORE IMAGE on left side */}
       <div className="sandwich-image-layer">

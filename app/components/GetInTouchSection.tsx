@@ -53,60 +53,29 @@ const GetInTouchSection = () => {
       <div className="content-wrapper">
         <div className="left-title">
           <h2>
-            <span className="highlight">CAN'T FIND</span> WHAT <br />
+            <span className="highlight">CAN'T FIND</span> WHAT 
             YOU'RE LOOKING FOR?
           </h2>
+          <p className="getintouc-description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium quod dolores quaerat nihil hic fuga laudantium ipsam nam reiciendis error, laborum eaque enim maiores ipsum? Ipsum quo laudantium ad aliquid!
+          </p>
         </div>
         <div className="right-form">
           <form onSubmit={handleSubmit}>
-            <input
+            {/* <input
               type="email"
               placeholder="Enter your email"
               className="email-input"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-            />
+            /> */}
             <button type="submit" className="cta-button" disabled={isSubmitting}>
               {isSubmitting ? 'Submitting...' : 'Get in Touch'}
             </button>
+            <button type="submit" className="cta-button" disabled={isSubmitting}>
+              {isSubmitting ? 'Submitting...' : 'contact us'}
+            </button>
           </form>
-          {message && (
-            <div className={`submit-message ${message.includes('✅') ? 'success' : 'error'}`}>
-              <div className="message-content">
-                {message.includes('✅') && (
-                  <div className="success-icon">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                      <path 
-                        d="M20 6L9 17L4 12" 
-                        stroke="currentColor" 
-                        strokeWidth="3" 
-                        strokeLinecap="round" 
-                        strokeLinejoin="round"
-                      />
-                    </svg>
-                  </div>
-                )}
-                <span>{message}</span>
-                <button 
-                  className="close-button"
-                  onClick={() => setMessage('')}
-                  aria-label="Close message"
-                >
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
-                    <path 
-                      d="M18 6L6 18M6 6l12 12" 
-                      stroke="currentColor" 
-                      strokeWidth="2" 
-                      strokeLinecap="round" 
-                      strokeLinejoin="round"
-                    />
-                  </svg>
-                </button>
-              </div>
-              <div className="message-timer"></div>
-            </div>
-          )}
         </div>
       </div>
     </section>

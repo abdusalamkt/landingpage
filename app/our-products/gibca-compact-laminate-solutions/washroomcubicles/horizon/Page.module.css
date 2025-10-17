@@ -729,7 +729,8 @@
   transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.download-button {
+
+.cta-button {
   background: linear-gradient(90deg, #1C6544 40%, #11955A);
   color: white;
   font-size: 1.5rem;
@@ -742,13 +743,13 @@
   overflow: hidden;
 }
 
-.download-button:hover {
+.cta-button:hover {
   transform: translateY(-3px);
   box-shadow: 0 8px 20px rgba(28, 101, 68, 0.4);
   background: linear-gradient(90deg, #003514, #00572b, #109c5d);
 }
 
-.download-button::after {
+.cta-button::after {
   content: '';
   position: absolute;
   top: 0;
@@ -764,7 +765,7 @@
   transition: 0.5s;
 }
 
-.download-button:hover::after {
+.cta-button:hover::after {
   left: 100%;
 }
 

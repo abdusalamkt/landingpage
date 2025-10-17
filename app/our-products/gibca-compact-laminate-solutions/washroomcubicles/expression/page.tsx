@@ -4,10 +4,7 @@ import React, { Suspense, useRef, useState, useEffect } from "react";
 import styles from "./Page.module.css";
 import Image from "next/image";
 import { Canvas } from "@react-three/fiber";
-import { OrbitControls, Environment } from "@react-three/drei";
-import { MTLLoader } from "three/examples/jsm/loaders/MTLLoader.js";
-import { OBJLoader } from "three/examples/jsm/loaders/OBJLoader.js";
-import { useLoader } from "@react-three/fiber";
+import { OrbitControls, Environment, useGLTF } from "@react-three/drei";
 import * as THREE from "three";
 
 const WORDPRESS_API_URL = process.env.WORDPRESS_GRAPHQL_ENDPOINT as string;
@@ -140,7 +137,7 @@ async function getWashroomCubiclesData(): Promise<WashroomCubiclesField | null> 
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ query: GET_WASHROOM_CUBICLES }),
-      cache: 'force-cache', // Use Next.js cache instead of revalidate
+      cache: 'force-cache',
     });
 
     const json = await res.json();
@@ -151,88 +148,56 @@ async function getWashroomCubiclesData(): Promise<WashroomCubiclesField | null> 
   }
 }
 
-// 3D Model component with improved loading and error handling
-function WashroomCubicleModel({ objPath = "/models/model.obj", mtlPath = "/models/model.mtl" }) {
+// 3D Model component with GLB support
+function WashroomCubicleModel({ modelPath = "/models/Expression.glb" }) {
   const groupRef = useRef<THREE.Group>(null);
-  const [obj, setObj] = useState<THREE.Group | null>(null);
-  const [loadingError, setLoadingError] = useState<string | null>(null);
-  const [hasRotated, setHasRotated] = useState(false);
+  const { scene } = useGLTF(modelPath);
 
-  useEffect(() => {
-    const loadModel = async () => {
-      try {
-        setLoadingError(null);
-        
-        // Load materials first
-        const mtlLoader = new MTLLoader();
-        const materials = await new Promise<MTLLoader.MaterialCreator>((resolve, reject) => {
-          mtlLoader.load(
-            mtlPath,
-            resolve,
-            undefined,
-            (error) => {
-              console.warn("MTL loading failed, proceeding without materials:", error);
-              // Create a default material creator if MTL fails
-              const defaultMaterials = new MTLLoader.MaterialCreator("");
-              resolve(defaultMaterials);
-            }
-          );
-        });
+useEffect(() => {
+  if (scene && groupRef.current) {
+    // Compute bounding box and scale/center as before
+    const box = new THREE.Box3().setFromObject(scene);
+    const size = new THREE.Vector3();
+    box.getSize(size);
+    const center = new THREE.Vector3();
+    box.getCenter(center);
 
-        materials.preload();
-
-        // Load OBJ with materials
-        const objLoader = new OBJLoader();
-        objLoader.setMaterials(materials);
-        
-        const loadedObj = await new Promise<THREE.Group>((resolve, reject) => {
-          objLoader.load(
-            objPath,
-            resolve,
-            undefined,
-            reject
-          );
-        });
-
-        // Compute bounding box
-        const box = new THREE.Box3().setFromObject(loadedObj);
-        const size = new THREE.Vector3();
-        box.getSize(size);
-        const center = new THREE.Vector3();
-        box.getCenter(center);
-
-        // Auto scale to fit roughly in [-1,1] cube
-        const maxDim = Math.max(size.x, size.y, size.z);
-        const scale = 2.2 / maxDim; // Increased scale for zoomed-in effect
-
-        loadedObj.scale.setScalar(scale);
-
-        // Auto center
-        loadedObj.position.set(-center.x * scale, -center.y * scale, -center.z * scale);
-
-        setObj(loadedObj);
-      } catch (error) {
-        console.error("Error loading 3D model:", error);
-        setLoadingError("Failed to load 3D model");
-      }
-    };
-
-    loadModel();
-  }, [objPath, mtlPath]);
-
- 
-
-  if (loadingError) {
-    return (
-      <mesh>
-        <boxGeometry args={[1, 1, 1]} />
-        <meshStandardMaterial color="#cccccc" />
-      </mesh>
+    const maxDim = Math.max(size.x, size.y, size.z);
+    const scale = 2.2 / maxDim;
+    groupRef.current.scale.setScalar(scale);
+    groupRef.current.position.set(
+      -center.x * scale,
+      -center.y * scale,
+      -center.z * scale
     );
-  }
 
-  return obj ? <primitive ref={groupRef} object={obj} /> : null;
+    // 🔹 Make all materials matte
+    scene.traverse((child) => {
+      if ((child as THREE.Mesh).isMesh) {
+        const mesh = child as THREE.Mesh;
+        if (Array.isArray(mesh.material)) {
+          mesh.material.forEach((mat) => {
+            (mat as THREE.MeshStandardMaterial).metalness = 0;
+            (mat as THREE.MeshStandardMaterial).roughness = 0.9; // High roughness = matte
+          });
+        } else {
+          const mat = mesh.material as THREE.MeshStandardMaterial;
+          mat.metalness = 0;
+          mat.roughness = 1; // Matte
+        }
+      }
+    });
+  }
+}, [scene]);
+
+
+  // Error handling is managed by Suspense fallback in the Canvas.
+
+  return scene ? <primitive ref={groupRef} object={scene.clone()} /> : null;
 }
+
+// Preload the model for better performance
+useGLTF.preload("/models/model.glb");
 
 // Client component for interactive features
 function ExpressionClientFeatures({ acfData }: { acfData: WashroomCubiclesField }) {
@@ -283,7 +248,7 @@ function ExpressionClientFeatures({ acfData }: { acfData: WashroomCubiclesField 
         </div>
 
         <div className={styles.specsWrapper}>
-          <h2 className={styles.title}>{acfData.heading || "EXPRESSION"}</h2>
+          <h2 className={styles.title}>{acfData.heading || "Expression"}</h2>
           <p className={styles.subtitle}>{acfData.subheading || "SPECIFICATIONS"}</p>
 
           <table className={styles.specsTable}>
@@ -331,17 +296,24 @@ function ExpressionClientFeatures({ acfData }: { acfData: WashroomCubiclesField 
           tabIndex={0}
         >
           <Canvas camera={{ position: [1.5, 1.5, 3], fov: 50 }}>
-  <ambientLight intensity={0.9} />
-  <directionalLight position={[50, 0, 50]} intensity={1} />
-  <directionalLight position={[-5, -5, -5]} intensity={0.3} />
-  <Suspense fallback={
-    <mesh>
-      <boxGeometry args={[1, 1, 1]} />
-      <meshStandardMaterial color="#cccccc" />
-    </mesh>
-  }>
+            <ambientLight intensity={0} />
+            <directionalLight position={[-10, 300, 50]} intensity={3} />
+            <directionalLight position={[-100, -10, -100]} intensity={1} />
+            <directionalLight position={[100, 10, 100]} intensity={1} />
+            {/* <directionalLight position={[500, 210, 50]} intensity={1} />
+            <directionalLight position={[20, -110, 50]} intensity={1} /> */}
+            <Suspense fallback={
+              <mesh>
+                <boxGeometry args={[1, 1, 1]} />
+                <meshStandardMaterial color="#fff" />
+              </mesh>
+            }>
               <WashroomCubicleModel />
-              <Environment preset="city" />
+              {/* <Environment
+  preset="night" background={false} blur={10}
+/> */}
+              
+
             </Suspense>
             <OrbitControls 
               enablePan 
@@ -349,7 +321,7 @@ function ExpressionClientFeatures({ acfData }: { acfData: WashroomCubiclesField 
               enableRotate 
               target={[0, 0, 0]}
               maxPolarAngle={Math.PI / 2}
-              minDistance={1.5} // Closer zoom
+              minDistance={1.5}
               maxDistance={6}
             />
           </Canvas>
@@ -433,8 +405,8 @@ function ExpressionClientFeatures({ acfData }: { acfData: WashroomCubiclesField 
                           left: `${hoverPosition.x}px`,
                           top: `${hoverPosition.y}px`,
                           backgroundImage: `url(${currentImage.patterns.sourceUrl})`,
-                          backgroundSize: `${500 * 2}px ${400 * 2}px`, // Fixed zoom scale
-                          backgroundPositionX: `-${hoverPosition.x * 2 - 75}px`, // 75 is half of zoom circle size
+                          backgroundSize: `${500 * 2}px ${400 * 2}px`,
+                          backgroundPositionX: `-${hoverPosition.x * 2 - 75}px`,
                           backgroundPositionY: `-${hoverPosition.y * 2 - 75}px`,
                         }}
                       />
@@ -501,7 +473,7 @@ function ExpressionClientFeatures({ acfData }: { acfData: WashroomCubiclesField 
 }
 
 // Main component
-export default function Page() {
+export default function ExpressionPage() {
   const [acfData, setAcfData] = useState<WashroomCubiclesField | null>(null);
   const [loading, setLoading] = useState(true);
 

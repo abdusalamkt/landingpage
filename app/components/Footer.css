@@ -227,7 +227,6 @@ font-style: Regular;
 
 /* Right Section - 40% */
 .footer-right {
-  flex: -1 0 calc(40% - 26px);
   padding-left: 12px;
   display: flex;
   flex-direction: column;

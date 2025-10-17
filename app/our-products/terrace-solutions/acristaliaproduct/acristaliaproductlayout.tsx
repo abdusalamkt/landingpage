@@ -320,10 +320,18 @@ export default function AcristaliaProductLayout({
         </div>
 
         {fields.heroImage?.sourceUrl && (
-          <div className={styles.imageWrapper}>
-            <Image src={fields.heroImage.sourceUrl} alt={fields.heroImage.altText || "Hero"} width={700} height={500} priority />
-          </div>
-        )}
+  <div className={styles.imageWrapper}>
+    <Image 
+      src={fields.heroImage.sourceUrl} 
+      alt={fields.heroImage.altText || "Hero"} 
+      width={700} 
+      height={500} 
+      priority // ✅ CRITICAL: Tells Next.js this is LCP element
+      quality={85} // ✅ Reduce from default 90
+      sizes="(max-width: 768px) 100vw, 700px" // ✅ Responsive sizing
+    />
+  </div>
+)}
       </section>
 
       {/* Video Section */}
