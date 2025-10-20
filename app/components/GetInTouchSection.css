@@ -13,15 +13,8 @@
 .get-in-touch-section .overlay {
   position: absolute;
   inset: 0;
-  background:rgba(0, 0, 0, 0.74) ;
+  background: linear-gradient(90.11deg, #000000 -5.46%, rgba(61, 61, 61, 0) 105.15%);
   z-index: 1;
-}
-.getintouc-description {
-  color: white;
-  max-width: 1000px;
-  margin-top: 10px;
-  font-size: 14px;
-  line-height: 1.5;
 }
 
 .get-in-touch-section .content-wrapper {
@@ -29,17 +22,17 @@
   z-index: 2;
   display: flex;
   justify-content: space-between;
-  /* text-align: center; */
+  align-items: center;
   width: 100%;
   padding: 0 80px;
   margin: 0 auto;
-  flex-direction: column;
 }
 
 .left-title h2 {
   font-size: 3.5rem;
   color: white;
   line-height: 1;
+  margin-bottom: 0px;
 }
 
 .highlight {
@@ -47,23 +40,17 @@
 }
 
 .right-form {
-  width: 100%;
+  width: 50%;
 }
 
 .right-form form {
   display: flex;
-  /* flex-direction: column; */
-  gap: 15px;
-place-content: center;}
-.left-title {
-  justify-items: center;  
+  flex-direction: column;
+  gap: 10px;
 }
-.left-title p{
-  text-align: center;
-}
-  
+
 .email-input {
-  padding: 16px 20px;
+  padding: 10px 20px;
   width: 100%;
   border: 1px solid #ccc;
   background: white;
