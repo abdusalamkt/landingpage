@@ -2,7 +2,7 @@
 import { Metadata } from "next";
 
 /**
- * Fetch Yoast SEO data for any WP page/post by URI
+ * Fetch SEO Framework data for any WP page/post by URI
  */
 export async function fetchSEO(uri: string) {
   const res = await fetch(process.env.WORDPRESS_GRAPHQL_ENDPOINT!, {
@@ -14,35 +14,47 @@ export async function fetchSEO(uri: string) {
           nodeByUri(uri: $uri) {
             ... on Page {
               seo {
-                title
                 metaDesc
+                title
                 canonical
-                opengraphTitle
-                opengraphDescription
-                opengraphImage {
-                  sourceUrl
-                }
-                twitterTitle
-                twitterDescription
-                twitterImage {
-                  sourceUrl
+                social {
+                  facebook {
+                    title
+                    description
+                    image {
+                      sourceUrl
+                    }
+                  }
+                  twitter {
+                    title
+                    description
+                    image {
+                      sourceUrl
+                    }
+                  }
                 }
               }
             }
             ... on Post {
               seo {
-                title
                 metaDesc
+                title
                 canonical
-                opengraphTitle
-                opengraphDescription
-                opengraphImage {
-                  sourceUrl
-                }
-                twitterTitle
-                twitterDescription
-                twitterImage {
-                  sourceUrl
+                social {
+                  facebook {
+                    title
+                    description
+                    image {
+                      sourceUrl
+                    }
+                  }
+                  twitter {
+                    title
+                    description
+                    image {
+                      sourceUrl
+                    }
+                  }
                 }
               }
             }
@@ -51,7 +63,7 @@ export async function fetchSEO(uri: string) {
       `,
       variables: { uri },
     }),
-    next: { revalidate: 60 }, // ISR: refresh every 1 min
+    next: { revalidate: 60 },
   });
 
   const json = await res.json();
@@ -59,9 +71,19 @@ export async function fetchSEO(uri: string) {
 }
 
 /**
- * Map Yoast SEO fields to Next.js Metadata object
+ * Map SEO Framework fields to Next.js Metadata object
  */
 export function mapSEOtoMetadata(seo: any, fallbackUrl: string): Metadata {
+  if (!seo) {
+    return {
+      title: "Default Site Title",
+      description: "Default description",
+      alternates: {
+        canonical: fallbackUrl,
+      },
+    };
+  }
+
   return {
     title: seo?.title || "Default Site Title",
     description: seo?.metaDesc || "Default description",
@@ -69,19 +91,20 @@ export function mapSEOtoMetadata(seo: any, fallbackUrl: string): Metadata {
       canonical: seo?.canonical || fallbackUrl,
     },
     openGraph: {
-      title: seo?.opengraphTitle || seo?.title,
-      description: seo?.opengraphDescription || seo?.metaDesc,
-      images: seo?.opengraphImage?.sourceUrl
-        ? [{ url: seo.opengraphImage.sourceUrl }]
+      title: seo?.social?.facebook?.title || seo?.title,
+      description: seo?.social?.facebook?.description || seo?.metaDesc,
+      images: seo?.social?.facebook?.image?.sourceUrl
+        ? [{ url: seo.social.facebook.image.sourceUrl }]
         : [],
       type: "website",
+      url: seo?.canonical || fallbackUrl,
     },
     twitter: {
       card: "summary_large_image",
-      title: seo?.twitterTitle || seo?.title,
-      description: seo?.twitterDescription || seo?.metaDesc,
-      images: seo?.twitterImage?.sourceUrl
-        ? [seo.twitterImage.sourceUrl]
+      title: seo?.social?.twitter?.title || seo?.title,
+      description: seo?.social?.twitter?.description || seo?.metaDesc,
+      images: seo?.social?.twitter?.image?.sourceUrl
+        ? [seo.social.twitter.image.sourceUrl]
         : [],
     },
   };
