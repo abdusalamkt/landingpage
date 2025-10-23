@@ -4,6 +4,9 @@ import styles from "./blogpage.module.css";
 import Image from "next/image";
 import { Metadata } from "next";
 
+// ───────────────────────────────
+// GraphQL Query
+// ───────────────────────────────
 const GET_POST_BY_SLUG = gql`
   query GetPostBySlug($slug: String!) {
     postBy(slug: $slug) {
@@ -44,14 +47,19 @@ const GET_POST_BY_SLUG = gql`
   }
 `;
 
+// ───────────────────────────────
+// Props Interface
+// ───────────────────────────────
 interface Props {
   params: { slug: string } | Promise<{ slug: string }>;
 }
 
-export async function generateMetadata(props: Props): Promise<Metadata> {
-  // Await params if it’s a Promise
-  const { params } = props;
-  const { slug } = params instanceof Promise ? await params : params;
+// ───────────────────────────────
+// Generate Metadata (SEO)
+// ───────────────────────────────
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const resolvedParams = await params;
+  const { slug } = resolvedParams;
 
   const { data } = await client.query({
     query: GET_POST_BY_SLUG,
@@ -104,9 +112,12 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
   };
 }
 
-export default async function BlogPage(props: Props) {
-  const { params } = props;
-  const { slug } = params instanceof Promise ? await params : params;
+// ───────────────────────────────
+// Page Component
+// ───────────────────────────────
+export default async function BlogPage({ params }: Props) {
+  const resolvedParams = await params;
+  const { slug } = resolvedParams;
 
   const { data } = await client.query({
     query: GET_POST_BY_SLUG,
@@ -114,13 +125,14 @@ export default async function BlogPage(props: Props) {
   });
 
   const post = data?.postBy;
-  if (!post) return <div className={styles.blogContainer}>Post not found</div>;
+  if (!post)
+    return <div className={styles.blogContainer}>Post not found</div>;
 
-  const { blogPostFields } = post;
+  const fields = post.blogPostFields;
 
   return (
     <div className={styles.blogContainer}>
-      {/* JSON-LD structured data */}
+      {/* JSON-LD Structured Data for SEO */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -131,13 +143,13 @@ export default async function BlogPage(props: Props) {
             datePublished: post.date,
             author: { "@type": "Organization", name: "GFI UAE" },
             description:
-              blogPostFields?.description ||
-              blogPostFields?.cardDescription ||
+              fields?.description ||
+              fields?.cardDescription ||
               post.content?.slice(0, 160),
-            image: blogPostFields?.blogImage?.sourceUrl || "/placeholder.jpg",
-            keywords: Array.isArray(blogPostFields?.productTags)
-              ? blogPostFields.productTags
-              : blogPostFields?.productTags
+            image: fields?.blogImage?.sourceUrl || "/placeholder.jpg",
+            keywords: Array.isArray(fields?.productTags)
+              ? fields.productTags
+              : fields?.productTags
                   ?.split(",")
                   .map((t: string) => t.trim()) || [],
             url: `https://gfiuae.com/blogs/${post.slug}`,
@@ -145,47 +157,53 @@ export default async function BlogPage(props: Props) {
         }}
       />
 
-       {/* Hero Image */}
-      <div className={styles.heroImageWrapper}>
-        <div style={{ position: "relative", width: "100%", height: "75vh" }}>
-          <Image
-            src={blogPostFields.blogImage.sourceUrl}
-            alt={blogPostFields.blogImage.altText || post.title}
-            fill
-            sizes="100vw"
-            style={{ objectFit: "cover", objectPosition: "center" }}
-            priority
-          />
+      {/* Hero Image */}
+      {fields?.blogImage?.sourceUrl && (
+        <div className={styles.heroImageWrapper}>
+          <div style={{ position: "relative", width: "100%", height: "75vh" }}>
+            <Image
+              src={fields.blogImage.sourceUrl}
+              alt={fields.blogImage.altText || post.title}
+              fill
+              sizes="100vw"
+              style={{ objectFit: "cover", objectPosition: "center" }}
+              priority
+            />
+          </div>
         </div>
-      </div>
+      )}
 
-      <h1 className={styles.mainTitle}>
-        {blogPostFields.heading || post.title}
-      </h1>
+      {/* Main Title */}
+      <h1 className={styles.mainTitle}>{fields?.heading || post.title}</h1>
 
+      {/* Intro / Description */}
       <div
         className={styles.intro}
         dangerouslySetInnerHTML={{
-          __html: blogPostFields.description || post.content,
+          __html: fields?.description || post.content || "",
         }}
       />
 
-      {blogPostFields.blogDetails?.map((detail: any, index: number) => (
+      {/* Blog Details Sections */}
+      {fields?.blogDetails?.map((detail, index) => (
         <div
           key={index}
-          className={`${styles.section} ${index % 2 === 1 ? styles.reverse : ""}`}
+          className={`${styles.section} ${
+            index % 2 === 1 ? styles.reverse : ""
+          }`}
         >
           <div className={styles.textCol}>
             <h2 className={styles.subTitle}>{detail.title}</h2>
-            <div dangerouslySetInnerHTML={{ __html: detail.details }} />
+            <div dangerouslySetInnerHTML={{ __html: detail.details || "" }} />
           </div>
+
           <div className={styles.imageCol}>
             {detail.image?.sourceUrl ? (
               <Image
                 src={detail.image.sourceUrl}
                 alt={detail.image.altText || detail.title}
-                width={700}
-                height={500}
+                width={detail.image.mediaDetails?.width || 700}
+                height={detail.image.mediaDetails?.height || 500}
                 className={styles.detailImage}
               />
             ) : (
@@ -197,6 +215,7 @@ export default async function BlogPage(props: Props) {
 
       <hr className={styles.divider} />
 
+      {/* About Section */}
       <div className={styles.aboutSection}>
         <h3 className={styles.aboutHeading}>About Gibca</h3>
         <p className={styles.aboutText}>
