@@ -1,20 +1,13 @@
-// contact-us/page.tsx
-
-export const metadata = {
-  title: 'Contact Us',
-  description: 'Get in touch with us',
-};
-
-export const viewport = {
-  width: 'device-width',
-  initialScale: 1.0,
-};
-
+import { Metadata } from 'next';
 import Header from '../components/Header';
 import ContactUsClient from './ContactUsClient';
 import './contact.css';
+import { mapSEOtoMetadata } from '../../lib/seo';
 
-const QUERY = `
+const WORDPRESS_API_URL = process.env.WORDPRESS_GRAPHQL_ENDPOINT as string;
+
+// ✅ Combined GraphQL query (page fields + SEO)
+const GET_CONTACT_PAGE = `
   query GetContactPage {
     page(id: "contact-us", idType: URI) {
       contactUsPageFields {
@@ -30,6 +23,21 @@ const QUERY = `
         address
         phone
         email
+      }
+      seo {
+        title
+        metaDesc
+        canonical
+        opengraphTitle
+        opengraphDescription
+        opengraphImage {
+          sourceUrl
+        }
+        twitterTitle
+        twitterDescription
+        twitterImage {
+          sourceUrl
+        }
       }
     }
   }
@@ -54,17 +62,17 @@ interface ContactUsData {
   email: string;
 }
 
-async function fetchContactPage(): Promise<ContactUsData> {
-  if (!process.env.WORDPRESS_GRAPHQL_ENDPOINT) {
-    throw new Error('WORDPRESS_GRAPHQL_ENDPOINT environment variable is not set');
+async function fetchContactPage() {
+  if (!WORDPRESS_API_URL) {
+    throw new Error('WORDPRESS_GRAPHQL_ENDPOINT is not set');
   }
 
   try {
-    const res = await fetch(process.env.WORDPRESS_GRAPHQL_ENDPOINT, {
+    const res = await fetch(WORDPRESS_API_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ query: QUERY }),
-      cache: 'force-cache',
+      body: JSON.stringify({ query: GET_CONTACT_PAGE }),
+      next: { revalidate: 10 },
     });
 
     const json = await res.json();
@@ -74,10 +82,17 @@ async function fetchContactPage(): Promise<ContactUsData> {
       throw new Error('GraphQL query failed');
     }
 
-    return json.data?.page?.contactUsPageFields || getFallbackData();
+    const page = json.data?.page;
+    return {
+      fields: page?.contactUsPageFields || getFallbackData(),
+      seo: page?.seo || null,
+    };
   } catch (error) {
-    console.error('Failed to fetch contact page:', error);
-    return getFallbackData();
+    console.error('❌ Failed to fetch contact page:', error);
+    return {
+      fields: getFallbackData(),
+      seo: null,
+    };
   }
 }
 
@@ -90,16 +105,32 @@ function getFallbackData(): ContactUsData {
     products: [
       { productName: 'General Inquiry' },
       { productName: 'Product Information' },
-      { productName: 'Support' }
+      { productName: 'Support' },
     ],
     address: 'Address not available',
     phone: 'Phone not available',
-    email: 'contact@example.com'
+    email: 'contact@example.com',
   };
 }
 
+// ✅ Generate dynamic SEO metadata like About Us
+export async function generateMetadata(): Promise<Metadata> {
+  const { seo } = await fetchContactPage();
+  const fallbackUrl = 'https://gfiuae.com/contact-us';
+
+  return mapSEOtoMetadata(
+    seo || {
+      title: 'Contact Us | GFI UAE',
+      metaDesc:
+        'Get in touch with GFI UAE for inquiries, support, or project discussions. Our team is ready to assist you.',
+      canonical: fallbackUrl,
+    },
+    fallbackUrl
+  );
+}
+
 export default async function ContactUsPage() {
-  const data = await fetchContactPage();
+  const { fields } = await fetchContactPage();
 
   return (
     <div className="contact-page-wrapper">
@@ -108,8 +139,8 @@ export default async function ContactUsPage() {
         <Header />
       </div>
 
-      {/* Client-side component handles all document/window interactions */}
-      <ContactUsClient data={data} />
+      {/* Client-side component handles form & slideshow */}
+      <ContactUsClient data={fields} />
     </div>
   );
 }
