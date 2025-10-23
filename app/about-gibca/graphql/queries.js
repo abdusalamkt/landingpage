@@ -42,6 +42,21 @@ export const GET_ABOUT_US_PAGE_FIELDS = `
         isoButtonText
         isoButtonUrl
       }
+      seo {
+        title
+        metaDesc
+        canonical
+        opengraphTitle
+        opengraphDescription
+        opengraphImage {
+          sourceUrl
+        }
+        twitterTitle
+        twitterDescription
+        twitterImage {
+          sourceUrl
+        }
+      }
     }
   }
 `;
