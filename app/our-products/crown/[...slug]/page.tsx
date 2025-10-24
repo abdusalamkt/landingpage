@@ -1,5 +1,5 @@
 export const revalidate = false; 
-export const dynamicParams = true;
+export const dynamicParams = false;
 
 import { gql } from "@apollo/client";
 import client from "@/lib/apolloClient";
