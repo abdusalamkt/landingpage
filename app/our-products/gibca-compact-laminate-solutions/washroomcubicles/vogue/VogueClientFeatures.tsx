@@ -62,7 +62,7 @@ interface WashroomCubiclesField {
 }
 
 // 3D Model component with GLB support
-function WashroomCubicleModel({ modelPath = "/models/Vogue1.glb" }) {
+function WashroomCubicleModel({ modelPath = "/models/Vogue.glb" }) {
   const groupRef = useRef<THREE.Group>(null);
   const { scene } = useGLTF(modelPath);
 
@@ -107,7 +107,7 @@ function WashroomCubicleModel({ modelPath = "/models/Vogue1.glb" }) {
 }
 
 // Preload the model for better performance
-useGLTF.preload("/models/Vogue1.glb");
+useGLTF.preload("/models/Vogue.glb");
 
 // Client component
 export default function VogueClientFeatures({ acfData }: { acfData: WashroomCubiclesField }) {
