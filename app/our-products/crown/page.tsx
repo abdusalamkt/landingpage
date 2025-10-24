@@ -272,7 +272,8 @@ export default async function CrownPage() {
               "@type": "Organization",
               name: "GFI UAE",
             },
-            mainEntity: products.map((product) => ({
+           mainEntity: (products ?? []).map((product: Product) => ({
+
               "@type": "Product",
               name: product.productHeading,
               description: product.productDescription,
