@@ -9,7 +9,8 @@ import Footer from './components/Footer';
 import ButtonToTop from './components/ButtonToTop';
 import { Float } from '@react-three/drei';
 import FloatingSidebar from './components/FloatingSidebar';
-import { SpeedInsights } from "@vercel/speed-insights/next"
+import { SpeedInsights } from "@vercel/speed-insights/next";
+import { Analytics } from "@vercel/analytics/next";
 
 const bebasNeue = Bebas_Neue({
   weight: '400',
@@ -44,6 +45,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en" className={`${bebasNeue.variable} ${poppins.variable}`}>
       <body>
+        <Analytics />
         <SmoothScroll /> 
         <Header />
         <FloatingSidebar />
