@@ -7,7 +7,6 @@ import CrownProductPage from "../crownproduct/crownproductlayout";
 import { Metadata } from "next";
 import { mapSEOtoMetadata } from "@/lib/seo";
 
-// ✅ Combined query for product fields + SEO
 const GET_CROWN_PRODUCT = gql`
   query GetCrownProductPage($uri: ID!) {
     page(id: $uri, idType: URI) {
