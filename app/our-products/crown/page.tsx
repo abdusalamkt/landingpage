@@ -312,7 +312,8 @@ export default async function CrownPage() {
       </div>
 
       {/* Product Sections */}
-      {products.map((product, index) => (
+      {(products ?? []).map((product: Product, index: number) => (
+
         <div
           key={index}
           className={`${styles.productSection} ${
