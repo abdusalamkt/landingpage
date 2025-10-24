@@ -216,37 +216,23 @@ export default function CaseStudiesClient({ allStudies }: { allStudies: any[] })
       </aside>
 
       <section className="card-grid">
-        {isLoading ? (
-          <div className="loading-container">
-            <div className="loading-animation">
-              <div className="loading-spinner"></div>
-              <div className="loading-text">Loading Case Studies</div>
-              <div className="loading-dots">
-                <span className="dot">.</span>
-                <span className="dot">.</span>
-                <span className="dot">.</span>
+        {filteredStudies.map((item: any, idx: number) => (
+          <Link
+            key={idx}
+            href={`/case-study/${item.slug}`}
+            className="case-card"
+            style={{
+              backgroundImage: `url(${item.caseStudyFields?.thumbnailImage?.sourceUrl})`,
+            }}
+          >
+            <div className="case-title">
+              <div className={`scrolling-text ${item.title.length > 25 ? "long-title" : ""}`}>
+                <span className="title-text">{item.title}</span>
               </div>
+              <hr />
             </div>
-          </div>
-        ) : (
-          filteredStudies.map((item: any, idx: number) => (
-            <Link
-              key={idx}
-              href={`/case-study/${item.slug}`}
-              className="case-card"
-              style={{
-                backgroundImage: `url(${item.caseStudyFields?.thumbnailImage?.sourceUrl})`,
-              }}
-            >
-              <div className="case-title">
-                <div className={`scrolling-text ${item.title.length > 25 ? "long-title" : ""}`}>
-                  <span className="title-text">{item.title}</span>
-                </div>
-                <hr />
-              </div>
-            </Link>
-          ))
-        )}
+          </Link>
+        ))}
       </section>
     </div>
   );
