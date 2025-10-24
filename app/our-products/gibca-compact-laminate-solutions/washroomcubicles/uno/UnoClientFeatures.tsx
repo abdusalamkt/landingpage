@@ -1,17 +1,13 @@
 "use client";
 
 import React, { Suspense, useRef, useState, useEffect } from "react";
-import styles from "./NaturellePage.module.css";
+import styles from "./Page.module.css";
 import Image from "next/image";
 import { Canvas } from "@react-three/fiber";
-import { OrbitControls, Environment } from "@react-three/drei";
-import { MTLLoader } from "three/examples/jsm/loaders/MTLLoader.js";
-import { OBJLoader } from "three/examples/jsm/loaders/OBJLoader.js";
-import { useLoader } from "@react-three/fiber";
+import { OrbitControls, useGLTF } from "@react-three/drei";
 import * as THREE from "three";
 
-const WORDPRESS_API_URL = process.env.WORDPRESS_GRAPHQL_ENDPOINT as string;
-// Types for ACF data structure
+// Types
 interface MediaDetails {
   width: number;
   height: number;
@@ -65,173 +61,56 @@ interface WashroomCubiclesField {
   downloadButtonUrl: string;
 }
 
-// GraphQL query
-const GET_WASHROOM_CUBICLES = `
-  query GetWashroomCubicle {
-    page(id: "naturelle", idType: URI) {
-      washroomCubiclesField {
-        heroImage {
-          sourceUrl
-          altText
-          mediaDetails {
-            width
-            height
-          }
-        }
-        heading
-        subheading
-        specification {
-          spec
-          value
-        }
-        keyFeatures {
-          features
-        }
-        choicesToAddHeading
-        description
-        finishes {
-          title
-          image {
-            sourceUrl
-            altText
-            mediaDetails {
-              width
-              height
-            }
-          }
-        }
-        customizedPatternImages {
-          patterns {
-            sourceUrl
-            altText
-            mediaDetails {
-              width
-              height
-            }
-          }
-        }
-        patternTitle
-        patternDescription
-        smartCubicleHeading
-        items {
-          image {
-            sourceUrl
-            altText
-            mediaDetails {
-              width
-              height
-            }
-          }
-          title
-          description
-        }
-        downloadButtonLabel
-        downloadButtonUrl
-      }
-    }
-  }
-`;
-
-// Server-side data fetching function
-async function getWashroomCubiclesData(): Promise<WashroomCubiclesField | null> {
-  try {
-    const res = await fetch(WORDPRESS_API_URL, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ query: GET_WASHROOM_CUBICLES }),
-      cache: 'force-cache', // Use Next.js cache instead of revalidate
-    });
-
-    const json = await res.json();
-    return json?.data?.page?.washroomCubiclesField || null;
-  } catch (error) {
-    console.error('Error fetching washroom cubicles data:', error);
-    return null;
-  }
-}
-
-// 3D Model component with improved loading and error handling
-function WashroomCubicleModel({ objPath = "/models/model.obj", mtlPath = "/models/model.mtl" }) {
+// 3D Model component with GLB support
+function WashroomCubicleModel({ modelPath = "/models/Expression.glb" }) {
   const groupRef = useRef<THREE.Group>(null);
-  const [obj, setObj] = useState<THREE.Group | null>(null);
-  const [loadingError, setLoadingError] = useState<string | null>(null);
+  const { scene } = useGLTF(modelPath);
 
   useEffect(() => {
-    const loadModel = async () => {
-      try {
-        setLoadingError(null);
-        
-        // Load materials first
-        const mtlLoader = new MTLLoader();
-        const materials = await new Promise<MTLLoader.MaterialCreator>((resolve, reject) => {
-          mtlLoader.load(
-            mtlPath,
-            resolve,
-            undefined,
-            (error) => {
-              console.warn("MTL loading failed, proceeding without materials:", error);
-              // Create a default material creator if MTL fails
-              const defaultMaterials = new MTLLoader.MaterialCreator("");
-              resolve(defaultMaterials);
-            }
-          );
-        });
+    if (scene && groupRef.current) {
+      // Compute bounding box and scale/center as before
+      const box = new THREE.Box3().setFromObject(scene);
+      const size = new THREE.Vector3();
+      box.getSize(size);
+      const center = new THREE.Vector3();
+      box.getCenter(center);
 
-        materials.preload();
+      const maxDim = Math.max(size.x, size.y, size.z);
+      const scale = 2.2 / maxDim;
+      groupRef.current.scale.setScalar(scale);
+      groupRef.current.position.set(
+        -center.x * scale,
+        -center.y * scale,
+        -center.z * scale
+      );
 
-        // Load OBJ with materials
-        const objLoader = new OBJLoader();
-        objLoader.setMaterials(materials);
-        
-        const loadedObj = await new Promise<THREE.Group>((resolve, reject) => {
-          objLoader.load(
-            objPath,
-            resolve,
-            undefined,
-            reject
-          );
-        });
+      // Make all materials matte
+      scene.traverse((child) => {
+        if ((child as THREE.Mesh).isMesh) {
+          const mesh = child as THREE.Mesh;
+          if (Array.isArray(mesh.material)) {
+            mesh.material.forEach((mat) => {
+              (mat as THREE.MeshStandardMaterial).metalness = 0;
+              (mat as THREE.MeshStandardMaterial).roughness = 0.9;
+            });
+          } else {
+            const mat = mesh.material as THREE.MeshStandardMaterial;
+            mat.metalness = 0;
+            mat.roughness = 1;
+          }
+        }
+      });
+    }
+  }, [scene]);
 
-        // Compute bounding box
-        const box = new THREE.Box3().setFromObject(loadedObj);
-        const size = new THREE.Vector3();
-        box.getSize(size);
-        const center = new THREE.Vector3();
-        box.getCenter(center);
-
-        // Auto scale to fit roughly in [-1,1] cube
-        const maxDim = Math.max(size.x, size.y, size.z);
-        const scale = 2 / maxDim; // adjust 2 to change model size in canvas
-
-        loadedObj.scale.setScalar(scale);
-
-        // Auto center
-        loadedObj.position.set(-center.x * scale, -center.y * scale, -center.z * scale);
-
-        setObj(loadedObj);
-      } catch (error) {
-        console.error("Error loading 3D model:", error);
-        setLoadingError("Failed to load 3D model");
-      }
-    };
-
-    loadModel();
-  }, [objPath, mtlPath]);
-
-  if (loadingError) {
-    return (
-      <mesh>
-        <boxGeometry args={[1, 1, 1]} />
-        <meshStandardMaterial color="#cccccc" />
-      </mesh>
-    );
-  }
-
-  return obj ? <primitive ref={groupRef} object={obj} /> : null;
+  return scene ? <primitive ref={groupRef} object={scene.clone()} /> : null;
 }
 
-// Client component for interactive features
-function NaturelleClientFeatures({ acfData }: { acfData: WashroomCubiclesField }) {
+// Preload the model for better performance
+useGLTF.preload("/models/Expression.glb");
+
+// Client component
+export default function UnoClientFeatures({ acfData }: { acfData: WashroomCubiclesField }) {
   const canvasContainerRef = useRef<HTMLDivElement>(null);
   const [hoverPosition, setHoverPosition] = useState({ x: 0, y: 0 });
   const [isHovering, setIsHovering] = useState(false);
@@ -250,8 +129,7 @@ function NaturelleClientFeatures({ acfData }: { acfData: WashroomCubiclesField }
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
     
-    // Ensure the zoom circle stays within bounds
-    const zoomRadius = 75; // Half of zoom circle size
+    const zoomRadius = 75;
     const boundedX = Math.max(zoomRadius, Math.min(x, rect.width - zoomRadius));
     const boundedY = Math.max(zoomRadius, Math.min(y, rect.height - zoomRadius));
     
@@ -273,12 +151,13 @@ function NaturelleClientFeatures({ acfData }: { acfData: WashroomCubiclesField }
               width={acfData.heroImage.mediaDetails?.width || 1200}
               height={acfData.heroImage.mediaDetails?.height || 1200}
               priority
+              quality={100}
             />
           )}
         </div>
 
         <div className={styles.specsWrapper}>
-          <h2 className={styles.title}>{acfData.heading || "NATURELLE"}</h2>
+          <h2 className={styles.title}>{acfData.heading || "Uno"}</h2>
           <p className={styles.subtitle}>{acfData.subheading || "SPECIFICATIONS"}</p>
 
           <table className={styles.specsTable}>
@@ -325,18 +204,18 @@ function NaturelleClientFeatures({ acfData }: { acfData: WashroomCubiclesField }
           onTouchMove={preventScroll}
           tabIndex={0}
         >
-          <Canvas camera={{ position: [3, 3, 6], fov: 40 }}>
-            <ambientLight intensity={0.4} />
-            <directionalLight position={[5, 5, 5]} intensity={1} />
-            <directionalLight position={[-5, -5, -5]} intensity={0.3} />
+          <Canvas camera={{ position: [1.5, 1.5, 3], fov: 50 }}>
+            <ambientLight intensity={0} />
+            <directionalLight position={[-10, 300, 50]} intensity={3} />
+            <directionalLight position={[-100, -10, -100]} intensity={1} />
+            <directionalLight position={[100, 10, 100]} intensity={1} />
             <Suspense fallback={
               <mesh>
                 <boxGeometry args={[1, 1, 1]} />
-                <meshStandardMaterial color="#cccccc" />
+                <meshStandardMaterial color="#fff" />
               </mesh>
             }>
               <WashroomCubicleModel />
-              <Environment preset="city" />
             </Suspense>
             <OrbitControls 
               enablePan 
@@ -344,10 +223,18 @@ function NaturelleClientFeatures({ acfData }: { acfData: WashroomCubiclesField }
               enableRotate 
               target={[0, 0, 0]}
               maxPolarAngle={Math.PI / 2}
-              minDistance={2}
-              maxDistance={10}
+              minDistance={1.5}
+              maxDistance={6}
             />
           </Canvas>
+          
+          {/* 360 Degree Indicator */}
+          <div className={styles.rotationIndicator}>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 4V1L8 5L12 9V6C15.31 6 18 8.69 18 12C18 13.01 17.75 13.97 17.3 14.8L18.76 16.26C19.54 15.03 20 13.57 20 12C20 7.58 16.42 4 12 4ZM12 18C8.69 18 6 15.31 6 12C6 10.99 6.25 10.03 6.7 9.2L5.24 7.74C4.46 8.97 4 10.43 4 12C4 16.42 7.58 20 12 20V23L16 19L12 15V18Z" fill="#333"/>
+            </svg>
+            <span>360°</span>
+          </div>
         </div>
       </div>
 
@@ -420,8 +307,8 @@ function NaturelleClientFeatures({ acfData }: { acfData: WashroomCubiclesField }
                           left: `${hoverPosition.x}px`,
                           top: `${hoverPosition.y}px`,
                           backgroundImage: `url(${currentImage.patterns.sourceUrl})`,
-                          backgroundSize: `${500 * 2}px ${400 * 2}px`, // Fixed zoom scale
-                          backgroundPositionX: `-${hoverPosition.x * 2 - 75}px`, // 75 is half of zoom circle size
+                          backgroundSize: `${500 * 2}px ${400 * 2}px`,
+                          backgroundPositionX: `-${hoverPosition.x * 2 - 75}px`,
                           backgroundPositionY: `-${hoverPosition.y * 2 - 75}px`,
                         }}
                       />
@@ -484,43 +371,5 @@ function NaturelleClientFeatures({ acfData }: { acfData: WashroomCubiclesField }
         )}
       </section>
     </div>
-  );
-}
-
-// Main component
-export default function NaturellePage() {
-  const [acfData, setAcfData] = useState<WashroomCubiclesField | null>(null);
-  const [loading, setLoading] = useState(true);
-
-  const fetchData = async () => {
-    setLoading(true);
-    const data = await getWashroomCubiclesData();
-    setAcfData(data);
-    setLoading(false);
-  };
-
-  useEffect(() => { fetchData(); }, []);
-
-  if (loading) return <div style={{ minHeight: '100vh' }} />;
-
-  return (
-    <>
-      <div style={{ textAlign: 'right', padding: '10px' }}>
-        <button
-          onClick={fetchData}
-          style={{
-            padding: '6px 12px',
-            background: '#222',
-            color: '#fff',
-            border: 'none',
-            borderRadius: '4px',
-            cursor: 'pointer'
-          }}
-        >
-          Refresh
-        </button>
-      </div>
-      {acfData ? <NaturelleClientFeatures acfData={acfData} /> : <div>Failed to load content.</div>}
-    </>
   );
 }

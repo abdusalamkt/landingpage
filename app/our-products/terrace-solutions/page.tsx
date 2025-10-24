@@ -49,7 +49,7 @@ async function getAcristaliaPageFields() {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ query: GET_ACRISTALIA_PAGE }),
-      next: { revalidate: 10 }, // cache for 60 days
+      next: { revalidate: 0 }, // cache for 60 days
     });
 
     const json = await res.json();
