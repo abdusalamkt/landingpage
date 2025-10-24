@@ -102,7 +102,7 @@ async function getCrownPageData() {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ query: GET_CROWN_PAGE }),
-      next: { revalidate: 0 }, // cache for 1 hour
+      next: { revalidate: false }, // cache for 1 day
     });
 
     const json = await res.json();
