@@ -3,6 +3,10 @@ import WhatSetsUsApart from "@/app/components/WhatSetsUsApart";
 import FaqSection from "@/app/components/FaqSection";
 import Image from "next/image";
 import styles from "./automatic-and-manual.module.css";
+import { Metadata } from "next";
+import { mapSEOtoMetadata } from "@/lib/seo";
+
+const WORDPRESS_API_URL = process.env.WORDPRESS_GRAPHQL_ENDPOINT as string;
 
 interface HeroImage {
   sourceUrl: string;
@@ -85,6 +89,21 @@ interface GraphQLResponse {
       title: string;
       slug: string;
       PivotDoors: PivotDoorsData;
+      seo?: {
+        title?: string;
+        metaDesc?: string;
+        canonical?: string;
+        opengraphTitle?: string;
+        opengraphDescription?: string;
+        opengraphImage?: {
+          sourceUrl?: string;
+        };
+        twitterTitle?: string;
+        twitterDescription?: string;
+        twitterImage?: {
+          sourceUrl?: string;
+        };
+      };
     };
     fAQs: {
       nodes: FaqNode[];
@@ -92,8 +111,7 @@ interface GraphQLResponse {
   };
 }
 
-const WORDPRESS_API_URL = process.env.WORDPRESS_GRAPHQL_ENDPOINT as string;
-
+// ✅ Combined query for page fields + SEO
 const GET_PIVOT_DOORS_PAGE = `
   query GetPivotDoorsPage {
     page(id: 1335, idType: DATABASE_ID) {
@@ -146,6 +164,21 @@ const GET_PIVOT_DOORS_PAGE = `
           description
         }
       }
+      seo {
+        title
+        metaDesc
+        canonical
+        opengraphTitle
+        opengraphDescription
+        opengraphImage {
+          sourceUrl
+        }
+        twitterTitle
+        twitterDescription
+        twitterImage {
+          sourceUrl
+        }
+      }
     }
     fAQs {
       nodes {
@@ -169,29 +202,143 @@ const GET_PIVOT_DOORS_PAGE = `
   }
 `;
 
+// ✅ Fetch pivot doors data with SEO
 async function getPivotDoorsData() {
-  const res = await fetch(WORDPRESS_API_URL, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ query: GET_PIVOT_DOORS_PAGE }),
-    next: { revalidate: 3600 }, // cache for 1 hour
-  });
+  try {
+    const res = await fetch(WORDPRESS_API_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ query: GET_PIVOT_DOORS_PAGE }),
+      next: { revalidate: 3600 }, // cache for 1 hour
+    });
 
-  const json: GraphQLResponse = await res.json();
-  
-  const pivotData = json?.data?.page?.PivotDoors;
-  const faqNodes = json?.data?.fAQs?.nodes || [];
-  
-  const pivotDoorFaq = faqNodes.find(
-    (faq) => 
-      faq.title.toLowerCase().includes('pivot doors') ||
-      faq.faqItems.relatedProductPage?.slug === 'pivot-doors' ||
-      faq.faqItems.relatedProductPage?.uri === '/pivot-doors/'
-  );
+    const json: GraphQLResponse = await res.json();
+    
+    const page = json?.data?.page;
+    const pivotData = page?.PivotDoors;
+    const faqNodes = json?.data?.fAQs?.nodes || [];
+    
+    const pivotDoorFaq = faqNodes.find(
+      (faq) => 
+        faq.title.toLowerCase().includes('pivot doors') ||
+        faq.faqItems.relatedProductPage?.slug === 'pivot-doors' ||
+        faq.faqItems.relatedProductPage?.uri === '/pivot-doors/'
+    );
 
+    return {
+      pivotData: pivotData || null,
+      faqData: pivotDoorFaq?.faqItems?.faqItems || [],
+      seo: page?.seo || null,
+    };
+  } catch (error) {
+    console.error("❌ Error fetching pivot doors data:", error);
+    return {
+      pivotData: null,
+      faqData: [],
+      seo: null,
+    };
+  }
+}
+
+// ✅ Generate dynamic SEO metadata
+export async function generateMetadata(): Promise<Metadata> {
+  const fallbackUrl = "https://gfiuae.com/pivot-doors";
+
+  try {
+    const { seo, pivotData } = await getPivotDoorsData();
+
+    // Use WordPress SEO if available
+    if (seo) {
+      console.log("✅ SEO found for Pivot Doors page");
+      return mapSEOtoMetadata(seo, fallbackUrl);
+    }
+
+    // Generate from page fields if SEO not available
+    if (pivotData) {
+      const { heroTitle, heroHighlight, heroDescription, heroImage } = pivotData;
+      const title = `${heroTitle} ${heroHighlight || ""} | GFI UAE`;
+      const description = heroDescription || `Explore ${heroTitle} ${heroHighlight}. Premium pivot door solutions from GFI UAE.`;
+
+      return {
+        title,
+        description,
+        alternates: { canonical: fallbackUrl },
+        openGraph: {
+          title,
+          description,
+          url: fallbackUrl,
+          type: "website",
+          siteName: "GFI UAE",
+          images: heroImage?.sourceUrl
+            ? [
+                {
+                  url: heroImage.sourceUrl,
+                  width: 1200,
+                  height: 630,
+                  alt: heroImage.altText || title,
+                },
+              ]
+            : [],
+        },
+        twitter: {
+          card: "summary_large_image",
+          title,
+          description,
+          images: heroImage?.sourceUrl ? [heroImage.sourceUrl] : [],
+        },
+        robots: {
+          index: true,
+          follow: true,
+        },
+      };
+    }
+
+    console.warn("⚠️ No SEO or page data found for Pivot Doors page, using fallback");
+  } catch (error) {
+    console.error("❌ Error in generateMetadata:", error);
+  }
+
+  // ✅ Comprehensive fallback metadata
   return {
-    pivotData,
-    faqData: pivotDoorFaq?.faqItems?.faqItems || []
+    title: "Pivot Doors | Automatic & Manual Solutions | GFI UAE",
+    description:
+      "Explore our range of automatic and manual pivot doors. Premium engineering and design from GFI UAE.",
+    keywords:
+      "pivot doors, automatic doors, manual doors, architectural solutions, GFI UAE, Dubai, construction",
+    alternates: {
+      canonical: fallbackUrl,
+    },
+    openGraph: {
+      title: "Pivot Doors | Automatic & Manual Solutions | GFI UAE",
+      description:
+        "Explore our range of automatic and manual pivot doors. Premium engineering and design.",
+      url: fallbackUrl,
+      type: "website",
+      siteName: "GFI UAE",
+      images: [
+        {
+          url: `${fallbackUrl}/og-image.jpg`,
+          width: 1200,
+          height: 630,
+          alt: "Pivot Doors by GFI UAE",
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: "Pivot Doors | Automatic & Manual Solutions | GFI UAE",
+      description:
+        "Explore our range of automatic and manual pivot doors. Premium engineering and design.",
+      images: [`${fallbackUrl}/og-image.jpg`],
+    },
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+      },
+    },
   };
 }
 
@@ -199,7 +346,27 @@ export default async function AutomaticAndManualPage() {
   const { pivotData, faqData } = await getPivotDoorsData();
 
   if (!pivotData) {
-    return <div>Failed to load content.</div>;
+    return (
+      <>
+        <Header />
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            minHeight: "50vh",
+            fontSize: "18px",
+            textAlign: "center",
+            padding: "20px",
+          }}
+        >
+          <div>
+            <h1>Content Temporarily Unavailable</h1>
+            <p>Please try again later.</p>
+          </div>
+        </div>
+      </>
+    );
   }
 
   const getYouTubeVideoId = (url: string) => {
@@ -215,7 +382,7 @@ export default async function AutomaticAndManualPage() {
     description: system.description,
     points: system.points.map(p => p.point),
     image: system.image.sourceUrl,
-    reverse: index % 2 !== 0, // Alternate reverse layout
+    reverse: index % 2 !== 0,
   })) || [];
 
   // Get video ID for embed
@@ -224,6 +391,34 @@ export default async function AutomaticAndManualPage() {
   return (
     <div>
       <Header />
+
+      {/* JSON-LD Structured Data for SEO */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "WebPage",
+            name: `${pivotData.heroTitle} ${pivotData.heroHighlight}`,
+            description: pivotData.heroDescription || pivotData.description,
+            url: "https://gfiuae.com/pivot-doors",
+            publisher: {
+              "@type": "Organization",
+              name: "GFI UAE",
+            },
+            mainEntity: {
+              "@type": "Product",
+              name: `${pivotData.heroTitle} ${pivotData.heroHighlight}`,
+              description: pivotData.heroDescription,
+              image: pivotData.heroImage?.sourceUrl,
+              brand: {
+                "@type": "Brand",
+                name: "GFI UAE",
+              },
+            },
+          }),
+        }}
+      />
 
       {/* Hero Section */}
       <section className={styles.hero}>
@@ -289,20 +484,6 @@ export default async function AutomaticAndManualPage() {
               "Our configuration system ensures perfect pivoting precision. This section explains the key features of our configurable pivot doors and how each component works seamlessly together."}
           </p>
         </div>
-
-        {/* Video Background */}
-        {/* <div className={styles.videoContainer}>
-          <div className={styles.videoBackground}>
-            <iframe
-              src={`https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&loop=1&controls=0&modestbranding=1&rel=0&showinfo=0&disablekb=1&playlist=${videoId}`}
-              title="Configuration Video"
-              frameBorder="0"
-              allow="autoplay; encrypted-media"
-              allowFullScreen
-              className={styles.videoIframe}
-            />
-          </div>
-        </div> */}
       </section>
 
       {/* Manual Pivot Door Section */}
@@ -315,7 +496,6 @@ export default async function AutomaticAndManualPage() {
           </p>
         </div>
 
-        {/* Banner 1 placed AFTER description */}
         {pivotData?.imageBanner1?.sourceUrl && (
           <section className={styles.noiseBanner}>
             <div className={styles.noiseOverlay}></div>
@@ -371,7 +551,6 @@ export default async function AutomaticAndManualPage() {
           </p>
         </div>
 
-        {/* Banner 2 */}
         {pivotData?.imageBanner2?.sourceUrl && (
           <section className={styles.noiseBanner}>
             <div className={styles.noiseOverlay}></div>
