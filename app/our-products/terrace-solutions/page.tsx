@@ -102,7 +102,7 @@ async function getAcristaliaPageData() {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ query: GET_ACRISTALIA_PAGE }),
-      next: { revalidate: 0 },
+      next: { revalidate: false },
     });
 
     const json = await res.json();

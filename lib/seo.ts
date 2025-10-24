@@ -51,7 +51,7 @@ export async function fetchSEO(uri: string) {
       `,
       variables: { uri },
     }),
-    next: { revalidate: 60 }, // ISR: refresh every 1 min
+    next: { revalidate: false }, // ISR: refresh every 1 min
   });
 
   const json = await res.json();

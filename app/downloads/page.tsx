@@ -58,7 +58,7 @@ async function fetchDownloadsData() {
       query: GET_DOWNLOADS_WITH_SEO,
       context: {
         fetchOptions: {
-          next: { revalidate: 3600 }, // Cache for 1 hour
+          next: { revalidate: false }, 
         },
       },
     });

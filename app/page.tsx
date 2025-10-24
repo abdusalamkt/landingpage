@@ -4,7 +4,7 @@ import { GET_LANDING_PAGE } from "@/graphql/queries";
 import HomePageContent from "./HomePageContent";
 import { mapSEOtoMetadata } from "@/lib/seo";
 
-export const revalidate = 60; // ISR every 60s
+export const revalidate = false; // ISR every 60s
 
 // ✅ SEO metadata
 export async function generateMetadata() {

@@ -6,7 +6,7 @@ import client from "@/lib/apolloClient";
 import DynamicCaseStudyClient from "./DynamicCaseStudyClient";
 
 export const dynamicParams = true;
-export const revalidate = 3600;
+export const revalidate = false;
 
 export async function generateStaticParams() {
   const { data } = await client.query({

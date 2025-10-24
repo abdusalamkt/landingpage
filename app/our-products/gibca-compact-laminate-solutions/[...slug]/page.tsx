@@ -1,4 +1,4 @@
-export const revalidate = 86400; // 24 hours
+export const revalidate = false; 
 export const dynamicParams = true;
 
 import { gql } from "@apollo/client";
@@ -169,7 +169,7 @@ async function fetchHplProductData(slugPath: string) {
         variables: { uri: `/${slugPath}/` },
         context: {
           fetchOptions: {
-            next: { revalidate: 86400 },
+            next: { revalidate: false },
           },
         },
       }),
@@ -177,7 +177,7 @@ async function fetchHplProductData(slugPath: string) {
         query: GET_FAQS,
         context: {
           fetchOptions: {
-            next: { revalidate: 86400 },
+            next: { revalidate: false },
           },
         },
       }),
@@ -185,7 +185,7 @@ async function fetchHplProductData(slugPath: string) {
         query: GET_DOWNLOADS,
         context: {
           fetchOptions: {
-            next: { revalidate: 86400 },
+            next: { revalidate: false },
           },
         },
       }),

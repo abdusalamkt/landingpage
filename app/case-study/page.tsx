@@ -57,7 +57,7 @@ const CASE_STUDIES_QUERY = gql`
   }
 `;
 
-export const revalidate = 3600;
+export const revalidate = false; 
 
 export default async function CaseStudiesPage() {
   const { data } = await client.query({ query: CASE_STUDIES_QUERY });

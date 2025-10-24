@@ -1,4 +1,4 @@
-export const revalidate = false; // 24 hours
+export const revalidate = false; 
 export const dynamicParams = true;
 
 import { gql } from "@apollo/client";

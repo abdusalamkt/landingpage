@@ -113,7 +113,7 @@ async function fetchHufcorPage(): Promise<{ fields: HufcorPageFields; seo: any |
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ query: GET_HUFCOR_PAGE }),
-      next: { revalidate: 3600 }, // cache for 1 hour
+      next: { revalidate: false },
     });
 
     const json = await res.json();

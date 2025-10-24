@@ -11,14 +11,14 @@ import { mapSEOtoMetadata } from '../../lib/seo';
 
 const WORDPRESS_API_URL = process.env.WORDPRESS_GRAPHQL_ENDPOINT as string;
 
-export const revalidate = 10; 
+export const revalidate = false; 
 
 async function getPageFields() {
   const res = await fetch(WORDPRESS_API_URL, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ query: GET_ABOUT_US_PAGE_FIELDS }),
-    next: { revalidate: 10 },
+    next: { revalidate: false },
   });
 
   const json = await res.json();

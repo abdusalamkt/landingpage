@@ -209,7 +209,7 @@ async function getPivotDoorsData() {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ query: GET_PIVOT_DOORS_PAGE }),
-      next: { revalidate: 3600 }, // cache for 1 hour
+      next: { revalidate: false }, 
     });
 
     const json: GraphQLResponse = await res.json();

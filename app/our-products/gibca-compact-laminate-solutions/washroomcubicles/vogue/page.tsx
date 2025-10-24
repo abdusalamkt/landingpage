@@ -1,4 +1,4 @@
-export const revalidate = 86400; // 24 hours
+export const revalidate = false;
 
 import { Metadata } from "next";
 import { mapSEOtoMetadata } from "@/lib/seo";
@@ -170,7 +170,7 @@ async function getWashroomCubiclesData(): Promise<PageData | null> {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ query: GET_WASHROOM_CUBICLES }),
-      next: { revalidate: 86400 }, // Cache for 24 hours
+      next: { revalidate: false }, 
     });
 
     const json = await res.json();

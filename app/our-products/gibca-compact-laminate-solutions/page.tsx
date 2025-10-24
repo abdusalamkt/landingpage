@@ -103,7 +103,7 @@ async function getHplPageData(): Promise<HplPageData> {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ query: GET_HPL_PAGE }),
-      next: { revalidate: 3600 }, // cache for 1 hour
+      next: { revalidate: false }, 
     });
 
     if (!res.ok) {
